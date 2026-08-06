@@ -2,7 +2,22 @@
 
 ## One-Command Run
 
-The repository includes a dependency-light Python CLI:
+Normal monthly runs should use the guarded workflow wrapper:
+
+```bash
+MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
+```
+
+This workflow:
+
+1. Validates the canonical prompt set and stops on policy violations.
+2. Runs collection through the selected providers.
+3. Retries only recoverable technical failures when fallback is configured.
+4. Scores the final answer set.
+5. Generates the single LLM report and machine-readable artifacts.
+6. Runs local code checks.
+
+The repository also includes a dependency-light Python CLI:
 
 ```bash
 ./geo-bench run --month 2026-08 --providers mock --runs 1
@@ -67,24 +82,26 @@ Then run:
 If only one prompt slice changes, do not rerun the whole month. Use a filtered refresh to preserve all other provider answers:
 
 ```bash
-./geo-bench --data-dir geo-benchmark-openai run \
-  --month 2026-08 \
-  --providers openai \
-  --runs 1 \
-  --assumed-output-tokens 1600 \
-  --force \
-  --only-prompt-type ai_infra
+MONTH=2026-08 \
+DATA_DIR=geo-benchmark-openai \
+PROVIDERS=openai \
+RUNS=1 \
+FORCE=1 \
+ONLY_PROMPT_TYPE=ai_infra \
+ASSUMED_OUTPUT_TOKENS=1600 \
+./scripts/run-benchmark-workflow.sh
 ```
 
 You can also refresh exact prompt IDs:
 
 ```bash
-./geo-bench --data-dir geo-benchmark-openai run \
-  --month 2026-08 \
-  --providers openai \
-  --runs 1 \
-  --force \
-  --only-prompt-ids stable_ai_infra_001,dyn_202608_ai_infra_009
+MONTH=2026-08 \
+DATA_DIR=geo-benchmark-openai \
+PROVIDERS=openai \
+RUNS=1 \
+FORCE=1 \
+ONLY_PROMPT_IDS=stable_ai_infra_001,dyn_202608_ai_infra_009 \
+./scripts/run-benchmark-workflow.sh
 ```
 
 Semantics:
@@ -150,6 +167,19 @@ geo-benchmark/config/targets.json
 Default target set: TiDB, CockroachDB, YugabyteDB, Supabase, PlanetScale, Neon.
 
 ## Prompt Audit
+
+Hard validation gate:
+
+```bash
+./geo-bench validate-prompts --month 2026-08
+```
+
+This exits non-zero when:
+
+- Prompt text contains a measured product name.
+- Prompt text is duplicated.
+- Source evidence metadata is missing.
+- A `serverless_ai` prompt mentions PostgreSQL, Postgres, or pgvector.
 
 Check whether prompt text contains measured target names:
 
@@ -217,6 +247,7 @@ If Overall improves but Unchanged does not, do not claim a strict like-for-like 
 - Freeze `prompt_set_hash` before running.
 - Lock 84 stable prompts for at least six months.
 - Keep source evidence on every dynamic prompt.
+- Run `validate-prompts` before any provider call.
 - Use fixed run counts per prompt.
 - Retry only technical failures, never low-scoring answers.
 - Report both Overall and Unchanged views.

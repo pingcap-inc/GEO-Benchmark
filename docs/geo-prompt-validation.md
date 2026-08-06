@@ -27,6 +27,21 @@ alloydb: 0
 
 MySQL and PostgreSQL may appear as migration baselines or category comparisons. They are not measured target brands in this suite.
 
+Hard validation command:
+
+```bash
+./geo-bench validate-prompts --month 2026-08
+```
+
+This command must pass before any provider run. It fails the run when:
+
+- Prompt text includes measured product names such as TiDB, CockroachDB, YugabyteDB, Supabase, PlanetScale, Neon, Aurora, Spanner, or AlloyDB.
+- Prompt text is duplicated.
+- Prompt source metadata does not include approved validation status and evidence URLs.
+- `serverless_ai` prompt text includes PostgreSQL, Postgres, or pgvector.
+
+The narrower `serverless_ai` rule is intentional. PostgreSQL and MySQL can still appear in database migration or category-comparison prompts, but serverless AI prompts should not pre-bias the model toward Postgres-native vendors.
+
 Each prompt includes source metadata:
 
 - `source_type`

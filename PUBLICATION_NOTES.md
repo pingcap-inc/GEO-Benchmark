@@ -2,6 +2,11 @@
 
 This repository upload contains the benchmark code, documentation, configuration, prompt sets, and latest scored/report artifacts for the 2026-08 runs.
 
+This revision also includes the guarded monthly workflow:
+
+- `geo-bench validate-prompts`: hard-fail prompt policy validation.
+- `scripts/run-benchmark-workflow.sh`: validate, run with configured fallback, score, report, and run local checks.
+
 Included result artifacts:
 
 - `geo-benchmark/reports/2026-08/`: Anthropic report tables and machine-readable summaries.

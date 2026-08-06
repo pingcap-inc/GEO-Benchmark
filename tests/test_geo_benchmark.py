@@ -10,6 +10,7 @@ from geo_benchmark.cli import (
     load_env_files,
     load_prompts,
     prepare,
+    prompt_validation_errors,
     prompt_source_root,
     retry_configured_errors,
     retry_errors,
@@ -201,6 +202,28 @@ class GeoBenchmarkTests(unittest.TestCase):
             self.assertFalse(any(term in lower_text for term in measured_brand_terms))
             self.assertEqual(prompt["source"]["validation_status"], "case_pattern_validated")
             self.assertGreater(len(prompt["source"]["source_evidence_urls"]), 0)
+
+    def test_prompt_validation_passes_seed_prompts(self):
+        prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
+
+        self.assertEqual(prompt_validation_errors(prompts), [])
+
+    def test_prompt_validation_fails_measured_product_leak(self):
+        prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
+        prompts[0] = {**prompts[0], "prompt_text": prompts[0]["prompt_text"] + " Should we use TiDB?"}
+
+        errors = prompt_validation_errors(prompts)
+
+        self.assertTrue(any("measured product term 'tidb'" in error for error in errors))
+
+    def test_prompt_validation_fails_serverless_ai_postgres_leak(self):
+        prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
+        index = next(index for index, prompt in enumerate(prompts) if prompt["use_case"] == "serverless_ai")
+        prompts[index] = {**prompts[index], "prompt_text": prompts[index]["prompt_text"] + " Compare pgvector."}
+
+        errors = prompt_validation_errors(prompts)
+
+        self.assertTrue(any("serverless_ai prompt_text contains banned term 'pgvector'" in error for error in errors))
 
     def test_default_targets_include_competitive_set(self):
         self.assertEqual(

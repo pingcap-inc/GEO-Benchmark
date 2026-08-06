@@ -73,6 +73,9 @@ def main(argv: list[str] | None = None) -> int:
     audit_p = sub.add_parser("audit-prompts", help="Audit prompt objectivity and brand mentions.")
     audit_p.add_argument("--month", required=True)
 
+    validate_p = sub.add_parser("validate-prompts", help="Validate prompts and fail on benchmark policy violations.")
+    validate_p.add_argument("--month", required=True)
+
     env_p = sub.add_parser("check-env", help="Check configured provider API keys without printing secrets.")
     env_p.add_argument("--providers", default="openai,anthropic,gemini,perplexity")
 
@@ -84,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "run":
         prepare(root, args.month, args.prompts, args.update_ratio, force=False)
+        validate_prompts_or_exit(root, args.month)
         providers = split_csv(args.providers)
         prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
         collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids)
@@ -145,6 +149,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "audit-prompts":
         audit_prompts(root, args.month)
+        return 0
+    if args.command == "validate-prompts":
+        validate_prompts_or_exit(root, args.month)
         return 0
     if args.command == "check-env":
         check_env(root, split_csv(args.providers))
@@ -645,6 +652,78 @@ def audit_prompts(root: Path, month: str) -> None:
     print(f"By type: {by_type}")
     print(f"By panel: {by_panel}")
     print(f"By validation status: {by_validation_status}")
+
+
+MEASURED_PRODUCT_PROMPT_TERMS = [
+    "tidb",
+    "cockroachdb",
+    "cockroach",
+    "yugabytedb",
+    "yugabyte",
+    "supabase",
+    "planetscale",
+    "neon",
+    "aurora",
+    "spanner",
+    "alloydb",
+]
+
+SERVERLESS_AI_BANNED_TERMS = [
+    "postgres",
+    "postgresql",
+    "pgvector",
+]
+
+
+def validate_prompts_or_exit(root: Path, month: str) -> None:
+    errors = prompt_validation_errors(load_prompts(root, month))
+    if errors:
+        print(f"Prompt validation failed for {month}: {len(errors)} issue(s)")
+        for error in errors[:50]:
+            print(f"- {error}")
+        if len(errors) > 50:
+            print(f"- ... {len(errors) - 50} more issue(s)")
+        raise SystemExit(1)
+    print(f"Prompt validation passed for {month}.")
+
+
+def prompt_validation_errors(prompts: list[dict[str, Any]]) -> list[str]:
+    errors: list[str] = []
+    seen_texts: dict[str, str] = {}
+    seen_ids: set[str] = set()
+    for index, prompt in enumerate(prompts, start=1):
+        prompt_id = str(prompt.get("prompt_id", f"row_{index}"))
+        prompt_text = str(prompt.get("prompt_text", ""))
+        lower_text = prompt_text.lower()
+
+        if prompt_id in seen_ids:
+            errors.append(f"{prompt_id}: duplicate prompt_id")
+        seen_ids.add(prompt_id)
+
+        if lower_text in seen_texts:
+            errors.append(f"{prompt_id}: duplicate prompt_text also used by {seen_texts[lower_text]}")
+        else:
+            seen_texts[lower_text] = prompt_id
+
+        for term in MEASURED_PRODUCT_PROMPT_TERMS:
+            if contains_term(lower_text, term):
+                errors.append(f"{prompt_id}: prompt_text contains measured product term '{term}'")
+
+        if prompt.get("use_case") == "serverless_ai":
+            for term in SERVERLESS_AI_BANNED_TERMS:
+                if contains_term(lower_text, term):
+                    errors.append(f"{prompt_id}: serverless_ai prompt_text contains banned term '{term}'")
+
+        source = prompt.get("source", {})
+        if source.get("validation_status") not in {"case_pattern_validated", "observed_query_validated"}:
+            errors.append(f"{prompt_id}: missing approved source.validation_status")
+        if not source.get("source_evidence_urls"):
+            errors.append(f"{prompt_id}: missing source.source_evidence_urls")
+    return errors
+
+
+def contains_term(text: str, term: str) -> bool:
+    return re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", text) is not None
 
 
 def check_env(root: Path, provider_names: list[str]) -> None:

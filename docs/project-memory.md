@@ -59,6 +59,7 @@ Do not upload:
 Run these checks in the publication repository before pushing:
 
 ```bash
+./geo-bench validate-prompts --month 2026-08
 python3 -m unittest tests/test_geo_benchmark.py
 env PYTHONPYCACHEPREFIX=/private/tmp/geo-upload-pycache python3 -m py_compile geo_benchmark/*.py
 rg -n "[\\p{Han}]" .
@@ -66,3 +67,13 @@ git diff --check
 ```
 
 The Chinese-character scan should return no matches for published content.
+
+## Monthly Workflow
+
+Use the workflow wrapper for normal benchmark runs:
+
+```bash
+MONTH=2026-08 PROVIDERS=openai RUNS=1 DATA_DIR=geo-benchmark-openai ./scripts/run-benchmark-workflow.sh
+```
+
+For prompt-slice refreshes, add `FORCE=1` plus `ONLY_PROMPT_TYPE=<type>` or `ONLY_PROMPT_IDS=<comma-separated ids>`. The wrapper performs prompt validation, collection, configured fallback, scoring, reporting, and local checks.

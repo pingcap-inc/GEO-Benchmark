@@ -19,6 +19,14 @@ The default target set is:
 
 ## Quick Start
 
+Use the guarded monthly workflow for normal runs:
+
+```bash
+MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
+```
+
+The workflow validates prompts, runs collection with configured fallback, scores the final answer set, writes reports, and runs local checks.
+
 Run a local smoke test with the mock provider:
 
 ```bash
@@ -102,8 +110,11 @@ Manual repair command:
 ## Prompt Audit
 
 ```bash
+./geo-bench validate-prompts --month 2026-08
 ./geo-bench audit-prompts --month 2026-08
 ```
+
+`validate-prompts` is the hard gate and exits non-zero if prompt text contains measured product names, duplicate text, missing evidence metadata, or `serverless_ai` prompts that mention PostgreSQL or pgvector. `audit-prompts` is informational and prints prompt distribution counts.
 
 The current starter prompt set contains 120 neutral prompts: 84 stable prompts and 36 dynamic prompts. Prompt text does not name TiDB, CockroachDB, or other measured vendor targets.
 
@@ -114,6 +125,19 @@ geo-benchmark/prompts/<month>/prompts.json
 ```
 
 Provider-specific directories such as `geo-benchmark-openai` store config, runs, and reports only. They read prompts from the canonical `geo-benchmark/prompts` tree.
+
+For filtered prompt refreshes, use the same workflow wrapper:
+
+```bash
+MONTH=2026-08 \
+DATA_DIR=geo-benchmark-openai \
+PROVIDERS=openai \
+RUNS=1 \
+FORCE=1 \
+ONLY_PROMPT_TYPE=ai_infra \
+ASSUMED_OUTPUT_TOKENS=1600 \
+./scripts/run-benchmark-workflow.sh
+```
 
 ## Reports
 
