@@ -1,0 +1,294 @@
+{
+  "facts_version": "2026-07-30",
+  "targets": {
+    "TiDB": [
+      {
+        "fact_id": "distributed_sql",
+        "triggers": [
+          "tidb",
+          "distributed sql",
+          "distributed database",
+          "scale-out",
+          "horizontal"
+        ],
+        "expected_any": [
+          "distributed sql",
+          "distributed database",
+          "horizontal",
+          "scale-out"
+        ],
+        "wrong_any": [
+          "single-node only",
+          "not distributed"
+        ]
+      },
+      {
+        "fact_id": "mysql_compatibility",
+        "triggers": [
+          "tidb",
+          "mysql",
+          "compatibility",
+          "compatible"
+        ],
+        "expected_any": [
+          "mysql",
+          "compatible"
+        ],
+        "wrong_any": [
+          "postgres-compatible",
+          "postgres compatible",
+          "only postgresql"
+        ]
+      },
+      {
+        "fact_id": "htap",
+        "triggers": [
+          "tidb",
+          "htap",
+          "real-time analytics",
+          "analytics"
+        ],
+        "expected_any": [
+          "htap",
+          "tiflash",
+          "real-time analytics",
+          "transactional and analytical"
+        ],
+        "wrong_any": [
+          "oltp only",
+          "no analytics"
+        ]
+      },
+      {
+        "fact_id": "vector_search",
+        "triggers": [
+          "tidb",
+          "vector",
+          "embedding",
+          "semantic search"
+        ],
+        "expected_any": [
+          "vector",
+          "embedding",
+          "semantic"
+        ],
+        "wrong_any": [
+          "does not support vector",
+          "no vector"
+        ]
+      }
+    ],
+    "CockroachDB": [
+      {
+        "fact_id": "distributed_sql",
+        "triggers": [
+          "cockroachdb",
+          "distributed sql",
+          "distributed database",
+          "scale-out",
+          "horizontal"
+        ],
+        "expected_any": [
+          "distributed sql",
+          "distributed database",
+          "horizontal",
+          "scale-out"
+        ],
+        "wrong_any": [
+          "single-node only",
+          "not distributed"
+        ]
+      },
+      {
+        "fact_id": "postgres_compatibility",
+        "triggers": [
+          "cockroachdb",
+          "postgres",
+          "postgresql",
+          "compatibility",
+          "compatible"
+        ],
+        "expected_any": [
+          "postgres",
+          "postgresql",
+          "compatible"
+        ],
+        "wrong_any": [
+          "mysql-compatible",
+          "mysql compatible",
+          "only mysql"
+        ]
+      },
+      {
+        "fact_id": "multi_region",
+        "triggers": [
+          "cockroachdb",
+          "multi-region",
+          "global",
+          "resilience"
+        ],
+        "expected_any": [
+          "multi-region",
+          "global",
+          "resilience",
+          "distributed"
+        ],
+        "wrong_any": [
+          "single-region only"
+        ]
+      }
+    ],
+    "YugabyteDB": [
+      {
+        "fact_id": "distributed_sql",
+        "triggers": [
+          "yugabytedb",
+          "yugabyte",
+          "distributed sql",
+          "distributed database",
+          "scale-out",
+          "horizontal"
+        ],
+        "expected_any": [
+          "distributed sql",
+          "distributed database",
+          "horizontal",
+          "scale-out",
+          "distributed"
+        ],
+        "wrong_any": [
+          "single-node only",
+          "not distributed"
+        ]
+      },
+      {
+        "fact_id": "postgres_compatibility",
+        "triggers": [
+          "yugabytedb",
+          "yugabyte",
+          "postgres",
+          "postgresql",
+          "compatibility",
+          "compatible"
+        ],
+        "expected_any": [
+          "postgres",
+          "postgresql",
+          "compatible"
+        ],
+        "wrong_any": [
+          "mysql-compatible only",
+          "only mysql"
+        ]
+      }
+    ],
+    "Supabase": [
+      {
+        "fact_id": "postgres_app_platform",
+        "triggers": [
+          "supabase",
+          "postgres",
+          "postgresql",
+          "app platform",
+          "auth",
+          "realtime"
+        ],
+        "expected_any": [
+          "postgres",
+          "postgresql",
+          "auth",
+          "storage",
+          "realtime",
+          "app platform"
+        ],
+        "wrong_any": [
+          "mysql-compatible",
+          "mysql compatible",
+          "not postgres"
+        ]
+      },
+      {
+        "fact_id": "vector_app_development",
+        "triggers": [
+          "supabase",
+          "vector",
+          "embedding",
+          "semantic search"
+        ],
+        "expected_any": [
+          "vector",
+          "embedding",
+          "semantic",
+          "pgvector"
+        ],
+        "wrong_any": [
+          "does not support vector",
+          "no vector"
+        ]
+      }
+    ],
+    "PlanetScale": [
+      {
+        "fact_id": "mysql_workflow",
+        "triggers": [
+          "planetscale",
+          "mysql",
+          "vitess",
+          "branching"
+        ],
+        "expected_any": [
+          "mysql",
+          "vitess",
+          "branching",
+          "developer workflow"
+        ],
+        "wrong_any": [
+          "postgres-compatible",
+          "postgres compatible",
+          "only postgresql"
+        ]
+      },
+      {
+        "fact_id": "managed_scaling",
+        "triggers": [
+          "planetscale",
+          "scale",
+          "scaling",
+          "serverless"
+        ],
+        "expected_any": [
+          "scale",
+          "scaling",
+          "serverless",
+          "managed"
+        ],
+        "wrong_any": [
+          "single-node only"
+        ]
+      }
+    ],
+    "Neon": [
+      {
+        "fact_id": "serverless_postgres",
+        "triggers": [
+          "neon",
+          "postgres",
+          "postgresql",
+          "serverless",
+          "branching"
+        ],
+        "expected_any": [
+          "postgres",
+          "postgresql",
+          "serverless",
+          "branching"
+        ],
+        "wrong_any": [
+          "mysql-compatible",
+          "mysql compatible",
+          "not postgres"
+        ]
+      }
+    ]
+  }
+}

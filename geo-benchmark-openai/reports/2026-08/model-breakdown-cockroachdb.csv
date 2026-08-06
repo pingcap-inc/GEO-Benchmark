@@ -1,0 +1,2 @@
+segment,prompt_count,answer_count,answer_share,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
+openai,120,120,42.68,33.94,38.33,0.0

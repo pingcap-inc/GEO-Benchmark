@@ -1,0 +1,22 @@
+{
+  "mode": "planned",
+  "runs_per_prompt": 1,
+  "prompt_count": 120,
+  "assumed_output_tokens": 700,
+  "total_estimated_cost_usd": 0.8715,
+  "providers": [
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5",
+      "requests": 120,
+      "input_tokens": 15736,
+      "output_tokens": 84000,
+      "input_rate_per_1m": 2.0,
+      "output_rate_per_1m": 10.0,
+      "request_fee": 0.0,
+      "estimated_cost_usd": 0.8715,
+      "pricing_source": "https://claude.com/pricing"
+    }
+  ],
+  "pricing_version": "2026-07-30"
+}

@@ -1,0 +1,18 @@
+# Publication Notes
+
+This repository upload contains the benchmark code, documentation, configuration, prompt sets, and latest scored/report artifacts for the 2026-08 runs.
+
+Included result artifacts:
+
+- `geo-benchmark/reports/2026-08/`: Anthropic report tables and machine-readable summaries.
+- `geo-benchmark/runs/2026-08/scored_answers.jsonl`: Anthropic scored rows.
+- `geo-benchmark-openai/reports/2026-08/`: OpenAI report tables and machine-readable summaries.
+- `geo-benchmark-openai/runs/2026-08/scored_answers.jsonl`: OpenAI scored rows.
+
+Raw provider transcripts are intentionally not included in this public upload because some model answers contain non-English text and the publication requirement is English-only repository content. The included scored rows and reports are sufficient to reproduce KPI tables and gap analysis from the latest scoring pass.
+
+Local-only files excluded from publication:
+
+- `.env.local` and other secret-bearing environment files.
+- Retry backups and aborted-run raw answer snapshots.
+- Temporary scraped HTML and local visual/output artifacts.

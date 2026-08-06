@@ -1,0 +1,5 @@
+segment,prompt_count,answer_count,answer_share,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
+ai_infra,30,30,6.0,7.47,6.67,0.0
+case_selection,24,24,39.17,28.5,29.17,0.0
+database_type,30,30,42.0,51.1,16.67,0.0
+pain_point,36,36,32.78,35.56,16.67,0.0

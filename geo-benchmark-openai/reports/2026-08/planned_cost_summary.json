@@ -1,0 +1,22 @@
+{
+  "mode": "planned",
+  "runs_per_prompt": 1,
+  "prompt_count": 120,
+  "assumed_output_tokens": 1600,
+  "total_estimated_cost_usd": 0.3879,
+  "providers": [
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "requests": 120,
+      "input_tokens": 15736,
+      "output_tokens": 192000,
+      "input_rate_per_1m": 0.25,
+      "output_rate_per_1m": 2.0,
+      "request_fee": 0.0,
+      "estimated_cost_usd": 0.3879,
+      "pricing_source": "https://openai.com/index/introducing-gpt-5-for-developers/"
+    }
+  ],
+  "pricing_version": "2026-07-30"
+}

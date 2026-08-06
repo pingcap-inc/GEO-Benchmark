@@ -1,0 +1,25 @@
+{
+  "mode": "actual_or_usage_estimated",
+  "total_estimated_cost_usd": 0.2703,
+  "providers": [
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini-2024-07-18",
+      "requests": 17,
+      "input_tokens": 2196,
+      "output_tokens": 5580,
+      "estimated_cost_usd": 0.0037,
+      "pricing_source": "https://developers.openai.com/api/docs/models/gpt-4o-mini"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini-2025-08-07",
+      "requests": 103,
+      "input_tokens": 13051,
+      "output_tokens": 131668,
+      "estimated_cost_usd": 0.2666,
+      "pricing_source": "https://openai.com/index/introducing-gpt-5-for-developers/"
+    }
+  ],
+  "pricing_version": "2026-07-30"
+}
