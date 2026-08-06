@@ -123,5 +123,6 @@ geo-benchmark/reports/<month>/cost_summary.json
 - [Runbook](docs/geo-benchmark-suite-runbook.md)
 - [Benchmark Briefing](docs/geo-benchmark-briefing.md)
 - [Prompt Validation](docs/geo-prompt-validation.md)
+- [Project Memory](docs/project-memory.md)
 - [2026-08 Anthropic Report](docs/geo-benchmark-2026-08-anthropic.md)
 - [2026-08 OpenAI Report](docs/geo-benchmark-2026-08-openai.md)
