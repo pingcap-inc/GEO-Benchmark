@@ -53,6 +53,14 @@ Required prompt metadata:
 | `panel` | Stable versus dynamic comparison |
 | `source` | Source evidence and validation status |
 
+Canonical prompt storage:
+
+```text
+geo-benchmark/prompts/<month>/prompts.json
+```
+
+Provider-specific data directories must not keep separate prompt copies. They read from this canonical prompt tree so prompt uniqueness is preserved.
+
 ## Monthly Update Rule
 
 The suite separates the monthly prompt set into:

@@ -9,6 +9,12 @@ Included result artifacts:
 - `geo-benchmark-openai/reports/2026-08/`: OpenAI report tables and machine-readable summaries.
 - `geo-benchmark-openai/runs/2026-08/scored_answers.jsonl`: OpenAI scored rows.
 
+Canonical prompt source:
+
+- `geo-benchmark/prompts/2026-08/prompts.json`
+
+Provider-specific directories do not include duplicate prompt files.
+
 Raw provider transcripts are intentionally not included in this public upload because some model answers contain non-English text and the publication requirement is English-only repository content. The included scored rows and reports are sufficient to reproduce KPI tables and gap analysis from the latest scoring pass.
 
 Local-only files excluded from publication:

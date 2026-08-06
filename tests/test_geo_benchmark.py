@@ -8,7 +8,9 @@ from geo_benchmark.cli import (
     collect,
     fallback_error_is_eligible,
     load_env_files,
+    load_prompts,
     prepare,
+    prompt_source_root,
     retry_configured_errors,
     retry_errors,
     selected_prompt_ids,
@@ -33,6 +35,22 @@ class GeoBenchmarkTests(unittest.TestCase):
             sep_stable = [row for row in sep if row["panel"] == "stable"]
             self.assertEqual(aug_stable, sep_stable)
             self.assertEqual(len([row for row in sep if row["panel"] == "dynamic"]), 6)
+
+    def test_provider_data_dir_uses_canonical_prompt_source(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            canonical = base / "geo-benchmark"
+            provider_root = base / "geo-benchmark-openai"
+
+            prepare(provider_root, "2026-08", 20, 0.3, False)
+
+            self.assertEqual(prompt_source_root(provider_root), canonical)
+            self.assertTrue((canonical / "prompts" / "2026-08" / "prompts.json").exists())
+            self.assertFalse((provider_root / "prompts" / "2026-08" / "prompts.json").exists())
+            self.assertEqual(
+                load_prompts(provider_root, "2026-08"),
+                read_json(canonical / "prompts" / "2026-08" / "prompts.json"),
+            )
 
     def test_score_answer_detects_tidb_recommendation_and_citation(self):
         prompt = {

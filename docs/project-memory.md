@@ -22,6 +22,14 @@ GitHub repository:
 https://github.com/ardelleFan/GEO-Benchmark
 ```
 
+Canonical prompt source:
+
+```text
+/Users/macbookair/Documents/TiDB Vibe/geo-benchmark/prompts/<month>/prompts.json
+```
+
+Do not maintain provider-specific copies of prompt files. Directories such as `geo-benchmark-openai` are for provider config, runs, and reports only.
+
 ## Sync Rule
 
 Use the primary workspace for all editing and benchmark runs. Use the clean publication repository only for audited GitHub uploads.

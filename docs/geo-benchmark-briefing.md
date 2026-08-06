@@ -79,6 +79,14 @@ The monthly panel is split into:
 
 The prompt generator keeps measured target names out of prompt text. The audit command checks this explicitly.
 
+The canonical prompt source is:
+
+```text
+geo-benchmark/prompts/<month>/prompts.json
+```
+
+Provider-specific output directories do not maintain separate prompt copies.
+
 ## Target Set
 
 The current scoring target set is:

@@ -107,6 +107,14 @@ Manual repair command:
 
 The current starter prompt set contains 120 neutral prompts: 84 stable prompts and 36 dynamic prompts. Prompt text does not name TiDB, CockroachDB, or other measured vendor targets.
 
+There is exactly one canonical prompt source:
+
+```text
+geo-benchmark/prompts/<month>/prompts.json
+```
+
+Provider-specific directories such as `geo-benchmark-openai` store config, runs, and reports only. They read prompts from the canonical `geo-benchmark/prompts` tree.
+
 ## Reports
 
 ```text

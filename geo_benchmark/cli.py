@@ -202,7 +202,7 @@ def prepare(root: Path, month: str, prompt_count: int, update_ratio: float, forc
     ensure_default(config_dir / "facts.json", DEFAULT_FACTS)
     ensure_default(config_dir / "targets.json", DEFAULT_TARGETS)
 
-    prompt_dir = root / "prompts" / month
+    prompt_dir = prompt_source_root(root) / "prompts" / month
     prompts_path = prompt_dir / "prompts.json"
     if prompts_path.exists() and not force:
         return
@@ -218,9 +218,10 @@ def generate_prompts_with_previous_stable(
     prompt_count: int,
     update_ratio: float,
 ) -> list[dict[str, Any]]:
+    prompt_root = prompt_source_root(root)
     stable_count = round(prompt_count * (1 - update_ratio))
     generated = generate_seed_prompts(month, total=prompt_count, update_ratio=update_ratio)
-    previous_path = root / "prompts" / previous_month(month) / "prompts.json"
+    previous_path = prompt_root / "prompts" / previous_month(month) / "prompts.json"
     if not previous_path.exists():
         return generated
 
@@ -525,7 +526,14 @@ def planned_cost(
 
 
 def load_prompts(root: Path, month: str) -> list[dict[str, Any]]:
-    return read_json(root / "prompts" / month / "prompts.json")
+    return read_json(prompt_source_root(root) / "prompts" / month / "prompts.json")
+
+
+def prompt_source_root(root: Path) -> Path:
+    """Return the canonical prompt root for a benchmark data directory."""
+    if root.name.startswith("geo-benchmark-"):
+        return root.parent / "geo-benchmark"
+    return root
 
 
 def month_run_dir(root: Path, month: str) -> Path:

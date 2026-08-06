@@ -28,6 +28,8 @@ geo-benchmark/
   reports/<month>/
 ```
 
+Prompt uniqueness rule: `geo-benchmark/prompts/<month>/prompts.json` is the only canonical prompt source. Provider-specific directories such as `geo-benchmark-openai` must not keep separate prompt copies; they read from the canonical prompt tree.
+
 Primary report artifacts:
 
 ```text
