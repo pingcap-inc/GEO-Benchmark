@@ -10,19 +10,22 @@
       "input_per_1m": 0.25,
       "output_per_1m": 2.0,
       "request_fee": 0.0,
-      "source": "https://openai.com/index/introducing-gpt-5-for-developers/"
+      "source": "https://openai.com/index/introducing-gpt-5-for-developers/",
+      "web_search_fee": 0.01
     },
     "gpt-4o-mini": {
       "input_per_1m": 0.15,
       "output_per_1m": 0.6,
       "request_fee": 0.0,
-      "source": "https://developers.openai.com/api/docs/models/gpt-4o-mini"
+      "source": "https://developers.openai.com/api/docs/models/gpt-4o-mini",
+      "web_search_fee": 0.01
     },
     "claude-sonnet-5": {
       "input_per_1m": 2.0,
       "output_per_1m": 10.0,
       "request_fee": 0.0,
-      "source": "https://claude.com/pricing"
+      "source": "https://claude.com/pricing",
+      "web_search_fee": 0.01
     },
     "gemini-2.5-flash-lite": {
       "input_per_1m": 0.1,

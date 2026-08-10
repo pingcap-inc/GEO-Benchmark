@@ -39,6 +39,7 @@ def main(argv: list[str] | None = None) -> int:
     run_p.add_argument("--update-ratio", type=float, default=0.3)
     run_p.add_argument("--assumed-output-tokens", type=int, default=700)
     run_p.add_argument("--retries", type=int, default=1)
+    run_p.add_argument("--web-search", choices=["off", "on"], default="off", help="Enable provider web search in low mode where supported.")
     run_p.add_argument("--force", action="store_true", help="Overwrite raw/scored/report outputs for the month.")
     run_p.add_argument("--no-fallback", action="store_true", help="Do not auto-retry failed answers with configured fallback models.")
     run_p.add_argument("--only-prompt-type", default=None, help="Only collect prompts of this prompt_type, preserving other raw answers.")
@@ -51,6 +52,7 @@ def main(argv: list[str] | None = None) -> int:
     retry_p.add_argument("--max-output-tokens", type=int, default=None)
     retry_p.add_argument("--retries", type=int, default=1)
     retry_p.add_argument("--targets", default=None)
+    retry_p.add_argument("--web-search", choices=["off", "on"], default="off")
 
     estimate_p = sub.add_parser("estimate-cost", help="Estimate planned cost without calling providers.")
     estimate_p.add_argument("--month", required=True)
@@ -58,10 +60,12 @@ def main(argv: list[str] | None = None) -> int:
     estimate_p.add_argument("--runs", type=int, default=3)
     estimate_p.add_argument("--prompts", type=int, default=120)
     estimate_p.add_argument("--assumed-output-tokens", type=int, default=700)
+    estimate_p.add_argument("--web-search", choices=["off", "on"], default="off")
 
     score_p = sub.add_parser("score", help="Score existing raw answers.")
     score_p.add_argument("--month", required=True)
     score_p.add_argument("--targets", default=None)
+    score_p.add_argument("--web-search", choices=["off", "on"], default="off")
 
     report_p = sub.add_parser("report", help="Generate reports from scored answers.")
     report_p.add_argument("--month", required=True)
@@ -90,17 +94,17 @@ def main(argv: list[str] | None = None) -> int:
         validate_prompts_or_exit(root, args.month)
         providers = split_csv(args.providers)
         prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
-        collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids)
+        collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids, args.web_search)
         if not args.no_fallback:
-            for result in retry_configured_errors(root, args.month, providers, args.retries):
+            for result in retry_configured_errors(root, args.month, providers, args.retries, args.web_search):
                 if result["attempted"]:
                     print(
                         f"Auto fallback for {result['provider']} with {result['model']}: "
                         f"{result['succeeded']}/{result['attempted']} recovered, "
                         f"{result['failed']} still failed."
                     )
-        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None)
-        planned = planned_cost(root, args.month, providers, args.runs, args.assumed_output_tokens)
+        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None, args.web_search)
+        planned = planned_cost(root, args.month, providers, args.runs, args.assumed_output_tokens, args.web_search)
         write_json(month_report_dir(root, args.month) / "planned_cost_summary.json", planned)
         print_run_summary(root, args.month, summary, cost, planned, len(scored))
         return 0
@@ -112,8 +116,9 @@ def main(argv: list[str] | None = None) -> int:
             args.model,
             args.max_output_tokens,
             args.retries,
+            args.web_search,
         )
-        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None)
+        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None, args.web_search)
         print(
             f"Retried {result['attempted']} failed answers for {args.provider}: "
             f"{result['succeeded']} succeeded, {result['failed']} still failed."
@@ -126,12 +131,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "estimate-cost":
         prepare(root, args.month, args.prompts, 0.3, force=False)
-        estimate = planned_cost(root, args.month, split_csv(args.providers), args.runs, args.assumed_output_tokens)
+        estimate = planned_cost(root, args.month, split_csv(args.providers), args.runs, args.assumed_output_tokens, args.web_search)
         write_json(month_report_dir(root, args.month) / "planned_cost_summary.json", estimate)
         print_cost_estimate(estimate)
         return 0
     if args.command == "score":
-        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None)
+        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None, args.web_search)
         print(f"Scored {len(scored)} answers. Overall Answer Share: {summary['overall']['answer_share']}")
         print(f"Cost estimate: ${cost.get('total_estimated_cost_usd', 0)}")
         return 0
@@ -259,6 +264,7 @@ def collect(
     retries: int,
     force: bool,
     prompt_ids: set[str] | None = None,
+    web_search_mode: str = "off",
 ) -> None:
     prompts = load_prompts(root, month)
     if prompt_ids is not None:
@@ -266,13 +272,15 @@ def collect(
     models = read_json(root / "config" / "models.json")
     run_dir = month_run_dir(root, month)
     raw_path = run_dir / "raw_answers.jsonl"
-    if force and raw_path.exists() and prompt_ids is None:
-        raw_path.unlink()
-    elif force and raw_path.exists() and prompt_ids is not None:
+    if force and raw_path.exists():
         retained = [
             row
             for row in read_jsonl(raw_path)
-            if not (row.get("model_surface") in provider_names and row.get("prompt_id") in prompt_ids)
+            if not (
+                row.get("model_surface") in provider_names
+                and raw_web_search_mode(row) == web_search_mode
+                and (prompt_ids is None or row.get("prompt_id") in prompt_ids)
+            )
         ]
         write_jsonl(raw_path, retained)
     existing_ids = {row.get("answer_id") for row in read_jsonl(raw_path)}
@@ -281,10 +289,11 @@ def collect(
     for provider_name in provider_names:
         if provider_name not in models:
             raise SystemExit(f"Unknown provider '{provider_name}' in models.json")
-        provider = provider_for(provider_name, models[provider_name])
+        provider_config = with_web_search_mode(models[provider_name], web_search_mode)
+        provider = provider_for(provider_name, provider_config)
         for prompt in prompts:
             for run_index in range(1, runs + 1):
-                answer_id = stable_hash([month, prompt["prompt_id"], provider_name, run_index])[:24]
+                answer_id = stable_hash([month, prompt["prompt_id"], provider_name, run_index, web_search_mode])[:24]
                 if answer_id in existing_ids:
                     continue
                 run_id = str(uuid.uuid4())
@@ -301,6 +310,8 @@ def collect(
                         "model_surface": provider_name,
                         "model_name": result.model_name,
                         "model_version": result.model_version,
+                        "web_search_mode": web_search_mode,
+                        "web_search_requests": result.web_search_requests,
                         "run_index": run_index,
                         "timestamp": timestamp,
                         "raw_answer": result.answer,
@@ -318,7 +329,9 @@ def collect(
                         "prompt_id": prompt["prompt_id"],
                         "prompt_text": prompt["prompt_text"],
                         "model_surface": provider_name,
-                        "model_name": models[provider_name].get("model"),
+                        "model_name": provider_config.get("model"),
+                        "web_search_mode": web_search_mode,
+                        "web_search_requests": 0,
                         "run_index": run_index,
                         "timestamp": timestamp,
                         "error": str(exc),
@@ -364,6 +377,7 @@ def retry_errors(
     model_override: str | None,
     max_output_tokens: int | None,
     retries: int,
+    web_search_mode: str = "off",
     eligible_only: bool = False,
 ) -> dict[str, Any]:
     prompts = load_prompts(root, month)
@@ -379,6 +393,7 @@ def retry_errors(
         index
         for index, row in enumerate(raw)
         if row.get("model_surface") == provider_name and row.get("status") != "ok"
+        and raw_web_search_mode(row) == web_search_mode
         and (not eligible_only or fallback_error_is_eligible(row))
     ]
     if not error_indices:
@@ -394,6 +409,7 @@ def retry_errors(
         config["model"] = model_override
     if max_output_tokens is not None:
         config["max_output_tokens"] = max_output_tokens
+    config = with_web_search_mode(config, web_search_mode)
     provider = provider_for(provider_name, config)
 
     succeeded = 0
@@ -419,6 +435,8 @@ def retry_errors(
                 "model_surface": provider_name,
                 "model_name": result.model_name,
                 "model_version": result.model_version,
+                "web_search_mode": web_search_mode,
+                "web_search_requests": result.web_search_requests,
                 "run_index": run_index,
                 "timestamp": timestamp,
                 "raw_answer": result.answer,
@@ -437,6 +455,8 @@ def retry_errors(
                 "run_id": run_id,
                 "timestamp": timestamp,
                 "model_name": config.get("model"),
+                "web_search_mode": web_search_mode,
+                "web_search_requests": 0,
                 "error": str(exc),
                 "retryable": exc.retryable,
                 "retry_of_run_id": old.get("run_id"),
@@ -460,6 +480,7 @@ def retry_configured_errors(
     month: str,
     provider_names: list[str],
     retries: int,
+    web_search_mode: str = "off",
 ) -> list[dict[str, Any]]:
     models = read_json(root / "config" / "models.json")
     results: list[dict[str, Any]] = []
@@ -477,6 +498,7 @@ def retry_configured_errors(
             fallback_model,
             fallback_max_output_tokens,
             fallback_retries,
+            web_search_mode,
             eligible_only=True,
         )
         result["provider"] = provider_name
@@ -502,9 +524,14 @@ def score_and_report(
     root: Path,
     month: str,
     targets: list[str] | None = None,
+    web_search_mode: str = "off",
 ) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
     prompts = load_prompts(root, month)
-    raw = read_jsonl(month_run_dir(root, month) / "raw_answers.jsonl")
+    raw = [
+        row
+        for row in read_jsonl(month_run_dir(root, month) / "raw_answers.jsonl")
+        if raw_web_search_mode(row) == web_search_mode
+    ]
     source_authority = read_json(root / "config" / "source_authority.json")
     facts = read_json(root / "config" / "facts.json")
     pricing = read_json(root / "config" / "pricing.json")
@@ -512,6 +539,7 @@ def score_and_report(
     scored = score_answers(raw, prompts, source_authority, facts, targets)
     summary = aggregate_scores(scored)
     cost = estimate_actual_cost(raw, pricing)
+    cost["web_search_mode"] = web_search_mode
     run_dir = month_run_dir(root, month)
     write_jsonl(run_dir / "scored_answers.jsonl", scored)
     write_json(month_report_dir(root, month) / "cost_summary.json", cost)
@@ -525,11 +553,12 @@ def planned_cost(
     providers: list[str],
     runs: int,
     assumed_output_tokens: int,
+    web_search_mode: str = "off",
 ) -> dict[str, Any]:
     prompts = load_prompts(root, month)
     models = read_json(root / "config" / "models.json")
     pricing = read_json(root / "config" / "pricing.json")
-    return estimate_planned_cost(prompts, providers, runs, models, pricing, assumed_output_tokens)
+    return estimate_planned_cost(prompts, providers, runs, models, pricing, assumed_output_tokens, web_search_mode)
 
 
 def load_prompts(root: Path, month: str) -> list[dict[str, Any]]:
@@ -553,6 +582,17 @@ def month_report_dir(root: Path, month: str) -> Path:
 
 def split_csv(value: str) -> list[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def with_web_search_mode(config: dict[str, Any], web_search_mode: str) -> dict[str, Any]:
+    updated = dict(config)
+    if updated.get("provider") in {"openai", "anthropic"}:
+        updated["web_search"] = web_search_mode
+    return updated
+
+
+def raw_web_search_mode(row: dict[str, Any]) -> str:
+    return str(row.get("web_search_mode") or "off")
 
 
 def print_run_summary(

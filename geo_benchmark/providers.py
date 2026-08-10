@@ -79,6 +79,7 @@ class ProviderResult:
     output_tokens: int
     model_name: str
     model_version: str | None = None
+    web_search_requests: int = 0
     raw_response: dict[str, Any] | None = None
 
 
@@ -184,12 +185,15 @@ def mock_reasoning(products: list[str], use_case: str) -> str:
 
 
 class OpenAIProvider(BaseProvider):
-    endpoint = "https://api.openai.com/v1/chat/completions"
+    chat_endpoint = "https://api.openai.com/v1/chat/completions"
+    responses_endpoint = "https://api.openai.com/v1/responses"
 
     def generate(self, prompt: dict[str, Any], run_index: int) -> ProviderResult:
         api_key = os.getenv(self.config.get("env_var") or "OPENAI_API_KEY")
         if not api_key:
             raise ProviderError("Missing OPENAI_API_KEY")
+        if web_search_enabled(self.config):
+            return self._generate_with_web_search(prompt, api_key)
         payload = {
             "model": self.model,
             "max_completion_tokens": self.config.get("max_output_tokens", 700),
@@ -200,7 +204,7 @@ class OpenAIProvider(BaseProvider):
         }
         if self.config.get("temperature") is not None:
             payload["temperature"] = self.config.get("temperature")
-        data = _post_json(self.endpoint, payload, {"Authorization": f"Bearer {api_key}"})
+        data = _post_json(self.chat_endpoint, payload, {"Authorization": f"Bearer {api_key}"})
         answer = data["choices"][0]["message"]["content"]
         if not answer:
             raise ProviderError("OpenAI returned empty content; increase max_completion_tokens", retryable=False)
@@ -211,6 +215,33 @@ class OpenAIProvider(BaseProvider):
             input_tokens=usage.get("prompt_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("completion_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
+            raw_response=data,
+        )
+
+    def _generate_with_web_search(self, prompt: dict[str, Any], api_key: str) -> ProviderResult:
+        payload = {
+            "model": self.model,
+            "max_output_tokens": self.config.get("max_output_tokens", 700),
+            "tools": [{"type": "web_search", "search_context_size": "low"}],
+            "input": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": self._input_text(prompt)},
+            ],
+        }
+        if self.config.get("temperature") is not None:
+            payload["temperature"] = self.config.get("temperature")
+        data = _post_json(self.responses_endpoint, payload, {"Authorization": f"Bearer {api_key}"})
+        answer = extract_openai_response_text(data)
+        if not answer:
+            raise ProviderError("OpenAI returned empty content; increase max_output_tokens", retryable=False)
+        usage = data.get("usage", {})
+        return ProviderResult(
+            answer=answer,
+            citations=extract_urls_from_value(data),
+            input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
+            output_tokens=usage.get("output_tokens", estimate_tokens(answer)),
+            model_name=data.get("model", self.model),
+            web_search_requests=count_items_by_type(data, "web_search_call") or 1,
             raw_response=data,
         )
 
@@ -260,6 +291,14 @@ class AnthropicProvider(BaseProvider):
         }
         if self.config.get("temperature") is not None:
             payload["temperature"] = self.config.get("temperature")
+        if web_search_enabled(self.config):
+            payload["tools"] = [
+                {
+                    "type": "web_search_20250305",
+                    "name": "web_search",
+                    "max_uses": 5,
+                }
+            ]
         data = _post_json(
             self.endpoint,
             payload,
@@ -273,10 +312,11 @@ class AnthropicProvider(BaseProvider):
         usage = data.get("usage", {})
         return ProviderResult(
             answer=answer,
-            citations=[],
+            citations=extract_urls_from_value(data),
             input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("output_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
+            web_search_requests=count_items_by_type(data, "server_tool_use", name="web_search"),
             raw_response=data,
         )
 
@@ -326,6 +366,50 @@ def provider_for(name: str, config: dict[str, Any]) -> BaseProvider:
     if provider == "perplexity":
         return PerplexityProvider(name, config)
     raise ValueError(f"Unknown provider: {provider}")
+
+
+def web_search_enabled(config: dict[str, Any]) -> bool:
+    return config.get("web_search") == "on"
+
+
+def extract_openai_response_text(data: dict[str, Any]) -> str:
+    if data.get("output_text"):
+        return str(data["output_text"])
+    chunks: list[str] = []
+    for item in data.get("output", []):
+        if item.get("type") != "message":
+            continue
+        for content in item.get("content", []):
+            if content.get("type") in {"output_text", "text"}:
+                chunks.append(str(content.get("text", "")))
+    return "\n".join(chunk for chunk in chunks if chunk)
+
+
+def extract_urls_from_value(value: Any) -> list[str]:
+    urls: list[str] = []
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key == "url" and isinstance(item, str) and item.startswith(("http://", "https://")):
+                urls.append(item)
+            else:
+                urls.extend(extract_urls_from_value(item))
+    elif isinstance(value, list):
+        for item in value:
+            urls.extend(extract_urls_from_value(item))
+    return sorted(set(urls))
+
+
+def count_items_by_type(value: Any, item_type: str, name: str | None = None) -> int:
+    count = 0
+    if isinstance(value, dict):
+        if value.get("type") == item_type and (name is None or value.get("name") == name):
+            count += 1
+        for item in value.values():
+            count += count_items_by_type(item, item_type, name)
+    elif isinstance(value, list):
+        for item in value:
+            count += count_items_by_type(item, item_type, name)
+    return count
 
 
 def _post_json(endpoint: str, payload: dict[str, Any], headers: dict[str, str]) -> dict[str, Any]:

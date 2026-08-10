@@ -23,6 +23,20 @@ The repository also includes a dependency-light Python CLI:
 ./geo-bench run --month 2026-08 --providers mock --runs 1
 ```
 
+Web search is off by default. To enable provider web search for OpenAI and Anthropic, use low mode:
+
+```bash
+MONTH=2026-08 PROVIDERS=openai,anthropic WEB_SEARCH=on RUNS=1 ./scripts/run-benchmark-workflow.sh
+```
+
+Equivalent CLI flag:
+
+```bash
+./geo-bench run --month 2026-08 --providers openai,anthropic --runs 1 --web-search on
+```
+
+`web_search=off` and `web_search=on` rows are stored with separate answer IDs. Scoring and reports aggregate only the selected mode, so the two modes are not mixed in one KPI table.
+
 This command:
 
 1. Creates or reads the monthly prompt set.
@@ -74,7 +88,8 @@ Then run:
 ./geo-bench run \
   --month 2026-08 \
   --providers openai,anthropic,gemini,perplexity \
-  --runs 3
+  --runs 3 \
+  --web-search off
 ```
 
 ## Filtered Refresh
@@ -211,7 +226,8 @@ Estimate budget without calling providers:
   --month 2026-08 \
   --providers openai,anthropic,gemini,perplexity \
   --runs 3 \
-  --assumed-output-tokens 700
+  --assumed-output-tokens 700 \
+  --web-search on
 ```
 
 Default planning assumptions: 120 prompts, 4 providers, 3 runs per prompt, and 700 assumed output tokens per answer. Adding scoring targets does not increase provider-call cost because targets are scored locally against the same answers.
@@ -226,7 +242,7 @@ gemini / gemini-2.5-flash-lite: $0.1042
 perplexity / sonar: $2.0856
 ```
 
-Perplexity Sonar includes a request fee, so its cost is not token-only.
+OpenAI and Anthropic web search estimates assume one low-mode search call per prompt run when `--web-search on` is used. Actual cost summaries use the recorded tool-call count when providers return it. Perplexity Sonar includes a request fee, so its cost is not token-only.
 
 ## Monthly Comparability
 

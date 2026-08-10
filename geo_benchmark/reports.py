@@ -59,6 +59,7 @@ def write_markdown(
         f"# GEO Benchmark LLM Report - {month}",
         "",
         f"Providers: {', '.join(providers) if providers else 'none'}",
+        f"Web search mode: {cost_summary.get('web_search_mode', 'off') if cost_summary else 'off'}",
         f"Raw answers: {len({row.get('answer_id') for row in scored_answers})}",
         f"Scored target-answer rows: {len(scored_answers)}",
         "",

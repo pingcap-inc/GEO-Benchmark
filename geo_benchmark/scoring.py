@@ -114,6 +114,8 @@ def score_answer(
         "prompt_id": row["prompt_id"],
         "model_surface": row["model_surface"],
         "model_name": row.get("model_name"),
+        "web_search_mode": row.get("web_search_mode", "off"),
+        "web_search_requests": row.get("web_search_requests", 0),
         "panel": prompt.get("panel", "stable"),
         "prompt_type": prompt.get("prompt_type"),
         "persona": prompt.get("persona"),

@@ -27,6 +27,12 @@ MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
 
 The workflow validates prompts, runs collection with configured fallback, scores the final answer set, writes reports, and runs local checks.
 
+Web search is off by default. To run OpenAI and Anthropic with provider web search in low mode:
+
+```bash
+MONTH=2026-08 PROVIDERS=openai,anthropic WEB_SEARCH=on RUNS=1 ./scripts/run-benchmark-workflow.sh
+```
+
 Run a local smoke test with the mock provider:
 
 ```bash
@@ -47,6 +53,7 @@ cp .env.example .env.local
   --month 2026-08 \
   --providers openai,anthropic,gemini \
   --runs 1 \
+  --web-search off \
   --force
 ```
 
@@ -104,7 +111,8 @@ Manual repair command:
   --month 2026-08 \
   --providers openai,anthropic,gemini,perplexity \
   --runs 3 \
-  --assumed-output-tokens 700
+  --assumed-output-tokens 700 \
+  --web-search on
 ```
 
 ## Prompt Audit

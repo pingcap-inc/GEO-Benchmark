@@ -77,3 +77,5 @@ MONTH=2026-08 PROVIDERS=openai RUNS=1 DATA_DIR=geo-benchmark-openai ./scripts/ru
 ```
 
 For prompt-slice refreshes, add `FORCE=1` plus `ONLY_PROMPT_TYPE=<type>` or `ONLY_PROMPT_IDS=<comma-separated ids>`. The wrapper performs prompt validation, collection, configured fallback, scoring, reporting, and local checks.
+
+Web search is off by default. To enable provider web search for OpenAI and Anthropic, add `WEB_SEARCH=on`; this maps to low search mode without domain limits. Keep web-search-off and web-search-on KPI comparisons separate.

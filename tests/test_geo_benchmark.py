@@ -3,6 +3,7 @@ import unittest
 import os
 from pathlib import Path
 from typing import Optional
+from unittest.mock import patch
 
 from geo_benchmark.cli import (
     collect,
@@ -19,6 +20,7 @@ from geo_benchmark.cli import (
 from geo_benchmark.costs import estimate_actual_cost, estimate_planned_cost
 from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_TARGETS
 from geo_benchmark.io_utils import read_json, read_jsonl, stable_hash, write_json, write_jsonl
+from geo_benchmark.providers import AnthropicProvider, OpenAIProvider
 from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import aggregate_scores, score_answer, score_answers
 from geo_benchmark.seed import generate_seed_prompts
@@ -167,6 +169,14 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(estimate["providers"][0]["requests"], 30)
         self.assertGreater(estimate["total_estimated_cost_usd"], 0)
 
+    def test_cost_estimate_adds_web_search_fee_when_enabled(self):
+        prompts = [{"prompt_text": "best distributed SQL database"} for _ in range(10)]
+
+        estimate = estimate_planned_cost(prompts, ["openai"], 3, DEFAULT_MODELS, DEFAULT_PRICING, 700, "on")
+
+        self.assertEqual(estimate["providers"][0]["web_search_requests"], 30)
+        self.assertGreater(estimate["providers"][0]["estimated_cost_usd"], 0.3)
+
     def test_actual_cost_matches_versioned_model_name(self):
         raw = [
             {
@@ -179,6 +189,99 @@ class GeoBenchmarkTests(unittest.TestCase):
         ]
         estimate = estimate_actual_cost(raw, DEFAULT_PRICING)
         self.assertGreater(estimate["total_estimated_cost_usd"], 0)
+
+    def test_openai_web_search_on_uses_responses_api_low_mode(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
+        config = {"model": "gpt-5-mini", "env_var": "OPENAI_API_KEY", "web_search": "on", "max_output_tokens": 100}
+        captured = {}
+
+        def fake_post(endpoint, payload, headers):
+            captured["endpoint"] = endpoint
+            captured["payload"] = payload
+            return {
+                "model": "gpt-5-mini-2026-08-01",
+                "output_text": "TiDB is one option.",
+                "output": [
+                    {"type": "web_search_call"},
+                    {"type": "message", "content": [{"type": "output_text", "text": "TiDB is one option."}]},
+                ],
+                "usage": {"input_tokens": 10, "output_tokens": 5},
+                "sources": [{"url": "https://docs.pingcap.com/tidb/stable"}],
+            }
+
+        old_key = os.environ.get("OPENAI_API_KEY")
+        try:
+            os.environ["OPENAI_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post):
+                result = OpenAIProvider("openai", config).generate(prompt, 1)
+        finally:
+            restore_env("OPENAI_API_KEY", old_key)
+
+        self.assertTrue(captured["endpoint"].endswith("/v1/responses"))
+        self.assertEqual(captured["payload"]["tools"], [{"type": "web_search", "search_context_size": "low"}])
+        self.assertEqual(result.web_search_requests, 1)
+        self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
+
+    def test_openai_web_search_off_keeps_chat_completions(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
+        config = {"model": "gpt-5-mini", "env_var": "OPENAI_API_KEY", "web_search": "off", "max_output_tokens": 100}
+        captured = {}
+
+        def fake_post(endpoint, payload, headers):
+            captured["endpoint"] = endpoint
+            captured["payload"] = payload
+            return {
+                "model": "gpt-5-mini-2026-08-01",
+                "choices": [{"message": {"content": "TiDB is one option."}}],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 5},
+            }
+
+        old_key = os.environ.get("OPENAI_API_KEY")
+        try:
+            os.environ["OPENAI_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post):
+                result = OpenAIProvider("openai", config).generate(prompt, 1)
+        finally:
+            restore_env("OPENAI_API_KEY", old_key)
+
+        self.assertTrue(captured["endpoint"].endswith("/v1/chat/completions"))
+        self.assertNotIn("tools", captured["payload"])
+        self.assertEqual(result.web_search_requests, 0)
+
+    def test_anthropic_web_search_on_adds_server_tool(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
+        config = {"model": "claude-sonnet-5", "env_var": "ANTHROPIC_API_KEY", "web_search": "on", "max_output_tokens": 100}
+        captured = {}
+
+        def fake_post(endpoint, payload, headers):
+            captured["payload"] = payload
+            return {
+                "model": "claude-sonnet-5",
+                "content": [
+                    {"type": "server_tool_use", "name": "web_search"},
+                    {
+                        "type": "text",
+                        "text": "TiDB is one option.",
+                        "citations": [{"type": "web_search_result_location", "url": "https://docs.pingcap.com/tidb/stable"}],
+                    },
+                ],
+                "usage": {"input_tokens": 10, "output_tokens": 5},
+            }
+
+        old_key = os.environ.get("ANTHROPIC_API_KEY")
+        try:
+            os.environ["ANTHROPIC_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post):
+                result = AnthropicProvider("anthropic", config).generate(prompt, 1)
+        finally:
+            restore_env("ANTHROPIC_API_KEY", old_key)
+
+        self.assertEqual(
+            captured["payload"]["tools"],
+            [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}],
+        )
+        self.assertEqual(result.web_search_requests, 1)
+        self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
 
     def test_seed_prompts_are_neutral_and_evidence_backed(self):
         prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)

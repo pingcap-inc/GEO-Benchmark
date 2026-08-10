@@ -6,6 +6,7 @@ This revision also includes the guarded monthly workflow:
 
 - `geo-bench validate-prompts`: hard-fail prompt policy validation.
 - `scripts/run-benchmark-workflow.sh`: validate, run with configured fallback, score, report, and run local checks.
+- `--web-search off|on` and `WEB_SEARCH=on`: optional low-mode provider web search for OpenAI and Anthropic.
 
 Included result artifacts:
 

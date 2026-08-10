@@ -8,6 +8,7 @@ RUNS="${RUNS:-1}"
 PROMPTS="${PROMPTS:-120}"
 UPDATE_RATIO="${UPDATE_RATIO:-0.3}"
 ASSUMED_OUTPUT_TOKENS="${ASSUMED_OUTPUT_TOKENS:-700}"
+WEB_SEARCH="${WEB_SEARCH:-off}"
 
 if [[ -z "$MONTH" ]]; then
   echo "Set MONTH=YYYY-MM before running this workflow." >&2
@@ -21,6 +22,7 @@ run_args=(
   --prompts "$PROMPTS"
   --update-ratio "$UPDATE_RATIO"
   --assumed-output-tokens "$ASSUMED_OUTPUT_TOKENS"
+  --web-search "$WEB_SEARCH"
 )
 
 if [[ "${FORCE:-0}" == "1" ]]; then
