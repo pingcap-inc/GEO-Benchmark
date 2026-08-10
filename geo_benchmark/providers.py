@@ -221,7 +221,8 @@ class OpenAIProvider(BaseProvider):
     def _generate_with_web_search(self, prompt: dict[str, Any], api_key: str) -> ProviderResult:
         payload = {
             "model": self.model,
-            "max_output_tokens": self.config.get("max_output_tokens", 700),
+            "max_output_tokens": max(int(self.config.get("max_output_tokens", 700)), int(self.config.get("web_search_max_output_tokens", 4000))),
+            "max_tool_calls": int(self.config.get("web_search_max_tool_calls", 1)),
             "tools": [{"type": "web_search", "search_context_size": "low"}],
             "input": [
                 {"role": "system", "content": SYSTEM_PROMPT},
@@ -233,7 +234,7 @@ class OpenAIProvider(BaseProvider):
         data = _post_json(self.responses_endpoint, payload, {"Authorization": f"Bearer {api_key}"})
         answer = extract_openai_response_text(data)
         if not answer:
-            raise ProviderError("OpenAI returned empty content; increase max_output_tokens", retryable=False)
+            raise ProviderError(f"OpenAI returned empty content: {data.get('incomplete_details')}", retryable=False)
         usage = data.get("usage", {})
         return ProviderResult(
             answer=answer,
@@ -241,7 +242,7 @@ class OpenAIProvider(BaseProvider):
             input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("output_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
-            web_search_requests=count_items_by_type(data, "web_search_call") or 1,
+            web_search_requests=openai_web_search_request_count(data),
             raw_response=data,
         )
 
@@ -410,6 +411,12 @@ def count_items_by_type(value: Any, item_type: str, name: str | None = None) -> 
         for item in value:
             count += count_items_by_type(item, item_type, name)
     return count
+
+
+def openai_web_search_request_count(data: dict[str, Any]) -> int:
+    if not count_items_by_type(data, "web_search_call"):
+        return 0
+    return 1
 
 
 def anthropic_web_search_request_count(data: dict[str, Any]) -> int:

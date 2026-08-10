@@ -247,6 +247,8 @@ class GeoBenchmarkTests(unittest.TestCase):
 
         self.assertTrue(captured["endpoint"].endswith("/v1/responses"))
         self.assertEqual(captured["payload"]["tools"], [{"type": "web_search", "search_context_size": "low"}])
+        self.assertEqual(captured["payload"]["max_tool_calls"], 1)
+        self.assertGreaterEqual(captured["payload"]["max_output_tokens"], 4000)
         self.assertEqual(result.web_search_requests, 1)
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
 
