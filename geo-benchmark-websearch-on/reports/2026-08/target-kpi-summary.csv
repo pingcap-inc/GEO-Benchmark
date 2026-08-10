@@ -1,0 +1,13 @@
+target,scope,answer_share,citation_authority,qualified_recommendation_rate,weighted_recommendation_score,negative_recommendation_rate,avg_source_authority,avg_accuracy,avg_freshness,prompt_count,answer_count
+CockroachDB,overall,31.99,14.31,24.17,23.75,0.0,0.2728,0.9167,0.2631,120,240
+CockroachDB,unchanged,32.76,14.21,25.6,24.91,0.0,0.2718,0.9137,0.269,84,168
+Neon,overall,6.9,0.52,5.83,5.74,0.0,0.0118,0.9583,0.0375,120,240
+Neon,unchanged,7.2,0.66,5.36,5.96,0.0,0.0149,0.9762,0.0494,84,168
+PlanetScale,overall,0.98,0.42,0.42,0.56,0.0,0.0067,0.9833,0.014,120,240
+PlanetScale,unchanged,1.4,0.57,0.6,0.79,0.0,0.0083,0.9881,0.014,84,168
+Supabase,overall,9.61,1.91,7.08,7.91,0.0,0.03,0.9667,0.0467,120,240
+Supabase,unchanged,8.97,2.07,5.95,6.96,0.0,0.0337,0.9851,0.0565,84,168
+TiDB,overall,16.41,8.99,13.33,13.46,0.0,0.2858,0.8219,0.2664,120,240
+TiDB,unchanged,17.38,9.46,14.29,14.22,0.0,0.2922,0.8229,0.2705,84,168
+YugabyteDB,overall,11.96,6.75,8.75,7.57,0.0,0.1543,0.9625,0.1473,120,240
+YugabyteDB,unchanged,12.34,6.92,8.33,7.31,0.0,0.155,0.9583,0.1515,84,168

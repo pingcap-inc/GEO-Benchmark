@@ -166,3 +166,4 @@ geo-benchmark/reports/<month>/cost_summary.json
 - [Project Memory](docs/project-memory.md)
 - [2026-08 Anthropic Report](docs/geo-benchmark-2026-08-anthropic.md)
 - [2026-08 OpenAI Report](docs/geo-benchmark-2026-08-openai.md)
+- [2026-08 Web Search On vs Off](docs/geo-benchmark-2026-08-web-search-on-vs-off.md)

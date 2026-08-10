@@ -1,0 +1,126 @@
+{
+  "source_authority_version": "2026-07-30",
+  "rules": [
+    {
+      "contains": "docs.pingcap.com",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "pingcap.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "tidb.net",
+      "weight": 1.0,
+      "label": "official_community"
+    },
+    {
+      "contains": "github.com/pingcap",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "cockroachlabs.com/docs",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "cockroachlabs.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/cockroachdb",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "docs.yugabyte.com",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "yugabyte.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/yugabyte",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "supabase.com/docs",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "supabase.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/supabase",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "planetscale.com/docs",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "planetscale.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "neon.tech/docs",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "neon.tech",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "aws.amazon.com",
+      "weight": 0.9,
+      "label": "cloud_partner"
+    },
+    {
+      "contains": "aws.amazon.com/marketplace",
+      "weight": 1.0,
+      "label": "marketplace"
+    },
+    {
+      "contains": "gartner.com",
+      "weight": 0.8,
+      "label": "analyst"
+    },
+    {
+      "contains": "forrester.com",
+      "weight": 0.8,
+      "label": "analyst"
+    },
+    {
+      "contains": "medium.com",
+      "weight": 0.5,
+      "label": "third_party_blog"
+    },
+    {
+      "contains": "dev.to",
+      "weight": 0.5,
+      "label": "third_party_blog"
+    },
+    {
+      "contains": "stackoverflow.com",
+      "weight": 0.2,
+      "label": "forum"
+    }
+  ],
+  "default_weight": 0.2
+}

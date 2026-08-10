@@ -85,7 +85,7 @@ def score_answer(
     mention_position = target_mention_position(positions, target)
     presence_score = {"first": 1.0, "top3": 0.6, "other": 0.2, "none": 0.0}[mention_position]
 
-    urls = extract_urls(answer)
+    urls = sorted(set(extract_urls(answer) + extract_raw_citation_urls(row.get("raw_citations", []))))
     citation_rows = classify_citations(urls, source_authority)
     target_citations = [item for item in citation_rows if is_product_related_url(target, item["url"])]
     citation_presence = bool(target_citations)
@@ -176,6 +176,25 @@ def target_mention_position(positions: dict[str, list[int]], target: str) -> str
 
 def extract_urls(text: str) -> list[str]:
     return [url.rstrip(".,") for url in URL_RE.findall(text)]
+
+
+def extract_raw_citation_urls(raw_citations: Any) -> list[str]:
+    if isinstance(raw_citations, str):
+        return extract_urls(raw_citations)
+    if isinstance(raw_citations, list):
+        urls: list[str] = []
+        for item in raw_citations:
+            if isinstance(item, str):
+                if item.startswith(("http://", "https://")):
+                    urls.append(item)
+                else:
+                    urls.extend(extract_urls(item))
+            elif isinstance(item, dict):
+                url = item.get("url")
+                if isinstance(url, str):
+                    urls.append(url)
+        return urls
+    return []
 
 
 def classify_citations(urls: list[str], source_authority: dict[str, Any]) -> list[dict[str, Any]]:

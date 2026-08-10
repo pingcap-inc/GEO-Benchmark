@@ -252,7 +252,7 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
         "answer_count",
     ]
     with path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for target in summary.get("target_order", []):
             for scope in ["overall", "unchanged"]:
@@ -295,7 +295,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "output_tokens",
     ]
     with path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow({key: row.get(key) for key in fieldnames})
@@ -312,7 +312,7 @@ def write_breakdown_csv(path: Path, breakdown: dict[str, Any]) -> None:
         "negative_recommendation_rate",
     ]
     with path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for segment, metrics in breakdown.items():
             writer.writerow({"segment": segment, **{key: metrics.get(key) for key in fieldnames if key != "segment"}})

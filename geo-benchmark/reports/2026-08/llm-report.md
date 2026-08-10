@@ -1,6 +1,7 @@
 # GEO Benchmark LLM Report - 2026-08
 
 Providers: anthropic
+Web search mode: off
 Raw answers: 120
 Scored target-answer rows: 720
 

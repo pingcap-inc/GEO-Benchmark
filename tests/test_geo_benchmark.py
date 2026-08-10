@@ -93,6 +93,34 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(scored["recommendation_class"], "best")
         self.assertGreater(scored["citation_authority_answer"], 0.8)
 
+    def test_score_answer_uses_raw_citations_when_answer_has_no_url(self):
+        prompt = {
+            "prompt_id": "p1",
+            "panel": "stable",
+            "prompt_type": "category",
+            "intent_weight": 3,
+            "qualified_recommendation_opportunity": True,
+        }
+        row = {
+            "answer_id": "a1",
+            "run_id": "r1",
+            "month": "2026-08",
+            "prompt_id": "p1",
+            "model_surface": "anthropic",
+            "model_name": "claude-sonnet-5",
+            "raw_answer": "Best choice: TiDB for scale-out distributed SQL.",
+            "raw_citations": ["https://docs.pingcap.com/tidb/stable"],
+        }
+        source_authority = {
+            "rules": [{"contains": "docs.pingcap.com", "weight": 1.0, "label": "official_docs"}],
+            "default_weight": 0.2,
+        }
+
+        scored = score_answer(row, prompt, source_authority, {"targets": {}}, "TiDB")
+
+        self.assertTrue(scored["citation_presence"])
+        self.assertGreater(scored["citation_authority_answer"], 0)
+
     def test_score_answers_supports_multiple_targets(self):
         prompts = [
             {
@@ -278,7 +306,7 @@ class GeoBenchmarkTests(unittest.TestCase):
 
         self.assertEqual(
             captured["payload"]["tools"],
-            [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}],
+            [{"type": "web_search_20250305", "name": "web_search", "max_uses": 1}],
         )
         self.assertEqual(result.web_search_requests, 1)
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)

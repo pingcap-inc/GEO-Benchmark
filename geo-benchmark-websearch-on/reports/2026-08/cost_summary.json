@@ -1,0 +1,28 @@
+{
+  "mode": "actual_or_usage_estimated",
+  "total_estimated_cost_usd": 6.9172,
+  "providers": [
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5",
+      "requests": 120,
+      "input_tokens": 1604791,
+      "output_tokens": 127483,
+      "web_search_requests": 120,
+      "estimated_cost_usd": 5.6844,
+      "pricing_source": "https://claude.com/pricing"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-4o-mini-2024-07-18",
+      "requests": 120,
+      "input_tokens": 50630,
+      "output_tokens": 42032,
+      "web_search_requests": 120,
+      "estimated_cost_usd": 1.2328,
+      "pricing_source": "https://developers.openai.com/api/docs/models/gpt-4o-mini"
+    }
+  ],
+  "pricing_version": "2026-07-30",
+  "web_search_mode": "on"
+}

@@ -296,7 +296,7 @@ class AnthropicProvider(BaseProvider):
                 {
                     "type": "web_search_20250305",
                     "name": "web_search",
-                    "max_uses": 5,
+                    "max_uses": 1,
                 }
             ]
         data = _post_json(
@@ -316,7 +316,7 @@ class AnthropicProvider(BaseProvider):
             input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("output_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
-            web_search_requests=count_items_by_type(data, "server_tool_use", name="web_search"),
+            web_search_requests=anthropic_web_search_request_count(data),
             raw_response=data,
         )
 
@@ -410,6 +410,12 @@ def count_items_by_type(value: Any, item_type: str, name: str | None = None) -> 
         for item in value:
             count += count_items_by_type(item, item_type, name)
     return count
+
+
+def anthropic_web_search_request_count(data: dict[str, Any]) -> int:
+    if not count_items_by_type(data, "server_tool_use", name="web_search"):
+        return 0
+    return 1
 
 
 def _post_json(endpoint: str, payload: dict[str, Any], headers: dict[str, str]) -> dict[str, Any]:
