@@ -12,52 +12,52 @@
       "overall": {
         "prompt_count": 120,
         "answer_count": 240,
-        "answer_share": 31.99,
-        "citation_authority": 14.31,
-        "qualified_recommendation_rate": 24.17,
-        "weighted_recommendation_score": 23.75,
+        "answer_share": 34.54,
+        "citation_authority": 15.51,
+        "qualified_recommendation_rate": 31.67,
+        "weighted_recommendation_score": 29.88,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "first": 59,
-          "none": 141,
-          "top3": 35,
+          "first": 51,
+          "none": 127,
+          "top3": 57,
           "other": 5
         },
         "recommendation_counts": {
-          "listed": 41,
-          "not_mentioned": 141,
-          "best": 43,
-          "strong": 11,
-          "conditional": 4
+          "best": 51,
+          "not_mentioned": 127,
+          "strong": 17,
+          "listed": 37,
+          "conditional": 8
         },
-        "avg_source_authority": 0.2728,
-        "avg_accuracy": 0.9167,
-        "avg_freshness": 0.2631
+        "avg_source_authority": 0.2826,
+        "avg_accuracy": 0.9208,
+        "avg_freshness": 0.2894
       },
       "unchanged": {
         "prompt_count": 84,
         "answer_count": 168,
-        "answer_share": 32.76,
-        "citation_authority": 14.21,
-        "qualified_recommendation_rate": 25.6,
-        "weighted_recommendation_score": 24.91,
+        "answer_share": 36.59,
+        "citation_authority": 15.77,
+        "qualified_recommendation_rate": 35.12,
+        "weighted_recommendation_score": 32.08,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "first": 42,
-          "none": 96,
-          "top3": 26,
-          "other": 4
+          "first": 38,
+          "none": 84,
+          "top3": 43,
+          "other": 3
         },
         "recommendation_counts": {
-          "listed": 29,
-          "not_mentioned": 96,
-          "best": 32,
-          "strong": 8,
-          "conditional": 3
+          "best": 38,
+          "not_mentioned": 84,
+          "strong": 14,
+          "listed": 25,
+          "conditional": 7
         },
-        "avg_source_authority": 0.2718,
-        "avg_accuracy": 0.9137,
-        "avg_freshness": 0.269
+        "avg_source_authority": 0.2917,
+        "avg_accuracy": 0.9107,
+        "avg_freshness": 0.3084
       },
       "by_model": {
         "anthropic": {
@@ -88,49 +88,47 @@
         "openai": {
           "prompt_count": 120,
           "answer_count": 120,
-          "answer_share": 32.48,
-          "citation_authority": 22.96,
-          "qualified_recommendation_rate": 13.33,
-          "weighted_recommendation_score": 16.34,
+          "answer_share": 37.58,
+          "citation_authority": 25.36,
+          "qualified_recommendation_rate": 28.33,
+          "weighted_recommendation_score": 28.59,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 30,
-            "none": 70,
-            "top3": 19,
+            "top3": 41,
+            "first": 22,
+            "none": 56,
             "other": 1
           },
           "recommendation_counts": {
-            "listed": 34,
-            "not_mentioned": 70,
-            "best": 14,
-            "strong": 2
+            "listed": 30,
+            "best": 22,
+            "not_mentioned": 56,
+            "strong": 8,
+            "conditional": 4
           },
-          "avg_source_authority": 0.4017,
-          "avg_accuracy": 0.9111,
-          "avg_freshness": 0.3658
+          "avg_source_authority": 0.4211,
+          "avg_accuracy": 0.9194,
+          "avg_freshness": 0.4185
         }
       },
       "by_use_case": {
         "ads_real_time_calculation": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 50.0,
-          "citation_authority": 24.0,
-          "qualified_recommendation_rate": 25.0,
-          "weighted_recommendation_score": 30.0,
+          "answer_share": 0.0,
+          "citation_authority": 0.0,
+          "qualified_recommendation_rate": 0.0,
+          "weighted_recommendation_score": 0.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 2,
-            "none": 2
+            "none": 4
           },
           "recommendation_counts": {
-            "best": 1,
-            "listed": 1,
-            "not_mentioned": 2
+            "not_mentioned": 4
           },
-          "avg_source_authority": 0.5,
-          "avg_accuracy": 0.8334,
-          "avg_freshness": 0.45
+          "avg_source_authority": 0.0,
+          "avg_accuracy": 1.0,
+          "avg_freshness": 0.0
         },
         "agent_memory": {
           "prompt_count": 2,
@@ -171,28 +169,30 @@
         "ai_application_metadata": {
           "prompt_count": 7,
           "answer_count": 14,
-          "answer_share": 11.76,
-          "citation_authority": 5.65,
+          "answer_share": 22.35,
+          "citation_authority": 13.41,
           "qualified_recommendation_rate": 14.29,
-          "weighted_recommendation_score": 11.76,
+          "weighted_recommendation_score": 15.29,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 12,
+            "none": 10,
+            "top3": 2,
             "first": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 12,
+            "not_mentioned": 10,
+            "listed": 2,
             "best": 2
           },
-          "avg_source_authority": 0.1429,
-          "avg_accuracy": 0.9286,
-          "avg_freshness": 0.1286
+          "avg_source_authority": 0.2143,
+          "avg_accuracy": 0.9762,
+          "avg_freshness": 0.1929
         },
         "bursty_traffic": {
           "prompt_count": 3,
           "answer_count": 6,
           "answer_share": 10.0,
-          "citation_authority": 8.0,
+          "citation_authority": 1.87,
           "qualified_recommendation_rate": 0.0,
           "weighted_recommendation_score": 3.33,
           "negative_recommendation_rate": 0.0,
@@ -204,29 +204,30 @@
             "not_mentioned": 5,
             "listed": 1
           },
-          "avg_source_authority": 0.1667,
-          "avg_accuracy": 0.9445,
-          "avg_freshness": 0.15
+          "avg_source_authority": 0.0333,
+          "avg_accuracy": 1.0,
+          "avg_freshness": 0.1167
         },
         "cloud_relational_infrastructure": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 5.0,
-          "citation_authority": 1.17,
+          "answer_share": 35.0,
+          "citation_authority": 21.97,
           "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 5.0,
+          "weighted_recommendation_score": 15.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 3,
-            "other": 1
+            "other": 1,
+            "none": 1,
+            "top3": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 3,
-            "listed": 1
+            "listed": 3,
+            "not_mentioned": 1
           },
-          "avg_source_authority": 0.05,
-          "avg_accuracy": 0.7084,
-          "avg_freshness": 0.175
+          "avg_source_authority": 0.35,
+          "avg_accuracy": 0.9167,
+          "avg_freshness": 0.575
         },
         "customer_facing_analytics": {
           "prompt_count": 2,
@@ -249,348 +250,349 @@
         "ecommerce_order_inventory": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 90.0,
-          "citation_authority": 47.25,
+          "answer_share": 80.0,
+          "citation_authority": 49.25,
           "qualified_recommendation_rate": 75.0,
           "weighted_recommendation_score": 73.75,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 3,
-            "top3": 1
+            "first": 2,
+            "top3": 2
           },
           "recommendation_counts": {
-            "listed": 1,
+            "best": 2,
             "strong": 1,
-            "best": 2
+            "listed": 1
           },
           "avg_source_authority": 0.75,
           "avg_accuracy": 0.9167,
-          "avg_freshness": 0.675
+          "avg_freshness": 0.7
         },
         "fintech_core_system": {
           "prompt_count": 5,
           "answer_count": 10,
-          "answer_share": 56.92,
-          "citation_authority": 24.23,
-          "qualified_recommendation_rate": 40.0,
-          "weighted_recommendation_score": 43.08,
+          "answer_share": 79.23,
+          "citation_authority": 30.06,
+          "qualified_recommendation_rate": 80.0,
+          "weighted_recommendation_score": 76.35,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 4,
-            "first": 5,
-            "top3": 1
+            "first": 7,
+            "top3": 2,
+            "none": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 4,
-            "listed": 2,
-            "best": 4
+            "best": 7,
+            "listed": 1,
+            "strong": 1,
+            "not_mentioned": 1
           },
-          "avg_source_authority": 0.4,
-          "avg_accuracy": 0.9,
-          "avg_freshness": 0.36
+          "avg_source_authority": 0.5733,
+          "avg_accuracy": 0.8667,
+          "avg_freshness": 0.5567
         },
         "high_write_transactions": {
           "prompt_count": 6,
           "answer_count": 12,
-          "answer_share": 78.0,
-          "citation_authority": 30.79,
-          "qualified_recommendation_rate": 41.67,
-          "weighted_recommendation_score": 50.0,
+          "answer_share": 77.33,
+          "citation_authority": 35.37,
+          "qualified_recommendation_rate": 58.33,
+          "weighted_recommendation_score": 62.67,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 1,
-            "top3": 1,
-            "first": 9,
-            "other": 1
+            "first": 7,
+            "other": 1,
+            "top3": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 1,
-            "listed": 6,
-            "best": 5
+            "best": 7,
+            "listed": 5
           },
-          "avg_source_authority": 0.5778,
-          "avg_accuracy": 0.8611,
-          "avg_freshness": 0.5778
+          "avg_source_authority": 0.5945,
+          "avg_accuracy": 0.8334,
+          "avg_freshness": 0.6528
         },
         "hybrid_transactional_analytical_processing": {
           "prompt_count": 3,
           "answer_count": 6,
-          "answer_share": 30.0,
-          "citation_authority": 8.0,
+          "answer_share": 20.0,
+          "citation_authority": 0.0,
           "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 19.17,
+          "weighted_recommendation_score": 15.83,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 3,
-            "top3": 3
+            "top3": 2,
+            "none": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 3,
-            "listed": 2,
-            "strong": 1
+            "strong": 1,
+            "listed": 1,
+            "not_mentioned": 4
           },
-          "avg_source_authority": 0.1667,
-          "avg_accuracy": 0.75,
-          "avg_freshness": 0.15
+          "avg_source_authority": 0.0,
+          "avg_accuracy": 0.8055,
+          "avg_freshness": 0.0
         },
         "logistics_operational_reporting": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 15.0,
-          "citation_authority": 18.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 5.0,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "top3": 1,
-            "none": 3
-          },
-          "recommendation_counts": {
-            "listed": 1,
-            "not_mentioned": 3
-          },
-          "avg_source_authority": 0.25,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.225
-        },
-        "manual_resharding": {
-          "prompt_count": 10,
-          "answer_count": 20,
-          "answer_share": 80.87,
-          "citation_authority": 36.19,
-          "qualified_recommendation_rate": 60.0,
-          "weighted_recommendation_score": 63.91,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "first": 12,
-            "top3": 6,
-            "none": 1,
-            "other": 1
-          },
-          "recommendation_counts": {
-            "listed": 7,
-            "strong": 2,
-            "best": 10,
-            "not_mentioned": 1
-          },
-          "avg_source_authority": 0.6907,
-          "avg_accuracy": 0.8333,
-          "avg_freshness": 0.6279
-        },
-        "multi_region_transactions": {
-          "prompt_count": 6,
-          "answer_count": 12,
-          "answer_share": 66.67,
-          "citation_authority": 31.26,
-          "qualified_recommendation_rate": 50.0,
-          "weighted_recommendation_score": 48.67,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "top3": 7,
-            "first": 4,
-            "none": 1
-          },
-          "recommendation_counts": {
-            "listed": 5,
-            "best": 3,
-            "strong": 2,
-            "conditional": 1,
-            "not_mentioned": 1
-          },
-          "avg_source_authority": 0.5556,
-          "avg_accuracy": 0.8611,
-          "avg_freshness": 0.5722
-        },
-        "operational_ai_data": {
-          "prompt_count": 8,
-          "answer_count": 16,
-          "answer_share": 18.75,
-          "citation_authority": 10.88,
-          "qualified_recommendation_rate": 6.25,
-          "weighted_recommendation_score": 8.75,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "none": 13,
-            "first": 3
-          },
-          "recommendation_counts": {
-            "not_mentioned": 13,
-            "listed": 2,
-            "best": 1
-          },
-          "avg_source_authority": 0.1875,
-          "avg_accuracy": 0.9792,
-          "avg_freshness": 0.1688
-        },
-        "operational_analytics": {
-          "prompt_count": 5,
-          "answer_count": 10,
-          "answer_share": 7.69,
-          "citation_authority": 3.69,
-          "qualified_recommendation_rate": 10.0,
-          "weighted_recommendation_score": 7.69,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "none": 9,
-            "first": 1
-          },
-          "recommendation_counts": {
-            "not_mentioned": 9,
-            "best": 1
-          },
-          "avg_source_authority": 0.1,
-          "avg_accuracy": 0.9667,
-          "avg_freshness": 0.09
-        },
-        "read_write_scale": {
-          "prompt_count": 3,
-          "answer_count": 6,
-          "answer_share": 76.67,
-          "citation_authority": 32.0,
-          "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 30.0,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "first": 4,
-            "none": 1,
-            "top3": 1
-          },
-          "recommendation_counts": {
-            "listed": 4,
-            "not_mentioned": 1,
-            "best": 1
-          },
-          "avg_source_authority": 0.5,
-          "avg_accuracy": 0.8056,
-          "avg_freshness": 0.45
-        },
-        "real_time_analytics": {
-          "prompt_count": 5,
-          "answer_count": 10,
-          "answer_share": 4.62,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 1.54,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "none": 9,
-            "top3": 1
-          },
-          "recommendation_counts": {
-            "not_mentioned": 9,
-            "listed": 1
-          },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 0.8333,
-          "avg_freshness": 0.0
-        },
-        "relational_scaling": {
-          "prompt_count": 9,
-          "answer_count": 18,
-          "answer_share": 68.57,
-          "citation_authority": 34.16,
-          "qualified_recommendation_rate": 61.11,
-          "weighted_recommendation_score": 59.64,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "first": 9,
-            "none": 3,
-            "top3": 6
-          },
-          "recommendation_counts": {
-            "listed": 4,
-            "not_mentioned": 3,
-            "best": 8,
-            "strong": 3
-          },
-          "avg_source_authority": 0.5648,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.6107
-        },
-        "saas_multi_tenant": {
-          "prompt_count": 10,
-          "answer_count": 20,
-          "answer_share": 35.65,
-          "citation_authority": 7.83,
-          "qualified_recommendation_rate": 40.0,
-          "weighted_recommendation_score": 35.98,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "none": 10,
-            "first": 3,
-            "other": 2,
-            "top3": 5
-          },
-          "recommendation_counts": {
-            "not_mentioned": 10,
-            "best": 3,
-            "listed": 2,
-            "strong": 2,
-            "conditional": 3
-          },
-          "avg_source_authority": 0.135,
-          "avg_accuracy": 0.9167,
-          "avg_freshness": 0.13
-        },
-        "serverless_ai": {
-          "prompt_count": 10,
-          "answer_count": 20,
           "answer_share": 0.0,
           "citation_authority": 0.0,
           "qualified_recommendation_rate": 0.0,
           "weighted_recommendation_score": 0.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 20
+            "none": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 20
+            "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.925,
+          "avg_accuracy": 0.75,
           "avg_freshness": 0.0
+        },
+        "manual_resharding": {
+          "prompt_count": 10,
+          "answer_count": 20,
+          "answer_share": 73.04,
+          "citation_authority": 31.25,
+          "qualified_recommendation_rate": 60.0,
+          "weighted_recommendation_score": 61.96,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "first": 8,
+            "none": 1,
+            "top3": 10,
+            "other": 1
+          },
+          "recommendation_counts": {
+            "best": 8,
+            "not_mentioned": 1,
+            "strong": 2,
+            "listed": 7,
+            "conditional": 2
+          },
+          "avg_source_authority": 0.6407,
+          "avg_accuracy": 0.8167,
+          "avg_freshness": 0.6154
+        },
+        "multi_region_transactions": {
+          "prompt_count": 6,
+          "answer_count": 12,
+          "answer_share": 61.33,
+          "citation_authority": 30.46,
+          "qualified_recommendation_rate": 58.33,
+          "weighted_recommendation_score": 49.0,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "top3": 9,
+            "first": 2,
+            "none": 1
+          },
+          "recommendation_counts": {
+            "strong": 3,
+            "conditional": 2,
+            "best": 2,
+            "not_mentioned": 1,
+            "listed": 4
+          },
+          "avg_source_authority": 0.4722,
+          "avg_accuracy": 0.8889,
+          "avg_freshness": 0.5306
+        },
+        "operational_ai_data": {
+          "prompt_count": 8,
+          "answer_count": 16,
+          "answer_share": 22.5,
+          "citation_authority": 4.5,
+          "qualified_recommendation_rate": 18.75,
+          "weighted_recommendation_score": 20.0,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "none": 12,
+            "first": 3,
+            "top3": 1
+          },
+          "recommendation_counts": {
+            "not_mentioned": 12,
+            "best": 3,
+            "listed": 1
+          },
+          "avg_source_authority": 0.0625,
+          "avg_accuracy": 0.9583,
+          "avg_freshness": 0.0563
+        },
+        "operational_analytics": {
+          "prompt_count": 5,
+          "answer_count": 10,
+          "answer_share": 0.0,
+          "citation_authority": 0.0,
+          "qualified_recommendation_rate": 0.0,
+          "weighted_recommendation_score": 0.0,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "none": 10
+          },
+          "recommendation_counts": {
+            "not_mentioned": 10
+          },
+          "avg_source_authority": 0.0,
+          "avg_accuracy": 1.0,
+          "avg_freshness": 0.0
+        },
+        "read_write_scale": {
+          "prompt_count": 3,
+          "answer_count": 6,
+          "answer_share": 63.33,
+          "citation_authority": 12.0,
+          "qualified_recommendation_rate": 50.0,
+          "weighted_recommendation_score": 52.5,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "none": 1,
+            "top3": 3,
+            "first": 2
+          },
+          "recommendation_counts": {
+            "not_mentioned": 1,
+            "listed": 2,
+            "best": 2,
+            "strong": 1
+          },
+          "avg_source_authority": 0.1667,
+          "avg_accuracy": 0.8056,
+          "avg_freshness": 0.15
+        },
+        "real_time_analytics": {
+          "prompt_count": 5,
+          "answer_count": 10,
+          "answer_share": 0.0,
+          "citation_authority": 0.0,
+          "qualified_recommendation_rate": 0.0,
+          "weighted_recommendation_score": 0.0,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "none": 10
+          },
+          "recommendation_counts": {
+            "not_mentioned": 10
+          },
+          "avg_source_authority": 0.0,
+          "avg_accuracy": 0.8,
+          "avg_freshness": 0.0
+        },
+        "relational_scaling": {
+          "prompt_count": 9,
+          "answer_count": 18,
+          "answer_share": 66.67,
+          "citation_authority": 35.24,
+          "qualified_recommendation_rate": 61.11,
+          "weighted_recommendation_score": 58.45,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "first": 5,
+            "top3": 11,
+            "none": 1,
+            "other": 1
+          },
+          "recommendation_counts": {
+            "best": 5,
+            "strong": 5,
+            "not_mentioned": 1,
+            "listed": 6,
+            "conditional": 1
+          },
+          "avg_source_authority": 0.6204,
+          "avg_accuracy": 0.963,
+          "avg_freshness": 0.6718
+        },
+        "saas_multi_tenant": {
+          "prompt_count": 10,
+          "answer_count": 20,
+          "answer_share": 73.91,
+          "citation_authority": 36.26,
+          "qualified_recommendation_rate": 80.0,
+          "weighted_recommendation_score": 74.24,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "first": 11,
+            "top3": 5,
+            "other": 1,
+            "none": 3
+          },
+          "recommendation_counts": {
+            "best": 11,
+            "strong": 2,
+            "conditional": 3,
+            "not_mentioned": 3,
+            "listed": 1
+          },
+          "avg_source_authority": 0.485,
+          "avg_accuracy": 0.9417,
+          "avg_freshness": 0.475
+        },
+        "serverless_ai": {
+          "prompt_count": 10,
+          "answer_count": 20,
+          "answer_share": 8.0,
+          "citation_authority": 3.9,
+          "qualified_recommendation_rate": 5.0,
+          "weighted_recommendation_score": 6.0,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "none": 18,
+            "top3": 1,
+            "first": 1
+          },
+          "recommendation_counts": {
+            "not_mentioned": 18,
+            "listed": 1,
+            "best": 1
+          },
+          "avg_source_authority": 0.1,
+          "avg_accuracy": 0.9417,
+          "avg_freshness": 0.09
         },
         "stack_simplification": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 25.0,
-          "citation_authority": 29.25,
-          "qualified_recommendation_rate": 25.0,
-          "weighted_recommendation_score": 25.0,
+          "answer_share": 0.0,
+          "citation_authority": 11.25,
+          "qualified_recommendation_rate": 0.0,
+          "weighted_recommendation_score": 0.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 1,
-            "none": 3
+            "none": 4
           },
           "recommendation_counts": {
-            "best": 1,
-            "not_mentioned": 3
+            "not_mentioned": 4
           },
-          "avg_source_authority": 0.5,
+          "avg_source_authority": 0.25,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.45
+          "avg_freshness": 0.225
         },
         "travel_financial_settlement": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 40.0,
-          "citation_authority": 21.75,
-          "qualified_recommendation_rate": 25.0,
-          "weighted_recommendation_score": 30.0,
+          "answer_share": 55.0,
+          "citation_authority": 41.75,
+          "qualified_recommendation_rate": 50.0,
+          "weighted_recommendation_score": 48.75,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "top3": 1,
-            "none": 2,
-            "first": 1
+            "first": 1,
+            "none": 1,
+            "top3": 2
           },
           "recommendation_counts": {
+            "best": 1,
+            "not_mentioned": 1,
             "listed": 1,
-            "not_mentioned": 2,
-            "best": 1
+            "strong": 1
           },
-          "avg_source_authority": 0.5,
+          "avg_source_authority": 0.75,
           "avg_accuracy": 0.8333,
-          "avg_freshness": 0.45
+          "avg_freshness": 0.7
         },
         "vector_search_with_sql_filters": {
           "prompt_count": 2,
@@ -615,19 +617,20 @@
         "ai_infra": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 5.0,
-          "citation_authority": 2.9,
-          "qualified_recommendation_rate": 1.67,
-          "weighted_recommendation_score": 2.33,
+          "answer_share": 8.67,
+          "citation_authority": 2.5,
+          "qualified_recommendation_rate": 6.67,
+          "weighted_recommendation_score": 7.33,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 57,
-            "first": 3
+            "none": 54,
+            "top3": 2,
+            "first": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 57,
+            "not_mentioned": 54,
             "listed": 2,
-            "best": 1
+            "best": 4
           },
           "avg_source_authority": 0.05,
           "avg_accuracy": 0.9694,
@@ -637,75 +640,76 @@
           "prompt_count": 24,
           "answer_count": 48,
           "answer_share": 30.0,
-          "citation_authority": 15.62,
-          "qualified_recommendation_rate": 18.75,
-          "weighted_recommendation_score": 21.98,
+          "citation_authority": 18.13,
+          "qualified_recommendation_rate": 27.08,
+          "weighted_recommendation_score": 27.08,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 30,
             "first": 10,
             "top3": 7,
+            "none": 30,
             "other": 1
           },
           "recommendation_counts": {
+            "best": 10,
+            "listed": 5,
             "not_mentioned": 30,
-            "listed": 9,
-            "best": 8,
-            "strong": 1
+            "strong": 2,
+            "conditional": 1
           },
-          "avg_source_authority": 0.2708,
-          "avg_accuracy": 0.8958,
-          "avg_freshness": 0.2437
+          "avg_source_authority": 0.2861,
+          "avg_accuracy": 0.9132,
+          "avg_freshness": 0.2743
         },
         "database_type": {
           "prompt_count": 30,
           "answer_count": 60,
           "answer_share": 54.67,
-          "citation_authority": 23.53,
-          "qualified_recommendation_rate": 48.33,
-          "weighted_recommendation_score": 47.42,
+          "citation_authority": 28.11,
+          "qualified_recommendation_rate": 51.67,
+          "weighted_recommendation_score": 49.33,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "other": 3,
-            "first": 25,
-            "top3": 12,
-            "none": 20
+            "top3": 22,
+            "first": 19,
+            "none": 16,
+            "other": 3
           },
           "recommendation_counts": {
-            "listed": 11,
-            "best": 21,
-            "strong": 5,
-            "not_mentioned": 20,
-            "conditional": 3
+            "conditional": 4,
+            "best": 19,
+            "not_mentioned": 16,
+            "strong": 8,
+            "listed": 13
           },
-          "avg_source_authority": 0.4156,
-          "avg_accuracy": 0.9195,
-          "avg_freshness": 0.4181
+          "avg_source_authority": 0.4522,
+          "avg_accuracy": 0.9389,
+          "avg_freshness": 0.4756
         },
         "pain_point": {
           "prompt_count": 36,
           "answer_count": 72,
-          "answer_share": 42.78,
-          "citation_authority": 18.11,
-          "qualified_recommendation_rate": 26.39,
-          "weighted_recommendation_score": 29.24,
+          "answer_share": 46.94,
+          "citation_authority": 18.19,
+          "qualified_recommendation_rate": 38.89,
+          "weighted_recommendation_score": 39.1,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 21,
-            "none": 34,
-            "top3": 16,
+            "first": 18,
+            "none": 27,
+            "top3": 26,
             "other": 1
           },
           "recommendation_counts": {
-            "listed": 19,
-            "not_mentioned": 34,
-            "best": 13,
-            "strong": 5,
-            "conditional": 1
+            "best": 18,
+            "not_mentioned": 27,
+            "strong": 7,
+            "listed": 17,
+            "conditional": 3
           },
-          "avg_source_authority": 0.3409,
-          "avg_accuracy": 0.8843,
-          "avg_freshness": 0.3287
+          "avg_source_authority": 0.3326,
+          "avg_accuracy": 0.8704,
+          "avg_freshness": 0.3481
         }
       },
       "competitive": {}
@@ -714,51 +718,51 @@
       "overall": {
         "prompt_count": 120,
         "answer_count": 240,
-        "answer_share": 6.9,
-        "citation_authority": 0.52,
-        "qualified_recommendation_rate": 5.83,
-        "weighted_recommendation_score": 5.74,
+        "answer_share": 12.88,
+        "citation_authority": 1.11,
+        "qualified_recommendation_rate": 10.0,
+        "weighted_recommendation_score": 10.46,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 221,
-          "first": 10,
-          "top3": 8,
+          "none": 205,
+          "first": 17,
+          "top3": 17,
           "other": 1
         },
         "recommendation_counts": {
-          "not_mentioned": 221,
-          "best": 8,
-          "listed": 5,
-          "conditional": 5,
+          "not_mentioned": 205,
+          "best": 15,
+          "listed": 11,
+          "conditional": 8,
           "strong": 1
         },
-        "avg_source_authority": 0.0118,
-        "avg_accuracy": 0.9583,
-        "avg_freshness": 0.0375
+        "avg_source_authority": 0.0234,
+        "avg_accuracy": 0.9458,
+        "avg_freshness": 0.0783
       },
       "unchanged": {
         "prompt_count": 84,
         "answer_count": 168,
-        "answer_share": 7.2,
-        "citation_authority": 0.66,
-        "qualified_recommendation_rate": 5.36,
-        "weighted_recommendation_score": 5.96,
+        "answer_share": 14.21,
+        "citation_authority": 1.32,
+        "qualified_recommendation_rate": 10.12,
+        "weighted_recommendation_score": 11.52,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 155,
-          "first": 9,
-          "top3": 3,
+          "none": 142,
+          "first": 15,
+          "top3": 10,
           "other": 1
         },
         "recommendation_counts": {
-          "not_mentioned": 155,
-          "best": 7,
-          "listed": 4,
-          "conditional": 2
+          "not_mentioned": 142,
+          "best": 13,
+          "listed": 9,
+          "conditional": 4
         },
-        "avg_source_authority": 0.0149,
-        "avg_accuracy": 0.9762,
-        "avg_freshness": 0.0494
+        "avg_source_authority": 0.0279,
+        "avg_accuracy": 0.9583,
+        "avg_freshness": 0.0952
       },
       "by_model": {
         "anthropic": {
@@ -789,20 +793,25 @@
         "openai": {
           "prompt_count": 120,
           "answer_count": 120,
-          "answer_share": 0.0,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
+          "answer_share": 11.96,
+          "citation_authority": 1.17,
+          "qualified_recommendation_rate": 8.33,
+          "weighted_recommendation_score": 9.44,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 120
+            "none": 104,
+            "top3": 9,
+            "first": 7
           },
           "recommendation_counts": {
-            "not_mentioned": 120
+            "not_mentioned": 104,
+            "listed": 6,
+            "conditional": 3,
+            "best": 7
           },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 0.975,
-          "avg_freshness": 0.0
+          "avg_source_authority": 0.0233,
+          "avg_accuracy": 0.95,
+          "avg_freshness": 0.0817
         }
       },
       "by_use_case": {
@@ -845,23 +854,23 @@
         "ai_app_backend": {
           "prompt_count": 12,
           "answer_count": 24,
-          "answer_share": 12.5,
-          "citation_authority": 0.73,
-          "qualified_recommendation_rate": 12.5,
-          "weighted_recommendation_score": 7.92,
+          "answer_share": 30.0,
+          "citation_authority": 2.71,
+          "qualified_recommendation_rate": 25.0,
+          "weighted_recommendation_score": 17.5,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 19,
-            "top3": 5
+            "none": 12,
+            "top3": 12
           },
           "recommendation_counts": {
-            "not_mentioned": 19,
-            "conditional": 3,
-            "listed": 2
+            "not_mentioned": 12,
+            "conditional": 6,
+            "listed": 6
           },
-          "avg_source_authority": 0.0208,
+          "avg_source_authority": 0.0625,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.0292
+          "avg_freshness": 0.175
         },
         "ai_application_metadata": {
           "prompt_count": 7,
@@ -892,14 +901,14 @@
           "weighted_recommendation_score": 20.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 4,
             "first": 1,
-            "top3": 1
+            "top3": 1,
+            "none": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 4,
             "best": 1,
-            "listed": 1
+            "listed": 1,
+            "not_mentioned": 4
           },
           "avg_source_authority": 0.0667,
           "avg_accuracy": 1.0,
@@ -908,22 +917,23 @@
         "cloud_relational_infrastructure": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 50.0,
-          "citation_authority": 4.5,
+          "answer_share": 65.0,
+          "citation_authority": 7.3,
           "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 10.0,
+          "weighted_recommendation_score": 15.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 2,
-            "first": 2
+            "first": 2,
+            "none": 1,
+            "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 2,
-            "listed": 2
+            "listed": 3,
+            "not_mentioned": 1
           },
-          "avg_source_authority": 0.1,
+          "avg_source_authority": 0.15,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.45
+          "avg_freshness": 0.625
         },
         "customer_facing_analytics": {
           "prompt_count": 2,
@@ -994,7 +1004,7 @@
             "not_mentioned": 12
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.5833,
+          "avg_accuracy": 0.5,
           "avg_freshness": 0.0
         },
         "hybrid_transactional_analytical_processing": {
@@ -1030,7 +1040,7 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.75,
           "avg_freshness": 0.0
         },
         "manual_resharding": {
@@ -1050,7 +1060,7 @@
             "strong": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.9,
+          "avg_accuracy": 0.95,
           "avg_freshness": 0.0
         },
         "multi_region_transactions": {
@@ -1068,7 +1078,7 @@
             "not_mentioned": 12
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.9167,
           "avg_freshness": 0.0
         },
         "operational_ai_data": {
@@ -1160,7 +1170,7 @@
             "conditional": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.8889,
           "avg_freshness": 0.0
         },
         "saas_multi_tenant": {
@@ -1184,22 +1194,24 @@
         "serverless_ai": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 35.0,
-          "citation_authority": 2.82,
-          "qualified_recommendation_rate": 35.0,
-          "weighted_recommendation_score": 35.0,
+          "answer_share": 73.0,
+          "citation_authority": 6.04,
+          "qualified_recommendation_rate": 70.0,
+          "weighted_recommendation_score": 71.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 13,
-            "first": 7
+            "first": 14,
+            "none": 5,
+            "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 13,
-            "best": 7
+            "best": 14,
+            "not_mentioned": 5,
+            "listed": 1
           },
-          "avg_source_authority": 0.0762,
-          "avg_accuracy": 0.9,
-          "avg_freshness": 0.2248
+          "avg_source_authority": 0.1562,
+          "avg_accuracy": 0.95,
+          "avg_freshness": 0.5048
         },
         "stack_simplification": {
           "prompt_count": 2,
@@ -1260,25 +1272,25 @@
         "ai_infra": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 16.67,
-          "citation_authority": 1.23,
-          "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 14.83,
+          "answer_share": 36.33,
+          "citation_authority": 3.1,
+          "qualified_recommendation_rate": 33.33,
+          "weighted_recommendation_score": 30.67,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 48,
-            "first": 7,
-            "top3": 5
+            "none": 33,
+            "first": 14,
+            "top3": 13
           },
           "recommendation_counts": {
-            "not_mentioned": 48,
-            "best": 7,
-            "conditional": 3,
-            "listed": 2
+            "not_mentioned": 33,
+            "best": 14,
+            "conditional": 6,
+            "listed": 7
           },
-          "avg_source_authority": 0.0337,
-          "avg_accuracy": 0.9667,
-          "avg_freshness": 0.0866
+          "avg_source_authority": 0.0771,
+          "avg_accuracy": 0.9833,
+          "avg_freshness": 0.2383
         },
         "case_selection": {
           "prompt_count": 24,
@@ -1297,30 +1309,31 @@
             "strong": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.9792,
+          "avg_accuracy": 0.9583,
           "avg_freshness": 0.0
         },
         "database_type": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 3.67,
-          "citation_authority": 0.3,
+          "answer_share": 4.67,
+          "citation_authority": 0.49,
           "qualified_recommendation_rate": 1.67,
-          "weighted_recommendation_score": 1.5,
+          "weighted_recommendation_score": 1.83,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 57,
+            "none": 56,
             "first": 2,
-            "other": 1
+            "other": 1,
+            "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 57,
-            "listed": 2,
+            "not_mentioned": 56,
+            "listed": 3,
             "conditional": 1
           },
-          "avg_source_authority": 0.0067,
-          "avg_accuracy": 0.9833,
-          "avg_freshness": 0.03
+          "avg_source_authority": 0.01,
+          "avg_accuracy": 0.9167,
+          "avg_freshness": 0.0417
         },
         "pain_point": {
           "prompt_count": 36,
@@ -1342,7 +1355,7 @@
             "conditional": 1
           },
           "avg_source_authority": 0.0056,
-          "avg_accuracy": 0.9167,
+          "avg_accuracy": 0.9306,
           "avg_freshness": 0.0278
         }
       },
@@ -1352,46 +1365,50 @@
       "overall": {
         "prompt_count": 120,
         "answer_count": 240,
-        "answer_share": 0.98,
-        "citation_authority": 0.42,
-        "qualified_recommendation_rate": 0.42,
-        "weighted_recommendation_score": 0.56,
+        "answer_share": 3.59,
+        "citation_authority": 1.79,
+        "qualified_recommendation_rate": 2.92,
+        "weighted_recommendation_score": 2.65,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 234,
-          "other": 3,
-          "top3": 3
+          "none": 225,
+          "top3": 8,
+          "other": 4,
+          "first": 3
         },
         "recommendation_counts": {
-          "not_mentioned": 234,
-          "listed": 5,
-          "conditional": 1
+          "not_mentioned": 225,
+          "listed": 8,
+          "conditional": 4,
+          "best": 3
         },
-        "avg_source_authority": 0.0067,
-        "avg_accuracy": 0.9833,
-        "avg_freshness": 0.014
+        "avg_source_authority": 0.0317,
+        "avg_accuracy": 0.9479,
+        "avg_freshness": 0.0365
       },
       "unchanged": {
         "prompt_count": 84,
         "answer_count": 168,
-        "answer_share": 1.4,
-        "citation_authority": 0.57,
-        "qualified_recommendation_rate": 0.6,
-        "weighted_recommendation_score": 0.79,
+        "answer_share": 3.97,
+        "citation_authority": 1.88,
+        "qualified_recommendation_rate": 2.98,
+        "weighted_recommendation_score": 2.94,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 162,
-          "other": 3,
-          "top3": 3
+          "none": 156,
+          "top3": 6,
+          "other": 4,
+          "first": 2
         },
         "recommendation_counts": {
-          "not_mentioned": 162,
-          "listed": 5,
-          "conditional": 1
+          "not_mentioned": 156,
+          "listed": 7,
+          "conditional": 3,
+          "best": 2
         },
-        "avg_source_authority": 0.0083,
-        "avg_accuracy": 0.9881,
-        "avg_freshness": 0.014
+        "avg_source_authority": 0.0321,
+        "avg_accuracy": 0.9524,
+        "avg_freshness": 0.0354
       },
       "by_model": {
         "anthropic": {
@@ -1419,23 +1436,26 @@
         "openai": {
           "prompt_count": 120,
           "answer_count": 120,
-          "answer_share": 0.72,
-          "citation_authority": 0.71,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.33,
+          "answer_share": 5.95,
+          "citation_authority": 3.44,
+          "qualified_recommendation_rate": 5.0,
+          "weighted_recommendation_score": 4.51,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 118,
-            "other": 1,
-            "top3": 1
+            "first": 3,
+            "none": 109,
+            "other": 2,
+            "top3": 6
           },
           "recommendation_counts": {
-            "not_mentioned": 118,
-            "listed": 2
+            "best": 3,
+            "not_mentioned": 109,
+            "listed": 5,
+            "conditional": 3
           },
-          "avg_source_authority": 0.0083,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.0075
+          "avg_source_authority": 0.0583,
+          "avg_accuracy": 0.9292,
+          "avg_freshness": 0.0525
         }
       },
       "by_use_case": {
@@ -1532,22 +1552,22 @@
         "cloud_relational_infrastructure": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 10.0,
-          "citation_authority": 3.63,
+          "answer_share": 15.0,
+          "citation_authority": 12.62,
           "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 10.0,
+          "weighted_recommendation_score": 15.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 2,
-            "other": 2
+            "other": 3,
+            "none": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 2,
-            "listed": 2
+            "listed": 3,
+            "not_mentioned": 1
           },
-          "avg_source_authority": 0.1,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.3625
+          "avg_source_authority": 0.35,
+          "avg_accuracy": 0.75,
+          "avg_freshness": 0.5875
         },
         "customer_facing_analytics": {
           "prompt_count": 2,
@@ -1582,7 +1602,7 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.875,
           "avg_freshness": 0.0
         },
         "fintech_core_system": {
@@ -1606,19 +1626,21 @@
         "high_write_transactions": {
           "prompt_count": 6,
           "answer_count": 12,
-          "answer_share": 0.0,
+          "answer_share": 2.0,
           "citation_authority": 0.0,
           "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
+          "weighted_recommendation_score": 2.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 12
+            "none": 11,
+            "other": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 12
+            "not_mentioned": 11,
+            "listed": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.875,
+          "avg_accuracy": 0.75,
           "avg_freshness": 0.0
         },
         "hybrid_transactional_analytical_processing": {
@@ -1660,20 +1682,22 @@
         "manual_resharding": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 0.0,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
+          "answer_share": 8.7,
+          "citation_authority": 3.13,
+          "qualified_recommendation_rate": 10.0,
+          "weighted_recommendation_score": 8.7,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 20
+            "none": 18,
+            "first": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 20
+            "not_mentioned": 18,
+            "best": 2
           },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 0.925,
-          "avg_freshness": 0.0
+          "avg_source_authority": 0.05,
+          "avg_accuracy": 0.825,
+          "avg_freshness": 0.045
         },
         "multi_region_transactions": {
           "prompt_count": 6,
@@ -1690,7 +1714,7 @@
             "not_mentioned": 12
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.9167,
           "avg_freshness": 0.0
         },
         "operational_ai_data": {
@@ -1768,62 +1792,64 @@
         "relational_scaling": {
           "prompt_count": 9,
           "answer_count": 18,
-          "answer_share": 0.0,
+          "answer_share": 7.14,
           "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
+          "qualified_recommendation_rate": 5.56,
+          "weighted_recommendation_score": 7.14,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 18
+            "none": 17,
+            "first": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 18
+            "not_mentioned": 17,
+            "best": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.8889,
           "avg_freshness": 0.0
         },
         "saas_multi_tenant": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 7.39,
+          "answer_share": 9.13,
           "citation_authority": 0.0,
-          "qualified_recommendation_rate": 5.0,
-          "weighted_recommendation_score": 4.35,
+          "qualified_recommendation_rate": 10.0,
+          "weighted_recommendation_score": 5.65,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 17,
-            "other": 1,
-            "top3": 2
+            "top3": 3,
+            "none": 17
           },
           "recommendation_counts": {
+            "listed": 1,
             "not_mentioned": 17,
-            "listed": 2,
-            "conditional": 1
+            "conditional": 2
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.975,
+          "avg_accuracy": 0.95,
           "avg_freshness": 0.0
         },
         "serverless_ai": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 3.0,
-          "citation_authority": 3.6,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 1.0,
+          "answer_share": 15.0,
+          "citation_authority": 13.95,
+          "qualified_recommendation_rate": 10.0,
+          "weighted_recommendation_score": 8.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 19,
-            "top3": 1
+            "none": 15,
+            "top3": 5
           },
           "recommendation_counts": {
-            "not_mentioned": 19,
-            "listed": 1
+            "not_mentioned": 15,
+            "listed": 3,
+            "conditional": 2
           },
-          "avg_source_authority": 0.05,
+          "avg_source_authority": 0.25,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.045
+          "avg_freshness": 0.225
         },
         "stack_simplification": {
           "prompt_count": 2,
@@ -1884,22 +1910,23 @@
         "ai_infra": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 1.0,
-          "citation_authority": 1.2,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.33,
+          "answer_share": 5.0,
+          "citation_authority": 4.65,
+          "qualified_recommendation_rate": 3.33,
+          "weighted_recommendation_score": 2.67,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 59,
-            "top3": 1
+            "none": 55,
+            "top3": 5
           },
           "recommendation_counts": {
-            "not_mentioned": 59,
-            "listed": 1
+            "not_mentioned": 55,
+            "listed": 3,
+            "conditional": 2
           },
-          "avg_source_authority": 0.0167,
+          "avg_source_authority": 0.0833,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.015
+          "avg_freshness": 0.075
         },
         "case_selection": {
           "prompt_count": 24,
@@ -1916,49 +1943,54 @@
             "not_mentioned": 48
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.9896,
+          "avg_accuracy": 0.9583,
           "avg_freshness": 0.0
         },
         "database_type": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 2.0,
-          "citation_authority": 0.24,
-          "qualified_recommendation_rate": 1.67,
-          "weighted_recommendation_score": 1.83,
+          "answer_share": 6.33,
+          "citation_authority": 2.04,
+          "qualified_recommendation_rate": 6.67,
+          "weighted_recommendation_score": 6.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
+            "top3": 2,
+            "none": 53,
             "other": 3,
-            "none": 56,
-            "top3": 1
+            "first": 2
           },
           "recommendation_counts": {
+            "conditional": 2,
+            "not_mentioned": 53,
             "listed": 3,
-            "not_mentioned": 56,
-            "conditional": 1
+            "best": 2
           },
-          "avg_source_authority": 0.0067,
-          "avg_accuracy": 0.9833,
-          "avg_freshness": 0.0242
+          "avg_source_authority": 0.04,
+          "avg_accuracy": 0.9417,
+          "avg_freshness": 0.0542
         },
         "pain_point": {
           "prompt_count": 36,
           "answer_count": 72,
-          "answer_share": 0.83,
+          "answer_share": 2.5,
           "citation_authority": 0.07,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.28,
+          "qualified_recommendation_rate": 1.39,
+          "weighted_recommendation_score": 1.94,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 71,
-            "top3": 1
+            "none": 69,
+            "top3": 1,
+            "first": 1,
+            "other": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 71,
-            "listed": 1
+            "not_mentioned": 69,
+            "listed": 2,
+            "best": 1
           },
           "avg_source_authority": 0.0028,
-          "avg_accuracy": 0.9653,
+          "avg_accuracy": 0.9028,
           "avg_freshness": 0.0139
         }
       },
@@ -1968,50 +2000,50 @@
       "overall": {
         "prompt_count": 120,
         "answer_count": 240,
-        "answer_share": 9.61,
-        "citation_authority": 1.91,
-        "qualified_recommendation_rate": 7.08,
-        "weighted_recommendation_score": 7.91,
+        "answer_share": 13.53,
+        "citation_authority": 4.27,
+        "qualified_recommendation_rate": 11.25,
+        "weighted_recommendation_score": 12.61,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 217,
-          "first": 16,
+          "none": 209,
+          "first": 24,
           "top3": 7
         },
         "recommendation_counts": {
-          "not_mentioned": 217,
-          "best": 12,
-          "listed": 6,
+          "not_mentioned": 209,
+          "best": 22,
+          "listed": 4,
           "strong": 4,
           "conditional": 1
         },
-        "avg_source_authority": 0.03,
-        "avg_accuracy": 0.9667,
-        "avg_freshness": 0.0467
+        "avg_source_authority": 0.07,
+        "avg_accuracy": 0.9458,
+        "avg_freshness": 0.0783
       },
       "unchanged": {
         "prompt_count": 84,
         "answer_count": 168,
-        "answer_share": 8.97,
-        "citation_authority": 2.07,
-        "qualified_recommendation_rate": 5.95,
-        "weighted_recommendation_score": 6.96,
+        "answer_share": 13.18,
+        "citation_authority": 4.82,
+        "qualified_recommendation_rate": 10.12,
+        "weighted_recommendation_score": 11.73,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 153,
-          "first": 10,
-          "top3": 5
+          "none": 147,
+          "top3": 5,
+          "first": 16
         },
         "recommendation_counts": {
-          "not_mentioned": 153,
-          "best": 7,
-          "listed": 5,
+          "not_mentioned": 147,
+          "listed": 4,
+          "best": 14,
           "strong": 2,
           "conditional": 1
         },
-        "avg_source_authority": 0.0337,
-        "avg_accuracy": 0.9851,
-        "avg_freshness": 0.0565
+        "avg_source_authority": 0.079,
+        "avg_accuracy": 0.9554,
+        "avg_freshness": 0.091
       },
       "by_model": {
         "anthropic": {
@@ -2041,24 +2073,24 @@
         "openai": {
           "prompt_count": 120,
           "answer_count": 120,
-          "answer_share": 4.51,
-          "citation_authority": 2.34,
-          "qualified_recommendation_rate": 1.67,
-          "weighted_recommendation_score": 2.55,
+          "answer_share": 12.35,
+          "citation_authority": 7.06,
+          "qualified_recommendation_rate": 10.0,
+          "weighted_recommendation_score": 11.96,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 115,
-            "first": 4,
+            "none": 107,
+            "first": 12,
             "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 115,
-            "best": 2,
-            "listed": 3
+            "not_mentioned": 107,
+            "best": 12,
+            "listed": 1
           },
-          "avg_source_authority": 0.0283,
-          "avg_accuracy": 0.9917,
-          "avg_freshness": 0.0342
+          "avg_source_authority": 0.1083,
+          "avg_accuracy": 0.95,
+          "avg_freshness": 0.0975
         }
       },
       "by_use_case": {
@@ -2101,24 +2133,23 @@
         "ai_app_backend": {
           "prompt_count": 12,
           "answer_count": 24,
-          "answer_share": 60.83,
-          "citation_authority": 15.74,
-          "qualified_recommendation_rate": 41.67,
-          "weighted_recommendation_score": 45.83,
+          "answer_share": 87.5,
+          "citation_authority": 30.93,
+          "qualified_recommendation_rate": 79.17,
+          "weighted_recommendation_score": 80.83,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 14,
-            "none": 9,
-            "top3": 1
+            "first": 21,
+            "none": 3
           },
           "recommendation_counts": {
-            "best": 10,
-            "not_mentioned": 9,
-            "listed": 5
+            "best": 19,
+            "listed": 2,
+            "not_mentioned": 3
           },
-          "avg_source_authority": 0.2834,
+          "avg_source_authority": 0.6001,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.4084
+          "avg_freshness": 0.6501
         },
         "ai_application_metadata": {
           "prompt_count": 7,
@@ -2167,12 +2198,12 @@
           "weighted_recommendation_score": 5.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 3,
-            "top3": 1
+            "top3": 1,
+            "none": 3
           },
           "recommendation_counts": {
-            "not_mentioned": 3,
-            "listed": 1
+            "listed": 1,
+            "not_mentioned": 3
           },
           "avg_source_authority": 0.05,
           "avg_accuracy": 0.875,
@@ -2247,7 +2278,7 @@
             "not_mentioned": 12
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.5833,
+          "avg_accuracy": 0.5,
           "avg_freshness": 0.0
         },
         "hybrid_transactional_analytical_processing": {
@@ -2283,7 +2314,7 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.75,
           "avg_freshness": 0.0
         },
         "manual_resharding": {
@@ -2321,7 +2352,7 @@
             "not_mentioned": 12
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.9167,
           "avg_freshness": 0.0
         },
         "operational_ai_data": {
@@ -2413,7 +2444,7 @@
             "not_mentioned": 18
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.8889,
           "avg_freshness": 0.0
         },
         "saas_multi_tenant": {
@@ -2437,23 +2468,26 @@
         "serverless_ai": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 9.0,
-          "citation_authority": 0.35,
-          "qualified_recommendation_rate": 15.0,
-          "weighted_recommendation_score": 10.0,
+          "answer_share": 17.0,
+          "citation_authority": 6.2,
+          "qualified_recommendation_rate": 20.0,
+          "weighted_recommendation_score": 16.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 17,
-            "top3": 3
+            "none": 15,
+            "top3": 4,
+            "first": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 17,
+            "not_mentioned": 15,
             "strong": 2,
-            "conditional": 1
+            "conditional": 1,
+            "best": 1,
+            "listed": 1
           },
-          "avg_source_authority": 0.01,
+          "avg_source_authority": 0.11,
           "avg_accuracy": 0.975,
-          "avg_freshness": 0.035
+          "avg_freshness": 0.125
         },
         "stack_simplification": {
           "prompt_count": 2,
@@ -2516,26 +2550,26 @@
         "ai_infra": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 29.0,
-          "citation_authority": 6.41,
-          "qualified_recommendation_rate": 23.33,
-          "weighted_recommendation_score": 23.33,
+          "answer_share": 42.33,
+          "citation_authority": 14.44,
+          "qualified_recommendation_rate": 40.0,
+          "weighted_recommendation_score": 39.33,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "first": 15,
-            "none": 41,
+            "first": 23,
+            "none": 33,
             "top3": 4
           },
           "recommendation_counts": {
-            "best": 11,
-            "not_mentioned": 41,
-            "listed": 5,
+            "best": 21,
+            "listed": 3,
+            "not_mentioned": 33,
             "strong": 2,
             "conditional": 1
           },
-          "avg_source_authority": 0.1167,
+          "avg_source_authority": 0.2767,
           "avg_accuracy": 0.9917,
-          "avg_freshness": 0.175
+          "avg_freshness": 0.3017
         },
         "case_selection": {
           "prompt_count": 24,
@@ -2554,7 +2588,7 @@
             "strong": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.9792,
+          "avg_accuracy": 0.9583,
           "avg_freshness": 0.0
         },
         "database_type": {
@@ -2575,7 +2609,7 @@
             "strong": 1
           },
           "avg_source_authority": 0.0033,
-          "avg_accuracy": 0.975,
+          "avg_accuracy": 0.9083,
           "avg_freshness": 0.0117
         },
         "pain_point": {
@@ -2605,52 +2639,52 @@
       "overall": {
         "prompt_count": 120,
         "answer_count": 240,
-        "answer_share": 16.41,
-        "citation_authority": 8.99,
-        "qualified_recommendation_rate": 13.33,
-        "weighted_recommendation_score": 13.46,
+        "answer_share": 23.63,
+        "citation_authority": 12.28,
+        "qualified_recommendation_rate": 20.42,
+        "weighted_recommendation_score": 20.23,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 187,
-          "other": 8,
-          "first": 26,
-          "top3": 19
+          "top3": 23,
+          "none": 163,
+          "first": 41,
+          "other": 13
         },
         "recommendation_counts": {
-          "not_mentioned": 187,
-          "listed": 21,
-          "best": 21,
           "strong": 5,
-          "conditional": 6
+          "not_mentioned": 163,
+          "best": 36,
+          "listed": 28,
+          "conditional": 8
         },
-        "avg_source_authority": 0.2858,
-        "avg_accuracy": 0.8219,
-        "avg_freshness": 0.2664
+        "avg_source_authority": 0.3816,
+        "avg_accuracy": 0.7497,
+        "avg_freshness": 0.3558
       },
       "unchanged": {
         "prompt_count": 84,
         "answer_count": 168,
-        "answer_share": 17.38,
-        "citation_authority": 9.46,
-        "qualified_recommendation_rate": 14.29,
-        "weighted_recommendation_score": 14.22,
+        "answer_share": 26.07,
+        "citation_authority": 13.08,
+        "qualified_recommendation_rate": 23.21,
+        "weighted_recommendation_score": 22.44,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "none": 129,
-          "other": 5,
-          "top3": 14,
-          "first": 20
+          "top3": 17,
+          "none": 110,
+          "first": 33,
+          "other": 8
         },
         "recommendation_counts": {
-          "not_mentioned": 129,
-          "listed": 15,
           "strong": 4,
-          "best": 16,
-          "conditional": 4
+          "not_mentioned": 110,
+          "best": 29,
+          "listed": 19,
+          "conditional": 6
         },
-        "avg_source_authority": 0.2922,
-        "avg_accuracy": 0.8229,
-        "avg_freshness": 0.2705
+        "avg_source_authority": 0.3994,
+        "avg_accuracy": 0.7436,
+        "avg_freshness": 0.3702
       },
       "by_model": {
         "anthropic": {
@@ -2681,24 +2715,26 @@
         "openai": {
           "prompt_count": 120,
           "answer_count": 120,
-          "answer_share": 1.18,
-          "citation_authority": 0.71,
-          "qualified_recommendation_rate": 0.83,
-          "weighted_recommendation_score": 1.18,
+          "answer_share": 15.62,
+          "citation_authority": 7.28,
+          "qualified_recommendation_rate": 15.0,
+          "weighted_recommendation_score": 14.71,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 118,
-            "other": 1,
-            "first": 1
+            "none": 94,
+            "other": 6,
+            "first": 16,
+            "top3": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 118,
-            "listed": 1,
-            "best": 1
+            "not_mentioned": 94,
+            "listed": 8,
+            "best": 16,
+            "conditional": 2
           },
-          "avg_source_authority": 0.0167,
-          "avg_accuracy": 0.8882,
-          "avg_freshness": 0.015
+          "avg_source_authority": 0.2083,
+          "avg_accuracy": 0.7438,
+          "avg_freshness": 0.1938
         }
       },
       "by_use_case": {
@@ -2717,28 +2753,28 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.5,
-          "avg_accuracy": 0.875,
+          "avg_accuracy": 0.75,
           "avg_freshness": 0.45
         },
         "agent_memory": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 50.0,
-          "citation_authority": 11.25,
-          "qualified_recommendation_rate": 50.0,
-          "weighted_recommendation_score": 50.0,
+          "answer_share": 75.0,
+          "citation_authority": 28.12,
+          "qualified_recommendation_rate": 75.0,
+          "weighted_recommendation_score": 75.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 2,
-            "first": 2
+            "first": 3,
+            "none": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 2,
-            "best": 2
+            "best": 3,
+            "not_mentioned": 1
           },
-          "avg_source_authority": 0.5,
-          "avg_accuracy": 0.75,
-          "avg_freshness": 0.45
+          "avg_source_authority": 0.75,
+          "avg_accuracy": 0.6875,
+          "avg_freshness": 0.675
         },
         "ai_app_backend": {
           "prompt_count": 12,
@@ -2755,28 +2791,28 @@
             "not_mentioned": 24
           },
           "avg_source_authority": 0.0083,
-          "avg_accuracy": 0.9583,
+          "avg_accuracy": 1.0,
           "avg_freshness": 0.0292
         },
         "ai_application_metadata": {
           "prompt_count": 7,
           "answer_count": 14,
-          "answer_share": 5.88,
-          "citation_authority": 1.91,
-          "qualified_recommendation_rate": 7.14,
-          "weighted_recommendation_score": 5.88,
+          "answer_share": 11.76,
+          "citation_authority": 6.15,
+          "qualified_recommendation_rate": 14.29,
+          "weighted_recommendation_score": 11.76,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 13,
-            "first": 1
+            "none": 12,
+            "first": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 13,
-            "best": 1
+            "not_mentioned": 12,
+            "best": 2
           },
-          "avg_source_authority": 0.1,
-          "avg_accuracy": 0.7679,
-          "avg_freshness": 0.1179
+          "avg_source_authority": 0.1714,
+          "avg_accuracy": 0.9464,
+          "avg_freshness": 0.1821
         },
         "bursty_traffic": {
           "prompt_count": 3,
@@ -2813,7 +2849,7 @@
             "listed": 1
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.4375,
+          "avg_accuracy": 0.5625,
           "avg_freshness": 0.0
         },
         "customer_facing_analytics": {
@@ -2831,7 +2867,7 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.5,
-          "avg_accuracy": 0.75,
+          "avg_accuracy": 0.5,
           "avg_freshness": 0.45
         },
         "ecommerce_order_inventory": {
@@ -2849,269 +2885,273 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.6667,
+          "avg_accuracy": 0.5417,
           "avg_freshness": 0.0
         },
         "fintech_core_system": {
           "prompt_count": 5,
           "answer_count": 10,
-          "answer_share": 23.08,
+          "answer_share": 34.62,
           "citation_authority": 15.36,
-          "qualified_recommendation_rate": 20.0,
-          "weighted_recommendation_score": 21.73,
+          "qualified_recommendation_rate": 30.0,
+          "weighted_recommendation_score": 33.27,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 7,
             "top3": 2,
-            "first": 1
+            "none": 6,
+            "first": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 7,
             "strong": 1,
-            "best": 1,
+            "not_mentioned": 6,
+            "best": 2,
             "listed": 1
           },
-          "avg_source_authority": 0.5,
-          "avg_accuracy": 0.825,
-          "avg_freshness": 0.455
+          "avg_source_authority": 0.6,
+          "avg_accuracy": 0.6083,
+          "avg_freshness": 0.545
         },
         "high_write_transactions": {
           "prompt_count": 6,
           "answer_count": 12,
-          "answer_share": 30.0,
-          "citation_authority": 15.6,
-          "qualified_recommendation_rate": 33.33,
-          "weighted_recommendation_score": 24.17,
+          "answer_share": 38.67,
+          "citation_authority": 22.8,
+          "qualified_recommendation_rate": 41.67,
+          "weighted_recommendation_score": 30.83,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 6,
-            "top3": 6
+            "top3": 7,
+            "none": 3,
+            "other": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 6,
-            "listed": 2,
+            "listed": 4,
             "strong": 2,
-            "conditional": 2
+            "conditional": 3,
+            "not_mentioned": 3
           },
-          "avg_source_authority": 0.5,
-          "avg_accuracy": 0.7917,
-          "avg_freshness": 0.45
+          "avg_source_authority": 0.75,
+          "avg_accuracy": 0.6458,
+          "avg_freshness": 0.675
         },
         "hybrid_transactional_analytical_processing": {
           "prompt_count": 3,
           "answer_count": 6,
-          "answer_share": 66.67,
-          "citation_authority": 17.75,
-          "qualified_recommendation_rate": 66.67,
-          "weighted_recommendation_score": 66.67,
+          "answer_share": 93.33,
+          "citation_authority": 28.42,
+          "qualified_recommendation_rate": 83.33,
+          "weighted_recommendation_score": 86.67,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 2,
-            "first": 4
+            "first": 5,
+            "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 2,
-            "best": 4
+            "best": 5,
+            "listed": 1
           },
-          "avg_source_authority": 0.6333,
-          "avg_accuracy": 0.7083,
-          "avg_freshness": 0.5917
+          "avg_source_authority": 0.9667,
+          "avg_accuracy": 0.5,
+          "avg_freshness": 0.9417
         },
         "logistics_operational_reporting": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 0.0,
-          "citation_authority": 11.25,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
+          "answer_share": 50.0,
+          "citation_authority": 35.25,
+          "qualified_recommendation_rate": 50.0,
+          "weighted_recommendation_score": 50.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 4
+            "none": 2,
+            "first": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 4
+            "not_mentioned": 2,
+            "best": 2
           },
-          "avg_source_authority": 0.25,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.225
+          "avg_source_authority": 0.75,
+          "avg_accuracy": 0.8125,
+          "avg_freshness": 0.7
         },
         "manual_resharding": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 14.78,
+          "answer_share": 15.65,
           "citation_authority": 11.01,
           "qualified_recommendation_rate": 5.0,
-          "weighted_recommendation_score": 8.26,
+          "weighted_recommendation_score": 9.13,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 13,
             "top3": 4,
-            "other": 3
+            "other": 4,
+            "none": 12
           },
           "recommendation_counts": {
-            "not_mentioned": 13,
-            "listed": 6,
+            "listed": 7,
+            "not_mentioned": 12,
             "conditional": 1
           },
           "avg_source_authority": 0.45,
-          "avg_accuracy": 0.7875,
+          "avg_accuracy": 0.7208,
           "avg_freshness": 0.405
         },
         "multi_region_transactions": {
           "prompt_count": 6,
           "answer_count": 12,
-          "answer_share": 21.33,
-          "citation_authority": 9.6,
+          "answer_share": 25.33,
+          "citation_authority": 13.2,
           "qualified_recommendation_rate": 25.0,
-          "weighted_recommendation_score": 23.33,
+          "weighted_recommendation_score": 27.33,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 9,
             "first": 2,
-            "other": 1
+            "none": 7,
+            "other": 3
           },
           "recommendation_counts": {
-            "not_mentioned": 9,
             "best": 2,
-            "conditional": 1
+            "not_mentioned": 7,
+            "conditional": 1,
+            "listed": 2
           },
-          "avg_source_authority": 0.2833,
-          "avg_accuracy": 0.9375,
-          "avg_freshness": 0.2875
+          "avg_source_authority": 0.45,
+          "avg_accuracy": 0.7708,
+          "avg_freshness": 0.4375
         },
         "operational_ai_data": {
           "prompt_count": 8,
           "answer_count": 16,
-          "answer_share": 22.5,
-          "citation_authority": 14.54,
-          "qualified_recommendation_rate": 18.75,
-          "weighted_recommendation_score": 20.0,
+          "answer_share": 28.75,
+          "citation_authority": 17.91,
+          "qualified_recommendation_rate": 25.0,
+          "weighted_recommendation_score": 26.25,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 12,
-            "first": 3,
+            "none": 11,
+            "first": 4,
             "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 12,
-            "best": 3,
+            "not_mentioned": 11,
+            "best": 4,
             "listed": 1
           },
-          "avg_source_authority": 0.4208,
-          "avg_accuracy": 0.8125,
-          "avg_freshness": 0.3896
+          "avg_source_authority": 0.4833,
+          "avg_accuracy": 0.8229,
+          "avg_freshness": 0.4458
         },
         "operational_analytics": {
           "prompt_count": 5,
           "answer_count": 10,
-          "answer_share": 26.92,
-          "citation_authority": 4.33,
-          "qualified_recommendation_rate": 30.0,
-          "weighted_recommendation_score": 26.92,
+          "answer_share": 42.31,
+          "citation_authority": 8.17,
+          "qualified_recommendation_rate": 50.0,
+          "weighted_recommendation_score": 42.31,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 7,
-            "first": 3
+            "none": 5,
+            "first": 5
           },
           "recommendation_counts": {
-            "not_mentioned": 7,
-            "best": 3
+            "not_mentioned": 5,
+            "best": 5
           },
-          "avg_source_authority": 0.2,
-          "avg_accuracy": 0.6,
-          "avg_freshness": 0.18
+          "avg_source_authority": 0.4,
+          "avg_accuracy": 0.45,
+          "avg_freshness": 0.38
         },
         "read_write_scale": {
           "prompt_count": 3,
           "answer_count": 6,
-          "answer_share": 46.67,
-          "citation_authority": 20.47,
-          "qualified_recommendation_rate": 33.33,
-          "weighted_recommendation_score": 35.83,
+          "answer_share": 76.67,
+          "citation_authority": 29.47,
+          "qualified_recommendation_rate": 66.67,
+          "weighted_recommendation_score": 65.83,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 2,
-            "other": 1,
-            "first": 2,
-            "top3": 1
+            "first": 4,
+            "top3": 1,
+            "none": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 2,
-            "listed": 2,
-            "best": 1,
-            "strong": 1
+            "listed": 1,
+            "best": 3,
+            "strong": 1,
+            "not_mentioned": 1
           },
-          "avg_source_authority": 0.6222,
-          "avg_accuracy": 0.7917,
-          "avg_freshness": 0.5889
+          "avg_source_authority": 0.7889,
+          "avg_accuracy": 0.6667,
+          "avg_freshness": 0.7389
         },
         "real_time_analytics": {
           "prompt_count": 5,
           "answer_count": 10,
-          "answer_share": 23.08,
-          "citation_authority": 16.01,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 4.62,
+          "answer_share": 34.62,
+          "citation_authority": 17.31,
+          "qualified_recommendation_rate": 10.0,
+          "weighted_recommendation_score": 16.15,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 8,
-            "first": 2
+            "first": 3,
+            "none": 7
           },
           "recommendation_counts": {
-            "not_mentioned": 8,
-            "listed": 2
+            "listed": 2,
+            "not_mentioned": 7,
+            "best": 1
           },
-          "avg_source_authority": 0.5,
-          "avg_accuracy": 0.875,
-          "avg_freshness": 0.45
+          "avg_source_authority": 0.6,
+          "avg_accuracy": 0.6,
+          "avg_freshness": 0.54
         },
         "relational_scaling": {
           "prompt_count": 9,
           "answer_count": 18,
-          "answer_share": 20.0,
-          "citation_authority": 9.91,
-          "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 16.79,
+          "answer_share": 30.48,
+          "citation_authority": 16.77,
+          "qualified_recommendation_rate": 27.78,
+          "weighted_recommendation_score": 27.26,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 11,
             "top3": 4,
-            "other": 2,
-            "first": 1
+            "other": 3,
+            "none": 8,
+            "first": 3
           },
           "recommendation_counts": {
-            "not_mentioned": 11,
             "strong": 1,
-            "listed": 4,
+            "listed": 5,
+            "not_mentioned": 8,
             "conditional": 1,
-            "best": 1
+            "best": 3
           },
-          "avg_source_authority": 0.3111,
-          "avg_accuracy": 0.75,
-          "avg_freshness": 0.2944
+          "avg_source_authority": 0.4778,
+          "avg_accuracy": 0.6111,
+          "avg_freshness": 0.4444
         },
         "saas_multi_tenant": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 17.83,
-          "citation_authority": 8.32,
-          "qualified_recommendation_rate": 15.0,
-          "weighted_recommendation_score": 13.91,
+          "answer_share": 20.43,
+          "citation_authority": 9.88,
+          "qualified_recommendation_rate": 20.0,
+          "weighted_recommendation_score": 16.09,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 16,
+            "none": 15,
             "first": 3,
-            "top3": 1
+            "top3": 2
           },
           "recommendation_counts": {
-            "not_mentioned": 16,
+            "not_mentioned": 15,
             "best": 2,
-            "conditional": 1,
+            "conditional": 2,
             "listed": 1
           },
-          "avg_source_authority": 0.25,
-          "avg_accuracy": 0.8667,
-          "avg_freshness": 0.225
+          "avg_source_authority": 0.3,
+          "avg_accuracy": 0.7083,
+          "avg_freshness": 0.27
         },
         "serverless_ai": {
           "prompt_count": 10,
@@ -3130,26 +3170,30 @@
             "listed": 1
           },
           "avg_source_authority": 0.1363,
-          "avg_accuracy": 0.9125,
+          "avg_accuracy": 0.9625,
           "avg_freshness": 0.129
         },
         "stack_simplification": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 0.0,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
+          "answer_share": 40.0,
+          "citation_authority": 25.94,
+          "qualified_recommendation_rate": 25.0,
+          "weighted_recommendation_score": 30.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 4
+            "none": 2,
+            "first": 1,
+            "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 4
+            "not_mentioned": 2,
+            "best": 1,
+            "listed": 1
           },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 0.375,
-          "avg_freshness": 0.0
+          "avg_source_authority": 0.5,
+          "avg_accuracy": 0.625,
+          "avg_freshness": 0.4875
         },
         "travel_financial_settlement": {
           "prompt_count": 2,
@@ -3166,7 +3210,7 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.6666,
           "avg_freshness": 0.0
         },
         "vector_search_with_sql_filters": {
@@ -3178,12 +3222,12 @@
           "weighted_recommendation_score": 25.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 3,
-            "first": 1
+            "first": 1,
+            "none": 3
           },
           "recommendation_counts": {
-            "not_mentioned": 3,
-            "best": 1
+            "best": 1,
+            "not_mentioned": 3
           },
           "avg_source_authority": 0.0,
           "avg_accuracy": 0.875,
@@ -3194,97 +3238,98 @@
         "ai_infra": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 7.67,
-          "citation_authority": 5.79,
-          "qualified_recommendation_rate": 5.0,
-          "weighted_recommendation_score": 5.67,
+          "answer_share": 9.33,
+          "citation_authority": 6.69,
+          "qualified_recommendation_rate": 6.67,
+          "weighted_recommendation_score": 7.33,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 55,
-            "first": 4,
+            "none": 54,
+            "first": 5,
             "top3": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 55,
-            "best": 3,
+            "not_mentioned": 54,
+            "best": 4,
             "listed": 2
           },
-          "avg_source_authority": 0.161,
-          "avg_accuracy": 0.9042,
-          "avg_freshness": 0.1586
+          "avg_source_authority": 0.1776,
+          "avg_accuracy": 0.9403,
+          "avg_freshness": 0.1736
         },
         "case_selection": {
           "prompt_count": 24,
           "answer_count": 48,
-          "answer_share": 13.33,
-          "citation_authority": 9.79,
-          "qualified_recommendation_rate": 8.33,
-          "weighted_recommendation_score": 10.0,
+          "answer_share": 26.25,
+          "citation_authority": 17.6,
+          "qualified_recommendation_rate": 20.83,
+          "weighted_recommendation_score": 21.88,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 40,
-            "first": 5,
-            "top3": 2,
+            "none": 33,
+            "first": 10,
+            "top3": 4,
             "other": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 40,
-            "listed": 4,
-            "best": 4
+            "not_mentioned": 33,
+            "listed": 5,
+            "best": 9,
+            "conditional": 1
           },
-          "avg_source_authority": 0.3292,
-          "avg_accuracy": 0.7569,
-          "avg_freshness": 0.299
+          "avg_source_authority": 0.475,
+          "avg_accuracy": 0.6528,
+          "avg_freshness": 0.4354
         },
         "database_type": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 17.0,
-          "citation_authority": 8.84,
-          "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 14.42,
+          "answer_share": 25.0,
+          "citation_authority": 12.97,
+          "qualified_recommendation_rate": 25.0,
+          "weighted_recommendation_score": 22.92,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 43,
+            "none": 35,
             "top3": 9,
-            "first": 4,
-            "other": 4
+            "first": 8,
+            "other": 8
           },
           "recommendation_counts": {
-            "not_mentioned": 43,
-            "conditional": 5,
-            "best": 4,
-            "listed": 7,
+            "not_mentioned": 35,
+            "conditional": 6,
+            "best": 8,
+            "listed": 10,
             "strong": 1
           },
-          "avg_source_authority": 0.2767,
-          "avg_accuracy": 0.8153,
-          "avg_freshness": 0.2533
+          "avg_source_authority": 0.3933,
+          "avg_accuracy": 0.7361,
+          "avg_freshness": 0.3617
         },
         "pain_point": {
           "prompt_count": 36,
           "answer_count": 72,
-          "answer_share": 24.72,
-          "citation_authority": 11.4,
-          "qualified_recommendation_rate": 20.83,
-          "weighted_recommendation_score": 20.97,
+          "answer_share": 33.61,
+          "citation_authority": 14.19,
+          "qualified_recommendation_rate": 27.78,
+          "weighted_recommendation_score": 28.75,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 49,
-            "other": 3,
-            "first": 13,
-            "top3": 7
+            "top3": 9,
+            "none": 41,
+            "first": 18,
+            "other": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 49,
-            "listed": 8,
-            "best": 10,
             "strong": 4,
+            "not_mentioned": 41,
+            "best": 15,
+            "listed": 11,
             "conditional": 1
           },
-          "avg_source_authority": 0.3685,
-          "avg_accuracy": 0.8021,
-          "avg_freshness": 0.3456
+          "avg_source_authority": 0.4796,
+          "avg_accuracy": 0.6667,
+          "avg_freshness": 0.4498
         }
       },
       "competitive": {}
@@ -3293,52 +3338,52 @@
       "overall": {
         "prompt_count": 120,
         "answer_count": 240,
-        "answer_share": 11.96,
-        "citation_authority": 6.75,
-        "qualified_recommendation_rate": 8.75,
-        "weighted_recommendation_score": 7.57,
+        "answer_share": 23.43,
+        "citation_authority": 17.56,
+        "qualified_recommendation_rate": 16.25,
+        "weighted_recommendation_score": 15.48,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "top3": 46,
-          "none": 187,
-          "other": 4,
-          "first": 3
+          "none": 149,
+          "top3": 72,
+          "first": 16,
+          "other": 3
         },
         "recommendation_counts": {
-          "listed": 32,
-          "not_mentioned": 187,
-          "conditional": 11,
-          "strong": 8,
-          "best": 2
+          "not_mentioned": 149,
+          "listed": 52,
+          "best": 15,
+          "strong": 9,
+          "conditional": 15
         },
-        "avg_source_authority": 0.1543,
-        "avg_accuracy": 0.9625,
-        "avg_freshness": 0.1473
+        "avg_source_authority": 0.3026,
+        "avg_accuracy": 0.9646,
+        "avg_freshness": 0.2957
       },
       "unchanged": {
         "prompt_count": 84,
         "answer_count": 168,
-        "answer_share": 12.34,
-        "citation_authority": 6.92,
-        "qualified_recommendation_rate": 8.33,
-        "weighted_recommendation_score": 7.31,
+        "answer_share": 23.08,
+        "citation_authority": 17.61,
+        "qualified_recommendation_rate": 16.67,
+        "weighted_recommendation_score": 15.2,
         "negative_recommendation_rate": 0.0,
         "mention_counts": {
-          "top3": 33,
-          "none": 131,
-          "first": 3,
+          "none": 105,
+          "top3": 51,
+          "first": 11,
           "other": 1
         },
         "recommendation_counts": {
-          "listed": 23,
-          "not_mentioned": 131,
-          "conditional": 7,
-          "best": 2,
-          "strong": 5
+          "not_mentioned": 105,
+          "listed": 35,
+          "best": 10,
+          "conditional": 11,
+          "strong": 7
         },
-        "avg_source_authority": 0.155,
+        "avg_source_authority": 0.3014,
         "avg_accuracy": 0.9583,
-        "avg_freshness": 0.1515
+        "avg_freshness": 0.2974
       },
       "by_model": {
         "anthropic": {
@@ -3369,25 +3414,26 @@
         "openai": {
           "prompt_count": 120,
           "answer_count": 120,
-          "answer_share": 5.82,
-          "citation_authority": 4.09,
-          "qualified_recommendation_rate": 3.33,
-          "weighted_recommendation_score": 2.97,
+          "answer_share": 28.76,
+          "citation_authority": 25.7,
+          "qualified_recommendation_rate": 18.33,
+          "weighted_recommendation_score": 18.81,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "top3": 14,
-            "none": 105,
-            "other": 1
+            "top3": 40,
+            "none": 67,
+            "first": 13
           },
           "recommendation_counts": {
-            "listed": 11,
-            "not_mentioned": 105,
-            "conditional": 3,
-            "strong": 1
+            "listed": 31,
+            "not_mentioned": 67,
+            "strong": 2,
+            "best": 13,
+            "conditional": 7
           },
-          "avg_source_authority": 0.0833,
-          "avg_accuracy": 0.9542,
-          "avg_freshness": 0.0758
+          "avg_source_authority": 0.38,
+          "avg_accuracy": 0.9583,
+          "avg_freshness": 0.3725
         }
       },
       "by_use_case": {
@@ -3448,24 +3494,25 @@
         "ai_application_metadata": {
           "prompt_count": 7,
           "answer_count": 14,
-          "answer_share": 18.24,
-          "citation_authority": 9.26,
-          "qualified_recommendation_rate": 7.14,
-          "weighted_recommendation_score": 11.18,
+          "answer_share": 41.76,
+          "citation_authority": 22.21,
+          "qualified_recommendation_rate": 28.57,
+          "weighted_recommendation_score": 32.06,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 11,
-            "top3": 1,
-            "first": 2
+            "first": 4,
+            "none": 7,
+            "top3": 3
           },
           "recommendation_counts": {
-            "not_mentioned": 11,
-            "listed": 2,
-            "best": 1
+            "best": 3,
+            "not_mentioned": 7,
+            "listed": 3,
+            "strong": 1
           },
-          "avg_source_authority": 0.2143,
+          "avg_source_authority": 0.4286,
           "avg_accuracy": 0.8929,
-          "avg_freshness": 0.1929
+          "avg_freshness": 0.3929
         },
         "bursty_traffic": {
           "prompt_count": 3,
@@ -3500,7 +3547,7 @@
             "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.625,
+          "avg_accuracy": 1.0,
           "avg_freshness": 0.0
         },
         "customer_facing_analytics": {
@@ -3524,171 +3571,174 @@
         "ecommerce_order_inventory": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 45.0,
-          "citation_authority": 11.25,
-          "qualified_recommendation_rate": 25.0,
-          "weighted_recommendation_score": 28.75,
+          "answer_share": 60.0,
+          "citation_authority": 49.25,
+          "qualified_recommendation_rate": 50.0,
+          "weighted_recommendation_score": 41.25,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "top3": 3,
-            "none": 1
+            "top3": 4
           },
           "recommendation_counts": {
+            "strong": 1,
             "listed": 2,
-            "not_mentioned": 1,
-            "strong": 1
+            "conditional": 1
           },
-          "avg_source_authority": 0.25,
+          "avg_source_authority": 0.75,
           "avg_accuracy": 0.875,
-          "avg_freshness": 0.225
+          "avg_freshness": 0.7
         },
         "fintech_core_system": {
           "prompt_count": 5,
           "answer_count": 10,
-          "answer_share": 16.15,
-          "citation_authority": 10.38,
-          "qualified_recommendation_rate": 10.0,
-          "weighted_recommendation_score": 9.62,
+          "answer_share": 25.38,
+          "citation_authority": 19.68,
+          "qualified_recommendation_rate": 20.0,
+          "weighted_recommendation_score": 15.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 7,
-            "top3": 3
+            "none": 5,
+            "top3": 5
           },
           "recommendation_counts": {
-            "not_mentioned": 7,
-            "listed": 2,
-            "strong": 1
+            "not_mentioned": 5,
+            "listed": 3,
+            "strong": 1,
+            "conditional": 1
           },
-          "avg_source_authority": 0.2,
+          "avg_source_authority": 0.36,
           "avg_accuracy": 0.9,
-          "avg_freshness": 0.18
+          "avg_freshness": 0.365
         },
         "high_write_transactions": {
           "prompt_count": 6,
           "answer_count": 12,
-          "answer_share": 34.0,
-          "citation_authority": 20.8,
-          "qualified_recommendation_rate": 33.33,
-          "weighted_recommendation_score": 25.67,
+          "answer_share": 78.67,
+          "citation_authority": 59.2,
+          "qualified_recommendation_rate": 66.67,
+          "weighted_recommendation_score": 65.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 6,
-            "top3": 5,
-            "first": 1
+            "top3": 7,
+            "first": 5
           },
           "recommendation_counts": {
-            "not_mentioned": 6,
-            "listed": 2,
-            "best": 1,
+            "listed": 4,
+            "best": 5,
             "strong": 1,
             "conditional": 2
           },
-          "avg_source_authority": 0.3833,
+          "avg_source_authority": 0.8833,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.3667
+          "avg_freshness": 0.85
         },
         "hybrid_transactional_analytical_processing": {
           "prompt_count": 3,
           "answer_count": 6,
+          "answer_share": 10.0,
+          "citation_authority": 6.67,
+          "qualified_recommendation_rate": 16.67,
+          "weighted_recommendation_score": 12.5,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "none": 5,
+            "top3": 1
+          },
+          "recommendation_counts": {
+            "not_mentioned": 5,
+            "strong": 1
+          },
+          "avg_source_authority": 0.1667,
+          "avg_accuracy": 0.9167,
+          "avg_freshness": 0.1667
+        },
+        "logistics_operational_reporting": {
+          "prompt_count": 2,
+          "answer_count": 4,
           "answer_share": 0.0,
           "citation_authority": 0.0,
           "qualified_recommendation_rate": 0.0,
           "weighted_recommendation_score": 0.0,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 6
+            "none": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 6
+            "not_mentioned": 4
           },
           "avg_source_authority": 0.0,
           "avg_accuracy": 1.0,
           "avg_freshness": 0.0
-        },
-        "logistics_operational_reporting": {
-          "prompt_count": 2,
-          "answer_count": 4,
-          "answer_share": 15.0,
-          "citation_authority": 18.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 5.0,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "top3": 1,
-            "none": 3
-          },
-          "recommendation_counts": {
-            "listed": 1,
-            "not_mentioned": 3
-          },
-          "avg_source_authority": 0.25,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.225
         },
         "manual_resharding": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 34.35,
-          "citation_authority": 28.0,
-          "qualified_recommendation_rate": 25.0,
-          "weighted_recommendation_score": 21.96,
+          "answer_share": 49.57,
+          "citation_authority": 42.17,
+          "qualified_recommendation_rate": 40.0,
+          "weighted_recommendation_score": 35.65,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 7,
-            "top3": 11,
-            "other": 2
+            "top3": 10,
+            "none": 5,
+            "other": 1,
+            "first": 4
           },
           "recommendation_counts": {
-            "not_mentioned": 7,
-            "listed": 8,
+            "listed": 7,
             "conditional": 3,
-            "strong": 2
+            "not_mentioned": 5,
+            "strong": 1,
+            "best": 4
           },
-          "avg_source_authority": 0.65,
-          "avg_accuracy": 0.9,
-          "avg_freshness": 0.59
+          "avg_source_authority": 0.8,
+          "avg_accuracy": 0.925,
+          "avg_freshness": 0.755
         },
         "multi_region_transactions": {
           "prompt_count": 6,
           "answer_count": 12,
-          "answer_share": 14.0,
-          "citation_authority": 1.6,
-          "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 11.33,
+          "answer_share": 44.0,
+          "citation_authority": 37.33,
+          "qualified_recommendation_rate": 25.0,
+          "weighted_recommendation_score": 23.33,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 9,
-            "top3": 3
+            "none": 3,
+            "top3": 9
           },
           "recommendation_counts": {
-            "not_mentioned": 9,
-            "conditional": 1,
+            "not_mentioned": 3,
+            "conditional": 2,
             "strong": 1,
-            "listed": 1
+            "listed": 6
           },
-          "avg_source_authority": 0.05,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.0667
+          "avg_source_authority": 0.55,
+          "avg_accuracy": 0.9583,
+          "avg_freshness": 0.5625
         },
         "operational_ai_data": {
           "prompt_count": 8,
           "answer_count": 16,
-          "answer_share": 3.75,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 1.25,
+          "answer_share": 13.75,
+          "citation_authority": 5.0,
+          "qualified_recommendation_rate": 12.5,
+          "weighted_recommendation_score": 10.62,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 15,
-            "top3": 1
+            "none": 13,
+            "top3": 2,
+            "first": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 15,
-            "listed": 1
+            "not_mentioned": 13,
+            "listed": 1,
+            "conditional": 1,
+            "best": 1
           },
-          "avg_source_authority": 0.0,
+          "avg_source_authority": 0.0625,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.0
+          "avg_freshness": 0.0625
         },
         "operational_analytics": {
           "prompt_count": 5,
@@ -3711,22 +3761,23 @@
         "read_write_scale": {
           "prompt_count": 3,
           "answer_count": 6,
-          "answer_share": 10.0,
-          "citation_authority": 0.0,
+          "answer_share": 30.0,
+          "citation_authority": 13.33,
           "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 12.5,
+          "weighted_recommendation_score": 19.17,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 5,
-            "top3": 1
+            "none": 3,
+            "top3": 3
           },
           "recommendation_counts": {
-            "not_mentioned": 5,
-            "strong": 1
+            "not_mentioned": 3,
+            "strong": 1,
+            "listed": 2
           },
-          "avg_source_authority": 0.0,
+          "avg_source_authority": 0.1667,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.0
+          "avg_freshness": 0.1667
         },
         "real_time_analytics": {
           "prompt_count": 5,
@@ -3743,53 +3794,55 @@
             "not_mentioned": 10
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
+          "avg_accuracy": 0.9,
           "avg_freshness": 0.0
         },
         "relational_scaling": {
           "prompt_count": 9,
           "answer_count": 18,
-          "answer_share": 38.1,
-          "citation_authority": 31.17,
-          "qualified_recommendation_rate": 16.67,
-          "weighted_recommendation_score": 17.62,
+          "answer_share": 47.62,
+          "citation_authority": 48.89,
+          "qualified_recommendation_rate": 22.22,
+          "weighted_recommendation_score": 26.43,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "top3": 12,
-            "none": 5,
-            "other": 1
+            "none": 4,
+            "top3": 11,
+            "other": 1,
+            "first": 2
           },
           "recommendation_counts": {
+            "not_mentioned": 4,
             "listed": 10,
-            "not_mentioned": 5,
-            "conditional": 3
+            "conditional": 2,
+            "best": 2
           },
-          "avg_source_authority": 0.6019,
+          "avg_source_authority": 0.7685,
           "avg_accuracy": 1.0,
-          "avg_freshness": 0.6199
+          "avg_freshness": 0.7977
         },
         "saas_multi_tenant": {
           "prompt_count": 10,
           "answer_count": 20,
-          "answer_share": 15.22,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 15.0,
-          "weighted_recommendation_score": 11.85,
+          "answer_share": 42.61,
+          "citation_authority": 23.65,
+          "qualified_recommendation_rate": 20.0,
+          "weighted_recommendation_score": 22.28,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 15,
-            "top3": 4,
+            "top3": 13,
+            "none": 6,
             "other": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 15,
-            "listed": 2,
+            "listed": 10,
             "strong": 1,
-            "conditional": 2
+            "not_mentioned": 6,
+            "conditional": 3
           },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 0.95,
-          "avg_freshness": 0.0
+          "avg_source_authority": 0.3,
+          "avg_accuracy": 0.925,
+          "avg_freshness": 0.29
         },
         "serverless_ai": {
           "prompt_count": 10,
@@ -3806,32 +3859,14 @@
             "not_mentioned": 20
           },
           "avg_source_authority": 0.0,
-          "avg_accuracy": 0.95,
+          "avg_accuracy": 1.0,
           "avg_freshness": 0.0
         },
         "stack_simplification": {
           "prompt_count": 2,
           "answer_count": 4,
-          "answer_share": 0.0,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.0,
-          "negative_recommendation_rate": 0.0,
-          "mention_counts": {
-            "none": 4
-          },
-          "recommendation_counts": {
-            "not_mentioned": 4
-          },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.0
-        },
-        "travel_financial_settlement": {
-          "prompt_count": 2,
-          "answer_count": 4,
           "answer_share": 15.0,
-          "citation_authority": 5.62,
+          "citation_authority": 20.0,
           "qualified_recommendation_rate": 0.0,
           "weighted_recommendation_score": 5.0,
           "negative_recommendation_rate": 0.0,
@@ -3844,8 +3879,28 @@
             "listed": 1
           },
           "avg_source_authority": 0.25,
+          "avg_accuracy": 1.0,
+          "avg_freshness": 0.25
+        },
+        "travel_financial_settlement": {
+          "prompt_count": 2,
+          "answer_count": 4,
+          "answer_share": 45.0,
+          "citation_authority": 43.62,
+          "qualified_recommendation_rate": 0.0,
+          "weighted_recommendation_score": 15.0,
+          "negative_recommendation_rate": 0.0,
+          "mention_counts": {
+            "top3": 3,
+            "none": 1
+          },
+          "recommendation_counts": {
+            "listed": 3,
+            "not_mentioned": 1
+          },
+          "avg_source_authority": 0.75,
           "avg_accuracy": 0.875,
-          "avg_freshness": 0.225
+          "avg_freshness": 0.7
         },
         "vector_search_with_sql_filters": {
           "prompt_count": 2,
@@ -3870,92 +3925,99 @@
         "ai_infra": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 1.0,
-          "citation_authority": 0.0,
-          "qualified_recommendation_rate": 0.0,
-          "weighted_recommendation_score": 0.33,
+          "answer_share": 3.67,
+          "citation_authority": 1.33,
+          "qualified_recommendation_rate": 3.33,
+          "weighted_recommendation_score": 2.83,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 59,
-            "top3": 1
+            "none": 57,
+            "top3": 2,
+            "first": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 59,
-            "listed": 1
+            "not_mentioned": 57,
+            "listed": 1,
+            "conditional": 1,
+            "best": 1
           },
-          "avg_source_authority": 0.0,
-          "avg_accuracy": 0.9833,
-          "avg_freshness": 0.0
+          "avg_source_authority": 0.0167,
+          "avg_accuracy": 1.0,
+          "avg_freshness": 0.0167
         },
         "case_selection": {
           "prompt_count": 24,
           "answer_count": 48,
-          "answer_share": 10.42,
-          "citation_authority": 4.78,
-          "qualified_recommendation_rate": 6.25,
-          "weighted_recommendation_score": 7.19,
+          "answer_share": 23.75,
+          "citation_authority": 20.96,
+          "qualified_recommendation_rate": 14.58,
+          "weighted_recommendation_score": 14.9,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 39,
-            "top3": 8,
-            "other": 1
+            "top3": 17,
+            "none": 29,
+            "other": 1,
+            "first": 1
           },
           "recommendation_counts": {
-            "not_mentioned": 39,
-            "listed": 6,
-            "strong": 3
+            "strong": 3,
+            "not_mentioned": 29,
+            "listed": 12,
+            "conditional": 3,
+            "best": 1
           },
-          "avg_source_authority": 0.1042,
+          "avg_source_authority": 0.325,
           "avg_accuracy": 0.9271,
-          "avg_freshness": 0.0938
+          "avg_freshness": 0.3135
         },
         "database_type": {
           "prompt_count": 30,
           "answer_count": 60,
-          "answer_share": 26.67,
-          "citation_authority": 18.21,
-          "qualified_recommendation_rate": 20.0,
-          "weighted_recommendation_score": 16.58,
+          "answer_share": 41.0,
+          "citation_authority": 31.17,
+          "qualified_recommendation_rate": 30.0,
+          "weighted_recommendation_score": 28.42,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "none": 32,
-            "top3": 24,
-            "other": 3,
-            "first": 1
+            "none": 23,
+            "top3": 27,
+            "other": 2,
+            "first": 8
           },
           "recommendation_counts": {
-            "not_mentioned": 32,
-            "conditional": 9,
-            "listed": 16,
-            "strong": 3
+            "not_mentioned": 23,
+            "conditional": 8,
+            "listed": 19,
+            "strong": 3,
+            "best": 7
           },
-          "avg_source_authority": 0.3611,
-          "avg_accuracy": 0.925,
-          "avg_freshness": 0.3411
+          "avg_source_authority": 0.5111,
+          "avg_accuracy": 0.95,
+          "avg_freshness": 0.4986
         },
         "pain_point": {
           "prompt_count": 36,
           "answer_count": 72,
-          "answer_share": 13.61,
-          "citation_authority": 6.9,
-          "qualified_recommendation_rate": 8.33,
-          "weighted_recommendation_score": 8.75,
+          "answer_share": 30.0,
+          "citation_authority": 22.01,
+          "qualified_recommendation_rate": 16.67,
+          "weighted_recommendation_score": 19.1,
           "negative_recommendation_rate": 0.0,
           "mention_counts": {
-            "top3": 13,
-            "none": 57,
-            "first": 2
+            "none": 40,
+            "top3": 26,
+            "first": 6
           },
           "recommendation_counts": {
-            "listed": 9,
-            "not_mentioned": 57,
-            "best": 2,
-            "strong": 2,
-            "conditional": 2
+            "not_mentioned": 40,
+            "listed": 20,
+            "best": 6,
+            "strong": 3,
+            "conditional": 3
           },
-          "avg_source_authority": 0.144,
-          "avg_accuracy": 1.0,
-          "avg_freshness": 0.1443
+          "avg_source_authority": 0.3523,
+          "avg_accuracy": 0.9722,
+          "avg_freshness": 0.3471
         }
       },
       "competitive": {}
@@ -3964,52 +4026,52 @@
   "overall": {
     "prompt_count": 120,
     "answer_count": 240,
-    "answer_share": 31.99,
-    "citation_authority": 14.31,
-    "qualified_recommendation_rate": 24.17,
-    "weighted_recommendation_score": 23.75,
+    "answer_share": 34.54,
+    "citation_authority": 15.51,
+    "qualified_recommendation_rate": 31.67,
+    "weighted_recommendation_score": 29.88,
     "negative_recommendation_rate": 0.0,
     "mention_counts": {
-      "first": 59,
-      "none": 141,
-      "top3": 35,
+      "first": 51,
+      "none": 127,
+      "top3": 57,
       "other": 5
     },
     "recommendation_counts": {
-      "listed": 41,
-      "not_mentioned": 141,
-      "best": 43,
-      "strong": 11,
-      "conditional": 4
+      "best": 51,
+      "not_mentioned": 127,
+      "strong": 17,
+      "listed": 37,
+      "conditional": 8
     },
-    "avg_source_authority": 0.2728,
-    "avg_accuracy": 0.9167,
-    "avg_freshness": 0.2631
+    "avg_source_authority": 0.2826,
+    "avg_accuracy": 0.9208,
+    "avg_freshness": 0.2894
   },
   "unchanged": {
     "prompt_count": 84,
     "answer_count": 168,
-    "answer_share": 32.76,
-    "citation_authority": 14.21,
-    "qualified_recommendation_rate": 25.6,
-    "weighted_recommendation_score": 24.91,
+    "answer_share": 36.59,
+    "citation_authority": 15.77,
+    "qualified_recommendation_rate": 35.12,
+    "weighted_recommendation_score": 32.08,
     "negative_recommendation_rate": 0.0,
     "mention_counts": {
-      "first": 42,
-      "none": 96,
-      "top3": 26,
-      "other": 4
+      "first": 38,
+      "none": 84,
+      "top3": 43,
+      "other": 3
     },
     "recommendation_counts": {
-      "listed": 29,
-      "not_mentioned": 96,
-      "best": 32,
-      "strong": 8,
-      "conditional": 3
+      "best": 38,
+      "not_mentioned": 84,
+      "strong": 14,
+      "listed": 25,
+      "conditional": 7
     },
-    "avg_source_authority": 0.2718,
-    "avg_accuracy": 0.9137,
-    "avg_freshness": 0.269
+    "avg_source_authority": 0.2917,
+    "avg_accuracy": 0.9107,
+    "avg_freshness": 0.3084
   },
   "by_model": {
     "anthropic": {
@@ -4040,49 +4102,47 @@
     "openai": {
       "prompt_count": 120,
       "answer_count": 120,
-      "answer_share": 32.48,
-      "citation_authority": 22.96,
-      "qualified_recommendation_rate": 13.33,
-      "weighted_recommendation_score": 16.34,
+      "answer_share": 37.58,
+      "citation_authority": 25.36,
+      "qualified_recommendation_rate": 28.33,
+      "weighted_recommendation_score": 28.59,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "first": 30,
-        "none": 70,
-        "top3": 19,
+        "top3": 41,
+        "first": 22,
+        "none": 56,
         "other": 1
       },
       "recommendation_counts": {
-        "listed": 34,
-        "not_mentioned": 70,
-        "best": 14,
-        "strong": 2
+        "listed": 30,
+        "best": 22,
+        "not_mentioned": 56,
+        "strong": 8,
+        "conditional": 4
       },
-      "avg_source_authority": 0.4017,
-      "avg_accuracy": 0.9111,
-      "avg_freshness": 0.3658
+      "avg_source_authority": 0.4211,
+      "avg_accuracy": 0.9194,
+      "avg_freshness": 0.4185
     }
   },
   "by_use_case": {
     "ads_real_time_calculation": {
       "prompt_count": 2,
       "answer_count": 4,
-      "answer_share": 50.0,
-      "citation_authority": 24.0,
-      "qualified_recommendation_rate": 25.0,
-      "weighted_recommendation_score": 30.0,
+      "answer_share": 0.0,
+      "citation_authority": 0.0,
+      "qualified_recommendation_rate": 0.0,
+      "weighted_recommendation_score": 0.0,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "first": 2,
-        "none": 2
+        "none": 4
       },
       "recommendation_counts": {
-        "best": 1,
-        "listed": 1,
-        "not_mentioned": 2
+        "not_mentioned": 4
       },
-      "avg_source_authority": 0.5,
-      "avg_accuracy": 0.8334,
-      "avg_freshness": 0.45
+      "avg_source_authority": 0.0,
+      "avg_accuracy": 1.0,
+      "avg_freshness": 0.0
     },
     "agent_memory": {
       "prompt_count": 2,
@@ -4123,28 +4183,30 @@
     "ai_application_metadata": {
       "prompt_count": 7,
       "answer_count": 14,
-      "answer_share": 11.76,
-      "citation_authority": 5.65,
+      "answer_share": 22.35,
+      "citation_authority": 13.41,
       "qualified_recommendation_rate": 14.29,
-      "weighted_recommendation_score": 11.76,
+      "weighted_recommendation_score": 15.29,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 12,
+        "none": 10,
+        "top3": 2,
         "first": 2
       },
       "recommendation_counts": {
-        "not_mentioned": 12,
+        "not_mentioned": 10,
+        "listed": 2,
         "best": 2
       },
-      "avg_source_authority": 0.1429,
-      "avg_accuracy": 0.9286,
-      "avg_freshness": 0.1286
+      "avg_source_authority": 0.2143,
+      "avg_accuracy": 0.9762,
+      "avg_freshness": 0.1929
     },
     "bursty_traffic": {
       "prompt_count": 3,
       "answer_count": 6,
       "answer_share": 10.0,
-      "citation_authority": 8.0,
+      "citation_authority": 1.87,
       "qualified_recommendation_rate": 0.0,
       "weighted_recommendation_score": 3.33,
       "negative_recommendation_rate": 0.0,
@@ -4156,29 +4218,30 @@
         "not_mentioned": 5,
         "listed": 1
       },
-      "avg_source_authority": 0.1667,
-      "avg_accuracy": 0.9445,
-      "avg_freshness": 0.15
+      "avg_source_authority": 0.0333,
+      "avg_accuracy": 1.0,
+      "avg_freshness": 0.1167
     },
     "cloud_relational_infrastructure": {
       "prompt_count": 2,
       "answer_count": 4,
-      "answer_share": 5.0,
-      "citation_authority": 1.17,
+      "answer_share": 35.0,
+      "citation_authority": 21.97,
       "qualified_recommendation_rate": 0.0,
-      "weighted_recommendation_score": 5.0,
+      "weighted_recommendation_score": 15.0,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 3,
-        "other": 1
+        "other": 1,
+        "none": 1,
+        "top3": 2
       },
       "recommendation_counts": {
-        "not_mentioned": 3,
-        "listed": 1
+        "listed": 3,
+        "not_mentioned": 1
       },
-      "avg_source_authority": 0.05,
-      "avg_accuracy": 0.7084,
-      "avg_freshness": 0.175
+      "avg_source_authority": 0.35,
+      "avg_accuracy": 0.9167,
+      "avg_freshness": 0.575
     },
     "customer_facing_analytics": {
       "prompt_count": 2,
@@ -4201,348 +4264,349 @@
     "ecommerce_order_inventory": {
       "prompt_count": 2,
       "answer_count": 4,
-      "answer_share": 90.0,
-      "citation_authority": 47.25,
+      "answer_share": 80.0,
+      "citation_authority": 49.25,
       "qualified_recommendation_rate": 75.0,
       "weighted_recommendation_score": 73.75,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "first": 3,
-        "top3": 1
+        "first": 2,
+        "top3": 2
       },
       "recommendation_counts": {
-        "listed": 1,
+        "best": 2,
         "strong": 1,
-        "best": 2
+        "listed": 1
       },
       "avg_source_authority": 0.75,
       "avg_accuracy": 0.9167,
-      "avg_freshness": 0.675
+      "avg_freshness": 0.7
     },
     "fintech_core_system": {
       "prompt_count": 5,
       "answer_count": 10,
-      "answer_share": 56.92,
-      "citation_authority": 24.23,
-      "qualified_recommendation_rate": 40.0,
-      "weighted_recommendation_score": 43.08,
+      "answer_share": 79.23,
+      "citation_authority": 30.06,
+      "qualified_recommendation_rate": 80.0,
+      "weighted_recommendation_score": 76.35,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 4,
-        "first": 5,
-        "top3": 1
+        "first": 7,
+        "top3": 2,
+        "none": 1
       },
       "recommendation_counts": {
-        "not_mentioned": 4,
-        "listed": 2,
-        "best": 4
+        "best": 7,
+        "listed": 1,
+        "strong": 1,
+        "not_mentioned": 1
       },
-      "avg_source_authority": 0.4,
-      "avg_accuracy": 0.9,
-      "avg_freshness": 0.36
+      "avg_source_authority": 0.5733,
+      "avg_accuracy": 0.8667,
+      "avg_freshness": 0.5567
     },
     "high_write_transactions": {
       "prompt_count": 6,
       "answer_count": 12,
-      "answer_share": 78.0,
-      "citation_authority": 30.79,
-      "qualified_recommendation_rate": 41.67,
-      "weighted_recommendation_score": 50.0,
+      "answer_share": 77.33,
+      "citation_authority": 35.37,
+      "qualified_recommendation_rate": 58.33,
+      "weighted_recommendation_score": 62.67,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 1,
-        "top3": 1,
-        "first": 9,
-        "other": 1
+        "first": 7,
+        "other": 1,
+        "top3": 4
       },
       "recommendation_counts": {
-        "not_mentioned": 1,
-        "listed": 6,
-        "best": 5
+        "best": 7,
+        "listed": 5
       },
-      "avg_source_authority": 0.5778,
-      "avg_accuracy": 0.8611,
-      "avg_freshness": 0.5778
+      "avg_source_authority": 0.5945,
+      "avg_accuracy": 0.8334,
+      "avg_freshness": 0.6528
     },
     "hybrid_transactional_analytical_processing": {
       "prompt_count": 3,
       "answer_count": 6,
-      "answer_share": 30.0,
-      "citation_authority": 8.0,
+      "answer_share": 20.0,
+      "citation_authority": 0.0,
       "qualified_recommendation_rate": 16.67,
-      "weighted_recommendation_score": 19.17,
+      "weighted_recommendation_score": 15.83,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 3,
-        "top3": 3
+        "top3": 2,
+        "none": 4
       },
       "recommendation_counts": {
-        "not_mentioned": 3,
-        "listed": 2,
-        "strong": 1
+        "strong": 1,
+        "listed": 1,
+        "not_mentioned": 4
       },
-      "avg_source_authority": 0.1667,
-      "avg_accuracy": 0.75,
-      "avg_freshness": 0.15
+      "avg_source_authority": 0.0,
+      "avg_accuracy": 0.8055,
+      "avg_freshness": 0.0
     },
     "logistics_operational_reporting": {
       "prompt_count": 2,
       "answer_count": 4,
-      "answer_share": 15.0,
-      "citation_authority": 18.0,
-      "qualified_recommendation_rate": 0.0,
-      "weighted_recommendation_score": 5.0,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "top3": 1,
-        "none": 3
-      },
-      "recommendation_counts": {
-        "listed": 1,
-        "not_mentioned": 3
-      },
-      "avg_source_authority": 0.25,
-      "avg_accuracy": 1.0,
-      "avg_freshness": 0.225
-    },
-    "manual_resharding": {
-      "prompt_count": 10,
-      "answer_count": 20,
-      "answer_share": 80.87,
-      "citation_authority": 36.19,
-      "qualified_recommendation_rate": 60.0,
-      "weighted_recommendation_score": 63.91,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "first": 12,
-        "top3": 6,
-        "none": 1,
-        "other": 1
-      },
-      "recommendation_counts": {
-        "listed": 7,
-        "strong": 2,
-        "best": 10,
-        "not_mentioned": 1
-      },
-      "avg_source_authority": 0.6907,
-      "avg_accuracy": 0.8333,
-      "avg_freshness": 0.6279
-    },
-    "multi_region_transactions": {
-      "prompt_count": 6,
-      "answer_count": 12,
-      "answer_share": 66.67,
-      "citation_authority": 31.26,
-      "qualified_recommendation_rate": 50.0,
-      "weighted_recommendation_score": 48.67,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "top3": 7,
-        "first": 4,
-        "none": 1
-      },
-      "recommendation_counts": {
-        "listed": 5,
-        "best": 3,
-        "strong": 2,
-        "conditional": 1,
-        "not_mentioned": 1
-      },
-      "avg_source_authority": 0.5556,
-      "avg_accuracy": 0.8611,
-      "avg_freshness": 0.5722
-    },
-    "operational_ai_data": {
-      "prompt_count": 8,
-      "answer_count": 16,
-      "answer_share": 18.75,
-      "citation_authority": 10.88,
-      "qualified_recommendation_rate": 6.25,
-      "weighted_recommendation_score": 8.75,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "none": 13,
-        "first": 3
-      },
-      "recommendation_counts": {
-        "not_mentioned": 13,
-        "listed": 2,
-        "best": 1
-      },
-      "avg_source_authority": 0.1875,
-      "avg_accuracy": 0.9792,
-      "avg_freshness": 0.1688
-    },
-    "operational_analytics": {
-      "prompt_count": 5,
-      "answer_count": 10,
-      "answer_share": 7.69,
-      "citation_authority": 3.69,
-      "qualified_recommendation_rate": 10.0,
-      "weighted_recommendation_score": 7.69,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "none": 9,
-        "first": 1
-      },
-      "recommendation_counts": {
-        "not_mentioned": 9,
-        "best": 1
-      },
-      "avg_source_authority": 0.1,
-      "avg_accuracy": 0.9667,
-      "avg_freshness": 0.09
-    },
-    "read_write_scale": {
-      "prompt_count": 3,
-      "answer_count": 6,
-      "answer_share": 76.67,
-      "citation_authority": 32.0,
-      "qualified_recommendation_rate": 16.67,
-      "weighted_recommendation_score": 30.0,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "first": 4,
-        "none": 1,
-        "top3": 1
-      },
-      "recommendation_counts": {
-        "listed": 4,
-        "not_mentioned": 1,
-        "best": 1
-      },
-      "avg_source_authority": 0.5,
-      "avg_accuracy": 0.8056,
-      "avg_freshness": 0.45
-    },
-    "real_time_analytics": {
-      "prompt_count": 5,
-      "answer_count": 10,
-      "answer_share": 4.62,
-      "citation_authority": 0.0,
-      "qualified_recommendation_rate": 0.0,
-      "weighted_recommendation_score": 1.54,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "none": 9,
-        "top3": 1
-      },
-      "recommendation_counts": {
-        "not_mentioned": 9,
-        "listed": 1
-      },
-      "avg_source_authority": 0.0,
-      "avg_accuracy": 0.8333,
-      "avg_freshness": 0.0
-    },
-    "relational_scaling": {
-      "prompt_count": 9,
-      "answer_count": 18,
-      "answer_share": 68.57,
-      "citation_authority": 34.16,
-      "qualified_recommendation_rate": 61.11,
-      "weighted_recommendation_score": 59.64,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "first": 9,
-        "none": 3,
-        "top3": 6
-      },
-      "recommendation_counts": {
-        "listed": 4,
-        "not_mentioned": 3,
-        "best": 8,
-        "strong": 3
-      },
-      "avg_source_authority": 0.5648,
-      "avg_accuracy": 1.0,
-      "avg_freshness": 0.6107
-    },
-    "saas_multi_tenant": {
-      "prompt_count": 10,
-      "answer_count": 20,
-      "answer_share": 35.65,
-      "citation_authority": 7.83,
-      "qualified_recommendation_rate": 40.0,
-      "weighted_recommendation_score": 35.98,
-      "negative_recommendation_rate": 0.0,
-      "mention_counts": {
-        "none": 10,
-        "first": 3,
-        "other": 2,
-        "top3": 5
-      },
-      "recommendation_counts": {
-        "not_mentioned": 10,
-        "best": 3,
-        "listed": 2,
-        "strong": 2,
-        "conditional": 3
-      },
-      "avg_source_authority": 0.135,
-      "avg_accuracy": 0.9167,
-      "avg_freshness": 0.13
-    },
-    "serverless_ai": {
-      "prompt_count": 10,
-      "answer_count": 20,
       "answer_share": 0.0,
       "citation_authority": 0.0,
       "qualified_recommendation_rate": 0.0,
       "weighted_recommendation_score": 0.0,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 20
+        "none": 4
       },
       "recommendation_counts": {
-        "not_mentioned": 20
+        "not_mentioned": 4
       },
       "avg_source_authority": 0.0,
-      "avg_accuracy": 0.925,
+      "avg_accuracy": 0.75,
       "avg_freshness": 0.0
+    },
+    "manual_resharding": {
+      "prompt_count": 10,
+      "answer_count": 20,
+      "answer_share": 73.04,
+      "citation_authority": 31.25,
+      "qualified_recommendation_rate": 60.0,
+      "weighted_recommendation_score": 61.96,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "first": 8,
+        "none": 1,
+        "top3": 10,
+        "other": 1
+      },
+      "recommendation_counts": {
+        "best": 8,
+        "not_mentioned": 1,
+        "strong": 2,
+        "listed": 7,
+        "conditional": 2
+      },
+      "avg_source_authority": 0.6407,
+      "avg_accuracy": 0.8167,
+      "avg_freshness": 0.6154
+    },
+    "multi_region_transactions": {
+      "prompt_count": 6,
+      "answer_count": 12,
+      "answer_share": 61.33,
+      "citation_authority": 30.46,
+      "qualified_recommendation_rate": 58.33,
+      "weighted_recommendation_score": 49.0,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "top3": 9,
+        "first": 2,
+        "none": 1
+      },
+      "recommendation_counts": {
+        "strong": 3,
+        "conditional": 2,
+        "best": 2,
+        "not_mentioned": 1,
+        "listed": 4
+      },
+      "avg_source_authority": 0.4722,
+      "avg_accuracy": 0.8889,
+      "avg_freshness": 0.5306
+    },
+    "operational_ai_data": {
+      "prompt_count": 8,
+      "answer_count": 16,
+      "answer_share": 22.5,
+      "citation_authority": 4.5,
+      "qualified_recommendation_rate": 18.75,
+      "weighted_recommendation_score": 20.0,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "none": 12,
+        "first": 3,
+        "top3": 1
+      },
+      "recommendation_counts": {
+        "not_mentioned": 12,
+        "best": 3,
+        "listed": 1
+      },
+      "avg_source_authority": 0.0625,
+      "avg_accuracy": 0.9583,
+      "avg_freshness": 0.0563
+    },
+    "operational_analytics": {
+      "prompt_count": 5,
+      "answer_count": 10,
+      "answer_share": 0.0,
+      "citation_authority": 0.0,
+      "qualified_recommendation_rate": 0.0,
+      "weighted_recommendation_score": 0.0,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "none": 10
+      },
+      "recommendation_counts": {
+        "not_mentioned": 10
+      },
+      "avg_source_authority": 0.0,
+      "avg_accuracy": 1.0,
+      "avg_freshness": 0.0
+    },
+    "read_write_scale": {
+      "prompt_count": 3,
+      "answer_count": 6,
+      "answer_share": 63.33,
+      "citation_authority": 12.0,
+      "qualified_recommendation_rate": 50.0,
+      "weighted_recommendation_score": 52.5,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "none": 1,
+        "top3": 3,
+        "first": 2
+      },
+      "recommendation_counts": {
+        "not_mentioned": 1,
+        "listed": 2,
+        "best": 2,
+        "strong": 1
+      },
+      "avg_source_authority": 0.1667,
+      "avg_accuracy": 0.8056,
+      "avg_freshness": 0.15
+    },
+    "real_time_analytics": {
+      "prompt_count": 5,
+      "answer_count": 10,
+      "answer_share": 0.0,
+      "citation_authority": 0.0,
+      "qualified_recommendation_rate": 0.0,
+      "weighted_recommendation_score": 0.0,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "none": 10
+      },
+      "recommendation_counts": {
+        "not_mentioned": 10
+      },
+      "avg_source_authority": 0.0,
+      "avg_accuracy": 0.8,
+      "avg_freshness": 0.0
+    },
+    "relational_scaling": {
+      "prompt_count": 9,
+      "answer_count": 18,
+      "answer_share": 66.67,
+      "citation_authority": 35.24,
+      "qualified_recommendation_rate": 61.11,
+      "weighted_recommendation_score": 58.45,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "first": 5,
+        "top3": 11,
+        "none": 1,
+        "other": 1
+      },
+      "recommendation_counts": {
+        "best": 5,
+        "strong": 5,
+        "not_mentioned": 1,
+        "listed": 6,
+        "conditional": 1
+      },
+      "avg_source_authority": 0.6204,
+      "avg_accuracy": 0.963,
+      "avg_freshness": 0.6718
+    },
+    "saas_multi_tenant": {
+      "prompt_count": 10,
+      "answer_count": 20,
+      "answer_share": 73.91,
+      "citation_authority": 36.26,
+      "qualified_recommendation_rate": 80.0,
+      "weighted_recommendation_score": 74.24,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "first": 11,
+        "top3": 5,
+        "other": 1,
+        "none": 3
+      },
+      "recommendation_counts": {
+        "best": 11,
+        "strong": 2,
+        "conditional": 3,
+        "not_mentioned": 3,
+        "listed": 1
+      },
+      "avg_source_authority": 0.485,
+      "avg_accuracy": 0.9417,
+      "avg_freshness": 0.475
+    },
+    "serverless_ai": {
+      "prompt_count": 10,
+      "answer_count": 20,
+      "answer_share": 8.0,
+      "citation_authority": 3.9,
+      "qualified_recommendation_rate": 5.0,
+      "weighted_recommendation_score": 6.0,
+      "negative_recommendation_rate": 0.0,
+      "mention_counts": {
+        "none": 18,
+        "top3": 1,
+        "first": 1
+      },
+      "recommendation_counts": {
+        "not_mentioned": 18,
+        "listed": 1,
+        "best": 1
+      },
+      "avg_source_authority": 0.1,
+      "avg_accuracy": 0.9417,
+      "avg_freshness": 0.09
     },
     "stack_simplification": {
       "prompt_count": 2,
       "answer_count": 4,
-      "answer_share": 25.0,
-      "citation_authority": 29.25,
-      "qualified_recommendation_rate": 25.0,
-      "weighted_recommendation_score": 25.0,
+      "answer_share": 0.0,
+      "citation_authority": 11.25,
+      "qualified_recommendation_rate": 0.0,
+      "weighted_recommendation_score": 0.0,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "first": 1,
-        "none": 3
+        "none": 4
       },
       "recommendation_counts": {
-        "best": 1,
-        "not_mentioned": 3
+        "not_mentioned": 4
       },
-      "avg_source_authority": 0.5,
+      "avg_source_authority": 0.25,
       "avg_accuracy": 1.0,
-      "avg_freshness": 0.45
+      "avg_freshness": 0.225
     },
     "travel_financial_settlement": {
       "prompt_count": 2,
       "answer_count": 4,
-      "answer_share": 40.0,
-      "citation_authority": 21.75,
-      "qualified_recommendation_rate": 25.0,
-      "weighted_recommendation_score": 30.0,
+      "answer_share": 55.0,
+      "citation_authority": 41.75,
+      "qualified_recommendation_rate": 50.0,
+      "weighted_recommendation_score": 48.75,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "top3": 1,
-        "none": 2,
-        "first": 1
+        "first": 1,
+        "none": 1,
+        "top3": 2
       },
       "recommendation_counts": {
+        "best": 1,
+        "not_mentioned": 1,
         "listed": 1,
-        "not_mentioned": 2,
-        "best": 1
+        "strong": 1
       },
-      "avg_source_authority": 0.5,
+      "avg_source_authority": 0.75,
       "avg_accuracy": 0.8333,
-      "avg_freshness": 0.45
+      "avg_freshness": 0.7
     },
     "vector_search_with_sql_filters": {
       "prompt_count": 2,
@@ -4567,19 +4631,20 @@
     "ai_infra": {
       "prompt_count": 30,
       "answer_count": 60,
-      "answer_share": 5.0,
-      "citation_authority": 2.9,
-      "qualified_recommendation_rate": 1.67,
-      "weighted_recommendation_score": 2.33,
+      "answer_share": 8.67,
+      "citation_authority": 2.5,
+      "qualified_recommendation_rate": 6.67,
+      "weighted_recommendation_score": 7.33,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 57,
-        "first": 3
+        "none": 54,
+        "top3": 2,
+        "first": 4
       },
       "recommendation_counts": {
-        "not_mentioned": 57,
+        "not_mentioned": 54,
         "listed": 2,
-        "best": 1
+        "best": 4
       },
       "avg_source_authority": 0.05,
       "avg_accuracy": 0.9694,
@@ -4589,75 +4654,76 @@
       "prompt_count": 24,
       "answer_count": 48,
       "answer_share": 30.0,
-      "citation_authority": 15.62,
-      "qualified_recommendation_rate": 18.75,
-      "weighted_recommendation_score": 21.98,
+      "citation_authority": 18.13,
+      "qualified_recommendation_rate": 27.08,
+      "weighted_recommendation_score": 27.08,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "none": 30,
         "first": 10,
         "top3": 7,
+        "none": 30,
         "other": 1
       },
       "recommendation_counts": {
+        "best": 10,
+        "listed": 5,
         "not_mentioned": 30,
-        "listed": 9,
-        "best": 8,
-        "strong": 1
+        "strong": 2,
+        "conditional": 1
       },
-      "avg_source_authority": 0.2708,
-      "avg_accuracy": 0.8958,
-      "avg_freshness": 0.2437
+      "avg_source_authority": 0.2861,
+      "avg_accuracy": 0.9132,
+      "avg_freshness": 0.2743
     },
     "database_type": {
       "prompt_count": 30,
       "answer_count": 60,
       "answer_share": 54.67,
-      "citation_authority": 23.53,
-      "qualified_recommendation_rate": 48.33,
-      "weighted_recommendation_score": 47.42,
+      "citation_authority": 28.11,
+      "qualified_recommendation_rate": 51.67,
+      "weighted_recommendation_score": 49.33,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "other": 3,
-        "first": 25,
-        "top3": 12,
-        "none": 20
+        "top3": 22,
+        "first": 19,
+        "none": 16,
+        "other": 3
       },
       "recommendation_counts": {
-        "listed": 11,
-        "best": 21,
-        "strong": 5,
-        "not_mentioned": 20,
-        "conditional": 3
+        "conditional": 4,
+        "best": 19,
+        "not_mentioned": 16,
+        "strong": 8,
+        "listed": 13
       },
-      "avg_source_authority": 0.4156,
-      "avg_accuracy": 0.9195,
-      "avg_freshness": 0.4181
+      "avg_source_authority": 0.4522,
+      "avg_accuracy": 0.9389,
+      "avg_freshness": 0.4756
     },
     "pain_point": {
       "prompt_count": 36,
       "answer_count": 72,
-      "answer_share": 42.78,
-      "citation_authority": 18.11,
-      "qualified_recommendation_rate": 26.39,
-      "weighted_recommendation_score": 29.24,
+      "answer_share": 46.94,
+      "citation_authority": 18.19,
+      "qualified_recommendation_rate": 38.89,
+      "weighted_recommendation_score": 39.1,
       "negative_recommendation_rate": 0.0,
       "mention_counts": {
-        "first": 21,
-        "none": 34,
-        "top3": 16,
+        "first": 18,
+        "none": 27,
+        "top3": 26,
         "other": 1
       },
       "recommendation_counts": {
-        "listed": 19,
-        "not_mentioned": 34,
-        "best": 13,
-        "strong": 5,
-        "conditional": 1
+        "best": 18,
+        "not_mentioned": 27,
+        "strong": 7,
+        "listed": 17,
+        "conditional": 3
       },
-      "avg_source_authority": 0.3409,
-      "avg_accuracy": 0.8843,
-      "avg_freshness": 0.3287
+      "avg_source_authority": 0.3326,
+      "avg_accuracy": 0.8704,
+      "avg_freshness": 0.3481
     }
   },
   "competitive": {}

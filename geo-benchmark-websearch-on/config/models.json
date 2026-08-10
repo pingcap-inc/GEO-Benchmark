@@ -8,9 +8,9 @@
   },
   "openai": {
     "provider": "openai",
-    "model": "gpt-4o-mini",
+    "model": "gpt-5-mini",
     "temperature": null,
-    "max_output_tokens": 1000,
+    "max_output_tokens": 1600,
     "env_var": "OPENAI_API_KEY",
     "fallback_model": "gpt-4o-mini",
     "fallback_max_output_tokens": 1000,

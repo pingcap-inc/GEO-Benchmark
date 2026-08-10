@@ -1,6 +1,6 @@
 {
   "mode": "actual_or_usage_estimated",
-  "total_estimated_cost_usd": 6.9172,
+  "total_estimated_cost_usd": 7.6953,
   "providers": [
     {
       "provider": "anthropic",
@@ -14,13 +14,13 @@
     },
     {
       "provider": "openai",
-      "model": "gpt-4o-mini-2024-07-18",
+      "model": "gpt-5-mini-2025-08-07",
       "requests": 120,
-      "input_tokens": 50630,
-      "output_tokens": 42032,
-      "web_search_requests": 120,
-      "estimated_cost_usd": 1.2328,
-      "pricing_source": "https://developers.openai.com/api/docs/models/gpt-4o-mini"
+      "input_tokens": 1165120,
+      "output_tokens": 274820,
+      "web_search_requests": 117,
+      "estimated_cost_usd": 2.0109,
+      "pricing_source": "https://openai.com/index/introducing-gpt-5-for-developers/"
     }
   ],
   "pricing_version": "2026-07-30",

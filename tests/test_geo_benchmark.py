@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 import os
+import socket
 from pathlib import Path
 from typing import Optional
 from unittest.mock import patch
@@ -20,7 +21,7 @@ from geo_benchmark.cli import (
 from geo_benchmark.costs import estimate_actual_cost, estimate_planned_cost
 from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_TARGETS
 from geo_benchmark.io_utils import read_json, read_jsonl, stable_hash, write_json, write_jsonl
-from geo_benchmark.providers import AnthropicProvider, OpenAIProvider
+from geo_benchmark.providers import AnthropicProvider, OpenAIProvider, ProviderError, _post_json
 from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import aggregate_scores, score_answer, score_answers
 from geo_benchmark.seed import generate_seed_prompts
@@ -251,6 +252,14 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertGreaterEqual(captured["payload"]["max_output_tokens"], 4000)
         self.assertEqual(result.web_search_requests, 1)
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
+
+    def test_post_json_wraps_socket_timeout_as_retryable_provider_error(self):
+        with patch("urllib.request.urlopen", side_effect=socket.timeout("read timed out")):
+            with self.assertRaises(ProviderError) as ctx:
+                _post_json("https://api.example.test", {"ok": True}, {})
+
+        self.assertTrue(ctx.exception.retryable)
+        self.assertIn("request timed out", str(ctx.exception))
 
     def test_openai_web_search_off_keeps_chat_completions(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}

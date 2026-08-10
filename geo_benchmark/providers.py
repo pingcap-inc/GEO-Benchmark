@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import socket
 import time
 import urllib.error
 import urllib.request
@@ -447,7 +448,7 @@ def _post_json(endpoint: str, payload: dict[str, Any], headers: dict[str, str]) 
         raise ProviderError(f"HTTP {exc.code}: {detail[:500]}", retryable=retryable) from exc
     except urllib.error.URLError as exc:
         raise ProviderError(str(exc), retryable=True) from exc
-    except TimeoutError as exc:
+    except (TimeoutError, socket.timeout) as exc:
         raise ProviderError("request timed out", retryable=True) from exc
 
 

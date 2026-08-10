@@ -1,7 +1,7 @@
 segment,prompt_count,answer_count,answer_share,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
 ads_real_time_calculation,2,4,0.0,0.0,0.0,0.0
 agent_memory,2,4,0.0,0.0,0.0,0.0
-ai_app_backend,12,24,60.83,15.74,41.67,0.0
+ai_app_backend,12,24,87.5,30.93,79.17,0.0
 ai_application_metadata,7,14,8.82,0.0,7.14,0.0
 bursty_traffic,3,6,0.0,0.0,0.0,0.0
 cloud_relational_infrastructure,2,4,15.0,1.75,0.0,0.0
@@ -19,7 +19,7 @@ read_write_scale,3,6,0.0,0.0,0.0,0.0
 real_time_analytics,5,10,0.0,0.0,0.0,0.0
 relational_scaling,9,18,0.0,0.0,0.0,0.0
 saas_multi_tenant,10,20,0.0,0.0,0.0,0.0
-serverless_ai,10,20,9.0,0.35,15.0,0.0
+serverless_ai,10,20,17.0,6.2,20.0,0.0
 stack_simplification,2,4,0.0,0.0,0.0,0.0
 travel_financial_settlement,2,4,0.0,0.0,0.0,0.0
 vector_search_with_sql_filters,2,4,15.0,0.0,25.0,0.0

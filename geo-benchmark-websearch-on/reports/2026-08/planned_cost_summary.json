@@ -4,8 +4,23 @@
   "prompt_count": 120,
   "assumed_output_tokens": 700,
   "web_search_mode": "on",
-  "total_estimated_cost_usd": 2.0715,
+  "total_estimated_cost_usd": 3.4434,
   "providers": [
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini",
+      "requests": 120,
+      "input_tokens": 15736,
+      "output_tokens": 84000,
+      "input_rate_per_1m": 0.25,
+      "output_rate_per_1m": 2.0,
+      "request_fee": 0.0,
+      "web_search_mode": "on",
+      "web_search_requests": 120,
+      "web_search_fee": 0.01,
+      "estimated_cost_usd": 1.3719,
+      "pricing_source": "https://openai.com/index/introducing-gpt-5-for-developers/"
+    },
     {
       "provider": "anthropic",
       "model": "claude-sonnet-5",
