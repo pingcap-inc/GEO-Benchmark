@@ -35,6 +35,23 @@ MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
 - Anthropic report: `geo-benchmark/reports/2026-08/llm-report.md`
 - OpenAI report: `geo-benchmark-openai/reports/2026-08/llm-report.md`
 - Web search on report: `geo-benchmark-websearch-on/reports/2026-08/llm-report.md`
-- Web search on/off comparison: `docs/geo-benchmark-2026-08-web-search-on-vs-off.md`
+- Canonical KPI report: `docs/geo-benchmark-2026-08-canonical-kpi.md`
 
 Raw answer files are intentionally not published. Reports and scored outputs are included for review and comparison.
+
+## Canonical Report Regeneration
+
+Regenerate the canonical KPI report from committed scored outputs:
+
+```bash
+python3 scripts/generate-canonical-kpi-report.py --month 2026-08
+```
+
+Generate one provider/mode view:
+
+```bash
+python3 scripts/generate-canonical-kpi-report.py --month 2026-08 --view anthropic-on
+```
+
+Valid views: `anthropic-on`, `openai-on`, `anthropic-off`, `openai-off`.
+Do not manually blend providers for executive readouts.
