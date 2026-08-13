@@ -47,11 +47,14 @@ Regenerate the canonical KPI report from committed scored outputs:
 python3 scripts/generate-canonical-kpi-report.py --month 2026-08
 ```
 
+The default report includes four provider/mode KPI views plus Anthropic on/off and OpenAI on/off comparisons.
+
 Generate one provider/mode view:
 
 ```bash
-python3 scripts/generate-canonical-kpi-report.py --month 2026-08 --view anthropic-on
+python3 scripts/generate-canonical-kpi-report.py --month 2026-08 --view anthropic-on --comparison none
 ```
 
 Valid views: `anthropic-on`, `openai-on`, `anthropic-off`, `openai-off`.
+Valid comparisons: `anthropic`, `openai`, `all`, `none`.
 Do not manually blend providers for executive readouts.
