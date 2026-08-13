@@ -261,7 +261,7 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertTrue(ctx.exception.retryable)
         self.assertIn("request timed out", str(ctx.exception))
 
-    def test_openai_web_search_off_keeps_chat_completions(self):
+    def test_openai_web_search_off_uses_responses_api_without_tools(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
         config = {"model": "gpt-5-mini", "env_var": "OPENAI_API_KEY", "web_search": "off", "max_output_tokens": 100}
         captured = {}
@@ -271,8 +271,11 @@ class GeoBenchmarkTests(unittest.TestCase):
             captured["payload"] = payload
             return {
                 "model": "gpt-5-mini-2026-08-01",
-                "choices": [{"message": {"content": "TiDB is one option."}}],
-                "usage": {"prompt_tokens": 10, "completion_tokens": 5},
+                "output_text": "TiDB is one option.",
+                "output": [
+                    {"type": "message", "content": [{"type": "output_text", "text": "TiDB is one option."}]},
+                ],
+                "usage": {"input_tokens": 10, "output_tokens": 5},
             }
 
         old_key = os.environ.get("OPENAI_API_KEY")
@@ -283,8 +286,10 @@ class GeoBenchmarkTests(unittest.TestCase):
         finally:
             restore_env("OPENAI_API_KEY", old_key)
 
-        self.assertTrue(captured["endpoint"].endswith("/v1/chat/completions"))
+        self.assertTrue(captured["endpoint"].endswith("/v1/responses"))
         self.assertNotIn("tools", captured["payload"])
+        self.assertNotIn("max_tool_calls", captured["payload"])
+        self.assertGreaterEqual(captured["payload"]["max_output_tokens"], 4000)
         self.assertEqual(result.web_search_requests, 0)
 
     def test_anthropic_web_search_on_adds_server_tool(self):

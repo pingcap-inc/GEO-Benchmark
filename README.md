@@ -51,6 +51,7 @@ VIEW=anthropic-off MONTH=2026-08 FORCE=1 ./scripts/run-canonical-provider-benchm
 ```
 
 This command collects raw answers, scores them, writes reports, and audits that the run has 120 successful answers, 720 scored target rows, the expected provider/mode, and the expected model. Fallback is disabled for canonical runs.
+For OpenAI, canonical on/off runs both use the Responses API; the only intended difference is whether the web search tool is enabled.
 
 The audit step runs after local collection because raw answer files are not committed to this repository.
 

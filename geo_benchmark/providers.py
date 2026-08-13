@@ -186,50 +186,26 @@ def mock_reasoning(products: list[str], use_case: str) -> str:
 
 
 class OpenAIProvider(BaseProvider):
-    chat_endpoint = "https://api.openai.com/v1/chat/completions"
     responses_endpoint = "https://api.openai.com/v1/responses"
 
     def generate(self, prompt: dict[str, Any], run_index: int) -> ProviderResult:
         api_key = os.getenv(self.config.get("env_var") or "OPENAI_API_KEY")
         if not api_key:
             raise ProviderError("Missing OPENAI_API_KEY")
-        if web_search_enabled(self.config):
-            return self._generate_with_web_search(prompt, api_key)
-        payload = {
-            "model": self.model,
-            "max_completion_tokens": self.config.get("max_output_tokens", 700),
-            "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": self._input_text(prompt)},
-            ],
-        }
-        if self.config.get("temperature") is not None:
-            payload["temperature"] = self.config.get("temperature")
-        data = _post_json(self.chat_endpoint, payload, {"Authorization": f"Bearer {api_key}"})
-        answer = data["choices"][0]["message"]["content"]
-        if not answer:
-            raise ProviderError("OpenAI returned empty content; increase max_completion_tokens", retryable=False)
-        usage = data.get("usage", {})
-        return ProviderResult(
-            answer=answer,
-            citations=[],
-            input_tokens=usage.get("prompt_tokens", estimate_tokens(self._input_text(prompt))),
-            output_tokens=usage.get("completion_tokens", estimate_tokens(answer)),
-            model_name=data.get("model", self.model),
-            raw_response=data,
-        )
+        return self._generate_with_responses_api(prompt, api_key)
 
-    def _generate_with_web_search(self, prompt: dict[str, Any], api_key: str) -> ProviderResult:
+    def _generate_with_responses_api(self, prompt: dict[str, Any], api_key: str) -> ProviderResult:
         payload = {
             "model": self.model,
-            "max_output_tokens": max(int(self.config.get("max_output_tokens", 700)), int(self.config.get("web_search_max_output_tokens", 4000))),
-            "max_tool_calls": int(self.config.get("web_search_max_tool_calls", 1)),
-            "tools": [{"type": "web_search", "search_context_size": "low"}],
+            "max_output_tokens": max(int(self.config.get("max_output_tokens", 700)), int(self.config.get("responses_max_output_tokens", 4000))),
             "input": [
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": self._input_text(prompt)},
             ],
         }
+        if web_search_enabled(self.config):
+            payload["max_tool_calls"] = int(self.config.get("web_search_max_tool_calls", 1))
+            payload["tools"] = [{"type": "web_search", "search_context_size": "low"}]
         if self.config.get("temperature") is not None:
             payload["temperature"] = self.config.get("temperature")
         data = _post_json(self.responses_endpoint, payload, {"Authorization": f"Bearer {api_key}"})
