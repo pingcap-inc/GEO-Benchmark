@@ -19,6 +19,15 @@ Valid comparisons: `anthropic`, `openai`, `all`, `none`.
 
 Guardrail: do not manually blend providers for executive readouts.
 
+## Input Audit
+
+| View | Target-Answer Rows | Prompt Count | Model Distribution | Web Search Calls | Note |
+| --- | ---: | ---: | --- | ---: | --- |
+| `anthropic-on` | 720 | 120 | claude-sonnet-5: 120 answers | 120 | same model |
+| `openai-on` | 720 | 120 | gpt-5-mini-2025-08-07: 120 answers | 117 | corrected same-model web-on |
+| `anthropic-off` | 720 | 120 | claude-sonnet-5: 120 answers | 0 | same model |
+| `openai-off` | 720 | 120 | gpt-4o-mini-2024-07-18: 17 answers, gpt-5-mini-2025-08-07: 103 answers | 0 | mixed fallback baseline; not strict same-model |
+
 ## Anthropic Web-On
 
 View: `anthropic-on`
@@ -118,7 +127,9 @@ Target-answer rows: `720`
 | database_type | 25.33 | 34.00 | +8.67 | 9.65 | 17.68 | +8.03 | 20.00 | 33.33 | +13.33 |
 | pain_point | 34.44 | 46.11 | +11.67 | 14.74 | 20.80 | +6.06 | 11.11 | 38.89 | +27.78 |
 
-### OpenAI Web-On vs Web-Off
+### OpenAI Web-On vs Web-Off (Off Baseline Uses Fallback)
+
+Note: OpenAI web-on is all `gpt-5-mini-2025-08-07`, but OpenAI web-off contains 103 `gpt-5-mini-2025-08-07` answers and 17 `gpt-4o-mini-2024-07-18` fallback answers. Treat this as the current published baseline comparison, not a strict same-model comparison.
 
 #### Overall
 

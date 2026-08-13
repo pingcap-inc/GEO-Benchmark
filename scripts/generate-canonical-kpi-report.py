@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -107,6 +108,10 @@ def main() -> int:
         "",
         "Guardrail: do not manually blend providers for executive readouts.",
         "",
+        "## Input Audit",
+        "",
+        input_audit_table(args.month),
+        "",
     ]
 
     for view in selected:
@@ -175,6 +180,35 @@ def validate_view(view: str, spec: dict[str, Any], rows: list[dict[str, Any]]) -
             raise SystemExit(f"{view} expected model {expected_model}, got {sorted(models)}")
 
 
+def input_audit_table(month: str) -> str:
+    lines = [
+        "| View | Target-Answer Rows | Prompt Count | Model Distribution | Web Search Calls | Note |",
+        "| --- | ---: | ---: | --- | ---: | --- |",
+    ]
+    for view in DEFAULT_VIEW_ORDER:
+        spec = VIEWS[view]
+        rows = load_view(month, spec)
+        validate_view(view, spec, rows)
+        model_counts = Counter(row.get("model_name") for row in rows)
+        answer_ids = {}
+        for row in rows:
+            answer_ids.setdefault(row["answer_id"], row)
+        answer_model_counts = Counter(row.get("model_name") for row in answer_ids.values())
+        model_text = ", ".join(f"{model}: {count // 6} answers" for model, count in sorted(model_counts.items()))
+        if len(answer_model_counts) > 1:
+            model_text = ", ".join(f"{model}: {count} answers" for model, count in sorted(answer_model_counts.items()))
+        note = "same model"
+        if view == "openai-off" and len(answer_model_counts) > 1:
+            note = "mixed fallback baseline; not strict same-model"
+        elif view == "openai-on":
+            note = "corrected same-model web-on"
+        lines.append(
+            f"| `{view}` | {len(rows)} | {len({row['prompt_id'] for row in rows})} | "
+            f"{model_text} | {sum(int(row.get('web_search_requests') or 0) for row in answer_ids.values())} | {note} |"
+        )
+    return "\n".join(lines)
+
+
 def executive_table(rows: list[dict[str, Any]]) -> str:
     targets = aggregate_scores(rows)["targets"]
     lines = [
@@ -200,8 +234,20 @@ def comparison_section(month: str, provider: str) -> list[str]:
     validate_view(off_view, VIEWS[off_view], off_rows)
     validate_view(on_view, VIEWS[on_view], on_rows)
     title = "Anthropic" if provider == "anthropic" else "OpenAI"
+    subtitle = f"{title} Web-On vs Web-Off"
+    note: list[str] = []
+    if provider == "openai":
+        off_models = {row.get("model_name") for row in off_rows}
+        on_models = {row.get("model_name") for row in on_rows}
+        if len(off_models) > 1 or off_models != on_models:
+            subtitle += " (Off Baseline Uses Fallback)"
+            note = [
+                "",
+                "Note: OpenAI web-on is all `gpt-5-mini-2025-08-07`, but OpenAI web-off contains 103 `gpt-5-mini-2025-08-07` answers and 17 `gpt-4o-mini-2024-07-18` fallback answers. Treat this as the current published baseline comparison, not a strict same-model comparison.",
+            ]
     return [
-        f"### {title} Web-On vs Web-Off",
+        f"### {subtitle}",
+        *note,
         "",
         "#### Overall",
         "",
