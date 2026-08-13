@@ -307,30 +307,109 @@ def metric_delta(old: float, new: float) -> str:
 
 
 def tidb_aeo_actions(month: str) -> list[str]:
-    anthropic_off = aggregate_scores(load_view(month, VIEWS["anthropic-off"]))["targets"]["TiDB"]
-    anthropic_on = aggregate_scores(load_view(month, VIEWS["anthropic-on"]))["targets"]["TiDB"]
-    openai_off = aggregate_scores(load_view(month, VIEWS["openai-off"]))["targets"]["TiDB"]
-    openai_on = aggregate_scores(load_view(month, VIEWS["openai-on"]))["targets"]["TiDB"]
+    provider_rows = {
+        "Anthropic": {
+            "off": load_view(month, VIEWS["anthropic-off"]),
+            "on": load_view(month, VIEWS["anthropic-on"]),
+        },
+        "OpenAI": {
+            "off": load_view(month, VIEWS["openai-off"]),
+            "on": load_view(month, VIEWS["openai-on"]),
+        },
+    }
+    provider_summaries = {
+        provider: {
+            mode: aggregate_scores(rows)["targets"]
+            for mode, rows in modes.items()
+        }
+        for provider, modes in provider_rows.items()
+    }
+    tidb_on = {
+        provider: summaries["on"]["TiDB"]["overall"]
+        for provider, summaries in provider_summaries.items()
+    }
+    tidb_off = {
+        provider: summaries["off"]["TiDB"]["overall"]
+        for provider, summaries in provider_summaries.items()
+    }
+    deltas = {
+        provider: {
+            metric: tidb_on[provider][metric] - tidb_off[provider][metric]
+            for metric in ["answer_share", "citation_authority", "qualified_recommendation_rate"]
+        }
+        for provider in provider_summaries
+    }
+    provider_priority = min(
+        provider_summaries,
+        key=lambda provider: tidb_on[provider]["answer_share"],
+    )
+    strongest_provider = max(
+        provider_summaries,
+        key=lambda provider: tidb_on[provider]["answer_share"],
+    )
+    weak_prompt = weakest_prompt_type(provider_summaries[provider_priority]["on"])
+    largest_competitor_gap = competitor_gap(provider_summaries[provider_priority]["on"])
+    citation_priority = min(
+        provider_summaries,
+        key=lambda provider: tidb_on[provider]["citation_authority"],
+    )
+    recommendation_priority = min(
+        provider_summaries,
+        key=lambda provider: tidb_on[provider]["qualified_recommendation_rate"],
+    )
 
     return [
         "## Suggested Next Steps For TiDB AEO",
         "",
-        "1. Strengthen OpenAI-facing discoverability for pain-point and database-type queries.",
-        f"OpenAI web-on lowers TiDB Answer Share in `pain_point` and `database_type` prompts, while Anthropic web-on improves TiDB strongly. Build concise public pages that map buyer pains to TiDB-fit language: scale-out SQL, MySQL compatibility, HTAP, operational analytics, AI application data, and vector search with transactional data.",
+        "This section is regenerated from the latest scored outputs every time the canonical KPI report is generated.",
         "",
-        "2. Create citation-ready comparison and use-case pages.",
-        f"TiDB Citation Authority is much stronger in Anthropic web-on ({anthropic_on['overall']['citation_authority']:.2f}) than OpenAI web-on ({openai_on['overall']['citation_authority']:.2f}). Publish pages with clear claims, current dates, source links, schema examples, and comparison tables for TiDB vs CockroachDB, YugabyteDB, Aurora, Neon, Supabase, and PlanetScale.",
+        f"1. Prioritize {provider_priority} visibility.",
+        f"In {provider_priority} web-on, TiDB Answer Share is {tidb_on[provider_priority]['answer_share']:.2f}. The largest visible competitor gap is vs {largest_competitor_gap['target']} at {largest_competitor_gap['gap']:.2f} points. Build pages and snippets that answer the exact buying pains where TiDB should be first: scale-out SQL, MySQL compatibility, HTAP, operational analytics, AI application data, and vector search over fresh operational data.",
         "",
-        "3. Improve recommendation language around exact-fit scenarios.",
-        f"Anthropic Recommendation Rate moves from {anthropic_off['overall']['qualified_recommendation_rate']:.2f} to {anthropic_on['overall']['qualified_recommendation_rate']:.2f}, but OpenAI moves from {openai_off['overall']['qualified_recommendation_rate']:.2f} to {openai_on['overall']['qualified_recommendation_rate']:.2f}. Add explicit 'choose TiDB when...' sections for real-time operational analytics, high-write transactional workloads, MySQL scale-out, and hybrid transactional plus analytical workloads.",
+        f"2. Fix the weakest TiDB prompt type: `{weak_prompt['prompt_type']}`.",
+        f"In {provider_priority} web-on, `{weak_prompt['prompt_type']}` has TiDB Answer Share {weak_prompt['answer_share']:.2f}, Citation Authority {weak_prompt['citation_authority']:.2f}, and Recommendation Rate {weak_prompt['recommendation_rate']:.2f}. Create use-case pages, docs examples, and comparison content specifically for this query family.",
         "",
-        "4. Add serverless AI positioning without forcing PostgreSQL framing.",
-        "For AI infrastructure prompts, TiDB still trails Neon and Supabase in OpenAI. Create TiDB Serverless AI pages and examples around agent state, RAG over fresh operational data, vector search with SQL filters, and transactional metadata at scale.",
+        f"3. Raise {citation_priority} citation authority.",
+        f"TiDB Citation Authority in {citation_priority} web-on is {tidb_on[citation_priority]['citation_authority']:.2f}. Publish citation-ready assets with current dates, official docs links, architecture diagrams, schema examples, customer proof, and clear claims that answer engines can quote directly.",
         "",
-        "5. Make customer proof easier for answer engines to quote.",
-        "Package customer stories into structured, crawlable pages with industry, workload, before/after pain, architecture, measurable outcome, and links to docs. The benchmark case-selection prompts reward concrete use-case proof more than generic product messaging.",
+        f"4. Improve {recommendation_priority} recommendation language.",
+        f"TiDB Recommendation Rate in {recommendation_priority} moved from {tidb_off[recommendation_priority]['qualified_recommendation_rate']:.2f} off to {tidb_on[recommendation_priority]['qualified_recommendation_rate']:.2f} on, a delta of {deltas[recommendation_priority]['qualified_recommendation_rate']:+.2f}. Add explicit 'choose TiDB when...' and 'when not to choose TiDB...' sections so models can recommend it conditionally instead of merely listing it.",
+        "",
+        f"5. Preserve what is working in {strongest_provider}.",
+        f"{strongest_provider} web-on gives TiDB the strongest Answer Share at {tidb_on[strongest_provider]['answer_share']:.2f}. Use this as a pattern source: inspect high-scoring prompt types, then replicate that evidence structure and wording across lower-performing pages and provider surfaces.",
         "",
     ]
+
+
+def weakest_prompt_type(targets: dict[str, Any]) -> dict[str, Any]:
+    rows = []
+    for prompt_type, metrics in targets["TiDB"]["by_prompt_type"].items():
+        score = (
+            metrics["answer_share"]
+            + metrics["citation_authority"]
+            + metrics["qualified_recommendation_rate"]
+        ) / 3
+        rows.append(
+            {
+                "prompt_type": prompt_type,
+                "score": score,
+                "answer_share": metrics["answer_share"],
+                "citation_authority": metrics["citation_authority"],
+                "recommendation_rate": metrics["qualified_recommendation_rate"],
+            }
+        )
+    return min(rows, key=lambda row: row["score"])
+
+
+def competitor_gap(targets: dict[str, Any]) -> dict[str, Any]:
+    tidb = targets["TiDB"]["overall"]["answer_share"]
+    gaps = []
+    for target in TARGETS:
+        if target == "TiDB":
+            continue
+        gap = targets[target]["overall"]["answer_share"] - tidb
+        gaps.append({"target": target, "gap": gap})
+    return max(gaps, key=lambda row: row["gap"])
 
 
 if __name__ == "__main__":

@@ -164,17 +164,19 @@ Note: OpenAI web-on is all `gpt-5-mini-2025-08-07`, but OpenAI web-off contains 
 
 ## Suggested Next Steps For TiDB AEO
 
-1. Strengthen OpenAI-facing discoverability for pain-point and database-type queries.
-OpenAI web-on lowers TiDB Answer Share in `pain_point` and `database_type` prompts, while Anthropic web-on improves TiDB strongly. Build concise public pages that map buyer pains to TiDB-fit language: scale-out SQL, MySQL compatibility, HTAP, operational analytics, AI application data, and vector search with transactional data.
+This section is regenerated from the latest scored outputs every time the canonical KPI report is generated.
 
-2. Create citation-ready comparison and use-case pages.
-TiDB Citation Authority is much stronger in Anthropic web-on (17.28) than OpenAI web-on (7.28). Publish pages with clear claims, current dates, source links, schema examples, and comparison tables for TiDB vs CockroachDB, YugabyteDB, Aurora, Neon, Supabase, and PlanetScale.
+1. Prioritize OpenAI visibility.
+In OpenAI web-on, TiDB Answer Share is 15.62. The largest visible competitor gap is vs CockroachDB at 21.96 points. Build pages and snippets that answer the exact buying pains where TiDB should be first: scale-out SQL, MySQL compatibility, HTAP, operational analytics, AI application data, and vector search over fresh operational data.
 
-3. Improve recommendation language around exact-fit scenarios.
-Anthropic Recommendation Rate moves from 11.67 to 25.83, but OpenAI moves from 16.67 to 15.00. Add explicit 'choose TiDB when...' sections for real-time operational analytics, high-write transactional workloads, MySQL scale-out, and hybrid transactional plus analytical workloads.
+2. Fix the weakest TiDB prompt type: `ai_infra`.
+In OpenAI web-on, `ai_infra` has TiDB Answer Share 3.33, Citation Authority 1.80, and Recommendation Rate 3.33. Create use-case pages, docs examples, and comparison content specifically for this query family.
 
-4. Add serverless AI positioning without forcing PostgreSQL framing.
-For AI infrastructure prompts, TiDB still trails Neon and Supabase in OpenAI. Create TiDB Serverless AI pages and examples around agent state, RAG over fresh operational data, vector search with SQL filters, and transactional metadata at scale.
+3. Raise OpenAI citation authority.
+TiDB Citation Authority in OpenAI web-on is 7.28. Publish citation-ready assets with current dates, official docs links, architecture diagrams, schema examples, customer proof, and clear claims that answer engines can quote directly.
 
-5. Make customer proof easier for answer engines to quote.
-Package customer stories into structured, crawlable pages with industry, workload, before/after pain, architecture, measurable outcome, and links to docs. The benchmark case-selection prompts reward concrete use-case proof more than generic product messaging.
+4. Improve OpenAI recommendation language.
+TiDB Recommendation Rate in OpenAI moved from 16.67 off to 15.00 on, a delta of -1.67. Add explicit 'choose TiDB when...' and 'when not to choose TiDB...' sections so models can recommend it conditionally instead of merely listing it.
+
+5. Preserve what is working in Anthropic.
+Anthropic web-on gives TiDB the strongest Answer Share at 31.63. Use this as a pattern source: inspect high-scoring prompt types, then replicate that evidence structure and wording across lower-performing pages and provider surfaces.
