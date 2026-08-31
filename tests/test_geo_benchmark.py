@@ -357,11 +357,50 @@ class GeoBenchmarkTests(unittest.TestCase):
 
     def test_prompt_validation_fails_measured_product_leak(self):
         prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
-        prompts[0] = {**prompts[0], "prompt_text": prompts[0]["prompt_text"] + " Should we use TiDB?"}
+        prompts[0] = {
+            **prompts[0],
+            "brand_class": "non_branded",
+            "prompt_text": prompts[0]["prompt_text"] + " Should we use TiDB?",
+        }
 
         errors = prompt_validation_errors(prompts)
 
         self.assertTrue(any("measured product term 'tidb'" in error for error in errors))
+
+    def test_prompt_validation_allows_branded_prompt_naming_tidb(self):
+        prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
+        prompts[0] = {
+            **prompts[0],
+            "brand_class": "branded",
+            "prompt_text": "What is TiDB Cloud Zero?",
+        }
+
+        errors = prompt_validation_errors(prompts)
+
+        self.assertFalse(any("measured product term" in error for error in errors))
+
+    def test_prompt_validation_defaults_to_non_branded(self):
+        """A prompt with no brand_class is still checked, so old files behave as before."""
+        prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
+        prompts[0] = {**prompts[0], "prompt_text": "Is TiDB a good choice?"}
+        prompts[0].pop("brand_class", None)
+
+        errors = prompt_validation_errors(prompts)
+
+        self.assertTrue(any("measured product term 'tidb'" in error for error in errors))
+
+    def test_prompt_validation_rejects_invalid_brand_class(self):
+        prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
+        prompts[0] = {**prompts[0], "brand_class": "Branded "}
+
+        errors = prompt_validation_errors(prompts)
+
+        self.assertFalse(any("brand_class must be" in error for error in errors))
+
+        prompts[0] = {**prompts[0], "brand_class": "brandd"}
+        errors = prompt_validation_errors(prompts)
+
+        self.assertTrue(any("brand_class must be" in error for error in errors))
 
     def test_prompt_validation_fails_serverless_ai_postgres_leak(self):
         prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
