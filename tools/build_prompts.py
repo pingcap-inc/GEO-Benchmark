@@ -53,7 +53,6 @@ RECENT_PRODUCTS = [
     "tidb x",
     "mem9",
     "drive9",
-    "request unit",
     "chat2query",
 ]
 
