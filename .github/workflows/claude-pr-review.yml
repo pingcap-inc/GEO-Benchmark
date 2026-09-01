@@ -55,6 +55,11 @@ jobs:
         run: |
           set -uo pipefail
 
+          # Strip stray CR/LF from the secret (a line break pasted into the
+          # token value makes the Authorization header invalid).
+          CLAUDE_CODE_OAUTH_TOKEN="$(printf '%s' "${CLAUDE_CODE_OAUTH_TOKEN}" | tr -d '\r\n')"
+          export CLAUDE_CODE_OAUTH_TOKEN
+
           echo "node $(node -v) / npm $(npm -v)"
           echo "claude: $(command -v claude || echo NOT-FOUND)"
           claude --version || true
