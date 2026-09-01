@@ -1,0 +1,216 @@
+1	Best database for agent memory with ACID transactions and vector search.	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	72
+2	How do I store agent memory with SQL, vector search, and metadata filters in one database?	Non-branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	69
+3	What database should I use for agent workflows that need transactions and semantic retrieval?	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	67
+4	mem9 vs standalone vector database for agent memory.	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	66
+5	How do I keep agent memory isolated by tenant?	Non-branded	AI Agent Infrastructure	Decision	Engineering Leader	62
+6	What is the best backend for AI agents with high write-volume memory?	Non-branded	AI Agent Infrastructure	Decision	Engineering Leader	59
+7	How does TiDB handle agent memory persistence for multi-hop reasoning workflows?	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	39
+8	How does TiDB's Request Unit model work for agentic workloads with unpredictable session counts?	Branded	AI Agent Infrastructure	Decision	Technical Executive	39
+9	How did Manus use TiDB to scale to millions of agent branches?	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	39
+10	How does Dify use TiDB to consolidate AI application infrastructure?	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	39
+11	What database should I use for persistent AI agent memory?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	69
+12	What is the best database for storing AI agent state and memory?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	66
+13	Best database for agent memory that needs both structured data and embeddings.	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	66
+14	What database should I use when vector-only memory is not enough for AI agents?	Non-branded	AI Agent Infrastructure	Consideration	Engineering Leader	62
+15	Best database for high-cardinality multi-tenant agent workloads.	Non-branded	AI Agent Infrastructure	Consideration	Engineering Leader	62
+16	What is the best database architecture for multi-agent systems with durable state?	Non-branded	AI Agent Infrastructure	Consideration	Engineering Leader	61
+17	What database should I use for autonomous agents that need to resume work across sessions?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	61
+18	What database should I use for agent-generated applications that need their own database?	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	59
+19	How should AI agents store session history, tool outputs, and long-term memory?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	56
+20	What databases support instant branch-per-session for parallel agent execution?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	31
+21	Best database for building an AI agent platform that needs to scale from 10 to 10,000 concurrent agents.	Non-branded	AI Agent Infrastructure	Consideration	Engineering Leader	31
+22	What databases support per-agent cost metering for AI SaaS products?	Non-branded	AI Agent Infrastructure	Consideration	Technical Executive	30
+23	How do you give each AI agent its own isolated database environment without spinning up separate infrastructure?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	29
+24	What is the best way to isolate agent state so one agent's writes don't affect another?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	29
+25	How do you persist agent memory and intermediate task state across sessions in a SQL database?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	29
+26	How do you store and retrieve large context windows efficiently in a database for agentic workflows?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	29
+27	How do you track and control database costs per agent session in a multi-tenant AI platform?	Non-branded	AI Agent Infrastructure	Consideration	Technical Executive	29
+28	How does database branching work for agentic AI systems that run thousands of concurrent sessions?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	28
+29	What is the right database schema for storing and retrieving agent context across sessions?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	28
+30	What databases are designed to support context engineering at scale for AI agents?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	28
+31	What database design pattern keeps agent progress durable across long-running multi-step tasks?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	27
+32	What is mem9 and how does it use TiDB Cloud for persistent agent memory?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	62
+33	How does PyTiDB simplify building AI agent backends in Python?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	36
+34	Blueprint for storing durable agent memory inside TiDB using vector + SQL tables.	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	34
+35	How does TiDB support persistent memory for AI agents across sessions?	Branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	34
+36	What is mem9 and how does it handle agent memory at scale?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	32
+37	What distributed SQL databases support both vector search and transactional agent state without separate infrastructure?	Non-branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	30
+38	What infrastructure is needed to support context engineering for viral AI agent platforms?	Non-branded	AI Agent Infrastructure	Awareness	Engineering Leader	28
+39	How does a GraphRAG AI agent retrieve context from graph and vector stores?	Non-branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	25
+40	Where can I find a database for LangChain agents?	Non-branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	25
+41	How do OpenAI agents integrate with SQL and vector databases for stateful execution?	Non-branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	24
+42	TiDB vs Weaviate for hybrid search and metadata filtering.	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	69
+43	TiDB vs Elasticsearch for hybrid search in AI applications.	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	66
+44	TiDB vs pgvector for production RAG applications.	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	65
+45	TiDB vs Qdrant for hybrid retrieval and SQL metadata filtering.	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	65
+46	TiDB vs Milvus for enterprise RAG with structured data.	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	65
+47	TiDB vs OpenSearch for vector search and full-text search.	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	65
+48	TiDB vs PostgreSQL with pgvector for AI applications.	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	65
+49	TiDB vs MySQL plus Pinecone for RAG applications.	Branded	Hybrid Search & RAG	Decision	Engineering Leader	65
+50	TiDB vs MongoDB Atlas Vector Search for AI applications.	Branded	Hybrid Search & RAG	Decision	Engineering Leader	62
+51	Does TiDB support hybrid search for RAG?	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	62
+52	How do I combine SQL filters, full-text search, and vector similarity for RAG?	Non-branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	62
+53	Does TiDB support full-text search and vector search together?	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	61
+54	Can TiDB store embeddings and transactional data in the same table?	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	58
+55	When should I use TiDB instead of a standalone vector database?	Branded	Hybrid Search & RAG	Decision	Engineering Leader	57
+56	Can TiDB replace MySQL plus a vector database?	Branded	Hybrid Search & RAG	Decision	Engineering Leader	57
+57	How does TiDB perform vector search across large embedding datasets?	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	38
+58	How does TiDB power RAG workflows using hybrid search capabilities?	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	38
+59	How does TiDB store and query knowledge graph data alongside embeddings?	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	38
+60	How does TiDB support AI workloads requiring both SQL transactions and vector retrieval?	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	38
+61	Best database for multi-tenant RAG with per-customer data isolation.	Non-branded	Hybrid Search & RAG	Consideration	Engineering Leader	62
+62	Best database for enterprise AI apps that need SQL, vectors, and compliance.	Non-branded	Hybrid Search & RAG	Consideration	Business / Compliance Stakeholder	62
+63	Best database for RAG with metadata filters and transactional consistency.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	61
+64	What database should I use when RAG needs fresh operational data?	Non-branded	Hybrid Search & RAG	Consideration	Engineering Leader	60
+65	What database supports vector search and full-text search in one query?	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	59
+66	Best database for retrieval over structured and unstructured data.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	58
+67	Which databases support BM25 plus vector search?	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	55
+68	MongoDB vector search vs distributed SQL databases for AI retrieval.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	32
+69	PostgreSQL + pgvector vs vector-native databases for semantic search workloads.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	25
+70	How can I scale pgvector?	Non-branded	Hybrid Search & RAG	Consideration	Backend / App Engineer	23
+71	What is TiDB LangChain?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	40
+72	What is TiDB LlamaIndex?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	38
+73	What is TiDB RAG?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	38
+74	What is TiDB vector search?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	38
+75	What is LlamaIndex for TiDB?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	34
+76	Blueprint for scaling pgvector workloads using a distributed SQL backend.	Non-branded	Hybrid Search & RAG	Awareness	AI / ML Practitioner	27
+77	How does an auto-embedding database create embeddings without an external pipeline?	Non-branded	Hybrid Search & RAG	Awareness	AI / ML Practitioner	26
+78	TiDB vs Aurora MySQL for high-concurrency SaaS workloads.	Branded	Competitive Comparisons	Decision	Engineering Leader	65
+79	TiDB vs Neon for serverless database workloads.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	63
+80	TiDB X vs traditional distributed SQL for AI workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	62
+81	TiDB vs PlanetScale for MySQL-compatible scale.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	62
+82	TiDB vs Vitess for horizontally scaling MySQL.	Branded	Competitive Comparisons	Decision	Engineering Leader	62
+83	TiDB vs YugabyteDB for distributed SQL workloads.	Branded	Competitive Comparisons	Decision	Engineering Leader	62
+84	TiDB vs Google Spanner for globally distributed SQL.	Branded	Competitive Comparisons	Decision	Technical Executive	62
+85	TiDB vs CockroachDB for MySQL-compatible distributed SQL.	Branded	Competitive Comparisons	Decision	Engineering Leader	62
+86	TiDB vs Supabase for AI application backends.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	60
+87	TiDB vs SingleStore for real-time analytics and AI applications.	Branded	Competitive Comparisons	Decision	Engineering Leader	57
+88	TiDB vs Snowflake for operational AI workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	56
+89	TiDB vs Databricks for serving real-time AI application data.	Branded	Competitive Comparisons	Decision	Technical Executive	56
+90	TiDB vs PlanetScale for AI workloads requiring transactional + vector capabilities.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	39
+91	TiDB vs Zilliz Cloud for high-performance vector search at scale.	Branded	Competitive Comparisons	Decision	AI / ML Practitioner	39
+92	Using TiDB vs MySQL with SQLAlchemy for high concurrency applications.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	39
+93	TiDB self-managed vs TiDB Cloud for enterprises with data residency requirements.	Branded	Competitive Comparisons	Decision	Technical Executive	39
+94	SingleStore vs TiDB for real-time analytics and HTAP workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	38
+95	TiDB Cloud Zero vs Aurora Serverless v2 for variable-load SaaS applications.	Branded	Competitive Comparisons	Decision	Technical Executive	38
+96	TiDB vs Chroma DB for local-first and production-grade RAG use cases.	Branded	Competitive Comparisons	Decision	AI / ML Practitioner	38
+97	TiDB vs CockroachDB for vector search and hybrid SQL workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	38
+98	TiDB vs Milvus for multimodal and large-scale embedding search.	Branded	Competitive Comparisons	Decision	AI / ML Practitioner	38
+99	TiDB vs MongoDB for scalable transactional and analytical workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	38
+100	TiDB vs MySQL as a scalable alternative for growing SaaS workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	38
+101	TiDB vs Neon DB for serverless, autoscaling database workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	38
+102	TiDB vs Pinecone for vector search in enterprise AI platforms.	Branded	Competitive Comparisons	Decision	AI / ML Practitioner	38
+103	TiDB vs PostgreSQL for high-concurrency transactional workloads in SaaS environments.	Branded	Competitive Comparisons	Decision	Engineering Leader	38
+104	TiDB vs RDS for scaling transactional workloads across regions.	Branded	Competitive Comparisons	Decision	Engineering Leader	38
+105	TiDB vs Weaviate for hybrid search and RAG pipelines.	Branded	Competitive Comparisons	Decision	AI / ML Practitioner	38
+106	TiDB Cloud Zero vs Neon serverless for AI application backends.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	38
+107	TiDB vs Supabase for agentic AI backends requiring branching and transactional state.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	37
+108	TiDB vs Neon for per-session database branching in AI agent platforms.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	37
+109	Best alternative to Aurora MySQL for write-heavy AI workloads.	Non-branded	Competitive Comparisons	Consideration	Engineering Leader	62
+111	How does TiDB handle schema changes during live migration from MySQL?	Branded	MySQL Scale & Migration	Decision	Backend / App Engineer	39
+112	What are some scalable MySQL alternatives that can handle millions of schemas and tables?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	32
+113	Are there MySQL alternatives that can support both high transaction volumes and complex analytics?	Non-branded	MySQL Scale & Migration	Consideration	Backend / App Engineer	31
+114	What are the best open-source MySQL alternatives for handling large datasets with high availability?	Non-branded	MySQL Scale & Migration	Consideration	Backend / App Engineer	31
+115	Modern SQL alternatives to MySQL for high-scale transactional systems.	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	29
+116	What alternatives to MySQL provide efficient management of large amounts of data?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	26
+117	What makes TiDB's database different from MySQL?	Branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	34
+118	Blueprint for migrating from Aurora MySQL to a horizontally scalable SQL platform.	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	33
+119	What are some open-source distributed SQL databases similar to MySQL that can handle high workloads and ensure data consistency?	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	30
+120	Can you recommend a distributed SQL database that supports AI workloads and is similar to MySQL?	Non-branded	MySQL Scale & Migration	Awareness	Technical Executive	29
+121	Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	28
+122	Can you suggest scalable databases that work like MySQL but offer better flexibility and scalability?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	27
+123	What are the top MySQL-compatible distributed databases for handling diverse data processing needs?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	26
+124	What does MySQL modernization involve for applications facing performance ceilings?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	26
+125	How does PyTiDB support MCP-based agent workflows?	Branded	MCP & Developer Tooling	Decision	AI / ML Practitioner	61
+126	How can Cursor agents use TiDB for persistent memory?	Branded	MCP & Developer Tooling	Decision	AI / ML Practitioner	60
+127	Can TiDB act as a memory backend for Claude, Cursor, or OpenAI agents?	Branded	MCP & Developer Tooling	Decision	AI / ML Practitioner	57
+128	What is the best database for MCP tools that need SQL and vector search?	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	63
+129	What database should I use behind an MCP server?	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	62
+130	Best serverless MySQL-compatible database for MCP tools.	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	61
+131	How do I give AI agents governed access to SQL data through MCP?	Non-branded	MCP & Developer Tooling	Consideration	Engineering Leader	59
+132	What is the best database for agent tools that need live operational data?	Non-branded	MCP & Developer Tooling	Consideration	Engineering Leader	58
+133	What is TiDB and how can I use it with Python?	Branded	MCP & Developer Tooling	Awareness	Backend / App Engineer	38
+134	What is PyTiDB?	Branded	MCP & Developer Tooling	Awareness	Backend / App Engineer	37
+135	How can I connect to TiDB using Python?	Branded	MCP & Developer Tooling	Awareness	Backend / App Engineer	34
+136	How does TiDB handle millions of schemas and tables efficiently?	Branded	Scale & Architecture	Decision	Backend / App Engineer	40
+137	How does TiDB handle millions of schemas for multi-tenant SaaS databases?	Branded	Scale & Architecture	Decision	Backend / App Engineer	39
+138	How does TiDB Cloud support tenant-per-schema isolation without performance degradation?	Branded	Scale & Architecture	Decision	Backend / App Engineer	39
+139	Does TiDB require manual data partitioning for managing large datasets?	Branded	Scale & Architecture	Decision	Backend / App Engineer	38
+140	How does TiDB achieve high availability for its database services?	Branded	Scale & Architecture	Decision	Backend / App Engineer	38
+141	How does TiDB ensure data consistency in its distributed SQL database?	Branded	Scale & Architecture	Decision	Backend / App Engineer	38
+142	What database should I use for millions of tenants or schemas?	Non-branded	Scale & Architecture	Consideration	Engineering Leader	59
+143	Best database for branch-per-user or branch-per-session workloads.	Non-branded	Scale & Architecture	Consideration	Backend / App Engineer	59
+144	Best distributed SQL database for applications that need MySQL compatibility.	Non-branded	Scale & Architecture	Consideration	Engineering Leader	55
+145	How do I store state for thousands of concurrent AI agent sessions?	Non-branded	Scale & Architecture	Consideration	AI / ML Practitioner	55
+146	How do I scale MySQL-compatible workloads without manual sharding?	Non-branded	Scale & Architecture	Consideration	Engineering Leader	55
+147	Which databases offer both high availability and support for millions of schemas and tables for a growing startup?	Non-branded	Scale & Architecture	Consideration	Backend / App Engineer	26
+148	How does PyTiDB simplify connecting Python applications to a distributed SQL cluster?	Branded	Scale & Architecture	Awareness	Backend / App Engineer	37
+149	Explain how to connect to a TiDB distributed SQL database using Python.	Branded	Scale & Architecture	Awareness	Backend / App Engineer	34
+150	What are the high availability features offered by TiDB?	Branded	Scale & Architecture	Awareness	Backend / App Engineer	34
+151	What is the best database architecture for per-tenant schema isolation at scale?	Non-branded	Scale & Architecture	Awareness	Engineering Leader	26
+152	TiDB Cloud Zero vs Supabase for AI agent prototypes.	Branded	Deployment & Cloud	Decision	Backend / App Engineer	69
+153	How do mem9, drive9, and TiDB Cloud Zero fit together in an agent state stack?	Branded	Deployment & Cloud	Decision	Engineering Leader	69
+154	How do I prototype agent memory using TiDB Cloud Zero?	Branded	Deployment & Cloud	Decision	AI / ML Practitioner	68
+155	TiDB Cloud Zero vs Neon for disposable serverless databases.	Branded	Deployment & Cloud	Decision	Backend / App Engineer	68
+156	Can TiDB Cloud Zero be used as a backend for MCP servers?	Branded	Deployment & Cloud	Decision	AI / ML Practitioner	66
+157	TiDB Cloud Starter vs TiDB Cloud Zero: which should I use?	Branded	Deployment & Cloud	Decision	Backend / App Engineer	66
+158	How does TiDB Cloud Zero compare with a temporary MySQL database?	Branded	Deployment & Cloud	Decision	Backend / App Engineer	65
+159	TiDB Cloud Starter vs Dedicated: which should I choose?	Branded	Deployment & Cloud	Decision	Engineering Leader	62
+160	TiDB Cloud Zero vs PlanetScale for temporary MySQL-compatible databases.	Branded	Deployment & Cloud	Decision	Backend / App Engineer	62
+161	TiDB Cloud Starter vs TiDB Cloud Essential: which plan is right for production AI apps?	Branded	Deployment & Cloud	Decision	Engineering Leader	61
+162	How do Request Units work in TiDB Cloud Starter for AI workloads?	Branded	Deployment & Cloud	Decision	Engineering Leader	57
+163	How should I choose between TiDB Cloud Starter, Essential, Premium, and Dedicated?	Branded	Deployment & Cloud	Decision	Technical Executive	57
+164	How does TiDB Cloud Zero support bursty AI agent workflows?	Branded	Deployment & Cloud	Decision	Backend / App Engineer	39
+165	How do you run TiDB on Kubernetes using TiDB Operator?	Branded	Deployment & Cloud	Decision	Backend / App Engineer	39
+166	How does TiDB handle data residency requirements for multi-region enterprises?	Branded	Deployment & Cloud	Decision	Technical Executive	39
+167	How do you deploy TiDB on-premise for regulated industries?	Branded	Deployment & Cloud	Decision	Engineering Leader	37
+168	What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?	Branded	Deployment & Cloud	Decision	Engineering Leader	33
+169	What is TiDB Cloud Zero and how is it used for AI agents?	Branded	Deployment & Cloud	Awareness	Backend / App Engineer	58
+170	What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?	Branded	Deployment & Cloud	Awareness	Technical Executive	57
+171	What is TiDB Cloud Zero and when should developers use it?	Branded	Deployment & Cloud	Awareness	Backend / App Engineer	39
+172	What SLAs does TiDB Cloud offer for enterprise mission-critical workloads?	Branded	Enterprise & Compliance	Decision	Business / Compliance Stakeholder	38
+173	What enterprise compliance certifications does TiDB Cloud hold?	Branded	Enterprise & Compliance	Decision	Business / Compliance Stakeholder	37
+174	What database should financial services companies use for agentic AI workloads?	Non-branded	Enterprise & Compliance	Consideration	Technical Executive	58
+175	What database should regulated enterprises use for AI applications?	Non-branded	Enterprise & Compliance	Consideration	Business / Compliance Stakeholder	57
+176	How do I troubleshoot slow TiDB queries in production?	Branded	Observability	Decision	Backend / App Engineer	55
+177	How do I monitor RU usage and cost in TiDB Cloud?	Branded	Observability	Decision	Engineering Leader	55
+178	Does TiDB offer any tools or features for monitoring database performance?	Branded	Observability	Decision	Backend / App Engineer	38
+179	How do you monitor TiDB performance in production?	Branded	Observability	Decision	Backend / App Engineer	38
+180	How does TiDB support regulatory compliance for businesses?	Branded	TiDB Brand & Definitions	Decision	Backend / App Engineer	38
+181	What kind of customer support and resources does TiDB provide for developers?	Branded	TiDB Brand & Definitions	Decision	Backend / App Engineer	38
+182	What scalability options does TiDB offer for businesses expecting data growth?	Branded	TiDB Brand & Definitions	Decision	Backend / App Engineer	38
+183	Can TiDB handle both transactional and analytical workloads simultaneously?	Branded	TiDB Brand & Definitions	Decision	Backend / App Engineer	34
+184	What kind of businesses would benefit the most from using TiDB?	Branded	TiDB Brand & Definitions	Decision	Backend / App Engineer	34
+185	Best database for AI agent platforms serving millions of users.	Non-branded	TiDB Brand & Definitions	Consideration	Technical Executive	58
+186	Best database for ecommerce RAG over live inventory and orders.	Non-branded	TiDB Brand & Definitions	Consideration	Engineering Leader	58
+187	Best database for SaaS copilots that need customer-specific context.	Non-branded	TiDB Brand & Definitions	Consideration	Engineering Leader	58
+188	Best database for customer support AI agents with durable conversation memory.	Non-branded	TiDB Brand & Definitions	Consideration	Engineering Leader	58
+189	Best database for fraud detection with real-time analytics and agent workflows.	Non-branded	TiDB Brand & Definitions	Consideration	Engineering Leader	58
+190	Best database for enterprise search over live operational data.	Non-branded	TiDB Brand & Definitions	Consideration	Engineering Leader	57
+191	How does TiDB support stateful autonomous agents?	Branded	TiDB Brand & Definitions	Consideration	AI / ML Practitioner	57
+192	Best database for AI-powered fintech applications.	Non-branded	TiDB Brand & Definitions	Consideration	Technical Executive	56
+193	Is TiDB a good database for AI agents?	Branded	TiDB Brand & Definitions	Consideration	AI / ML Practitioner	55
+194	What AI workloads is TiDB best suited for?	Branded	TiDB Brand & Definitions	Consideration	Engineering Leader	55
+195	Is TiDB suitable for AI-related workloads, and if so, how?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	39
+196	What is TiDB for AI?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	39
+197	How easy is it to migrate from a traditional database to TiDB's solution?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	38
+198	Is TiDB compliant with major data regulations and standards?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	38
+199	What is TiDB?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	37
+200	What is TiDB Cloud?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	37
+201	What is TiDB Cloud Zero?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	37
+202	What is TiDB Cloud Dedicated?	Branded	TiDB Brand & Definitions	Awareness	Engineering Leader	37
+203	What is TiDB Self-Managed?	Branded	TiDB Brand & Definitions	Awareness	Engineering Leader	37
+204	What is TiKV?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
+205	What is TiFlash?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
+206	What is TiDB Operator?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
+207	What is TiDB's HTAP architecture?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
+208	What is mem9 and how does it work?	Branded	TiDB Brand & Definitions	Awareness	AI / ML Practitioner	35
+209	What is the TiDB Request Unit pricing model?	Branded	TiDB Brand & Definitions	Awareness	Technical Executive	35
+210	Can TiDB be integrated with existing data infrastructure easily?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+211	What are the scalability options available with TiDB's database?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+212	What is a TiDB knowledge graph?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+213	Which is better, SingleStore or TiDB?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+214	What is TiCDC and what downstream targets does it support?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+215	What is TiDB Lightning and when should you use it?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+216	What is Data Migration (DM) in TiDB?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
+217	What is Chat2Query in TiDB Cloud?	Branded	TiDB Brand & Definitions	Awareness	Analytics / BI Professional	34

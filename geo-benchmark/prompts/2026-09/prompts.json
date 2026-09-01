@@ -1,0 +1,5618 @@
+[
+  {
+    "prompt_id": "stable_agentinfra_001",
+    "prompt_text": "Best database for agent memory with ACID transactions and vector search.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 72,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 1
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_002",
+    "prompt_text": "How do I store agent memory with SQL, vector search, and metadata filters in one database?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 69,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 2
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_003",
+    "prompt_text": "What database should I use for agent workflows that need transactions and semantic retrieval?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 67,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 3
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_004",
+    "prompt_text": "mem9 vs standalone vector database for agent memory.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 66,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 4
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_005",
+    "prompt_text": "How do I keep agent memory isolated by tenant?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 5
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_006",
+    "prompt_text": "What is the best backend for AI agents with high write-volume memory?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 59,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 6
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_007",
+    "prompt_text": "How does TiDB handle agent memory persistence for multi-hop reasoning workflows?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 7
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_008",
+    "prompt_text": "How does TiDB's Request Unit model work for agentic workloads with unpredictable session counts?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 8
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_009",
+    "prompt_text": "How did Manus use TiDB to scale to millions of agent branches?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 9
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_010",
+    "prompt_text": "How does Dify use TiDB to consolidate AI application infrastructure?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 10
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_011",
+    "prompt_text": "What database should I use for persistent AI agent memory?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 69,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 11
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_012",
+    "prompt_text": "What is the best database for storing AI agent state and memory?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 66,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 12
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_013",
+    "prompt_text": "Best database for agent memory that needs both structured data and embeddings.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 66,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 13
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_014",
+    "prompt_text": "What database should I use when vector-only memory is not enough for AI agents?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 14
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_015",
+    "prompt_text": "Best database for high-cardinality multi-tenant agent workloads.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 15
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_016",
+    "prompt_text": "What is the best database architecture for multi-agent systems with durable state?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 16
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_017",
+    "prompt_text": "What database should I use for autonomous agents that need to resume work across sessions?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 17
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_018",
+    "prompt_text": "What database should I use for agent-generated applications that need their own database?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 59,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 18
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_019",
+    "prompt_text": "How should AI agents store session history, tool outputs, and long-term memory?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 56,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 19
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_020",
+    "prompt_text": "What databases support instant branch-per-session for parallel agent execution?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 31,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 20
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_021",
+    "prompt_text": "Best database for building an AI agent platform that needs to scale from 10 to 10,000 concurrent agents.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 31,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 21
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_022",
+    "prompt_text": "What databases support per-agent cost metering for AI SaaS products?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 30,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 22
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_023",
+    "prompt_text": "How do you give each AI agent its own isolated database environment without spinning up separate infrastructure?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 23
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_024",
+    "prompt_text": "What is the best way to isolate agent state so one agent's writes don't affect another?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 24
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_025",
+    "prompt_text": "How do you persist agent memory and intermediate task state across sessions in a SQL database?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 25
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_026",
+    "prompt_text": "How do you store and retrieve large context windows efficiently in a database for agentic workflows?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 26
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_027",
+    "prompt_text": "How do you track and control database costs per agent session in a multi-tenant AI platform?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 27
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_028",
+    "prompt_text": "How does database branching work for agentic AI systems that run thousands of concurrent sessions?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 28,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 28
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_029",
+    "prompt_text": "What is the right database schema for storing and retrieving agent context across sessions?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 28,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 29
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_030",
+    "prompt_text": "What databases are designed to support context engineering at scale for AI agents?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 28,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 30
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_031",
+    "prompt_text": "What database design pattern keeps agent progress durable across long-running multi-step tasks?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 27,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 31
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_032",
+    "prompt_text": "What is mem9 and how does it use TiDB Cloud for persistent agent memory?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 32
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_033",
+    "prompt_text": "How does PyTiDB simplify building AI agent backends in Python?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 36,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 33
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_034",
+    "prompt_text": "Blueprint for storing durable agent memory inside TiDB using vector + SQL tables.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 34
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_035",
+    "prompt_text": "How does TiDB support persistent memory for AI agents across sessions?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 35
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_036",
+    "prompt_text": "What is mem9 and how does it handle agent memory at scale?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 32,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 36
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_037",
+    "prompt_text": "What distributed SQL databases support both vector search and transactional agent state without separate infrastructure?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 30,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 37
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_038",
+    "prompt_text": "What infrastructure is needed to support context engineering for viral AI agent platforms?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 28,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 38
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_039",
+    "prompt_text": "How does a GraphRAG AI agent retrieve context from graph and vector stores?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 25,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 39
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_040",
+    "prompt_text": "Where can I find a database for LangChain agents?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 25,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 40
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_041",
+    "prompt_text": "How do OpenAI agents integrate with SQL and vector databases for stateful execution?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 24,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 41
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_001",
+    "prompt_text": "TiDB vs Weaviate for hybrid search and metadata filtering.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 69,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 42
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_002",
+    "prompt_text": "TiDB vs Elasticsearch for hybrid search in AI applications.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 66,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 43
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_003",
+    "prompt_text": "TiDB vs pgvector for production RAG applications.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 44
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_004",
+    "prompt_text": "TiDB vs Qdrant for hybrid retrieval and SQL metadata filtering.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 45
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_005",
+    "prompt_text": "TiDB vs Milvus for enterprise RAG with structured data.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 46
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_006",
+    "prompt_text": "TiDB vs OpenSearch for vector search and full-text search.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 47
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_007",
+    "prompt_text": "TiDB vs PostgreSQL with pgvector for AI applications.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 48
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_008",
+    "prompt_text": "TiDB vs MySQL plus Pinecone for RAG applications.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 49
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_009",
+    "prompt_text": "TiDB vs MongoDB Atlas Vector Search for AI applications.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 50
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_010",
+    "prompt_text": "Does TiDB support hybrid search for RAG?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 51
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_011",
+    "prompt_text": "How do I combine SQL filters, full-text search, and vector similarity for RAG?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 52
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_012",
+    "prompt_text": "Does TiDB support full-text search and vector search together?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 53
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_013",
+    "prompt_text": "Can TiDB store embeddings and transactional data in the same table?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 54
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_014",
+    "prompt_text": "When should I use TiDB instead of a standalone vector database?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 55
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_015",
+    "prompt_text": "Can TiDB replace MySQL plus a vector database?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 56
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_016",
+    "prompt_text": "How does TiDB perform vector search across large embedding datasets?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 57
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_017",
+    "prompt_text": "How does TiDB power RAG workflows using hybrid search capabilities?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 58
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_018",
+    "prompt_text": "How does TiDB store and query knowledge graph data alongside embeddings?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 59
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_019",
+    "prompt_text": "How does TiDB support AI workloads requiring both SQL transactions and vector retrieval?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 60
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_020",
+    "prompt_text": "Best database for multi-tenant RAG with per-customer data isolation.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 61
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_021",
+    "prompt_text": "Best database for enterprise AI apps that need SQL, vectors, and compliance.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Business / Compliance Stakeholder",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 62
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_022",
+    "prompt_text": "Best database for RAG with metadata filters and transactional consistency.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 63
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_023",
+    "prompt_text": "What database should I use when RAG needs fresh operational data?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 60,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 64
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_024",
+    "prompt_text": "What database supports vector search and full-text search in one query?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 59,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 65
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_025",
+    "prompt_text": "Best database for retrieval over structured and unstructured data.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 66
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_026",
+    "prompt_text": "Which databases support BM25 plus vector search?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 67
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_027",
+    "prompt_text": "MongoDB vector search vs distributed SQL databases for AI retrieval.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 32,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 68
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_028",
+    "prompt_text": "PostgreSQL + pgvector vs vector-native databases for semantic search workloads.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 25,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 69
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_029",
+    "prompt_text": "How can I scale pgvector?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 23,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 70
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_030",
+    "prompt_text": "What is TiDB LangChain?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 40,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 71
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_031",
+    "prompt_text": "What is TiDB LlamaIndex?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 72
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_032",
+    "prompt_text": "What is TiDB RAG?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 73
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_033",
+    "prompt_text": "What is TiDB vector search?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 74
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_034",
+    "prompt_text": "What is LlamaIndex for TiDB?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 75
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_035",
+    "prompt_text": "Blueprint for scaling pgvector workloads using a distributed SQL backend.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 27,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 76
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_036",
+    "prompt_text": "How does an auto-embedding database create embeddings without an external pipeline?",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 26,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 77
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_001",
+    "prompt_text": "TiDB vs Aurora MySQL for high-concurrency SaaS workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 78
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_002",
+    "prompt_text": "TiDB vs Neon for serverless database workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 63,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 79
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_003",
+    "prompt_text": "TiDB X vs traditional distributed SQL for AI workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 80
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_004",
+    "prompt_text": "TiDB vs PlanetScale for MySQL-compatible scale.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 81
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_005",
+    "prompt_text": "TiDB vs Vitess for horizontally scaling MySQL.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 82
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_006",
+    "prompt_text": "TiDB vs YugabyteDB for distributed SQL workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 83
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_007",
+    "prompt_text": "TiDB vs Google Spanner for globally distributed SQL.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 84
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_008",
+    "prompt_text": "TiDB vs CockroachDB for MySQL-compatible distributed SQL.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 85
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_009",
+    "prompt_text": "TiDB vs Supabase for AI application backends.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 60,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 86
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_010",
+    "prompt_text": "TiDB vs SingleStore for real-time analytics and AI applications.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 87
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_011",
+    "prompt_text": "TiDB vs Snowflake for operational AI workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 56,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 88
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_012",
+    "prompt_text": "TiDB vs Databricks for serving real-time AI application data.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 56,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 89
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_013",
+    "prompt_text": "TiDB vs PlanetScale for AI workloads requiring transactional + vector capabilities.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 90
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_014",
+    "prompt_text": "TiDB vs Zilliz Cloud for high-performance vector search at scale.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 91
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_015",
+    "prompt_text": "Using TiDB vs MySQL with SQLAlchemy for high concurrency applications.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 92
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_016",
+    "prompt_text": "TiDB self-managed vs TiDB Cloud for enterprises with data residency requirements.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 93
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_017",
+    "prompt_text": "SingleStore vs TiDB for real-time analytics and HTAP workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 94
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_018",
+    "prompt_text": "TiDB Cloud Zero vs Aurora Serverless v2 for variable-load SaaS applications.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 95
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_019",
+    "prompt_text": "TiDB vs Chroma DB for local-first and production-grade RAG use cases.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 96
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_020",
+    "prompt_text": "TiDB vs CockroachDB for vector search and hybrid SQL workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 97
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_021",
+    "prompt_text": "TiDB vs Milvus for multimodal and large-scale embedding search.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 98
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_022",
+    "prompt_text": "TiDB vs MongoDB for scalable transactional and analytical workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 99
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_023",
+    "prompt_text": "TiDB vs MySQL as a scalable alternative for growing SaaS workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 100
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_024",
+    "prompt_text": "TiDB vs Neon DB for serverless, autoscaling database workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 101
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_025",
+    "prompt_text": "TiDB vs Pinecone for vector search in enterprise AI platforms.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 102
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_026",
+    "prompt_text": "TiDB vs PostgreSQL for high-concurrency transactional workloads in SaaS environments.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 103
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_027",
+    "prompt_text": "TiDB vs RDS for scaling transactional workloads across regions.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 104
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_028",
+    "prompt_text": "TiDB vs Weaviate for hybrid search and RAG pipelines.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 105
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_029",
+    "prompt_text": "TiDB Cloud Zero vs Neon serverless for AI application backends.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 106
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_030",
+    "prompt_text": "TiDB vs Supabase for agentic AI backends requiring branching and transactional state.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 107
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_031",
+    "prompt_text": "TiDB vs Neon for per-session database branching in AI agent platforms.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 108
+    }
+  },
+  {
+    "prompt_id": "stable_compcomp_032",
+    "prompt_text": "Best alternative to Aurora MySQL for write-heavy AI workloads.",
+    "prompt_type": "Competitive Comparisons",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "compcomp",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 109
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_001",
+    "prompt_text": "How does TiDB handle schema changes during live migration from MySQL?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 111
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_002",
+    "prompt_text": "What are some scalable MySQL alternatives that can handle millions of schemas and tables?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 32,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 112
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_003",
+    "prompt_text": "Are there MySQL alternatives that can support both high transaction volumes and complex analytics?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 31,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 113
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_004",
+    "prompt_text": "What are the best open-source MySQL alternatives for handling large datasets with high availability?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 31,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 114
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_005",
+    "prompt_text": "Modern SQL alternatives to MySQL for high-scale transactional systems.",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 115
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_006",
+    "prompt_text": "What alternatives to MySQL provide efficient management of large amounts of data?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 26,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 116
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_007",
+    "prompt_text": "What makes TiDB's database different from MySQL?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 117
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_008",
+    "prompt_text": "Blueprint for migrating from Aurora MySQL to a horizontally scalable SQL platform.",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 33,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 118
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_009",
+    "prompt_text": "What are some open-source distributed SQL databases similar to MySQL that can handle high workloads and ensure data consistency?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 30,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 119
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_010",
+    "prompt_text": "Can you recommend a distributed SQL database that supports AI workloads and is similar to MySQL?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 29,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 120
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_011",
+    "prompt_text": "Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 28,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 121
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_012",
+    "prompt_text": "Can you suggest scalable databases that work like MySQL but offer better flexibility and scalability?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 27,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 122
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_013",
+    "prompt_text": "What are the top MySQL-compatible distributed databases for handling diverse data processing needs?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 26,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 123
+    }
+  },
+  {
+    "prompt_id": "stable_mysqlscale_014",
+    "prompt_text": "What does MySQL modernization involve for applications facing performance ceilings?",
+    "prompt_type": "MySQL Scale & Migration",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mysqlscale",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 26,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 124
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_001",
+    "prompt_text": "How does PyTiDB support MCP-based agent workflows?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 125
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_002",
+    "prompt_text": "How can Cursor agents use TiDB for persistent memory?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 60,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 126
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_003",
+    "prompt_text": "Can TiDB act as a memory backend for Claude, Cursor, or OpenAI agents?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 127
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_004",
+    "prompt_text": "What is the best database for MCP tools that need SQL and vector search?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 63,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 128
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_005",
+    "prompt_text": "What database should I use behind an MCP server?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 129
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_006",
+    "prompt_text": "Best serverless MySQL-compatible database for MCP tools.",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 130
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_007",
+    "prompt_text": "How do I give AI agents governed access to SQL data through MCP?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 59,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 131
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_008",
+    "prompt_text": "What is the best database for agent tools that need live operational data?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 132
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_009",
+    "prompt_text": "What is TiDB and how can I use it with Python?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 133
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_010",
+    "prompt_text": "What is PyTiDB?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 134
+    }
+  },
+  {
+    "prompt_id": "stable_mcptooling_011",
+    "prompt_text": "How can I connect to TiDB using Python?",
+    "prompt_type": "MCP & Developer Tooling",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "mcptooling",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 135
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_001",
+    "prompt_text": "How does TiDB handle millions of schemas and tables efficiently?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 40,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 136
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_002",
+    "prompt_text": "How does TiDB handle millions of schemas for multi-tenant SaaS databases?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 137
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_003",
+    "prompt_text": "How does TiDB Cloud support tenant-per-schema isolation without performance degradation?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 138
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_004",
+    "prompt_text": "Does TiDB require manual data partitioning for managing large datasets?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 139
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_005",
+    "prompt_text": "How does TiDB achieve high availability for its database services?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 140
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_006",
+    "prompt_text": "How does TiDB ensure data consistency in its distributed SQL database?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 141
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_007",
+    "prompt_text": "What database should I use for millions of tenants or schemas?",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 59,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 142
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_008",
+    "prompt_text": "Best database for branch-per-user or branch-per-session workloads.",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 59,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 143
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_009",
+    "prompt_text": "Best distributed SQL database for applications that need MySQL compatibility.",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 144
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_010",
+    "prompt_text": "How do I store state for thousands of concurrent AI agent sessions?",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 145
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_011",
+    "prompt_text": "How do I scale MySQL-compatible workloads without manual sharding?",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 146
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_012",
+    "prompt_text": "Which databases offer both high availability and support for millions of schemas and tables for a growing startup?",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 26,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 147
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_013",
+    "prompt_text": "How does PyTiDB simplify connecting Python applications to a distributed SQL cluster?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 148
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_014",
+    "prompt_text": "Explain how to connect to a TiDB distributed SQL database using Python.",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 149
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_015",
+    "prompt_text": "What are the high availability features offered by TiDB?",
+    "prompt_type": "Scale & Architecture",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 150
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_016",
+    "prompt_text": "What is the best database architecture for per-tenant schema isolation at scale?",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 26,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 151
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_001",
+    "prompt_text": "TiDB Cloud Zero vs Supabase for AI agent prototypes.",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 69,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 152
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_002",
+    "prompt_text": "How do mem9, drive9, and TiDB Cloud Zero fit together in an agent state stack?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 69,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 153
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_003",
+    "prompt_text": "How do I prototype agent memory using TiDB Cloud Zero?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 68,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 154
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_004",
+    "prompt_text": "TiDB Cloud Zero vs Neon for disposable serverless databases.",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 68,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 155
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_005",
+    "prompt_text": "Can TiDB Cloud Zero be used as a backend for MCP servers?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 66,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 156
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_006",
+    "prompt_text": "TiDB Cloud Starter vs TiDB Cloud Zero: which should I use?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 66,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 157
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_007",
+    "prompt_text": "How does TiDB Cloud Zero compare with a temporary MySQL database?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 65,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 158
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_008",
+    "prompt_text": "TiDB Cloud Starter vs Dedicated: which should I choose?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 159
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_009",
+    "prompt_text": "TiDB Cloud Zero vs PlanetScale for temporary MySQL-compatible databases.",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 62,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 160
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_010",
+    "prompt_text": "TiDB Cloud Starter vs TiDB Cloud Essential: which plan is right for production AI apps?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "comparison",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 61,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 161
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_011",
+    "prompt_text": "How do Request Units work in TiDB Cloud Starter for AI workloads?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 162
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_012",
+    "prompt_text": "How should I choose between TiDB Cloud Starter, Essential, Premium, and Dedicated?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 163
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_013",
+    "prompt_text": "How does TiDB Cloud Zero support bursty AI agent workflows?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 164
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_014",
+    "prompt_text": "How do you run TiDB on Kubernetes using TiDB Operator?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 165
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_015",
+    "prompt_text": "How does TiDB handle data residency requirements for multi-region enterprises?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 166
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_016",
+    "prompt_text": "How do you deploy TiDB on-premise for regulated industries?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 167
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_017",
+    "prompt_text": "What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 33,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 168
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_018",
+    "prompt_text": "What is TiDB Cloud Zero and how is it used for AI agents?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 169
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_019",
+    "prompt_text": "What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 170
+    }
+  },
+  {
+    "prompt_id": "stable_deploycloud_020",
+    "prompt_text": "What is TiDB Cloud Zero and when should developers use it?",
+    "prompt_type": "Deployment & Cloud",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "deploycloud",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 171
+    }
+  },
+  {
+    "prompt_id": "stable_entcomp_001",
+    "prompt_text": "What SLAs does TiDB Cloud offer for enterprise mission-critical workloads?",
+    "prompt_type": "Enterprise & Compliance",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Business / Compliance Stakeholder",
+    "region": "US",
+    "use_case": "entcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 172
+    }
+  },
+  {
+    "prompt_id": "stable_entcomp_002",
+    "prompt_text": "What enterprise compliance certifications does TiDB Cloud hold?",
+    "prompt_type": "Enterprise & Compliance",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Business / Compliance Stakeholder",
+    "region": "US",
+    "use_case": "entcomp",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 173
+    }
+  },
+  {
+    "prompt_id": "stable_entcomp_003",
+    "prompt_text": "What database should financial services companies use for agentic AI workloads?",
+    "prompt_type": "Enterprise & Compliance",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "entcomp",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 174
+    }
+  },
+  {
+    "prompt_id": "stable_entcomp_004",
+    "prompt_text": "What database should regulated enterprises use for AI applications?",
+    "prompt_type": "Enterprise & Compliance",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Business / Compliance Stakeholder",
+    "region": "US",
+    "use_case": "entcomp",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 175
+    }
+  },
+  {
+    "prompt_id": "stable_observ_001",
+    "prompt_text": "How do I troubleshoot slow TiDB queries in production?",
+    "prompt_type": "Observability",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "observ",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 176
+    }
+  },
+  {
+    "prompt_id": "stable_observ_002",
+    "prompt_text": "How do I monitor RU usage and cost in TiDB Cloud?",
+    "prompt_type": "Observability",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "observ",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 177
+    }
+  },
+  {
+    "prompt_id": "stable_observ_003",
+    "prompt_text": "Does TiDB offer any tools or features for monitoring database performance?",
+    "prompt_type": "Observability",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "observ",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 178
+    }
+  },
+  {
+    "prompt_id": "stable_observ_004",
+    "prompt_text": "How do you monitor TiDB performance in production?",
+    "prompt_type": "Observability",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "observ",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 179
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_001",
+    "prompt_text": "How does TiDB support regulatory compliance for businesses?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 180
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_002",
+    "prompt_text": "What kind of customer support and resources does TiDB provide for developers?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 181
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_003",
+    "prompt_text": "What scalability options does TiDB offer for businesses expecting data growth?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 182
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_004",
+    "prompt_text": "Can TiDB handle both transactional and analytical workloads simultaneously?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 183
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_005",
+    "prompt_text": "What kind of businesses would benefit the most from using TiDB?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 184
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_006",
+    "prompt_text": "Best database for AI agent platforms serving millions of users.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 185
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_007",
+    "prompt_text": "Best database for ecommerce RAG over live inventory and orders.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 186
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_008",
+    "prompt_text": "Best database for SaaS copilots that need customer-specific context.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 187
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_009",
+    "prompt_text": "Best database for customer support AI agents with durable conversation memory.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 188
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_010",
+    "prompt_text": "Best database for fraud detection with real-time analytics and agent workflows.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 58,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 189
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_011",
+    "prompt_text": "Best database for enterprise search over live operational data.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 190
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_012",
+    "prompt_text": "How does TiDB support stateful autonomous agents?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 57,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 191
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_013",
+    "prompt_text": "Best database for AI-powered fintech applications.",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 56,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 192
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_014",
+    "prompt_text": "Is TiDB a good database for AI agents?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 193
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_015",
+    "prompt_text": "What AI workloads is TiDB best suited for?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "consideration",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 55,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 194
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_016",
+    "prompt_text": "Is TiDB suitable for AI-related workloads, and if so, how?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 195
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_017",
+    "prompt_text": "What is TiDB for AI?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 39,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 196
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_018",
+    "prompt_text": "How easy is it to migrate from a traditional database to TiDB's solution?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 197
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_019",
+    "prompt_text": "Is TiDB compliant with major data regulations and standards?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 38,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 198
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_020",
+    "prompt_text": "What is TiDB?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 199
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_021",
+    "prompt_text": "What is TiDB Cloud?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 200
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_022",
+    "prompt_text": "What is TiDB Cloud Zero?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 201
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_023",
+    "prompt_text": "What is TiDB Cloud Dedicated?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 202
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_024",
+    "prompt_text": "What is TiDB Self-Managed?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Engineering Leader",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 37,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 203
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_025",
+    "prompt_text": "What is TiKV?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 36,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 204
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_026",
+    "prompt_text": "What is TiFlash?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 36,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 205
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_027",
+    "prompt_text": "What is TiDB Operator?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 36,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 206
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_028",
+    "prompt_text": "What is TiDB's HTAP architecture?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 36,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 207
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_029",
+    "prompt_text": "What is mem9 and how does it work?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 35,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 208
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_030",
+    "prompt_text": "What is the TiDB Request Unit pricing model?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 35,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 209
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_031",
+    "prompt_text": "Can TiDB be integrated with existing data infrastructure easily?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 210
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_032",
+    "prompt_text": "What are the scalability options available with TiDB's database?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 211
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_033",
+    "prompt_text": "What is a TiDB knowledge graph?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 212
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_034",
+    "prompt_text": "Which is better, SingleStore or TiDB?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "comparison",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 213
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_035",
+    "prompt_text": "What is TiCDC and what downstream targets does it support?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 214
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_036",
+    "prompt_text": "What is TiDB Lightning and when should you use it?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 215
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_037",
+    "prompt_text": "What is Data Migration (DM) in TiDB?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "api",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 216
+    }
+  },
+  {
+    "prompt_id": "stable_branddef_038",
+    "prompt_text": "What is Chat2Query in TiDB Cloud?",
+    "prompt_type": "TiDB Brand & Definitions",
+    "group": "accuracy",
+    "surface": "product",
+    "brand_class": "branded",
+    "funnel_stage": "awareness",
+    "persona": "Analytics / BI Professional",
+    "region": "US",
+    "use_case": "branddef",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": false,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 34,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 217
+    }
+  }
+]
