@@ -745,9 +745,18 @@ def prompt_validation_errors(prompts: list[dict[str, Any]]) -> list[str]:
         else:
             seen_texts[lower_text] = prompt_id
 
-        for term in MEASURED_PRODUCT_PROMPT_TERMS:
-            if contains_term(lower_text, term):
-                errors.append(f"{prompt_id}: prompt_text contains measured product term '{term}'")
+        brand_class = str(prompt.get("brand_class", "non_branded")).strip().lower()
+        if brand_class not in {"branded", "non_branded"}:
+            errors.append(f"{prompt_id}: brand_class must be 'branded' or 'non_branded', got '{brand_class}'")
+
+        # Branded prompts name our products on purpose: they measure whether
+        # AI assistants describe TiDB accurately, not whether TiDB is
+        # discovered. The ban still applies to non-branded prompts, where a
+        # leaked product name would inflate the visibility score.
+        if brand_class != "branded":
+            for term in MEASURED_PRODUCT_PROMPT_TERMS:
+                if contains_term(lower_text, term):
+                    errors.append(f"{prompt_id}: prompt_text contains measured product term '{term}'")
 
         if prompt.get("use_case") == "serverless_ai":
             for term in SERVERLESS_AI_BANNED_TERMS:
