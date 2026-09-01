@@ -1,0 +1,67 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# Cancel superseded runs: on rapid pushes to the same PR, keep only the latest.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude review
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Use the Claude subscription OAuth token (no metered billing; usage
+          # counts against the existing subscription allowance).
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --model claude-sonnet-5
+            --allowed-tools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh api:*),Read,Grep,Glob"
+          prompt: |
+            You are a senior code reviewer for this repository (${{ github.repository }}).
+            Review pull request #${{ github.event.pull_request.number }}.
+
+            Steps:
+            1. Run `gh pr view ${{ github.event.pull_request.number }}` for the title, description, and changed files.
+            2. Run `gh pr diff ${{ github.event.pull_request.number }}` to read the full diff.
+            3. Use Read/Grep/Glob to inspect surrounding repo context when needed, to judge whether the change is correct and whether it risks a regression.
+            4. Post the review with a single `gh pr comment ${{ github.event.pull_request.number }} --body '...'` call.
+
+            Focus on:
+            - Correctness / logic bugs / edge cases
+            - Whether it breaks existing behavior or repo conventions
+            - Security issues (leaked credentials, injection, dangerous operations)
+            - Clear readability / maintainability problems
+            - Missing tests
+
+            Comment format:
+            ## 🤖 Claude Review
+
+            **Verdict:** ✅ Safe to merge / ⚠️ Merge after changes / ❌ Do not merge
+
+            **One-line summary:** ...
+
+            ### Main issues (ordered by severity)
+            - `file:line` — problem and suggested fix (write "No blocking issues found" if none)
+
+            ### Minor suggestions
+            - ...
+
+            Requirements:
+            - Only raise real, high-confidence issues; prefix uncertain ones with "possibly" and explain why. Do not add noise.
+            - Cite specific files and line numbers so issues are easy to locate.
+            - Be concise and factual. This is advisory; a human maintainer makes the final merge decision.
