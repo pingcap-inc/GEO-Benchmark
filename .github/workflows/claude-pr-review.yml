@@ -3,23 +3,42 @@ name: Claude PR Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  # Comment `/review` on a PR to (re)run the review on demand.
+  issue_comment:
+    types: [created]
 
-# Cancel superseded runs: on rapid pushes to the same PR, keep only the latest.
+# Keep only the latest run per PR.
 concurrency:
-  group: claude-review-${{ github.event.pull_request.number }}
+  group: claude-review-${{ github.event.pull_request.number || github.event.issue.number }}
   cancel-in-progress: true
 
 jobs:
   review:
+    # Run on PR events, or on a PR comment that contains "/review".
+    if: >
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       contains(github.event.comment.body, '/review'))
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
+      issues: write
+    env:
+      PR: ${{ github.event.pull_request.number || github.event.issue.number }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # For comment-triggered runs the checkout lands on the default branch,
+      # so switch to the PR head to review the actual proposed code.
+      - name: Checkout PR head (comment trigger)
+        if: github.event_name == 'issue_comment'
+        run: gh pr checkout "$PR"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -33,15 +52,15 @@ jobs:
         env:
           # Subscription auth (no metered billing). Set via `claude setup-token`.
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          # Built-in token, no GitHub App required. Used by gh to post the comment.
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR: ${{ github.event.pull_request.number }}
-          REPO: ${{ github.repository }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
 
-          # Save the diff for Claude to read.
-          gh pr diff "$PR" > pr.diff
+          echo "node $(node -v) / npm $(npm -v)"
+          echo "claude: $(command -v claude || echo NOT-FOUND)"
+          claude --version || true
+
+          gh pr diff "$PR" > pr.diff || { echo "::error::gh pr diff failed"; exit 1; }
+          echo "diff bytes: $(wc -c < pr.diff)"
 
           PROMPT=$(cat <<'EOF'
           You are a senior code reviewer for this repository. The full unified
@@ -84,13 +103,22 @@ jobs:
           EOF
           )
 
+          set +e
           claude -p "$PROMPT" \
             --model claude-sonnet-5 \
             --allowedTools "Read,Grep,Glob" \
             --max-turns 30 \
-            > review.md
+            > review.md 2> claude.err
+          code=$?
+          set -e
 
-          echo "----- review output -----"
-          cat review.md
+          echo "claude exit: $code"
+          echo "----- claude stderr -----"; cat claude.err || true
+          echo "----- review.md -----"; cat review.md || true
+
+          if [ "$code" -ne 0 ] || [ ! -s review.md ]; then
+            echo "::error::Claude review failed (exit $code) or produced empty output"
+            exit 1
+          fi
 
           gh pr comment "$PR" --body-file review.md
