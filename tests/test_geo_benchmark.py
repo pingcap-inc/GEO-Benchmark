@@ -23,11 +23,39 @@ from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_TARG
 from geo_benchmark.io_utils import read_json, read_jsonl, stable_hash, write_json, write_jsonl
 from geo_benchmark.providers import AnthropicProvider, OpenAIProvider, ProviderError, _post_json
 from geo_benchmark.reports import write_reports
-from geo_benchmark.scoring import aggregate_scores, score_answer, score_answers
+from geo_benchmark.scoring import (
+    aggregate_scores,
+    aggregate_slice,
+    is_product_related_url,
+    product_positions,
+    score_answer,
+    score_answers,
+)
 from geo_benchmark.seed import generate_seed_prompts
 
 
 class GeoBenchmarkTests(unittest.TestCase):
+    def _aggregate_row(self, prompt_id="p1", **overrides):
+        row = {
+            "prompt_id": prompt_id,
+            "panel": "stable",
+            "intent_weight": 1,
+            "presence_score": 1.0,
+            "citation_authority_answer": 1.0,
+            "recommendation_score": 1.0,
+            "recommendation_class": "best",
+            "qualified_recommendation_opportunity": True,
+            "mention_position": "first",
+            "source_authority": 1.0,
+            "accuracy": 1.0,
+            "accuracy_checked_facts": 1,
+            "freshness": 1.0,
+            "citation_presence": True,
+            "target_in_prompt": False,
+        }
+        row.update(overrides)
+        return row
+
     def test_prepare_keeps_stable_prompts_across_months(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -126,6 +154,7 @@ class GeoBenchmarkTests(unittest.TestCase):
         prompts = [
             {
                 "prompt_id": "p1",
+                "prompt_text": "What is TiDB Cloud Zero?",
                 "panel": "stable",
                 "prompt_type": "category",
                 "intent_weight": 3,
@@ -156,6 +185,8 @@ class GeoBenchmarkTests(unittest.TestCase):
         by_target = {row["target"]: row for row in scored}
         self.assertEqual(by_target["CockroachDB"]["mention_position"], "first")
         self.assertEqual(by_target["TiDB"]["mention_position"], "top3")
+        self.assertEqual(by_target["TiDB"]["brand_class"], "branded")
+        self.assertEqual(by_target["CockroachDB"]["brand_class"], "non_branded")
 
     def test_aggregate_scores_splits_overall_and_unchanged(self):
         rows = [
@@ -191,6 +222,149 @@ class GeoBenchmarkTests(unittest.TestCase):
         summary = aggregate_scores(rows)
         self.assertEqual(summary["overall"]["answer_share"], 50.0)
         self.assertEqual(summary["unchanged"]["answer_share"], 100.0)
+
+    def test_branded_rows_excluded_from_visibility(self):
+        prompt = {
+            "prompt_id": "branded_1",
+            "prompt_text": "What is TiDB Cloud Zero?",
+            "panel": "stable",
+            "prompt_type": "brand_fact",
+            "intent_weight": 1,
+            "qualified_recommendation_opportunity": False,
+        }
+        row = {
+            "answer_id": "answer_1",
+            "run_id": "run_1",
+            "month": "2026-09",
+            "prompt_id": "branded_1",
+            "model_surface": "mock",
+            "model_name": "mock",
+            "raw_answer": "TiDB Cloud Zero is a TiDB product.",
+        }
+
+        scored = score_answer(row, prompt, {}, {"targets": {}}, "TiDB")
+        metrics = aggregate_slice([scored])
+
+        self.assertTrue(scored["target_in_prompt"])
+        self.assertEqual(scored["brand_class"], "branded")
+        self.assertEqual(scored["mention_position"], "first")
+        self.assertEqual(metrics["answer_share"], 0.0)
+        self.assertEqual(metrics["prompt_count"], 0)
+        self.assertEqual(metrics["answer_count"], 1)
+
+    def test_non_branded_rows_still_scored(self):
+        row = self._aggregate_row(
+            presence_score=0.6,
+            citation_authority_answer=0.5,
+            recommendation_score=0.75,
+            recommendation_class="strong",
+        )
+
+        metrics = aggregate_slice([row])
+
+        self.assertEqual(metrics["answer_share"], 60.0)
+        self.assertEqual(metrics["citation_authority"], 50.0)
+        self.assertEqual(metrics["qualified_recommendation_rate"], 100.0)
+
+    def test_brand_metrics_populated_for_branded_rows(self):
+        row = self._aggregate_row(
+            target_in_prompt=True,
+            accuracy=0.5,
+            accuracy_checked_facts=2,
+            citation_presence=True,
+            recommendation_class="negative",
+        )
+
+        metrics = aggregate_slice([row])
+
+        self.assertEqual(metrics["branded_prompt_count"], 1)
+        self.assertEqual(metrics["brand_citation_rate"], 100.0)
+        self.assertEqual(metrics["brand_accuracy"], 50.0)
+
+    def test_avg_accuracy_excludes_unchecked_rows(self):
+        rows = [
+            self._aggregate_row("checked", accuracy=0.5, accuracy_checked_facts=1),
+            self._aggregate_row("unchecked", accuracy=1.0, accuracy_checked_facts=0),
+        ]
+
+        metrics = aggregate_slice(rows)
+
+        self.assertEqual(metrics["avg_accuracy"], 0.5)
+        self.assertEqual(metrics["accuracy_coverage"], 0.5)
+
+    def test_new_competitor_aliases_match(self):
+        aliases = {
+            "Weaviate": "Weaviate",
+            "Qdrant": "Qdrant",
+            "Milvus": "Zilliz",
+            "Pinecone": "Pinecone",
+            "Chroma": "ChromaDB",
+            "Vespa": "Vespa",
+            "Redis": "RediSearch",
+            "pgvector": "pgvector",
+            "Elasticsearch": "Elastic Search",
+            "OpenSearch": "OpenSearch",
+            "Vitess": "Vitess",
+            "Databricks": "Databricks",
+            "OceanBase": "Ocean Base",
+            "PlanetScale": "Planet Scale",
+        }
+        for target, text in aliases.items():
+            with self.subTest(target=target):
+                self.assertIn(target, product_positions(text))
+
+        urls = {
+            "Weaviate": "https://weaviate.io/developers/weaviate",
+            "Qdrant": "https://qdrant.tech/documentation/",
+            "Milvus": "https://github.com/milvus-io/milvus",
+            "Pinecone": "https://www.pinecone.io/learn/",
+            "Chroma": "https://www.trychroma.com/",
+            "Vespa": "https://vespa.ai/",
+            "Redis": "https://redis.io/docs/",
+            "pgvector": "https://github.com/pgvector/pgvector",
+            "Elasticsearch": "https://www.elastic.co/elasticsearch",
+            "OpenSearch": "https://opensearch.org/docs/",
+            "Vitess": "https://vitess.io/docs/",
+            "Databricks": "https://www.databricks.com/product",
+            "OceanBase": "https://en.oceanbase.com/docs/",
+        }
+        for target, url in urls.items():
+            with self.subTest(target=target, url=url):
+                self.assertTrue(is_product_related_url(target, url))
+        self.assertFalse(is_product_related_url("Neon", "https://neonscience.org/"))
+
+    def test_tidb_family_aliases_match(self):
+        for alias in ["PyTiDB", "TiKV", "TiFlash", "mem9"]:
+            with self.subTest(alias=alias):
+                self.assertIn("TiDB", product_positions(alias))
+
+    def test_august_figures_unchanged(self):
+        data_path = (
+            Path(__file__).resolve().parents[1]
+            / "geo-benchmark"
+            / "runs"
+            / "2026-08"
+            / "scored_answers.jsonl"
+        )
+        rows = read_jsonl(data_path)
+        expected = {
+            "CockroachDB": (24.84, 15.46, 21.67),
+            "TiDB": (21.31, 8.24, 11.67),
+            "YugabyteDB": (14.97, 12.26, 8.33),
+            "Neon": (14.44, 10.53, 8.33),
+            "Supabase": (19.28, 14.65, 15.00),
+            "PlanetScale": (3.99, 3.12, 3.33),
+        }
+
+        for target, published in expected.items():
+            with self.subTest(target=target):
+                metrics = aggregate_slice([row for row in rows if row["target"] == target])
+                actual = (
+                    metrics["answer_share"],
+                    metrics["citation_authority"],
+                    metrics["qualified_recommendation_rate"],
+                )
+                self.assertEqual(actual, published)
 
     def test_cost_estimate_counts_requests(self):
         prompts = [{"prompt_text": "best distributed SQL database"} for _ in range(10)]

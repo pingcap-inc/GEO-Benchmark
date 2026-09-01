@@ -10,18 +10,52 @@ from .io_utils import estimate_tokens
 
 
 PRODUCT_ALIASES = {
-    "TiDB": ["tidb", "tidb cloud", "tidb serverless", "pingcap tidb"],
+    "TiDB": [
+        "tidb",
+        "tidb cloud",
+        "tidb serverless",
+        "pingcap tidb",
+        "pingcap",
+        "tidb cloud zero",
+        "tidb cloud starter",
+        "tidb cloud essential",
+        "tidb cloud premium",
+        "tidb cloud dedicated",
+        "tidb x",
+        "pytidb",
+        "tikv",
+        "tiflash",
+        "ticdc",
+        "tidb operator",
+        "tidb lightning",
+        "chat2query",
+        "mem9",
+        "drive9",
+    ],
     "Aurora": ["aurora", "amazon aurora", "aws aurora"],
     "CockroachDB": ["cockroachdb", "cockroach"],
     "YugabyteDB": ["yugabytedb", "yugabyte"],
     "Supabase": ["supabase"],
-    "PlanetScale": ["planetscale"],
+    "PlanetScale": ["planetscale", "planet scale"],
     "Neon": ["neon", "neon.tech"],
     "AlloyDB": ["alloydb"],
     "Spanner": ["spanner", "cloud spanner", "google spanner"],
     "SingleStore": ["singlestore"],
     "Snowflake": ["snowflake"],
     "MongoDB": ["mongodb"],
+    "Weaviate": ["weaviate"],
+    "Qdrant": ["qdrant"],
+    "Milvus": ["milvus", "zilliz"],
+    "Pinecone": ["pinecone"],
+    "Chroma": ["chroma", "chromadb", "chroma db"],
+    "Vespa": ["vespa"],
+    "Redis": ["redis", "redisearch"],
+    "pgvector": ["pgvector"],
+    "Elasticsearch": ["elasticsearch", "elastic search"],
+    "OpenSearch": ["opensearch"],
+    "Vitess": ["vitess"],
+    "Databricks": ["databricks"],
+    "OceanBase": ["oceanbase", "ocean base"],
 }
 
 PRODUCT_URL_MARKERS = {
@@ -32,8 +66,21 @@ PRODUCT_URL_MARKERS = {
     "Aurora": ["aurora", "aws.amazon.com", "docs.aws.amazon.com"],
     "Spanner": ["spanner", "cloud.google.com/spanner"],
     "PlanetScale": ["planetscale"],
-    "Neon": ["neon.tech", "neon"],
+    "Neon": ["neon.tech"],
     "AlloyDB": ["alloydb", "cloud.google.com/alloydb"],
+    "Weaviate": ["weaviate.io", "github.com/weaviate"],
+    "Qdrant": ["qdrant.tech", "github.com/qdrant"],
+    "Milvus": ["milvus.io", "zilliz.com", "github.com/milvus-io"],
+    "Pinecone": ["pinecone.io"],
+    "Chroma": ["trychroma.com", "github.com/chroma-core"],
+    "Vespa": ["vespa.ai", "github.com/vespa-engine"],
+    "Redis": ["redis.io", "github.com/redis"],
+    "pgvector": ["github.com/pgvector"],
+    "Elasticsearch": ["elastic.co", "github.com/elastic"],
+    "OpenSearch": ["opensearch.org"],
+    "Vitess": ["vitess.io", "github.com/vitessio"],
+    "Databricks": ["databricks.com"],
+    "OceanBase": ["oceanbase.com", "en.oceanbase.com"],
 }
 
 RECOMMEND_WORDS = [
@@ -125,6 +172,7 @@ def score_answer(
         "intent_weight": prompt.get("intent_weight", 1),
         "qualified_recommendation_opportunity": prompt.get("qualified_recommendation_opportunity", False),
         "target_in_prompt": target_in_prompt,
+        "brand_class": "branded" if target_in_prompt else "non_branded",
         "mentioned_target": mentioned_target,
         "mention_position": mention_position,
         "presence_score": round(presence_score, 4),
@@ -361,8 +409,17 @@ def aggregate_by(scored: list[dict[str, Any]], field: str) -> dict[str, Any]:
 def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
     if not rows:
         return empty_metrics()
+
+    visible_rows = [row for row in rows if not row.get("target_in_prompt")]
+    branded_rows = [row for row in rows if row.get("target_in_prompt")]
+    if not visible_rows:
+        metrics = empty_metrics()
+        metrics["answer_count"] = len(rows)
+        metrics.update(brand_metrics(branded_rows))
+        return metrics
+
     prompt_groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for row in rows:
+    for row in visible_rows:
         prompt_groups[row["prompt_id"]].append(row)
 
     weight_sum = 0.0
@@ -373,8 +430,8 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
     qualified_answers = 0
     recommended_answers = 0
     negative_answers = 0
-    mention_counts = Counter(row["mention_position"] for row in rows)
-    recommendation_counts = Counter(row["recommendation_class"] for row in rows)
+    mention_counts = Counter(row["mention_position"] for row in visible_rows)
+    recommendation_counts = Counter(row["recommendation_class"] for row in visible_rows)
 
     for prompt_rows in prompt_groups.values():
         weight = float(prompt_rows[0].get("intent_weight", 1))
@@ -385,7 +442,7 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
             rec_weight_sum += weight
             rec_sum += mean(row["recommendation_score"] for row in prompt_rows) * weight
 
-    for row in rows:
+    for row in visible_rows:
         if row.get("qualified_recommendation_opportunity"):
             qualified_answers += 1
             if row["recommendation_class"] in {"best", "strong", "conditional"}:
@@ -393,8 +450,9 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
             if row["recommendation_class"] == "negative":
                 negative_answers += 1
 
+    checked = [row for row in visible_rows if row.get("accuracy_checked_facts", 0) > 0]
     weighted_rec_avg = rec_sum / rec_weight_sum if rec_weight_sum else 0.0
-    return {
+    metrics = {
         "prompt_count": len(prompt_groups),
         "answer_count": len(rows),
         "answer_share": round((presence_sum / weight_sum) * 100, 2) if weight_sum else 0.0,
@@ -408,9 +466,40 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
         else 0.0,
         "mention_counts": dict(mention_counts),
         "recommendation_counts": dict(recommendation_counts),
-        "avg_source_authority": round(mean(row["source_authority"] for row in rows), 4),
-        "avg_accuracy": round(mean(row["accuracy"] for row in rows), 4),
-        "avg_freshness": round(mean(row["freshness"] for row in rows), 4),
+        "avg_source_authority": round(mean(row["source_authority"] for row in visible_rows), 4),
+        "avg_accuracy": round(mean(row["accuracy"] for row in checked), 4) if checked else None,
+        "accuracy_coverage": round(len(checked) / len(visible_rows), 4),
+        "avg_freshness": round(mean(row["freshness"] for row in visible_rows), 4),
+    }
+    metrics.update(brand_metrics(branded_rows))
+    return metrics
+
+
+def brand_metrics(branded_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """Accuracy-oriented metrics for prompts that name the target themselves.
+
+    These prompts ("What is TiDB Cloud Zero?") cannot measure visibility, so
+    they are scored on whether the answer is correct, grounded, and cites us.
+    """
+    if not branded_rows:
+        return {
+            "branded_prompt_count": 0,
+            "branded_answer_count": 0,
+            "brand_accuracy": None,
+            "brand_accuracy_coverage": 0.0,
+            "brand_citation_rate": None,
+            "brand_negative_rate": None,
+        }
+    checked = [row for row in branded_rows if row.get("accuracy_checked_facts", 0) > 0]
+    cited = sum(1 for row in branded_rows if row.get("citation_presence"))
+    negative = sum(1 for row in branded_rows if row.get("recommendation_class") == "negative")
+    return {
+        "branded_prompt_count": len({row["prompt_id"] for row in branded_rows}),
+        "branded_answer_count": len(branded_rows),
+        "brand_accuracy": round(mean(row["accuracy"] for row in checked) * 100, 2) if checked else None,
+        "brand_accuracy_coverage": round(len(checked) / len(branded_rows), 4),
+        "brand_citation_rate": round((cited / len(branded_rows)) * 100, 2),
+        "brand_negative_rate": round((negative / len(branded_rows)) * 100, 2),
     }
 
 
@@ -426,8 +515,15 @@ def empty_metrics() -> dict[str, Any]:
         "mention_counts": {},
         "recommendation_counts": {},
         "avg_source_authority": 0.0,
-        "avg_accuracy": 0.0,
+        "avg_accuracy": None,
+        "accuracy_coverage": 0.0,
         "avg_freshness": 0.0,
+        "branded_prompt_count": 0,
+        "branded_answer_count": 0,
+        "brand_accuracy": None,
+        "brand_accuracy_coverage": 0.0,
+        "brand_citation_rate": None,
+        "brand_negative_rate": None,
     }
 
 
