@@ -10,52 +10,65 @@ from .io_utils import estimate_tokens
 
 
 PRODUCT_ALIASES = {
+    # --- PingCAP -------------------------------------------------------
     "TiDB": [
-        "tidb",
-        "tidb cloud",
-        "tidb serverless",
-        "pingcap tidb",
-        "pingcap",
-        "tidb cloud zero",
-        "tidb cloud starter",
-        "tidb cloud essential",
-        "tidb cloud premium",
-        "tidb cloud dedicated",
-        "tidb x",
-        "pytidb",
-        "tikv",
-        "tiflash",
-        "ticdc",
-        "tidb operator",
-        "tidb lightning",
-        "chat2query",
-        "mem9",
-        "drive9",
+        "tidb", "tidb cloud", "tidb serverless", "pingcap tidb", "pingcap",
+        "tidb cloud zero", "tidb cloud starter", "tidb cloud essential",
+        "tidb cloud premium", "tidb cloud dedicated", "tidb cloud filesystem",
+        "tidb x", "pytidb", "tikv", "tiflash", "ticdc", "tidb operator",
+        "tidb lightning", "chat2query", "mem9", "drive9",
     ],
-    "Aurora": ["aurora", "amazon aurora", "aws aurora"],
+
+    # --- Distributed SQL -----------------------------------------------
     "CockroachDB": ["cockroachdb", "cockroach"],
     "YugabyteDB": ["yugabytedb", "yugabyte"],
-    "Supabase": ["supabase"],
-    "PlanetScale": ["planetscale", "planet scale"],
-    "Neon": ["neon", "neon.tech"],
-    "AlloyDB": ["alloydb"],
     "Spanner": ["spanner", "cloud spanner", "google spanner"],
-    "SingleStore": ["singlestore"],
-    "Snowflake": ["snowflake"],
-    "MongoDB": ["mongodb"],
+    "AlloyDB": ["alloydb"],
+    "OceanBase": ["oceanbase", "ocean base"],
+    "SingleStore": ["singlestore", "single store"],
+    "AuroraDSQL": ["aurora dsql", "amazon aurora dsql"],
+
+    # --- MySQL ecosystem -----------------------------------------------
+    "Aurora": ["aurora", "amazon aurora", "aws aurora", "aurora mysql"],
+    "RDS": ["amazon rds", "aws rds"],
+    "MariaDB": ["mariadb", "maria db"],
+    "Percona": ["percona", "percona server"],
+    "Vitess": ["vitess"],
+    "PlanetScale": ["planetscale", "planet scale"],
+
+    # --- Serverless / app backend --------------------------------------
+    "Supabase": ["supabase"],
+    "Neon": ["neon", "neon.tech"],
+
+    # --- Vector and retrieval ------------------------------------------
+    "Pinecone": ["pinecone"],
     "Weaviate": ["weaviate"],
     "Qdrant": ["qdrant"],
     "Milvus": ["milvus", "zilliz"],
-    "Pinecone": ["pinecone"],
     "Chroma": ["chroma", "chromadb", "chroma db"],
     "Vespa": ["vespa"],
-    "Redis": ["redis", "redisearch"],
     "pgvector": ["pgvector"],
+    "Redis": ["redis", "redisearch"],
+
+    # --- Search ---------------------------------------------------------
     "Elasticsearch": ["elasticsearch", "elastic search"],
     "OpenSearch": ["opensearch"],
-    "Vitess": ["vitess"],
+
+    # --- Real-time analytics / OLAP -------------------------------------
+    "ClickHouse": ["clickhouse", "click house"],
+    "Druid": ["apache druid", "druid"],
+    "Pinot": ["apache pinot", "pinot"],
+    "TimescaleDB": ["timescaledb", "timescale"],
+    "StarRocks": ["starrocks", "star rocks"],
+
+    # --- Data platform ---------------------------------------------------
+    "MongoDB": ["mongodb", "mongo db", "mongodb atlas"],
+    "Snowflake": ["snowflake"],
     "Databricks": ["databricks"],
-    "OceanBase": ["oceanbase", "ocean base"],
+
+    # --- Incumbents: report separately, not in the competitor cohort ------
+    "MySQL": ["mysql", "my sql"],
+    "PostgreSQL": ["postgresql", "postgres", "pgsql"],
 }
 
 PRODUCT_URL_MARKERS = {

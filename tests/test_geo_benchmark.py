@@ -294,6 +294,12 @@ class GeoBenchmarkTests(unittest.TestCase):
 
     def test_new_competitor_aliases_match(self):
         aliases = {
+            "Aurora": "Aurora MySQL",
+            "AuroraDSQL": "Amazon Aurora DSQL",
+            "RDS": "AWS RDS",
+            "MariaDB": "Maria DB",
+            "Percona": "Percona Server",
+            "SingleStore": "Single Store",
             "Weaviate": "Weaviate",
             "Qdrant": "Qdrant",
             "Milvus": "Zilliz",
@@ -308,6 +314,14 @@ class GeoBenchmarkTests(unittest.TestCase):
             "Databricks": "Databricks",
             "OceanBase": "Ocean Base",
             "PlanetScale": "Planet Scale",
+            "ClickHouse": "Click House",
+            "Druid": "Apache Druid",
+            "Pinot": "Apache Pinot",
+            "TimescaleDB": "Timescale",
+            "StarRocks": "Star Rocks",
+            "MongoDB": "MongoDB Atlas",
+            "MySQL": "My SQL",
+            "PostgreSQL": "pgsql",
         }
         for target, text in aliases.items():
             with self.subTest(target=target):
@@ -334,7 +348,7 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertFalse(is_product_related_url("Neon", "https://neonscience.org/"))
 
     def test_tidb_family_aliases_match(self):
-        for alias in ["PyTiDB", "TiKV", "TiFlash", "mem9"]:
+        for alias in ["PyTiDB", "TiKV", "TiFlash", "mem9", "TiDB Cloud Filesystem"]:
             with self.subTest(alias=alias):
                 self.assertIn("TiDB", product_positions(alias))
 
