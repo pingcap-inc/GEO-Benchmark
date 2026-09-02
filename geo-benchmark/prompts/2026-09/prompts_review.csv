@@ -6,7 +6,7 @@ stable_agentinfra_004,comparison,product,AI Agent Infrastructure,decision,3,AI /
 stable_agentinfra_005,discovery,api,AI Agent Infrastructure,decision,3,Engineering Leader,62,How do I keep agent memory isolated by tenant?
 stable_agentinfra_006,discovery,api,AI Agent Infrastructure,decision,3,Engineering Leader,59,What is the best backend for AI agents with high write-volume memory?
 stable_agentinfra_007,accuracy,api,AI Agent Infrastructure,decision,3,AI / ML Practitioner,39,How does TiDB handle agent memory persistence for multi-hop reasoning workflows?
-stable_agentinfra_008,accuracy,product,AI Agent Infrastructure,decision,3,Technical Executive,39,How does TiDB's Request Unit model work for agentic workloads with unpredictable session counts?
+stable_agentinfra_008,accuracy,api,AI Agent Infrastructure,decision,3,Technical Executive,39,How does TiDB's Request Unit model work for agentic workloads with unpredictable session counts?
 stable_agentinfra_009,accuracy,api,AI Agent Infrastructure,decision,3,AI / ML Practitioner,39,How did Manus use TiDB to scale to millions of agent branches?
 stable_agentinfra_010,accuracy,api,AI Agent Infrastructure,decision,3,AI / ML Practitioner,39,How does Dify use TiDB to consolidate AI application infrastructure?
 stable_agentinfra_011,discovery,api,AI Agent Infrastructure,consideration,2,AI / ML Practitioner,69,What database should I use for persistent AI agent memory?
@@ -107,7 +107,7 @@ stable_compcomp_028,comparison,api,Competitive Comparisons,decision,3,AI / ML Pr
 stable_compcomp_029,comparison,product,Competitive Comparisons,decision,3,Backend / App Engineer,38,TiDB Cloud Zero vs Neon serverless for AI application backends.
 stable_compcomp_030,comparison,api,Competitive Comparisons,decision,3,Backend / App Engineer,37,TiDB vs Supabase for agentic AI backends requiring branching and transactional state.
 stable_compcomp_031,comparison,api,Competitive Comparisons,decision,3,Backend / App Engineer,37,TiDB vs Neon for per-session database branching in AI agent platforms.
-stable_compcomp_032,discovery,api,Competitive Comparisons,consideration,2,Engineering Leader,62,Best alternative to Aurora MySQL for write-heavy AI workloads.
+stable_compcomp_032,discovery,api,Competitive Comparisons,consideration,2,Engineering Leader,62,Best alternative to managed cloud MySQL for write-heavy AI workloads.
 stable_mysqlscale_001,accuracy,api,MySQL Scale & Migration,decision,3,Backend / App Engineer,39,How does TiDB handle schema changes during live migration from MySQL?
 stable_mysqlscale_002,discovery,api,MySQL Scale & Migration,consideration,2,Engineering Leader,32,What are some scalable MySQL alternatives that can handle millions of schemas and tables?
 stable_mysqlscale_003,discovery,api,MySQL Scale & Migration,consideration,2,Backend / App Engineer,31,Are there MySQL alternatives that can support both high transaction volumes and complex analytics?
@@ -115,7 +115,7 @@ stable_mysqlscale_004,discovery,api,MySQL Scale & Migration,consideration,2,Back
 stable_mysqlscale_005,discovery,api,MySQL Scale & Migration,consideration,2,Engineering Leader,29,Modern SQL alternatives to MySQL for high-scale transactional systems.
 stable_mysqlscale_006,discovery,api,MySQL Scale & Migration,consideration,2,Engineering Leader,26,What alternatives to MySQL provide efficient management of large amounts of data?
 stable_mysqlscale_007,accuracy,api,MySQL Scale & Migration,awareness,2,Backend / App Engineer,34,What makes TiDB's database different from MySQL?
-stable_mysqlscale_008,discovery,api,MySQL Scale & Migration,awareness,2,Engineering Leader,33,Blueprint for migrating from Aurora MySQL to a horizontally scalable SQL platform.
+stable_mysqlscale_008,discovery,api,MySQL Scale & Migration,awareness,2,Engineering Leader,33,Blueprint for migrating from managed cloud MySQL to a horizontally scalable SQL platform.
 stable_mysqlscale_009,discovery,api,MySQL Scale & Migration,awareness,2,Backend / App Engineer,30,What are some open-source distributed SQL databases similar to MySQL that can handle high workloads and ensure data consistency?
 stable_mysqlscale_010,discovery,api,MySQL Scale & Migration,awareness,2,Technical Executive,29,Can you recommend a distributed SQL database that supports AI workloads and is similar to MySQL?
 stable_mysqlscale_011,discovery,api,MySQL Scale & Migration,awareness,2,Backend / App Engineer,28,Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.
@@ -165,7 +165,7 @@ stable_deploycloud_013,accuracy,product,Deployment & Cloud,decision,3,Backend / 
 stable_deploycloud_014,accuracy,api,Deployment & Cloud,decision,3,Backend / App Engineer,39,How do you run TiDB on Kubernetes using TiDB Operator?
 stable_deploycloud_015,accuracy,api,Deployment & Cloud,decision,3,Technical Executive,39,How does TiDB handle data residency requirements for multi-region enterprises?
 stable_deploycloud_016,accuracy,api,Deployment & Cloud,decision,3,Engineering Leader,37,How do you deploy TiDB on-premise for regulated industries?
-stable_deploycloud_017,accuracy,product,Deployment & Cloud,decision,3,Engineering Leader,33,What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?
+stable_deploycloud_017,accuracy,api,Deployment & Cloud,decision,3,Engineering Leader,33,What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?
 stable_deploycloud_018,accuracy,product,Deployment & Cloud,awareness,2,Backend / App Engineer,58,What is TiDB Cloud Zero and how is it used for AI agents?
 stable_deploycloud_019,accuracy,product,Deployment & Cloud,awareness,2,Technical Executive,57,"What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?"
 stable_deploycloud_020,accuracy,product,Deployment & Cloud,awareness,2,Backend / App Engineer,39,What is TiDB Cloud Zero and when should developers use it?
@@ -199,14 +199,14 @@ stable_branddef_019,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / 
 stable_branddef_020,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,37,What is TiDB?
 stable_branddef_021,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,37,What is TiDB Cloud?
 stable_branddef_022,accuracy,product,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,37,What is TiDB Cloud Zero?
-stable_branddef_023,accuracy,product,TiDB Brand & Definitions,awareness,2,Engineering Leader,37,What is TiDB Cloud Dedicated?
+stable_branddef_023,accuracy,api,TiDB Brand & Definitions,awareness,2,Engineering Leader,37,What is TiDB Cloud Dedicated?
 stable_branddef_024,accuracy,api,TiDB Brand & Definitions,awareness,2,Engineering Leader,37,What is TiDB Self-Managed?
 stable_branddef_025,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,36,What is TiKV?
 stable_branddef_026,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,36,What is TiFlash?
 stable_branddef_027,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,36,What is TiDB Operator?
 stable_branddef_028,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,36,What is TiDB's HTAP architecture?
 stable_branddef_029,accuracy,product,TiDB Brand & Definitions,awareness,2,AI / ML Practitioner,35,What is mem9 and how does it work?
-stable_branddef_030,accuracy,product,TiDB Brand & Definitions,awareness,2,Technical Executive,35,What is the TiDB Request Unit pricing model?
+stable_branddef_030,accuracy,api,TiDB Brand & Definitions,awareness,2,Technical Executive,35,What is the TiDB Request Unit pricing model?
 stable_branddef_031,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,34,Can TiDB be integrated with existing data infrastructure easily?
 stable_branddef_032,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,34,What are the scalability options available with TiDB's database?
 stable_branddef_033,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,34,What is a TiDB knowledge graph?
@@ -214,4 +214,4 @@ stable_branddef_034,comparison,api,TiDB Brand & Definitions,awareness,2,Backend 
 stable_branddef_035,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,34,What is TiCDC and what downstream targets does it support?
 stable_branddef_036,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,34,What is TiDB Lightning and when should you use it?
 stable_branddef_037,accuracy,api,TiDB Brand & Definitions,awareness,2,Backend / App Engineer,34,What is Data Migration (DM) in TiDB?
-stable_branddef_038,accuracy,product,TiDB Brand & Definitions,awareness,2,Analytics / BI Professional,34,What is Chat2Query in TiDB Cloud?
+stable_branddef_038,accuracy,api,TiDB Brand & Definitions,awareness,2,Analytics / BI Professional,34,What is Chat2Query in TiDB Cloud?

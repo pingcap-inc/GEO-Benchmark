@@ -49,11 +49,10 @@ RECENT_PRODUCTS = [
     "cloud starter",
     "cloud essential",
     "cloud premium",
-    "cloud dedicated",
     "tidb x",
     "mem9",
-    "drive9",
-    "chat2query",
+    "drive9",              # retired name, kept so old-name questions still route correctly
+    "tidb cloud filesystem",  # current name for drive9
 ]
 
 # Phrasings that make a question a head-to-head comparison.
