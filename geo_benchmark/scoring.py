@@ -30,7 +30,7 @@ PRODUCT_ALIASES = {
 
     # --- MySQL ecosystem -----------------------------------------------
     "Aurora": ["aurora", "amazon aurora", "aws aurora", "aurora mysql"],
-    "RDS": ["amazon rds", "aws rds"],
+    "RDS": ["rds", "amazon rds", "aws rds"],
     "MariaDB": ["mariadb", "maria db"],
     "Percona": ["percona", "percona server"],
     "Vitess": ["vitess"],
@@ -136,8 +136,6 @@ PRODUCT_URL_MARKERS = {
     "PostgreSQL": ["postgresql.org"],
 }
 
-INCUMBENT_PRODUCTS = {"MySQL", "PostgreSQL"}
-
 RECOMMEND_WORDS = [
     "recommend",
     "recommended",
@@ -204,6 +202,7 @@ def score_answer(
     )
 
     rec_class, rec_score, rec_reasons = recommendation(answer, mention_position, target)
+    comparison_candidates = comparison_products(prompt)
     winner = competitive_winner(answer, prompt)
     target_in_prompt = product_in_prompt(prompt, target)
 
@@ -220,6 +219,7 @@ def score_answer(
         "web_search_requests": row.get("web_search_requests", 0),
         "panel": prompt.get("panel", "stable"),
         "prompt_type": prompt.get("prompt_type"),
+        "group": prompt.get("group"),
         "persona": prompt.get("persona"),
         "region": prompt.get("region"),
         "funnel_stage": prompt.get("funnel_stage"),
@@ -244,6 +244,7 @@ def score_answer(
         "recommendation_score": rec_score,
         "classification_reason": rec_reasons,
         "competitive_winner": winner,
+        "comparison_products": comparison_candidates,
         "input_tokens": row.get("input_tokens", estimate_tokens(row.get("prompt_text", ""))),
         "output_tokens": row.get("output_tokens", estimate_tokens(answer)),
     }
@@ -424,18 +425,93 @@ def target_context_window(text: str, target: str, size: int) -> str:
     return text[max(0, idx - size) : idx + size]
 
 
+def is_comparison_prompt(prompt: dict[str, Any]) -> bool:
+    return prompt.get("group") == "comparison" or prompt.get("prompt_type") == "competitive"
+
+
+def comparison_products(prompt: dict[str, Any]) -> list[str]:
+    """Return canonical products explicitly named by a comparison prompt."""
+    if not is_comparison_prompt(prompt):
+        return []
+
+    prompt_text = str(prompt.get("prompt_text", ""))
+    # September comparison prompts put workload context after "for". Keep
+    # product names in that context (for example "MySQL-compatible") from
+    # becoming comparison candidates.
+    comparison_clause = re.split(r"\s+for\s+", prompt_text, maxsplit=1, flags=re.IGNORECASE)[0]
+    prompt_positions = product_positions(comparison_clause)
+    products = [
+        product
+        for _, product in sorted(
+            (min(positions), product) for product, positions in prompt_positions.items() if positions
+        )
+    ]
+    for competitor in prompt.get("competitors", []):
+        if competitor in PRODUCT_ALIASES and competitor not in products:
+            products.append(competitor)
+            continue
+        detected = product_positions(str(competitor))
+        if len(detected) == 1:
+            product = next(iter(detected))
+            if product not in products:
+                products.append(product)
+    return products
+
+
 def competitive_winner(answer: str, prompt: dict[str, Any]) -> str | None:
-    if prompt.get("prompt_type") != "competitive":
+    if not is_comparison_prompt(prompt):
         return None
-    positions = product_positions(answer)
-    if not positions:
+    candidates = comparison_products(prompt)
+    if len(candidates) < 2:
         return None
-    ranked = sorted(
-        (min(pos), product)
-        for product, pos in positions.items()
-        if pos and product not in INCUMBENT_PRODUCTS
+
+    strengths = {
+        product: comparison_recommendation_strength(answer, product)
+        for product in candidates
+    }
+    best_strength = max(strengths.values(), default=0)
+    if best_strength <= 0:
+        return None
+    winners = [product for product, strength in strengths.items() if strength == best_strength]
+    return winners[0] if len(winners) == 1 else None
+
+
+def comparison_recommendation_strength(answer: str, product: str) -> int:
+    """Score explicit recommendation language without using mention order."""
+    lower = answer.lower()
+    aliases = sorted(PRODUCT_ALIASES.get(product, [product]), key=len, reverse=True)
+    alias_pattern = "(?:" + "|".join(re.escape(alias.lower()) for alias in aliases) + ")"
+    bounded_alias = rf"(?<![a-z0-9]){alias_pattern}(?![a-z0-9])"
+
+    verdict_patterns = [
+        rf"(?:winner|recommendation|verdict|best choice|preferred choice)\s*(?:is|:|-)?\s*(?:the\s+)?{bounded_alias}",
+        rf"(?:overall|bottom line)\s*[:, -]+(?:i\s+would\s+)?(?:recommend|choose|pick|prefer)?\s*{bounded_alias}",
+    ]
+    if any(re.search(pattern, lower) for pattern in verdict_patterns):
+        return 3
+
+    negative_patterns = [
+        rf"(?:do not|don't|would not|wouldn't|cannot|can't|not)\s+"
+        rf"(?:recommend|choose|pick|prefer|select|go with)\s+(?:the\s+)?{bounded_alias}",
+        rf"{bounded_alias}\s+(?:is|would be|remains)\s+not\s+(?:the\s+)?(?:best|better|preferred)",
+    ]
+    if any(re.search(pattern, lower) for pattern in negative_patterns):
+        return 0
+
+    recommendation_terms = (
+        r"winner|recommended|preferred|better|stronger|preferable|"
+        r"best choice|better choice|stronger choice|preferred choice|recommended choice|"
+        r"best fit|better fit|stronger fit|preferred option|lower-risk default|lower-friction path"
     )
-    return ranked[0][1] if ranked else None
+    recommendation_patterns = [
+        rf"(?:recommend|recommended|choose|chose|pick|picked|prefer|preferred|select|selected|go with)\s+(?:the\s+)?{bounded_alias}",
+        rf"(?:put|rank)\s+(?:the\s+)?{bounded_alias}\s+first",
+        rf"{bounded_alias}\s+(?:is|would be|remains)\s+(?:the\s+)?(?:{recommendation_terms})",
+        rf"{bounded_alias}\s+(?:wins|is my recommendation|gets the recommendation)",
+    ]
+    if any(re.search(pattern, lower) for pattern in recommendation_patterns):
+        return 2
+    return 0
 
 
 def product_in_prompt(prompt: dict[str, Any], product: str) -> bool:
@@ -612,7 +688,7 @@ def competitive_breakdown(scored: list[dict[str, Any]]) -> dict[str, Any]:
     rows = [
         row
         for row in scored
-        if row.get("prompt_type") == "competitive"
+        if (row.get("group") == "comparison" or row.get("prompt_type") == "competitive")
         and row.get("target_in_prompt")
         and row.get("competitive_winner")
     ]

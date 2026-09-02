@@ -279,6 +279,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "model_surface",
         "panel",
         "prompt_type",
+        "group",
         "use_case",
         "target_in_prompt",
         "mentioned_target",
@@ -291,6 +292,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "recommendation_class",
         "recommendation_score",
         "competitive_winner",
+        "comparison_products",
         "input_tokens",
         "output_tokens",
     ]
