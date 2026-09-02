@@ -91,7 +91,10 @@ PRODUCT_URL_MARKERS = {
     ],
 
     # --- MySQL ecosystem -----------------------------------------------
-    "Aurora": ["docs.aws.amazon.com/amazonrds/latest/aurorauserguide/"],
+    "Aurora": [
+        "docs.aws.amazon.com/amazonrds/latest/aurorauserguide/",
+        "aws.amazon.com/rds/aurora/",
+    ],
     "RDS": ["docs.aws.amazon.com/amazonrds/latest/userguide/"],
     "MariaDB": ["mariadb.org", "mariadb.com"],
     "Percona": ["percona.com"],
@@ -132,6 +135,8 @@ PRODUCT_URL_MARKERS = {
     "MySQL": ["dev.mysql.com", "mysql.com"],
     "PostgreSQL": ["postgresql.org"],
 }
+
+INCUMBENT_PRODUCTS = {"MySQL", "PostgreSQL"}
 
 RECOMMEND_WORDS = [
     "recommend",
@@ -246,14 +251,30 @@ def score_answer(
 
 def product_positions(text: str) -> dict[str, list[int]]:
     lower = text.lower()
-    result: dict[str, list[int]] = {}
+    matches: list[tuple[int, int, str]] = []
     for product, aliases in PRODUCT_ALIASES.items():
-        positions: list[int] = []
         for alias in aliases:
             pattern = r"\b" + re.escape(alias.lower()) + r"\b"
-            positions.extend(match.start() for match in re.finditer(pattern, lower))
-        if positions:
-            result[product] = sorted(set(positions))
+            matches.extend((match.start(), match.end(), product) for match in re.finditer(pattern, lower))
+
+    # Prefer the more specific product when aliases overlap across product
+    # families, for example Aurora DSQL over the generic Aurora alias.
+    filtered = [
+        match
+        for match in matches
+        if not any(
+            other_product != match[2]
+            and other_start <= match[0]
+            and match[1] <= other_end
+            and (other_end - other_start) > (match[1] - match[0])
+            for other_start, other_end, other_product in matches
+        )
+    ]
+    result: dict[str, list[int]] = {}
+    for start, _, product in filtered:
+        result.setdefault(product, []).append(start)
+    for product, positions in result.items():
+        result[product] = sorted(set(positions))
     return result
 
 
@@ -409,7 +430,11 @@ def competitive_winner(answer: str, prompt: dict[str, Any]) -> str | None:
     positions = product_positions(answer)
     if not positions:
         return None
-    ranked = sorted((min(pos), product) for product, pos in positions.items() if pos)
+    ranked = sorted(
+        (min(pos), product)
+        for product, pos in positions.items()
+        if pos and product not in INCUMBENT_PRODUCTS
+    )
     return ranked[0][1] if ranked else None
 
 
@@ -417,7 +442,10 @@ def product_in_prompt(prompt: dict[str, Any], product: str) -> bool:
     if product in prompt.get("competitors", []):
         return True
     lower = prompt.get("prompt_text", "").lower()
-    return any(alias.lower() in lower for alias in PRODUCT_ALIASES.get(product, [product]))
+    return any(
+        re.search(r"\b" + re.escape(alias.lower()) + r"\b", lower)
+        for alias in PRODUCT_ALIASES.get(product, [product])
+    )
 
 
 def aggregate_scores(scored: list[dict[str, Any]]) -> dict[str, Any]:

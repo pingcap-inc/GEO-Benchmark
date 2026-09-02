@@ -26,7 +26,9 @@ from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import (
     aggregate_scores,
     aggregate_slice,
+    competitive_winner,
     is_product_related_url,
+    product_in_prompt,
     product_positions,
     score_answer,
     score_answers,
@@ -346,6 +348,31 @@ class GeoBenchmarkTests(unittest.TestCase):
             with self.subTest(target=target, url=url):
                 self.assertTrue(is_product_related_url(target, url))
         self.assertFalse(is_product_related_url("Neon", "https://neonscience.org/"))
+
+    def test_product_in_prompt_uses_alias_boundaries(self):
+        prompt = {"prompt_text": "How is chromatography data stored?"}
+
+        self.assertFalse(product_in_prompt(prompt, "Chroma"))
+        self.assertTrue(product_in_prompt({"prompt_text": "How does ChromaDB work?"}, "Chroma"))
+
+    def test_aurora_dsql_does_not_double_count_as_aurora(self):
+        positions = product_positions("Amazon Aurora DSQL is a distributed SQL service.")
+
+        self.assertIn("AuroraDSQL", positions)
+        self.assertNotIn("Aurora", positions)
+
+    def test_aurora_general_product_url_matches(self):
+        self.assertTrue(
+            is_product_related_url("Aurora", "https://aws.amazon.com/rds/aurora/features/")
+        )
+
+    def test_incumbents_do_not_win_competitive_prompts(self):
+        prompt = {"prompt_type": "competitive"}
+
+        self.assertEqual(
+            competitive_winner("MySQL compatible, but TiDB is the best choice.", prompt),
+            "TiDB",
+        )
 
     def test_tidb_family_aliases_match(self):
         for alias in ["PyTiDB", "TiKV", "TiFlash", "mem9", "TiDB Cloud Filesystem"]:
