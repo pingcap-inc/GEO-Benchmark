@@ -1,5 +1,5 @@
 {
-  "source_authority_version": "2026-07-30",
+  "source_authority_version": "2026-09-02",
   "rules": [
     {
       "contains": "docs.pingcap.com",
@@ -20,6 +20,21 @@
       "contains": "github.com/pingcap",
       "weight": 1.0,
       "label": "github"
+    },
+    {
+      "contains": "mem9.ai",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "drive9.ai",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "tidb.io",
+      "weight": 1.0,
+      "label": "official_site"
     },
     {
       "contains": "cockroachlabs.com/docs",
@@ -52,6 +67,91 @@
       "label": "github"
     },
     {
+      "contains": "cloud.google.com/spanner",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "cloud.google.com/alloydb",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "oceanbase.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "singlestore.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "docs.aws.amazon.com/aurora-dsql/",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "docs.aws.amazon.com/amazonrds/latest/aurorauserguide/",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "docs.aws.amazon.com/amazonrds/latest/userguide/",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "aws.amazon.com/rds/aurora/dsql/",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "aws.amazon.com/marketplace",
+      "weight": 1.0,
+      "label": "marketplace"
+    },
+    {
+      "contains": "aws.amazon.com",
+      "weight": 0.9,
+      "label": "cloud_partner"
+    },
+    {
+      "contains": "mariadb.org",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "mariadb.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "percona.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "vitess.io",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/vitessio",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "planetscale.com/docs",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "planetscale.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
       "contains": "supabase.com/docs",
       "weight": 1.0,
       "label": "official_docs"
@@ -67,16 +167,6 @@
       "label": "github"
     },
     {
-      "contains": "planetscale.com/docs",
-      "weight": 1.0,
-      "label": "official_docs"
-    },
-    {
-      "contains": "planetscale.com",
-      "weight": 1.0,
-      "label": "official_site"
-    },
-    {
       "contains": "neon.tech/docs",
       "weight": 1.0,
       "label": "official_docs"
@@ -87,14 +177,189 @@
       "label": "official_site"
     },
     {
-      "contains": "aws.amazon.com",
-      "weight": 0.9,
-      "label": "cloud_partner"
+      "contains": "pinecone.io",
+      "weight": 1.0,
+      "label": "official_site"
     },
     {
-      "contains": "aws.amazon.com/marketplace",
+      "contains": "weaviate.io",
       "weight": 1.0,
-      "label": "marketplace"
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/weaviate",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "qdrant.tech",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/qdrant",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "milvus.io",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "zilliz.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/milvus-io",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "trychroma.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/chroma-core",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "vespa.ai",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/vespa-engine",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "github.com/pgvector",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "redis.io",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/redis",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "elastic.co",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/elastic",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "opensearch.org",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "clickhouse.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/clickhouse",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "druid.apache.org",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "pinot.apache.org",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "startree.ai",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "docs.tigerdata.com",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "timescale.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/timescale",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "starrocks.io",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/starrocks",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "mongodb.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "github.com/mongodb",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "docs.snowflake.com",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "snowflake.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "docs.databricks.com",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "databricks.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "dev.mysql.com",
+      "weight": 1.0,
+      "label": "official_docs"
+    },
+    {
+      "contains": "mysql.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "postgresql.org",
+      "weight": 1.0,
+      "label": "official_site"
     },
     {
       "contains": "gartner.com",
