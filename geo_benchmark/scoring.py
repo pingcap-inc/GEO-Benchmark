@@ -72,28 +72,65 @@ PRODUCT_ALIASES = {
 }
 
 PRODUCT_URL_MARKERS = {
-    "TiDB": ["tidb", "pingcap", "github.com/pingcap"],
-    "CockroachDB": ["cockroachdb", "cockroachlabs", "github.com/cockroachdb"],
-    "YugabyteDB": ["yugabyte", "github.com/yugabyte"],
-    "Supabase": ["supabase", "github.com/supabase"],
-    "Aurora": ["aurora", "aws.amazon.com", "docs.aws.amazon.com"],
-    "Spanner": ["spanner", "cloud.google.com/spanner"],
-    "PlanetScale": ["planetscale"],
+    # --- PingCAP -------------------------------------------------------
+    "TiDB": [
+        "pingcap.com", "github.com/pingcap", "mem9.ai", "drive9.ai",
+        "tidb.io", "docs.pingcap.com",
+    ],
+
+    # --- Distributed SQL -----------------------------------------------
+    "CockroachDB": ["cockroachlabs.com", "github.com/cockroachdb"],
+    "YugabyteDB": ["docs.yugabyte.com", "yugabyte.com", "github.com/yugabyte"],
+    "Spanner": ["cloud.google.com/spanner"],
+    "AlloyDB": ["cloud.google.com/alloydb"],
+    "OceanBase": ["oceanbase.com", "en.oceanbase.com"],
+    "SingleStore": ["singlestore.com"],
+    "AuroraDSQL": [
+        "docs.aws.amazon.com/aurora-dsql/",
+        "aws.amazon.com/rds/aurora/dsql/",
+    ],
+
+    # --- MySQL ecosystem -----------------------------------------------
+    "Aurora": ["docs.aws.amazon.com/amazonrds/latest/aurorauserguide/"],
+    "RDS": ["docs.aws.amazon.com/amazonrds/latest/userguide/"],
+    "MariaDB": ["mariadb.org", "mariadb.com"],
+    "Percona": ["percona.com"],
+    "Vitess": ["vitess.io", "github.com/vitessio"],
+    "PlanetScale": ["planetscale.com"],
+
+    # --- Serverless / app backend --------------------------------------
+    "Supabase": ["supabase.com", "github.com/supabase"],
     "Neon": ["neon.tech"],
-    "AlloyDB": ["alloydb", "cloud.google.com/alloydb"],
+
+    # --- Vector and retrieval ------------------------------------------
+    "Pinecone": ["pinecone.io"],
     "Weaviate": ["weaviate.io", "github.com/weaviate"],
     "Qdrant": ["qdrant.tech", "github.com/qdrant"],
     "Milvus": ["milvus.io", "zilliz.com", "github.com/milvus-io"],
-    "Pinecone": ["pinecone.io"],
     "Chroma": ["trychroma.com", "github.com/chroma-core"],
     "Vespa": ["vespa.ai", "github.com/vespa-engine"],
-    "Redis": ["redis.io", "github.com/redis"],
     "pgvector": ["github.com/pgvector"],
+    "Redis": ["redis.io", "github.com/redis"],
+
+    # --- Search ---------------------------------------------------------
     "Elasticsearch": ["elastic.co", "github.com/elastic"],
     "OpenSearch": ["opensearch.org"],
-    "Vitess": ["vitess.io", "github.com/vitessio"],
-    "Databricks": ["databricks.com"],
-    "OceanBase": ["oceanbase.com", "en.oceanbase.com"],
+
+    # --- Real-time analytics / OLAP -------------------------------------
+    "ClickHouse": ["clickhouse.com", "github.com/clickhouse"],
+    "Druid": ["druid.apache.org"],
+    "Pinot": ["pinot.apache.org", "startree.ai"],
+    "TimescaleDB": ["docs.tigerdata.com", "timescale.com", "github.com/timescale"],
+    "StarRocks": ["starrocks.io", "github.com/starrocks"],
+
+    # --- Data platform ---------------------------------------------------
+    "MongoDB": ["mongodb.com", "github.com/mongodb"],
+    "Snowflake": ["docs.snowflake.com", "snowflake.com"],
+    "Databricks": ["docs.databricks.com", "databricks.com"],
+
+    # --- Incumbents: report separately, not in the competitor cohort ----
+    "MySQL": ["dev.mysql.com", "mysql.com"],
+    "PostgreSQL": ["postgresql.org"],
 }
 
 RECOMMEND_WORDS = [
