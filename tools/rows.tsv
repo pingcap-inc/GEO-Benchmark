@@ -106,7 +106,7 @@
 106	TiDB Cloud Zero vs Neon serverless for AI application backends.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	38
 107	TiDB vs Supabase for agentic AI backends requiring branching and transactional state.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	37
 108	TiDB vs Neon for per-session database branching in AI agent platforms.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	37
-109	Best alternative to Aurora MySQL for write-heavy AI workloads.	Non-branded	Competitive Comparisons	Consideration	Engineering Leader	62
+109	Best alternative to managed cloud MySQL for write-heavy AI workloads.	Non-branded	Competitive Comparisons	Consideration	Engineering Leader	62
 111	How does TiDB handle schema changes during live migration from MySQL?	Branded	MySQL Scale & Migration	Decision	Backend / App Engineer	39
 112	What are some scalable MySQL alternatives that can handle millions of schemas and tables?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	32
 113	Are there MySQL alternatives that can support both high transaction volumes and complex analytics?	Non-branded	MySQL Scale & Migration	Consideration	Backend / App Engineer	31
@@ -114,7 +114,7 @@
 115	Modern SQL alternatives to MySQL for high-scale transactional systems.	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	29
 116	What alternatives to MySQL provide efficient management of large amounts of data?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	26
 117	What makes TiDB's database different from MySQL?	Branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	34
-118	Blueprint for migrating from Aurora MySQL to a horizontally scalable SQL platform.	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	33
+118	Blueprint for migrating from managed cloud MySQL to a horizontally scalable SQL platform.	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	33
 119	What are some open-source distributed SQL databases similar to MySQL that can handle high workloads and ensure data consistency?	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	30
 120	Can you recommend a distributed SQL database that supports AI workloads and is similar to MySQL?	Non-branded	MySQL Scale & Migration	Awareness	Technical Executive	29
 121	Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	28
