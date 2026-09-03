@@ -96,15 +96,26 @@ jobs:
 
           **One-line summary:** ...
 
-          ### Main issues (ordered by severity)
-          - `file:line` — problem and suggested fix (write "No blocking issues found" if none)
+          ### Blocking issues (must fix before merge)
+          - `file:line` — the concrete defect and how to fix it (write "None" if there are none)
 
-          ### Minor suggestions
-          - ...
+          ### Non-blocking suggestions & things to double-check
+          - `file:line` — the suggestion or the assumption worth confirming
 
-          Rules:
-          - Only raise real, high-confidence issues; prefix uncertain ones with
-            "possibly" and explain why. Do not add noise.
+          Verdict rules (the verdict MUST follow these):
+          - A blocking issue is a concrete, high-confidence defect: a bug, a
+            regression, broken behavior, a security problem, or a missing test for
+            new critical logic. "Worth confirming", "possibly", "consider", and
+            style/coverage nitpicks are NOT blocking — they go under non-blocking.
+          - If there is at least one blocking issue → use ❌ Do not merge (or
+            ⚠️ Merge after changes if the fix is small and obvious).
+          - If the Blocking issues section is "None" → use ✅ Safe to merge, even
+            when there are non-blocking suggestions. Never pair ✅ with a blocking
+            issue.
+
+          Other rules:
+          - Only raise real, high-confidence items; prefix genuinely uncertain
+            ones with "possibly" and explain why. Do not add noise.
           - Cite specific files and line numbers.
           - Be concise and factual. This is advisory; a human maintainer makes the
             final merge decision.
