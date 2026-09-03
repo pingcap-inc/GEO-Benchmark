@@ -2,6 +2,7 @@ import tempfile
 import unittest
 import os
 import socket
+import urllib.error
 from pathlib import Path
 from typing import Optional
 from unittest.mock import patch
@@ -29,6 +30,7 @@ from geo_benchmark.providers import (
     PerplexityProvider,
     ProviderError,
     _post_json,
+    resolve_google_grounding_url,
 )
 from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import (
@@ -834,6 +836,39 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(result.web_search_requests, 2)
         self.assertEqual(result.fan_out_status, "captured")
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
+
+    def test_gemini_grounding_redirect_resolves_for_citation_scoring(self):
+        redirect = "https://vertexaisearch.cloud.google.com/grounding-api-redirect/token"
+        destination = "https://docs.pingcap.com/tidb/stable/vector-search"
+
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, traceback):
+                return False
+
+            def geturl(self):
+                return destination
+
+        resolve_google_grounding_url.cache_clear()
+        with patch("geo_benchmark.providers.urllib.request.urlopen", return_value=FakeResponse()):
+            resolved = resolve_google_grounding_url(redirect)
+
+        self.assertEqual(resolved, destination)
+        self.assertTrue(is_product_related_url("TiDB", resolved))
+
+    def test_gemini_grounding_redirect_falls_back_when_resolution_fails(self):
+        redirect = "https://vertexaisearch.cloud.google.com/grounding-api-redirect/token"
+
+        resolve_google_grounding_url.cache_clear()
+        with patch(
+            "geo_benchmark.providers.urllib.request.urlopen",
+            side_effect=urllib.error.URLError("offline"),
+        ):
+            resolved = resolve_google_grounding_url(redirect)
+
+        self.assertEqual(resolved, redirect)
 
     def test_perplexity_marks_fan_out_queries_as_not_exposed(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Best database for agent memory?"}

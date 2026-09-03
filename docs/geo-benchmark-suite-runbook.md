@@ -91,7 +91,7 @@ Provider behavior is based on the structured response returned by each developer
 | --- | --- | --- |
 | OpenAI | `web_search_call.action.query` or `.queries` | Captured |
 | Anthropic | `server_tool_use.input.query` for `web_search` | Captured, with up to five searches per answer by default |
-| Gemini | `groundingMetadata.webSearchQueries` | Captured when `--web-search on` enables Google Search grounding |
+| Gemini | `groundingMetadata.webSearchQueries` | Captured when `--web-search on` enables Google Search grounding; grounding redirect URLs are resolved to their destination domains for citation scoring |
 | Perplexity Sonar | `search_results` contains result pages, but no executed query field | Marked `not_exposed` |
 
 Consideration is scored per target-answer row. A target is considered when one of its configured product aliases appears in at least one captured query. The aggregate rate is intent-weighted in the same way as Answer Share. It uses only non-branded rows and only providers where query capture is observable. `consideration_coverage` reports the fraction of non-branded answer rows in that denominator, so unsupported or missing data cannot silently become a zero.

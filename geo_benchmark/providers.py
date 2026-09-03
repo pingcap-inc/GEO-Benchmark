@@ -5,8 +5,11 @@ import os
 import socket
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
+from functools import lru_cache
 from typing import Any
 
 from .io_utils import estimate_tokens, stable_hash
@@ -350,7 +353,7 @@ class GeminiProvider(BaseProvider):
         fan_out_queries = extract_gemini_fan_out_queries(data)
         return ProviderResult(
             answer=answer,
-            citations=extract_urls_from_value(data),
+            citations=resolve_gemini_grounding_urls(extract_urls_from_value(data)),
             input_tokens=usage.get("promptTokenCount", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("candidatesTokenCount", estimate_tokens(answer)),
             model_name=self.model,
@@ -466,6 +469,44 @@ def extract_gemini_fan_out_queries(data: dict[str, Any]) -> list[str]:
         queries.extend(string_values(metadata.get("webSearchQueries")))
         queries.extend(string_values(metadata.get("web_search_queries")))
     return unique_strings(queries)
+
+
+def resolve_gemini_grounding_urls(urls: list[str]) -> list[str]:
+    """Resolve Google's grounding redirects while preserving other URLs."""
+    if not urls:
+        return []
+    workers = min(8, len(urls))
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        return unique_strings(list(executor.map(resolve_google_grounding_url, urls)))
+
+
+@lru_cache(maxsize=4096)
+def resolve_google_grounding_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if not (
+        parsed.scheme == "https"
+        and parsed.hostname == "vertexaisearch.cloud.google.com"
+        and parsed.path.startswith("/grounding-api-redirect/")
+    ):
+        return url
+
+    for method in ["HEAD", "GET"]:
+        headers = {"User-Agent": "GEO-Benchmark/1.0"}
+        if method == "GET":
+            headers["Range"] = "bytes=0-0"
+        request = urllib.request.Request(url, method=method, headers=headers)
+        try:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                resolved = response.geturl()
+        except urllib.error.HTTPError as exc:
+            # A destination may reject HEAD while still exposing its final URL.
+            resolved = exc.geturl()
+        except (urllib.error.URLError, TimeoutError, socket.timeout):
+            continue
+        parsed_resolved = urllib.parse.urlparse(resolved)
+        if parsed_resolved.scheme in {"http", "https"} and resolved != url:
+            return resolved
+    return url
 
 
 def string_values(value: Any) -> list[str]:
