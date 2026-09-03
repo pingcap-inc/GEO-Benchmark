@@ -73,9 +73,12 @@ jobs:
           and the repository is checked out in the current working directory.
 
           Read ./pr.diff, then use Read/Grep/Glob to inspect the surrounding repo
-          context whenever it helps you judge whether a change is correct or risks
-          a regression (e.g. check callers of changed functions, and whether new
-          data/fields are actually consumed downstream).
+          context when it helps you judge whether a change is correct or risks a
+          regression (e.g. check callers of changed functions, and whether new
+          data/fields are actually consumed downstream). Explore sparingly — only
+          open files that could change your verdict — and make sure you leave
+          enough turns to emit the final review; a partial exploration with a
+          verdict is far better than running out of turns with no output.
 
           Focus on:
           - Correctness / logic bugs / edge cases
@@ -112,7 +115,7 @@ jobs:
           claude -p "$PROMPT" \
             --model claude-sonnet-5 \
             --allowedTools "Read,Grep,Glob" \
-            --max-turns 30 \
+            --max-turns 60 \
             > review.md 2> claude.err
           code=$?
           set -e
