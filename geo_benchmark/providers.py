@@ -354,7 +354,9 @@ class GeminiProvider(BaseProvider):
             input_tokens=usage.get("promptTokenCount", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("candidatesTokenCount", estimate_tokens(answer)),
             model_name=self.model,
-            web_search_requests=1 if fan_out_queries else 0,
+            # Google bills grounded requests per individual search query after
+            # the account's shared free allowance, not per model response.
+            web_search_requests=len(fan_out_queries),
             fan_out_queries=fan_out_queries,
             fan_out_status=fan_out_status(
                 web_search_enabled(self.config),

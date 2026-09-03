@@ -82,6 +82,8 @@ When web search is enabled, the collector stores the search queries exposed by t
 | `not_exposed` | Search happened or is built in, but the response omitted query text | No |
 | `disabled` | Web search was disabled for the request | No |
 | `request_failed` | The provider request failed | No |
+| `not_supported` | The provider adapter does not support query capture, including mock runs | No |
+| `unavailable` | A legacy row has no fan-out status | No |
 
 Provider behavior is based on the structured response returned by each developer API:
 
@@ -260,14 +262,14 @@ Default planning assumptions: 120 prompts, 4 providers, 3 runs per prompt, and 7
 Example estimate:
 
 ```text
-Total estimated cost: $5.2894
-openai / gpt-5-mini: $0.5124
-anthropic / claude-sonnet-5: $2.5872
-gemini / gemini-2.5-flash-lite: $0.1042
-perplexity / sonar: $2.0856
+Total estimated cost: $18.1136
+openai / gpt-5-mini: $4.1158
+anthropic / claude-sonnet-5: $6.2144
+gemini / gemini-3.5-flash-lite: $5.6842
+perplexity / sonar: $2.0992
 ```
 
-OpenAI and Anthropic web search estimates assume one low-mode search call per prompt run when `--web-search on` is used. Actual cost summaries use the recorded tool-call count when providers return it. Claude may perform up to five searches per answer, so actual cost can exceed that planning assumption. Gemini 2.5 Flash-Lite Google Search grounding is free within Google's documented daily allowance, then billed per grounded prompt. Perplexity Sonar includes a request fee, so its cost is not token-only.
+OpenAI and Anthropic web search estimates assume one low-mode search call per prompt run when `--web-search on` is used. Actual cost summaries use the recorded tool-call count when providers return it. Claude may perform up to five searches per answer, so actual cost can exceed that planning assumption. Gemini 3.5 Flash-Lite pricing includes 5,000 free Google Search requests per month shared across Gemini 3.x models, then charges per individual search query; the planning estimate uses the post-allowance marginal rate. Perplexity Sonar includes a request fee, so its cost is not token-only.
 
 ## Monthly Comparability
 

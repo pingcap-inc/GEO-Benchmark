@@ -635,8 +635,12 @@ class GeoBenchmarkTests(unittest.TestCase):
             prompts, ["gemini"], 3, DEFAULT_MODELS, DEFAULT_PRICING, 700, "on"
         )
 
+        self.assertEqual(DEFAULT_MODELS["gemini"]["model"], "gemini-3.5-flash-lite")
+        self.assertEqual(estimate["providers"][0]["model"], "gemini-3.5-flash-lite")
         self.assertEqual(estimate["providers"][0]["web_search_mode"], "on")
         self.assertEqual(estimate["providers"][0]["web_search_requests"], 30)
+        self.assertEqual(estimate["providers"][0]["web_search_fee"], 0.014)
+        self.assertGreater(estimate["providers"][0]["estimated_cost_usd"], 0.42)
 
     def test_actual_cost_matches_versioned_model_name(self):
         raw = [
@@ -793,7 +797,7 @@ class GeoBenchmarkTests(unittest.TestCase):
     def test_gemini_web_search_captures_grounding_queries(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Best database for agent memory?"}
         config = {
-            "model": "gemini-2.5-flash-lite",
+            "model": "gemini-3.5-flash-lite",
             "env_var": "GEMINI_API_KEY",
             "web_search": "on",
             "max_output_tokens": 100,
@@ -827,6 +831,7 @@ class GeoBenchmarkTests(unittest.TestCase):
 
         self.assertEqual(captured["payload"]["tools"], [{"google_search": {}}])
         self.assertEqual(result.fan_out_queries, ["best agent memory database", "TiDB agent memory"])
+        self.assertEqual(result.web_search_requests, 2)
         self.assertEqual(result.fan_out_status, "captured")
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
 
