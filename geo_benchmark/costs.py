@@ -7,6 +7,9 @@ from .io_utils import estimate_tokens
 from .providers import SYSTEM_PROMPT
 
 
+WEB_SEARCH_OPTIONAL_PROVIDERS = {"openai", "anthropic", "gemini"}
+
+
 def estimate_planned_cost(
     prompts: list[dict[str, Any]],
     providers: list[str],
@@ -24,11 +27,19 @@ def estimate_planned_cost(
         input_rate = float(price.get("input_per_1m", 0.0))
         output_rate = float(price.get("output_per_1m", 0.0))
         request_fee = float(price.get("request_fee", 0.0))
-        web_search_fee = float(price.get("web_search_fee", 0.0)) if provider_name in {"openai", "anthropic"} else 0.0
+        web_search_fee = (
+            float(price.get("web_search_fee", 0.0))
+            if provider_name in WEB_SEARCH_OPTIONAL_PROVIDERS
+            else 0.0
+        )
         input_tokens = 0
         output_tokens = 0
         request_count = len(prompts) * runs
-        web_search_requests = request_count if web_search_mode == "on" and provider_name in {"openai", "anthropic"} else 0
+        web_search_requests = (
+            request_count
+            if web_search_mode == "on" and provider_name in WEB_SEARCH_OPTIONAL_PROVIDERS
+            else 0
+        )
         for prompt in prompts:
             prompt_text = f"{SYSTEM_PROMPT}\n{prompt.get('prompt_text', '')}"
             input_tokens += estimate_tokens(prompt_text) * runs
@@ -50,7 +61,9 @@ def estimate_planned_cost(
                 "input_rate_per_1m": input_rate,
                 "output_rate_per_1m": output_rate,
                 "request_fee": request_fee,
-                "web_search_mode": web_search_mode if provider_name in {"openai", "anthropic"} else "off",
+                "web_search_mode": (
+                    web_search_mode if provider_name in WEB_SEARCH_OPTIONAL_PROVIDERS else "off"
+                ),
                 "web_search_requests": web_search_requests,
                 "web_search_fee": web_search_fee,
                 "estimated_cost_usd": round(cost, 4),

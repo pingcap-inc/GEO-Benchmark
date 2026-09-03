@@ -28,7 +28,7 @@ DEFAULT_MODELS = {
     },
     "gemini": {
         "provider": "gemini",
-        "model": "gemini-2.5-flash-lite",
+        "model": "gemini-3.5-flash-lite",
         "temperature": 0.2,
         "max_output_tokens": 700,
         "env_var": "GEMINI_API_KEY",
@@ -50,7 +50,7 @@ DEFAULT_TARGETS = {
 
 
 DEFAULT_PRICING = {
-    "pricing_version": "2026-07-30",
+    "pricing_version": "2026-09-03",
     "currency": "USD",
     "notes": [
         "Prices are editable planning defaults; always verify provider billing pages before a production run.",
@@ -78,10 +78,11 @@ DEFAULT_PRICING = {
             "web_search_fee": 0.01,
             "source": "https://claude.com/pricing",
         },
-        "gemini-2.5-flash-lite": {
-            "input_per_1m": 0.10,
-            "output_per_1m": 0.40,
+        "gemini-3.5-flash-lite": {
+            "input_per_1m": 0.30,
+            "output_per_1m": 2.50,
             "request_fee": 0.0,
+            "web_search_fee": 0.014,
             "source": "https://ai.google.dev/gemini-api/docs/pricing",
         },
         "sonar": {

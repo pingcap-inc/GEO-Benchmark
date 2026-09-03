@@ -312,6 +312,8 @@ def collect(
                         "model_version": result.model_version,
                         "web_search_mode": web_search_mode,
                         "web_search_requests": result.web_search_requests,
+                        "fan_out_queries": result.fan_out_queries or [],
+                        "fan_out_status": result.fan_out_status,
                         "run_index": run_index,
                         "timestamp": timestamp,
                         "raw_answer": result.answer,
@@ -332,6 +334,8 @@ def collect(
                         "model_name": provider_config.get("model"),
                         "web_search_mode": web_search_mode,
                         "web_search_requests": 0,
+                        "fan_out_queries": [],
+                        "fan_out_status": "request_failed",
                         "run_index": run_index,
                         "timestamp": timestamp,
                         "error": str(exc),
@@ -437,6 +441,8 @@ def retry_errors(
                 "model_version": result.model_version,
                 "web_search_mode": web_search_mode,
                 "web_search_requests": result.web_search_requests,
+                "fan_out_queries": result.fan_out_queries or [],
+                "fan_out_status": result.fan_out_status,
                 "run_index": run_index,
                 "timestamp": timestamp,
                 "raw_answer": result.answer,
@@ -457,6 +463,8 @@ def retry_errors(
                 "model_name": config.get("model"),
                 "web_search_mode": web_search_mode,
                 "web_search_requests": 0,
+                "fan_out_queries": [],
+                "fan_out_status": "request_failed",
                 "error": str(exc),
                 "retryable": exc.retryable,
                 "retry_of_run_id": old.get("run_id"),
@@ -586,7 +594,7 @@ def split_csv(value: str) -> list[str]:
 
 def with_web_search_mode(config: dict[str, Any], web_search_mode: str) -> dict[str, Any]:
     updated = dict(config)
-    if updated.get("provider") in {"openai", "anthropic"}:
+    if updated.get("provider") in {"openai", "anthropic", "gemini"}:
         updated["web_search"] = web_search_mode
     return updated
 
