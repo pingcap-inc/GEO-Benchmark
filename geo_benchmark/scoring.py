@@ -205,6 +205,12 @@ def score_answer(
     comparison_candidates = comparison_products(prompt)
     winner = competitive_winner(answer, prompt)
     target_in_prompt = product_in_prompt(prompt, target)
+    fan_out_queries = [str(query) for query in row.get("fan_out_queries", [])]
+    fan_out_status = str(row.get("fan_out_status") or "unavailable")
+    consideration_eligible = not target_in_prompt and fan_out_status in {"captured", "no_search"}
+    considered_in_fan_out = (
+        product_in_queries(fan_out_queries, target) if consideration_eligible else None
+    )
 
     return {
         "answer_id": row["answer_id"],
@@ -228,6 +234,11 @@ def score_answer(
         "qualified_recommendation_opportunity": prompt.get("qualified_recommendation_opportunity", False),
         "target_in_prompt": target_in_prompt,
         "brand_class": "branded" if target_in_prompt else "non_branded",
+        "fan_out_queries": fan_out_queries,
+        "fan_out_query_count": len(fan_out_queries),
+        "fan_out_status": fan_out_status,
+        "consideration_eligible": consideration_eligible,
+        "considered_in_fan_out": considered_in_fan_out,
         "mentioned_target": mentioned_target,
         "mention_position": mention_position,
         "presence_score": round(presence_score, 4),
@@ -524,6 +535,10 @@ def product_in_prompt(prompt: dict[str, Any], product: str) -> bool:
     )
 
 
+def product_in_queries(queries: list[str], product: str) -> bool:
+    return any(product in product_positions(query) for query in queries)
+
+
 def aggregate_scores(scored: list[dict[str, Any]]) -> dict[str, Any]:
     targets = sorted({row.get("target", "TiDB") for row in scored})
     target_summaries = {
@@ -605,6 +620,16 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 negative_answers += 1
 
     checked = [row for row in visible_rows if row.get("accuracy_checked_facts", 0) > 0]
+    consideration_rows = [row for row in visible_rows if row.get("consideration_eligible")]
+    consideration_groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in consideration_rows:
+        consideration_groups[row["prompt_id"]].append(row)
+    consideration_weight_sum = 0.0
+    consideration_sum = 0.0
+    for prompt_rows in consideration_groups.values():
+        weight = float(prompt_rows[0].get("intent_weight", 1))
+        consideration_weight_sum += weight
+        consideration_sum += mean(bool(row.get("considered_in_fan_out")) for row in prompt_rows) * weight
     weighted_rec_avg = rec_sum / rec_weight_sum if rec_weight_sum else 0.0
     metrics = {
         "prompt_count": len(prompt_groups),
@@ -624,6 +649,17 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "avg_accuracy": round(mean(row["accuracy"] for row in checked), 4) if checked else None,
         "accuracy_coverage": round(len(checked) / len(visible_rows), 4),
         "avg_freshness": round(mean(row["freshness"] for row in visible_rows), 4),
+        "consideration_rate": round((consideration_sum / consideration_weight_sum) * 100, 2)
+        if consideration_weight_sum
+        else None,
+        "consideration_coverage": round(len(consideration_rows) / len(visible_rows), 4),
+        "consideration_prompt_count": len(consideration_groups),
+        "consideration_answer_count": len(consideration_rows),
+        "avg_fan_out_queries": round(
+            mean(row.get("fan_out_query_count", 0) for row in consideration_rows), 2
+        )
+        if consideration_rows
+        else None,
     }
     metrics.update(brand_metrics(branded_rows))
     return metrics
@@ -672,6 +708,11 @@ def empty_metrics() -> dict[str, Any]:
         "avg_accuracy": None,
         "accuracy_coverage": 0.0,
         "avg_freshness": 0.0,
+        "consideration_rate": None,
+        "consideration_coverage": 0.0,
+        "consideration_prompt_count": 0,
+        "consideration_answer_count": 0,
+        "avg_fan_out_queries": None,
         "branded_prompt_count": 0,
         "branded_answer_count": 0,
         "brand_accuracy": None,

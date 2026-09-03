@@ -137,8 +137,8 @@ def write_markdown(
 
 def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
     lines = [
-        "| Target | Answer Share | Citation Authority | Recommendation Rate | Stable Answer Share | Stable Recommendation Rate |",
-        "| --- | ---: | ---: | ---: | ---: | ---: |",
+        "| Target | Consideration Rate | Answer Share | Citation Authority | Recommendation Rate | Stable Consideration Rate | Stable Answer Share | Stable Recommendation Rate |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for target in report_target_order(summary):
         metrics = summary["targets"][target]
@@ -147,9 +147,11 @@ def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
             + " | ".join(
                 [
                     target,
+                    fmt_optional(metrics["overall"].get("consideration_rate")),
                     fmt(metrics["overall"].get("answer_share")),
                     fmt(metrics["overall"].get("citation_authority")),
                     fmt(metrics["overall"].get("qualified_recommendation_rate")),
+                    fmt_optional(metrics["unchanged"].get("consideration_rate")),
                     fmt(metrics["unchanged"].get("answer_share")),
                     fmt(metrics["unchanged"].get("qualified_recommendation_rate")),
                 ]
@@ -169,6 +171,7 @@ def report_target_order(summary: dict[str, Any]) -> list[str]:
 def prompt_type_metric_tables(summary: dict[str, Any]) -> list[str]:
     tables: list[str] = []
     for title, metric_key in [
+        ("Consideration Rate", "consideration_rate"),
         ("Answer Share", "answer_share"),
         ("Citation Authority", "citation_authority"),
         ("Recommendation Rate", "qualified_recommendation_rate"),
@@ -191,7 +194,8 @@ def prompt_type_metric_table(summary: dict[str, Any], metric_key: str) -> list[s
         cells = []
         for target in target_order:
             metrics = summary["targets"][target].get("by_prompt_type", {}).get(prompt_type, {})
-            cells.append(fmt(metrics.get(metric_key)))
+            formatter = fmt_optional if metric_key == "consideration_rate" else fmt
+            cells.append(formatter(metrics.get(metric_key)))
         lines.append(f"| `{prompt_type}` | " + " | ".join(cells) + " |")
     return lines
 
@@ -236,11 +240,22 @@ def fmt(value: Any) -> str:
     return f"{float(value):.2f}"
 
 
+def fmt_optional(value: Any) -> str:
+    if value is None:
+        return "N/A"
+    return f"{float(value):.2f}"
+
+
 def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
     fieldnames = [
         "target",
         "scope",
         "answer_share",
+        "consideration_rate",
+        "consideration_coverage",
+        "consideration_prompt_count",
+        "consideration_answer_count",
+        "avg_fan_out_queries",
         "citation_authority",
         "qualified_recommendation_rate",
         "weighted_recommendation_score",
@@ -282,6 +297,11 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "group",
         "use_case",
         "target_in_prompt",
+        "fan_out_queries",
+        "fan_out_query_count",
+        "fan_out_status",
+        "consideration_eligible",
+        "considered_in_fan_out",
         "mentioned_target",
         "presence_score",
         "mention_position",
@@ -309,6 +329,9 @@ def write_breakdown_csv(path: Path, breakdown: dict[str, Any]) -> None:
         "prompt_count",
         "answer_count",
         "answer_share",
+        "consideration_rate",
+        "consideration_coverage",
+        "consideration_answer_count",
         "citation_authority",
         "qualified_recommendation_rate",
         "negative_recommendation_rate",

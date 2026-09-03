@@ -23,16 +23,16 @@ The repository also includes a dependency-light Python CLI:
 ./geo-bench run --month 2026-08 --providers mock --runs 1
 ```
 
-Web search is off by default. To enable provider web search for OpenAI and Anthropic, use low mode:
+Web search is off by default. To enable provider web search for OpenAI, Anthropic, and Gemini, use low mode:
 
 ```bash
-MONTH=2026-08 PROVIDERS=openai,anthropic WEB_SEARCH=on RUNS=1 ./scripts/run-benchmark-workflow.sh
+MONTH=2026-08 PROVIDERS=openai,anthropic,gemini WEB_SEARCH=on RUNS=1 ./scripts/run-benchmark-workflow.sh
 ```
 
 Equivalent CLI flag:
 
 ```bash
-./geo-bench run --month 2026-08 --providers openai,anthropic --runs 1 --web-search on
+./geo-bench run --month 2026-08 --providers openai,anthropic,gemini --runs 1 --web-search on
 ```
 
 `web_search=off` and `web_search=on` rows are stored with separate answer IDs. Scoring and reports aggregate only the selected mode, so the two modes are not mixed in one KPI table.
@@ -43,7 +43,7 @@ This command:
 2. Calls the selected provider.
 3. Stores provider answers.
 4. Retries failed answers for providers with fallback configuration.
-5. Scores Answer Share, Citation Authority, and Recommendation Rate.
+5. Scores Consideration Rate, Answer Share, Citation Authority, and Recommendation Rate.
 6. Generates Overall and Unchanged KPI views for every target in `targets.json`.
 7. Writes cost estimates and reports.
 
@@ -70,6 +70,31 @@ geo-benchmark/reports/<month>/cost_summary.json
 ```
 
 The human-readable LLM report is always a single Markdown file: `llm-report.md`. CSV and JSON files are audit and downstream-analysis artifacts.
+
+## Query Fan-Out and Consideration Rate
+
+When web search is enabled, the collector stores the search queries exposed by the provider in `fan_out_queries`. Each answer also records a `fan_out_status`:
+
+| Status | Meaning | Included in consideration rate |
+| --- | --- | --- |
+| `captured` | One or more executed search queries were returned | Yes |
+| `no_search` | Query capture is supported, but the model did not search | Yes, as not considered |
+| `not_exposed` | Search happened or is built in, but the response omitted query text | No |
+| `disabled` | Web search was disabled for the request | No |
+| `request_failed` | The provider request failed | No |
+
+Provider behavior is based on the structured response returned by each developer API:
+
+| Provider | Response field | Support |
+| --- | --- | --- |
+| OpenAI | `web_search_call.action.query` or `.queries` | Captured |
+| Anthropic | `server_tool_use.input.query` for `web_search` | Captured, with up to five searches per answer by default |
+| Gemini | `groundingMetadata.webSearchQueries` | Captured when `--web-search on` enables Google Search grounding |
+| Perplexity Sonar | `search_results` contains result pages, but no executed query field | Marked `not_exposed` |
+
+Consideration is scored per target-answer row. A target is considered when one of its configured product aliases appears in at least one captured query. The aggregate rate is intent-weighted in the same way as Answer Share. It uses only non-branded rows and only providers where query capture is observable. `consideration_coverage` reports the fraction of non-branded answer rows in that denominator, so unsupported or missing data cannot silently become a zero.
+
+Existing raw rows have no fan-out fields and remain outside the consideration denominator. Re-collect with `--web-search on` to populate the metric. Provider response schemas: [OpenAI web search](https://developers.openai.com/api/docs/guides/tools-web-search), [Anthropic web search](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool), [Gemini Google Search grounding](https://ai.google.dev/gemini-api/docs/generate-content/google-search), and [Perplexity Sonar](https://docs.perplexity.ai/docs/sonar/models/sonar).
 
 ## Real Providers
 
@@ -242,7 +267,7 @@ gemini / gemini-2.5-flash-lite: $0.1042
 perplexity / sonar: $2.0856
 ```
 
-OpenAI and Anthropic web search estimates assume one low-mode search call per prompt run when `--web-search on` is used. Actual cost summaries use the recorded tool-call count when providers return it. Perplexity Sonar includes a request fee, so its cost is not token-only.
+OpenAI and Anthropic web search estimates assume one low-mode search call per prompt run when `--web-search on` is used. Actual cost summaries use the recorded tool-call count when providers return it. Claude may perform up to five searches per answer, so actual cost can exceed that planning assumption. Gemini 2.5 Flash-Lite Google Search grounding is free within Google's documented daily allowance, then billed per grounded prompt. Perplexity Sonar includes a request fee, so its cost is not token-only.
 
 ## Monthly Comparability
 

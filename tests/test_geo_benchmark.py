@@ -21,7 +21,15 @@ from geo_benchmark.cli import (
 from geo_benchmark.costs import estimate_actual_cost, estimate_planned_cost
 from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_TARGETS
 from geo_benchmark.io_utils import read_json, read_jsonl, stable_hash, write_json, write_jsonl
-from geo_benchmark.providers import AnthropicProvider, MockProvider, OpenAIProvider, ProviderError, _post_json
+from geo_benchmark.providers import (
+    AnthropicProvider,
+    GeminiProvider,
+    MockProvider,
+    OpenAIProvider,
+    PerplexityProvider,
+    ProviderError,
+    _post_json,
+)
 from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import (
     aggregate_scores,
@@ -30,6 +38,7 @@ from geo_benchmark.scoring import (
     competitive_winner,
     is_product_related_url,
     product_in_prompt,
+    product_in_queries,
     product_positions,
     score_answer,
     score_answers,
@@ -295,6 +304,83 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(metrics["avg_accuracy"], 0.5)
         self.assertEqual(metrics["accuracy_coverage"], 0.5)
 
+    def test_consideration_rate_uses_only_observable_non_branded_rows(self):
+        rows = [
+            self._aggregate_row(
+                "considered",
+                consideration_eligible=True,
+                considered_in_fan_out=True,
+                fan_out_query_count=3,
+            ),
+            self._aggregate_row(
+                "not_considered",
+                consideration_eligible=True,
+                considered_in_fan_out=False,
+                fan_out_query_count=2,
+            ),
+            self._aggregate_row(
+                "not_exposed",
+                consideration_eligible=False,
+                considered_in_fan_out=None,
+                fan_out_query_count=0,
+            ),
+            self._aggregate_row(
+                "branded",
+                target_in_prompt=True,
+                consideration_eligible=False,
+                considered_in_fan_out=None,
+                fan_out_query_count=1,
+            ),
+        ]
+
+        metrics = aggregate_slice(rows)
+
+        self.assertEqual(metrics["consideration_rate"], 50.0)
+        self.assertEqual(metrics["consideration_coverage"], 0.6667)
+        self.assertEqual(metrics["consideration_prompt_count"], 2)
+        self.assertEqual(metrics["consideration_answer_count"], 2)
+        self.assertEqual(metrics["avg_fan_out_queries"], 2.5)
+
+    def test_score_answer_matches_target_in_fan_out_queries(self):
+        prompt = {
+            "prompt_id": "p1",
+            "prompt_text": "What database should I use for persistent agent memory?",
+        }
+        row = {
+            "answer_id": "a1",
+            "run_id": "r1",
+            "month": "2026-09",
+            "prompt_id": "p1",
+            "model_surface": "openai",
+            "raw_answer": "Several databases could fit.",
+            "fan_out_queries": ["PyTiDB persistent agent memory", "Qdrant agent state"],
+            "fan_out_status": "captured",
+        }
+
+        scored = score_answer(row, prompt, {}, {"targets": {}}, "TiDB")
+
+        self.assertTrue(product_in_queries(row["fan_out_queries"], "TiDB"))
+        self.assertTrue(scored["consideration_eligible"])
+        self.assertTrue(scored["considered_in_fan_out"])
+
+    def test_branded_target_is_not_eligible_for_consideration(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "What is TiDB Cloud Zero?"}
+        row = {
+            "answer_id": "a1",
+            "run_id": "r1",
+            "month": "2026-09",
+            "prompt_id": "p1",
+            "model_surface": "openai",
+            "raw_answer": "TiDB Cloud Zero is a database product.",
+            "fan_out_queries": ["TiDB Cloud Zero"],
+            "fan_out_status": "captured",
+        }
+
+        scored = score_answer(row, prompt, {}, {"targets": {}}, "TiDB")
+
+        self.assertFalse(scored["consideration_eligible"])
+        self.assertIsNone(scored["considered_in_fan_out"])
+
     def test_new_competitor_aliases_match(self):
         aliases = {
             "Aurora": "Aurora MySQL",
@@ -542,6 +628,16 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(estimate["providers"][0]["web_search_requests"], 30)
         self.assertGreater(estimate["providers"][0]["estimated_cost_usd"], 0.3)
 
+    def test_cost_estimate_marks_gemini_web_search_as_enabled(self):
+        prompts = generate_seed_prompts("2026-08", total=10, update_ratio=0.3)
+
+        estimate = estimate_planned_cost(
+            prompts, ["gemini"], 3, DEFAULT_MODELS, DEFAULT_PRICING, 700, "on"
+        )
+
+        self.assertEqual(estimate["providers"][0]["web_search_mode"], "on")
+        self.assertEqual(estimate["providers"][0]["web_search_requests"], 30)
+
     def test_actual_cost_matches_versioned_model_name(self):
         raw = [
             {
@@ -567,7 +663,13 @@ class GeoBenchmarkTests(unittest.TestCase):
                 "model": "gpt-5-mini-2026-08-01",
                 "output_text": "TiDB is one option.",
                 "output": [
-                    {"type": "web_search_call"},
+                    {
+                        "type": "web_search_call",
+                        "action": {
+                            "type": "search",
+                            "queries": ["distributed SQL databases", "TiDB operational analytics"],
+                        },
+                    },
                     {"type": "message", "content": [{"type": "output_text", "text": "TiDB is one option."}]},
                 ],
                 "usage": {"input_tokens": 10, "output_tokens": 5},
@@ -587,6 +689,11 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(captured["payload"]["max_tool_calls"], 1)
         self.assertGreaterEqual(captured["payload"]["max_output_tokens"], 4000)
         self.assertEqual(result.web_search_requests, 1)
+        self.assertEqual(
+            result.fan_out_queries,
+            ["distributed SQL databases", "TiDB operational analytics"],
+        )
+        self.assertEqual(result.fan_out_status, "captured")
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
 
     def test_post_json_wraps_socket_timeout_as_retryable_provider_error(self):
@@ -627,6 +734,8 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertNotIn("max_tool_calls", captured["payload"])
         self.assertGreaterEqual(captured["payload"]["max_output_tokens"], 4000)
         self.assertEqual(result.web_search_requests, 0)
+        self.assertEqual(result.fan_out_queries, [])
+        self.assertEqual(result.fan_out_status, "disabled")
 
     def test_anthropic_web_search_on_adds_server_tool(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
@@ -638,14 +747,27 @@ class GeoBenchmarkTests(unittest.TestCase):
             return {
                 "model": "claude-sonnet-5",
                 "content": [
-                    {"type": "server_tool_use", "name": "web_search"},
+                    {
+                        "type": "server_tool_use",
+                        "name": "web_search",
+                        "input": {"query": "distributed SQL operational analytics"},
+                    },
+                    {
+                        "type": "server_tool_use",
+                        "name": "web_search",
+                        "input": {"query": "TiDB operational analytics"},
+                    },
                     {
                         "type": "text",
                         "text": "TiDB is one option.",
                         "citations": [{"type": "web_search_result_location", "url": "https://docs.pingcap.com/tidb/stable"}],
                     },
                 ],
-                "usage": {"input_tokens": 10, "output_tokens": 5},
+                "usage": {
+                    "input_tokens": 10,
+                    "output_tokens": 5,
+                    "server_tool_use": {"web_search_requests": 2},
+                },
             }
 
         old_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -658,10 +780,81 @@ class GeoBenchmarkTests(unittest.TestCase):
 
         self.assertEqual(
             captured["payload"]["tools"],
-            [{"type": "web_search_20250305", "name": "web_search", "max_uses": 1}],
+            [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}],
         )
-        self.assertEqual(result.web_search_requests, 1)
+        self.assertEqual(result.web_search_requests, 2)
+        self.assertEqual(
+            result.fan_out_queries,
+            ["distributed SQL operational analytics", "TiDB operational analytics"],
+        )
+        self.assertEqual(result.fan_out_status, "captured")
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
+
+    def test_gemini_web_search_captures_grounding_queries(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "Best database for agent memory?"}
+        config = {
+            "model": "gemini-2.5-flash-lite",
+            "env_var": "GEMINI_API_KEY",
+            "web_search": "on",
+            "max_output_tokens": 100,
+        }
+        captured = {}
+
+        def fake_post(endpoint, payload, headers):
+            captured["payload"] = payload
+            return {
+                "candidates": [
+                    {
+                        "content": {"parts": [{"text": "TiDB is one option."}]},
+                        "groundingMetadata": {
+                            "webSearchQueries": ["best agent memory database", "TiDB agent memory"],
+                            "groundingChunks": [
+                                {"web": {"uri": "https://docs.pingcap.com/tidb/stable", "title": "TiDB"}}
+                            ],
+                        },
+                    }
+                ],
+                "usageMetadata": {"promptTokenCount": 10, "candidatesTokenCount": 5},
+            }
+
+        old_key = os.environ.get("GEMINI_API_KEY")
+        try:
+            os.environ["GEMINI_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post):
+                result = GeminiProvider("gemini", config).generate(prompt, 1)
+        finally:
+            restore_env("GEMINI_API_KEY", old_key)
+
+        self.assertEqual(captured["payload"]["tools"], [{"google_search": {}}])
+        self.assertEqual(result.fan_out_queries, ["best agent memory database", "TiDB agent memory"])
+        self.assertEqual(result.fan_out_status, "captured")
+        self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
+
+    def test_perplexity_marks_fan_out_queries_as_not_exposed(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "Best database for agent memory?"}
+        config = {"model": "sonar", "env_var": "PERPLEXITY_API_KEY", "max_output_tokens": 100}
+
+        def fake_post(endpoint, payload, headers):
+            return {
+                "model": "sonar",
+                "choices": [{"message": {"content": "TiDB is one option."}}],
+                "citations": ["https://docs.pingcap.com/tidb/stable"],
+                "search_results": [
+                    {"title": "TiDB docs", "url": "https://docs.pingcap.com/tidb/stable"}
+                ],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 5},
+            }
+
+        old_key = os.environ.get("PERPLEXITY_API_KEY")
+        try:
+            os.environ["PERPLEXITY_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post):
+                result = PerplexityProvider("perplexity", config).generate(prompt, 1)
+        finally:
+            restore_env("PERPLEXITY_API_KEY", old_key)
+
+        self.assertEqual(result.fan_out_queries, [])
+        self.assertEqual(result.fan_out_status, "not_exposed")
 
     def test_seed_prompts_are_neutral_and_evidence_backed(self):
         prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
@@ -933,6 +1126,8 @@ class GeoBenchmarkTests(unittest.TestCase):
 
             self.assertEqual(by_prompt[pain_prompt["prompt_id"]]["raw_answer"], "Existing pain answer")
             self.assertNotEqual(by_prompt[ai_prompt["prompt_id"]]["raw_answer"], "Old AI answer")
+            self.assertEqual(by_prompt[ai_prompt["prompt_id"]]["fan_out_queries"], [])
+            self.assertEqual(by_prompt[ai_prompt["prompt_id"]]["fan_out_status"], "not_supported")
 
     def test_auto_fallback_skips_auth_and_quota_errors(self):
         self.assertFalse(fallback_error_is_eligible({"error": "Missing OPENAI_API_KEY"}))
@@ -993,7 +1188,7 @@ class GeoBenchmarkTests(unittest.TestCase):
             report_text = (report_dir / "llm-report.md").read_text(encoding="utf-8")
 
             self.assertEqual(markdown_files, ["llm-report.md"])
-            self.assertIn("| Target | Answer Share | Citation Authority | Recommendation Rate | Stable Answer Share | Stable Recommendation Rate |", report_text)
+            self.assertIn("| Target | Consideration Rate | Answer Share | Citation Authority | Recommendation Rate | Stable Consideration Rate | Stable Answer Share | Stable Recommendation Rate |", report_text)
             self.assertNotIn("Top 3", report_text)
             self.assertNotIn("Not Mentioned", report_text)
 

@@ -82,6 +82,8 @@ class ProviderResult:
     model_name: str
     model_version: str | None = None
     web_search_requests: int = 0
+    fan_out_queries: list[str] | None = None
+    fan_out_status: str = "not_supported"
     raw_response: dict[str, Any] | None = None
 
 
@@ -217,13 +219,21 @@ class OpenAIProvider(BaseProvider):
         if not answer:
             raise ProviderError(f"OpenAI returned empty content: {data.get('incomplete_details')}", retryable=False)
         usage = data.get("usage", {})
+        web_search_requests = openai_web_search_request_count(data)
+        fan_out_queries = extract_openai_fan_out_queries(data)
         return ProviderResult(
             answer=answer,
             citations=extract_urls_from_value(data),
             input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("output_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
-            web_search_requests=openai_web_search_request_count(data),
+            web_search_requests=web_search_requests,
+            fan_out_queries=fan_out_queries,
+            fan_out_status=fan_out_status(
+                web_search_enabled(self.config),
+                web_search_requests,
+                fan_out_queries,
+            ),
             raw_response=data,
         )
 
@@ -254,6 +264,8 @@ class PerplexityProvider(OpenAIProvider):
             input_tokens=usage.get("prompt_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("completion_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
+            fan_out_queries=[],
+            fan_out_status="not_exposed",
             raw_response=data,
         )
 
@@ -278,7 +290,7 @@ class AnthropicProvider(BaseProvider):
                 {
                     "type": "web_search_20250305",
                     "name": "web_search",
-                    "max_uses": 1,
+                    "max_uses": int(self.config.get("web_search_max_tool_calls", 5)),
                 }
             ]
         data = _post_json(
@@ -292,13 +304,21 @@ class AnthropicProvider(BaseProvider):
         blocks = data.get("content", [])
         answer = "\n".join(block.get("text", "") for block in blocks if block.get("type") == "text")
         usage = data.get("usage", {})
+        web_search_requests = anthropic_web_search_request_count(data)
+        fan_out_queries = extract_anthropic_fan_out_queries(data)
         return ProviderResult(
             answer=answer,
             citations=extract_urls_from_value(data),
             input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("output_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
-            web_search_requests=anthropic_web_search_request_count(data),
+            web_search_requests=web_search_requests,
+            fan_out_queries=fan_out_queries,
+            fan_out_status=fan_out_status(
+                web_search_enabled(self.config),
+                web_search_requests,
+                fan_out_queries,
+            ),
             raw_response=data,
         )
 
@@ -320,17 +340,27 @@ class GeminiProvider(BaseProvider):
                 "maxOutputTokens": self.config.get("max_output_tokens", 700),
             },
         }
+        if web_search_enabled(self.config):
+            payload["tools"] = [{"google_search": {}}]
         data = _post_json(endpoint, payload, {})
         candidates = data.get("candidates", [])
         parts = candidates[0].get("content", {}).get("parts", []) if candidates else []
         answer = "\n".join(part.get("text", "") for part in parts)
         usage = data.get("usageMetadata", {})
+        fan_out_queries = extract_gemini_fan_out_queries(data)
         return ProviderResult(
             answer=answer,
-            citations=[],
+            citations=extract_urls_from_value(data),
             input_tokens=usage.get("promptTokenCount", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("candidatesTokenCount", estimate_tokens(answer)),
             model_name=self.model,
+            web_search_requests=1 if fan_out_queries else 0,
+            fan_out_queries=fan_out_queries,
+            fan_out_status=fan_out_status(
+                web_search_enabled(self.config),
+                len(fan_out_queries),
+                fan_out_queries,
+            ),
             raw_response=data,
         )
 
@@ -371,7 +401,7 @@ def extract_urls_from_value(value: Any) -> list[str]:
     urls: list[str] = []
     if isinstance(value, dict):
         for key, item in value.items():
-            if key == "url" and isinstance(item, str) and item.startswith(("http://", "https://")):
+            if key in {"url", "uri"} and isinstance(item, str) and item.startswith(("http://", "https://")):
                 urls.append(item)
             else:
                 urls.extend(extract_urls_from_value(item))
@@ -395,15 +425,76 @@ def count_items_by_type(value: Any, item_type: str, name: str | None = None) -> 
 
 
 def openai_web_search_request_count(data: dict[str, Any]) -> int:
-    if not count_items_by_type(data, "web_search_call"):
-        return 0
-    return 1
+    return count_items_by_type(data, "web_search_call")
 
 
 def anthropic_web_search_request_count(data: dict[str, Any]) -> int:
-    if not count_items_by_type(data, "server_tool_use", name="web_search"):
-        return 0
-    return 1
+    reported = data.get("usage", {}).get("server_tool_use", {}).get("web_search_requests")
+    if reported is not None:
+        return int(reported)
+    return count_items_by_type(data, "server_tool_use", name="web_search")
+
+
+def extract_openai_fan_out_queries(data: dict[str, Any]) -> list[str]:
+    queries: list[str] = []
+    for item in data.get("output", []):
+        if item.get("type") != "web_search_call":
+            continue
+        action = item.get("action") or {}
+        if action.get("type") != "search":
+            continue
+        queries.extend(string_values(action.get("queries")))
+        queries.extend(string_values(action.get("query")))
+    return unique_strings(queries)
+
+
+def extract_anthropic_fan_out_queries(data: dict[str, Any]) -> list[str]:
+    queries = [
+        str(block.get("input", {}).get("query", ""))
+        for block in data.get("content", [])
+        if block.get("type") == "server_tool_use" and block.get("name") == "web_search"
+    ]
+    return unique_strings(queries)
+
+
+def extract_gemini_fan_out_queries(data: dict[str, Any]) -> list[str]:
+    queries: list[str] = []
+    for candidate in data.get("candidates", []):
+        metadata = candidate.get("groundingMetadata") or candidate.get("grounding_metadata") or {}
+        queries.extend(string_values(metadata.get("webSearchQueries")))
+        queries.extend(string_values(metadata.get("web_search_queries")))
+    return unique_strings(queries)
+
+
+def string_values(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        return [str(item) for item in value if isinstance(item, str)]
+    return []
+
+
+def unique_strings(values: list[str]) -> list[str]:
+    result: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        normalized = value.strip()
+        key = normalized.casefold()
+        if not normalized or key in seen:
+            continue
+        seen.add(key)
+        result.append(normalized)
+    return result
+
+
+def fan_out_status(web_search_on: bool, search_requests: int, queries: list[str]) -> str:
+    if not web_search_on:
+        return "disabled"
+    if queries:
+        return "captured"
+    if search_requests:
+        return "not_exposed"
+    return "no_search"
 
 
 def _post_json(endpoint: str, payload: dict[str, Any], headers: dict[str, str]) -> dict[str, Any]:
