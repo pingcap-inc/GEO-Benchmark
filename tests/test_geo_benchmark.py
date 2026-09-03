@@ -21,11 +21,12 @@ from geo_benchmark.cli import (
 from geo_benchmark.costs import estimate_actual_cost, estimate_planned_cost
 from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_TARGETS
 from geo_benchmark.io_utils import read_json, read_jsonl, stable_hash, write_json, write_jsonl
-from geo_benchmark.providers import AnthropicProvider, OpenAIProvider, ProviderError, _post_json
+from geo_benchmark.providers import AnthropicProvider, MockProvider, OpenAIProvider, ProviderError, _post_json
 from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import (
     aggregate_scores,
     aggregate_slice,
+    comparison_products,
     competitive_winner,
     is_product_related_url,
     product_in_prompt,
@@ -298,7 +299,7 @@ class GeoBenchmarkTests(unittest.TestCase):
         aliases = {
             "Aurora": "Aurora MySQL",
             "AuroraDSQL": "Amazon Aurora DSQL",
-            "RDS": "AWS RDS",
+            "RDS": "RDS",
             "MariaDB": "Maria DB",
             "Percona": "Percona Server",
             "SingleStore": "Single Store",
@@ -366,12 +367,132 @@ class GeoBenchmarkTests(unittest.TestCase):
             is_product_related_url("Aurora", "https://aws.amazon.com/rds/aurora/features/")
         )
 
-    def test_incumbents_do_not_win_competitive_prompts(self):
-        prompt = {"prompt_type": "competitive"}
+    def test_comparison_winner_uses_september_group_and_recommendation(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_type": "Hybrid Search & RAG",
+            "prompt_text": "TiDB vs Weaviate for hybrid search and metadata filtering.",
+            "competitors": [],
+        }
 
         self.assertEqual(
-            competitive_winner("MySQL compatible, but TiDB is the best choice.", prompt),
+            competitive_winner(
+                "Weaviate is easier to introduce first. However, I recommend TiDB for this workload.",
+                prompt,
+            ),
             "TiDB",
+        )
+        self.assertEqual(comparison_products(prompt), ["TiDB", "Weaviate"])
+
+    def test_comparison_winner_ignores_products_not_named_in_prompt(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_type": "Competitive Comparisons",
+            "prompt_text": "TiDB vs Pinecone for vector search.",
+        }
+
+        self.assertEqual(
+            competitive_winner("MySQL-compatible systems are common, but I recommend TiDB.", prompt),
+            "TiDB",
+        )
+
+        mysql_context_prompt = {
+            "group": "comparison",
+            "prompt_type": "Competitive Comparisons",
+            "prompt_text": "TiDB vs PlanetScale for MySQL-compatible scale.",
+        }
+        self.assertEqual(comparison_products(mysql_context_prompt), ["TiDB", "PlanetScale"])
+
+    def test_comparison_winner_ignores_negated_recommendation(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_type": "Hybrid Search & RAG",
+            "prompt_text": "TiDB vs Weaviate for hybrid search.",
+        }
+
+        self.assertEqual(
+            competitive_winner(
+                "I do not recommend TiDB here; choose Weaviate for this workload.",
+                prompt,
+            ),
+            "Weaviate",
+        )
+
+    def test_comparison_winner_returns_none_for_split_recommendation(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_type": "Hybrid Search & RAG",
+            "prompt_text": "TiDB vs Weaviate for hybrid search.",
+        }
+
+        self.assertIsNone(
+            competitive_winner(
+                "Choose TiDB for transactional metadata; choose Weaviate for vector-only retrieval.",
+                prompt,
+            )
+        )
+
+    def test_comparison_winner_requires_two_named_products(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_type": "AI Agent Infrastructure",
+            "prompt_text": "mem9 vs standalone vector database for agent memory.",
+        }
+
+        self.assertEqual(comparison_products(prompt), ["TiDB"])
+        self.assertIsNone(competitive_winner("I recommend mem9 for this workload.", prompt))
+
+    def test_mock_provider_uses_september_comparison_group(self):
+        prompt = {
+            "prompt_id": "comparison_mock",
+            "group": "comparison",
+            "prompt_type": "Hybrid Search & RAG",
+            "prompt_text": "TiDB vs Weaviate for hybrid search.",
+            "use_case": "hybridrag",
+            "competitors": [],
+        }
+
+        result = MockProvider("mock", {"model": "mock-geo-buyer-v1"}).generate(prompt, 1)
+
+        self.assertIn(competitive_winner(result.answer, prompt), {"TiDB", "Weaviate"})
+        self.assertNotIn("CockroachDB", result.answer)
+
+    def test_september_comparison_populates_competitive_breakdown(self):
+        prompts_path = (
+            Path(__file__).resolve().parents[1]
+            / "geo-benchmark"
+            / "prompts"
+            / "2026-09"
+            / "prompts.json"
+        )
+        prompt = next(
+            row
+            for row in read_json(prompts_path)
+            if row["prompt_text"] == "TiDB vs Weaviate for hybrid search and metadata filtering."
+        )
+        answers = [
+            "Recommendation: TiDB, because the workload also needs transactions.",
+            "Weaviate is the better choice for this vector-first workload.",
+        ]
+        scored = []
+        for index, answer in enumerate(answers, start=1):
+            raw = {
+                "answer_id": f"comparison_{index}",
+                "run_id": f"run_{index}",
+                "month": "2026-09",
+                "prompt_id": prompt["prompt_id"],
+                "model_surface": "mock",
+                "raw_answer": answer,
+            }
+            scored.append(score_answer(raw, prompt, {}, {"targets": {}}, "TiDB"))
+
+        summary = aggregate_scores(scored)
+
+        self.assertEqual(summary["targets"]["TiDB"]["competitive"]["valid_comparison_answers"], 2)
+        self.assertEqual(summary["targets"]["TiDB"]["competitive"]["target_win_rate"], 50.0)
+        self.assertEqual(
+            summary["targets"]["TiDB"]["competitive"]["winner_counts"],
+            {"TiDB": 1, "Weaviate": 1},
         )
 
     def test_tidb_family_aliases_match(self):

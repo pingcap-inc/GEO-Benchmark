@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from .io_utils import estimate_tokens, stable_hash
+from .scoring import comparison_products, is_comparison_prompt
 
 
 SYSTEM_PROMPT = (
@@ -113,11 +114,14 @@ class MockProvider(BaseProvider):
         prompt_type = prompt.get("prompt_type")
         use_case = prompt.get("use_case")
         products = list(prompt.get("competitors") or [])
-        if prompt_type == "competitive":
-            candidate_products = products
+        comparison_prompt = is_comparison_prompt(prompt)
+        if comparison_prompt:
+            candidate_products = comparison_products(prompt)
         else:
             candidate_products = MOCK_PRODUCTS
-        ranked = rank_mock_products(candidate_products, str(use_case), seed, neutral=prompt_type != "competitive")
+        if not candidate_products:
+            candidate_products = MOCK_PRODUCTS
+        ranked = rank_mock_products(candidate_products, str(use_case), seed, neutral=not comparison_prompt)
         top = ranked[0]
         second = ranked[1] if len(ranked) > 1 else None
 
