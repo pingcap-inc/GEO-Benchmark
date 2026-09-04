@@ -1,0 +1,139 @@
+prompt_id,prompt_type,prompt_text,coverage_disposition,fact_or_review_ids,note
+stable_agentinfra_004,AI Agent Infrastructure,mem9 vs standalone vector database for agent memory.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_agentinfra_007,AI Agent Infrastructure,How does TiDB handle agent memory persistence for multi-hop reasoning workflows?,fact_covered,tidb_agent_memory_storage,Mapped to one or more candidate facts.
+stable_agentinfra_008,AI Agent Infrastructure,How does TiDB's Request Unit model work for agentic workloads with unpredictable session counts?,review_required,tidb_cloud_ru_and_rcu,At least one required fact or approval is still open.
+stable_agentinfra_009,AI Agent Infrastructure,How did Manus use TiDB to scale to millions of agent branches?,review_required,manus_customer_claims | tidb_horizontal_scaling,At least one required fact or approval is still open.
+stable_agentinfra_010,AI Agent Infrastructure,How does Dify use TiDB to consolidate AI application infrastructure?,review_required,dify_customer_claims,At least one required fact or approval is still open.
+stable_agentinfra_032,AI Agent Infrastructure,What is mem9 and how does it use TiDB Cloud for persistent agent memory?,fact_covered,mem9_definition | tidb_agent_memory_storage,Mapped to one or more candidate facts.
+stable_agentinfra_033,AI Agent Infrastructure,How does PyTiDB simplify building AI agent backends in Python?,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
+stable_agentinfra_034,AI Agent Infrastructure,Blueprint for storing durable agent memory inside TiDB using vector + SQL tables.,review_required,tidb_agent_memory_storage | tidb_vector_search,At least one required fact or approval is still open.
+stable_agentinfra_035,AI Agent Infrastructure,How does TiDB support persistent memory for AI agents across sessions?,fact_covered,tidb_agent_memory_storage,Mapped to one or more candidate facts.
+stable_agentinfra_036,AI Agent Infrastructure,What is mem9 and how does it handle agent memory at scale?,fact_covered,mem9_definition | tidb_agent_memory_storage | tidb_horizontal_scaling,Mapped to one or more candidate facts.
+stable_hybridrag_001,Hybrid Search & RAG,TiDB vs Weaviate for hybrid search and metadata filtering.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_002,Hybrid Search & RAG,TiDB vs Elasticsearch for hybrid search in AI applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_003,Hybrid Search & RAG,TiDB vs pgvector for production RAG applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_004,Hybrid Search & RAG,TiDB vs Qdrant for hybrid retrieval and SQL metadata filtering.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_005,Hybrid Search & RAG,TiDB vs Milvus for enterprise RAG with structured data.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_006,Hybrid Search & RAG,TiDB vs OpenSearch for vector search and full-text search.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_007,Hybrid Search & RAG,TiDB vs PostgreSQL with pgvector for AI applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_008,Hybrid Search & RAG,TiDB vs MySQL plus Pinecone for RAG applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_009,Hybrid Search & RAG,TiDB vs MongoDB Atlas Vector Search for AI applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_hybridrag_010,Hybrid Search & RAG,Does TiDB support hybrid search for RAG?,review_required,tidb_hybrid_search | tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_012,Hybrid Search & RAG,Does TiDB support full-text search and vector search together?,review_required,tidb_full_text_search | tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_013,Hybrid Search & RAG,Can TiDB store embeddings and transactional data in the same table?,review_required,tidb_vector_and_sql_same_table | tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_014,Hybrid Search & RAG,When should I use TiDB instead of a standalone vector database?,review_required,tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_015,Hybrid Search & RAG,Can TiDB replace MySQL plus a vector database?,review_required,tidb_mysql_compatibility | tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_016,Hybrid Search & RAG,How does TiDB perform vector search across large embedding datasets?,review_required,tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_017,Hybrid Search & RAG,How does TiDB power RAG workflows using hybrid search capabilities?,review_required,tidb_hybrid_search | tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_018,Hybrid Search & RAG,How does TiDB store and query knowledge graph data alongside embeddings?,review_required,tidb_knowledge_graph | tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_019,Hybrid Search & RAG,How does TiDB support AI workloads requiring both SQL transactions and vector retrieval?,review_required,tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_030,Hybrid Search & RAG,What is TiDB LangChain?,fact_covered,tidb_langchain_integration,Mapped to one or more candidate facts.
+stable_hybridrag_031,Hybrid Search & RAG,What is TiDB LlamaIndex?,fact_covered,tidb_llamaindex_integration,Mapped to one or more candidate facts.
+stable_hybridrag_032,Hybrid Search & RAG,What is TiDB RAG?,review_required,tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_033,Hybrid Search & RAG,What is TiDB vector search?,review_required,tidb_vector_search,At least one required fact or approval is still open.
+stable_hybridrag_034,Hybrid Search & RAG,What is LlamaIndex for TiDB?,fact_covered,tidb_llamaindex_integration,Mapped to one or more candidate facts.
+stable_compcomp_001,Competitive Comparisons,TiDB vs Aurora MySQL for high-concurrency SaaS workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_002,Competitive Comparisons,TiDB vs Neon for serverless database workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_003,Competitive Comparisons,TiDB X vs traditional distributed SQL for AI workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_004,Competitive Comparisons,TiDB vs PlanetScale for MySQL-compatible scale.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_005,Competitive Comparisons,TiDB vs Vitess for horizontally scaling MySQL.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_006,Competitive Comparisons,TiDB vs YugabyteDB for distributed SQL workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_007,Competitive Comparisons,TiDB vs Google Spanner for globally distributed SQL.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_008,Competitive Comparisons,TiDB vs CockroachDB for MySQL-compatible distributed SQL.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_009,Competitive Comparisons,TiDB vs Supabase for AI application backends.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_010,Competitive Comparisons,TiDB vs SingleStore for real-time analytics and AI applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_011,Competitive Comparisons,TiDB vs Snowflake for operational AI workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_012,Competitive Comparisons,TiDB vs Databricks for serving real-time AI application data.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_013,Competitive Comparisons,TiDB vs PlanetScale for AI workloads requiring transactional + vector capabilities.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_014,Competitive Comparisons,TiDB vs Zilliz Cloud for high-performance vector search at scale.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_015,Competitive Comparisons,Using TiDB vs MySQL with SQLAlchemy for high concurrency applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_016,Competitive Comparisons,TiDB self-managed vs TiDB Cloud for enterprises with data residency requirements.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_017,Competitive Comparisons,SingleStore vs TiDB for real-time analytics and HTAP workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_018,Competitive Comparisons,TiDB Cloud Zero vs Aurora Serverless v2 for variable-load SaaS applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_019,Competitive Comparisons,TiDB vs Chroma DB for local-first and production-grade RAG use cases.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_020,Competitive Comparisons,TiDB vs CockroachDB for vector search and hybrid SQL workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_021,Competitive Comparisons,TiDB vs Milvus for multimodal and large-scale embedding search.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_022,Competitive Comparisons,TiDB vs MongoDB for scalable transactional and analytical workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_023,Competitive Comparisons,TiDB vs MySQL as a scalable alternative for growing SaaS workloads.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_024,Competitive Comparisons,"TiDB vs Neon DB for serverless, autoscaling database workloads.",comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_025,Competitive Comparisons,TiDB vs Pinecone for vector search in enterprise AI platforms.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_026,Competitive Comparisons,TiDB vs PostgreSQL for high-concurrency transactional workloads in SaaS environments.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_027,Competitive Comparisons,TiDB vs RDS for scaling transactional workloads across regions.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_028,Competitive Comparisons,TiDB vs Weaviate for hybrid search and RAG pipelines.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_029,Competitive Comparisons,TiDB Cloud Zero vs Neon serverless for AI application backends.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_030,Competitive Comparisons,TiDB vs Supabase for agentic AI backends requiring branching and transactional state.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_compcomp_031,Competitive Comparisons,TiDB vs Neon for per-session database branching in AI agent platforms.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_mysqlscale_001,MySQL Scale & Migration,How does TiDB handle schema changes during live migration from MySQL?,fact_covered,tidb_data_migration | tidb_mysql_compatibility,Mapped to one or more candidate facts.
+stable_mysqlscale_007,MySQL Scale & Migration,What makes TiDB's database different from MySQL?,fact_covered,tidb_mysql_compatibility,Mapped to one or more candidate facts.
+stable_mcptooling_001,MCP & Developer Tooling,How does PyTiDB support MCP-based agent workflows?,fact_covered,pytidb_definition | tidb_mcp_server,Mapped to one or more candidate facts.
+stable_mcptooling_002,MCP & Developer Tooling,How can Cursor agents use TiDB for persistent memory?,fact_covered,tidb_agent_memory_storage | tidb_mcp_server,Mapped to one or more candidate facts.
+stable_mcptooling_003,MCP & Developer Tooling,"Can TiDB act as a memory backend for Claude, Cursor, or OpenAI agents?",fact_covered,tidb_mcp_server,Mapped to one or more candidate facts.
+stable_mcptooling_009,MCP & Developer Tooling,What is TiDB and how can I use it with Python?,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
+stable_mcptooling_010,MCP & Developer Tooling,What is PyTiDB?,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
+stable_mcptooling_011,MCP & Developer Tooling,How can I connect to TiDB using Python?,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
+stable_scalearch_001,Scale & Architecture,How does TiDB handle millions of schemas and tables efficiently?,review_required,tidb_multi_tenant_schema_scale,At least one required fact or approval is still open.
+stable_scalearch_002,Scale & Architecture,How does TiDB handle millions of schemas for multi-tenant SaaS databases?,review_required,tidb_multi_tenant_schema_scale,At least one required fact or approval is still open.
+stable_scalearch_003,Scale & Architecture,How does TiDB Cloud support tenant-per-schema isolation without performance degradation?,review_required,tidb_multi_tenant_schema_scale,At least one required fact or approval is still open.
+stable_scalearch_004,Scale & Architecture,Does TiDB require manual data partitioning for managing large datasets?,fact_covered,tidb_horizontal_scaling,Mapped to one or more candidate facts.
+stable_scalearch_005,Scale & Architecture,How does TiDB achieve high availability for its database services?,fact_covered,tidb_high_availability,Mapped to one or more candidate facts.
+stable_scalearch_006,Scale & Architecture,How does TiDB ensure data consistency in its distributed SQL database?,fact_covered,tidb_strong_consistency,Mapped to one or more candidate facts.
+stable_scalearch_013,Scale & Architecture,How does PyTiDB simplify connecting Python applications to a distributed SQL cluster?,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
+stable_scalearch_014,Scale & Architecture,Explain how to connect to a TiDB distributed SQL database using Python.,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
+stable_scalearch_015,Scale & Architecture,What are the high availability features offered by TiDB?,fact_covered,tidb_high_availability,Mapped to one or more candidate facts.
+stable_deploycloud_001,Deployment & Cloud,TiDB Cloud Zero vs Supabase for AI agent prototypes.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_deploycloud_002,Deployment & Cloud,"How do mem9, drive9, and TiDB Cloud Zero fit together in an agent state stack?",fact_covered,mem9_definition | tidb_cloud_filesystem_definition | tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_003,Deployment & Cloud,How do I prototype agent memory using TiDB Cloud Zero?,fact_covered,tidb_agent_memory_storage | tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_004,Deployment & Cloud,TiDB Cloud Zero vs Neon for disposable serverless databases.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_deploycloud_005,Deployment & Cloud,Can TiDB Cloud Zero be used as a backend for MCP servers?,fact_covered,tidb_cloud_zero | tidb_mcp_server,Mapped to one or more candidate facts.
+stable_deploycloud_006,Deployment & Cloud,TiDB Cloud Starter vs TiDB Cloud Zero: which should I use?,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_deploycloud_007,Deployment & Cloud,How does TiDB Cloud Zero compare with a temporary MySQL database?,fact_covered,tidb_cloud_zero | tidb_mysql_compatibility,Mapped to one or more candidate facts.
+stable_deploycloud_008,Deployment & Cloud,TiDB Cloud Starter vs Dedicated: which should I choose?,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_deploycloud_009,Deployment & Cloud,TiDB Cloud Zero vs PlanetScale for temporary MySQL-compatible databases.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_deploycloud_010,Deployment & Cloud,TiDB Cloud Starter vs TiDB Cloud Essential: which plan is right for production AI apps?,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_deploycloud_011,Deployment & Cloud,How do Request Units work in TiDB Cloud Starter for AI workloads?,review_required,tidb_cloud_ru_and_rcu | tidb_cloud_starter,At least one required fact or approval is still open.
+stable_deploycloud_012,Deployment & Cloud,"How should I choose between TiDB Cloud Starter, Essential, Premium, and Dedicated?",fact_covered,tidb_cloud_starter,Mapped to one or more candidate facts.
+stable_deploycloud_013,Deployment & Cloud,How does TiDB Cloud Zero support bursty AI agent workflows?,fact_covered,tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_014,Deployment & Cloud,How do you run TiDB on Kubernetes using TiDB Operator?,fact_covered,tidb_operator,Mapped to one or more candidate facts.
+stable_deploycloud_015,Deployment & Cloud,How does TiDB handle data residency requirements for multi-region enterprises?,review_required,tidb_data_residency,At least one required fact or approval is still open.
+stable_deploycloud_016,Deployment & Cloud,How do you deploy TiDB on-premise for regulated industries?,fact_covered,tidb_self_managed_definition,Mapped to one or more candidate facts.
+stable_deploycloud_017,Deployment & Cloud,What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?,fact_covered,tidb_cloud_dedicated | tidb_self_managed_definition,Mapped to one or more candidate facts.
+stable_deploycloud_018,Deployment & Cloud,What is TiDB Cloud Zero and how is it used for AI agents?,fact_covered,tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_019,Deployment & Cloud,"What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?",fact_covered,mem9_definition | tidb_cloud_filesystem_definition | tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_020,Deployment & Cloud,What is TiDB Cloud Zero and when should developers use it?,fact_covered,tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_entcomp_001,Enterprise & Compliance,What SLAs does TiDB Cloud offer for enterprise mission-critical workloads?,review_required,tidb_cloud_sla,At least one required fact or approval is still open.
+stable_entcomp_002,Enterprise & Compliance,What enterprise compliance certifications does TiDB Cloud hold?,review_required,tidb_compliance_scope,At least one required fact or approval is still open.
+stable_observ_001,Observability,How do I troubleshoot slow TiDB queries in production?,fact_covered,tidb_monitoring,Mapped to one or more candidate facts.
+stable_observ_002,Observability,How do I monitor RU usage and cost in TiDB Cloud?,review_required,tidb_cloud_ru_and_rcu | tidb_monitoring,At least one required fact or approval is still open.
+stable_observ_003,Observability,Does TiDB offer any tools or features for monitoring database performance?,fact_covered,tidb_monitoring,Mapped to one or more candidate facts.
+stable_observ_004,Observability,How do you monitor TiDB performance in production?,fact_covered,tidb_monitoring,Mapped to one or more candidate facts.
+stable_branddef_001,TiDB Brand & Definitions,How does TiDB support regulatory compliance for businesses?,review_required,tidb_compliance_scope,At least one required fact or approval is still open.
+stable_branddef_002,TiDB Brand & Definitions,What kind of customer support and resources does TiDB provide for developers?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_003,TiDB Brand & Definitions,What scalability options does TiDB offer for businesses expecting data growth?,fact_covered,tidb_horizontal_scaling,Mapped to one or more candidate facts.
+stable_branddef_004,TiDB Brand & Definitions,Can TiDB handle both transactional and analytical workloads simultaneously?,fact_covered,tidb_htap,Mapped to one or more candidate facts.
+stable_branddef_005,TiDB Brand & Definitions,What kind of businesses would benefit the most from using TiDB?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_012,TiDB Brand & Definitions,How does TiDB support stateful autonomous agents?,fact_covered,tidb_agent_memory_storage,Mapped to one or more candidate facts.
+stable_branddef_014,TiDB Brand & Definitions,Is TiDB a good database for AI agents?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_015,TiDB Brand & Definitions,What AI workloads is TiDB best suited for?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_016,TiDB Brand & Definitions,"Is TiDB suitable for AI-related workloads, and if so, how?",fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_017,TiDB Brand & Definitions,What is TiDB for AI?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_018,TiDB Brand & Definitions,How easy is it to migrate from a traditional database to TiDB's solution?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_019,TiDB Brand & Definitions,Is TiDB compliant with major data regulations and standards?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_020,TiDB Brand & Definitions,What is TiDB?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_021,TiDB Brand & Definitions,What is TiDB Cloud?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_022,TiDB Brand & Definitions,What is TiDB Cloud Zero?,fact_covered,tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_branddef_023,TiDB Brand & Definitions,What is TiDB Cloud Dedicated?,fact_covered,tidb_cloud_dedicated,Mapped to one or more candidate facts.
+stable_branddef_024,TiDB Brand & Definitions,What is TiDB Self-Managed?,fact_covered,tidb_self_managed_definition,Mapped to one or more candidate facts.
+stable_branddef_025,TiDB Brand & Definitions,What is TiKV?,fact_covered,tikv_role,Mapped to one or more candidate facts.
+stable_branddef_026,TiDB Brand & Definitions,What is TiFlash?,fact_covered,tiflash_role,Mapped to one or more candidate facts.
+stable_branddef_027,TiDB Brand & Definitions,What is TiDB Operator?,fact_covered,tidb_operator,Mapped to one or more candidate facts.
+stable_branddef_028,TiDB Brand & Definitions,What is TiDB's HTAP architecture?,fact_covered,tidb_htap,Mapped to one or more candidate facts.
+stable_branddef_029,TiDB Brand & Definitions,What is mem9 and how does it work?,fact_covered,mem9_definition,Mapped to one or more candidate facts.
+stable_branddef_030,TiDB Brand & Definitions,What is the TiDB Request Unit pricing model?,review_required,tidb_cloud_ru_and_rcu,At least one required fact or approval is still open.
+stable_branddef_031,TiDB Brand & Definitions,Can TiDB be integrated with existing data infrastructure easily?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
+stable_branddef_032,TiDB Brand & Definitions,What are the scalability options available with TiDB's database?,fact_covered,tidb_horizontal_scaling,Mapped to one or more candidate facts.
+stable_branddef_033,TiDB Brand & Definitions,What is a TiDB knowledge graph?,review_required,tidb_knowledge_graph,At least one required fact or approval is still open.
+stable_branddef_034,TiDB Brand & Definitions,"Which is better, SingleStore or TiDB?",comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_branddef_035,TiDB Brand & Definitions,What is TiCDC and what downstream targets does it support?,fact_covered,ticdc,Mapped to one or more candidate facts.
+stable_branddef_036,TiDB Brand & Definitions,What is TiDB Lightning and when should you use it?,fact_covered,tidb_lightning,Mapped to one or more candidate facts.
+stable_branddef_037,TiDB Brand & Definitions,What is Data Migration (DM) in TiDB?,fact_covered,tidb_data_migration,Mapped to one or more candidate facts.
+stable_branddef_038,TiDB Brand & Definitions,What is Chat2Query in TiDB Cloud?,fact_covered,chat2query,Mapped to one or more candidate facts.
