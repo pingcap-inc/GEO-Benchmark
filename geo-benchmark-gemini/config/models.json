@@ -11,10 +11,7 @@
     "model": "gpt-5-mini",
     "temperature": null,
     "max_output_tokens": 1600,
-    "env_var": "OPENAI_API_KEY",
-    "fallback_model": "gpt-4o-mini",
-    "fallback_max_output_tokens": 1000,
-    "fallback_retries": 1
+    "env_var": "OPENAI_API_KEY"
   },
   "anthropic": {
     "provider": "anthropic",
@@ -25,7 +22,7 @@
   },
   "gemini": {
     "provider": "gemini",
-    "model": "gemini-2.5-flash-lite",
+    "model": "gemini-3.5-flash-lite",
     "temperature": 0.2,
     "max_output_tokens": 700,
     "env_var": "GEMINI_API_KEY"

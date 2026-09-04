@@ -11,7 +11,7 @@ FORCE="${FORCE:-0}"
 RETRIES="${RETRIES:-1}"
 
 if [[ -z "$VIEW" ]]; then
-  echo "Usage: VIEW=<anthropic-on|openai-on|anthropic-off|openai-off|gemini-off|perplexity-on> MONTH=2026-08 FORCE=1 $0" >&2
+  echo "Usage: VIEW=<anthropic-on|openai-on|anthropic-off|openai-off|gemini-on|gemini-off|perplexity-on> MONTH=2026-08 FORCE=1 $0" >&2
   exit 2
 fi
 
@@ -40,12 +40,18 @@ case "$VIEW" in
     WEB_SEARCH="off"
     EXPECTED_MODEL="gpt-5-mini-2025-08-07"
     ;;
+  gemini-on)
+    # Gemini grounds through the google_search tool.
+    DATA_DIR="geo-benchmark-websearch-on"
+    PROVIDERS="gemini"
+    WEB_SEARCH="on"
+    EXPECTED_MODEL="gemini-3.5-flash-lite"
+    ;;
   gemini-off)
-    # Gemini has no web-search tool wired up; off is its only canonical mode.
     DATA_DIR="geo-benchmark-gemini"
     PROVIDERS="gemini"
     WEB_SEARCH="off"
-    EXPECTED_MODEL="gemini-2.5-flash-lite"
+    EXPECTED_MODEL="gemini-3.5-flash-lite"
     ;;
   perplexity-on)
     # Perplexity Sonar is always web-grounded; on is its only canonical mode.
@@ -56,7 +62,7 @@ case "$VIEW" in
     ;;
   *)
     echo "Unknown VIEW: $VIEW" >&2
-    echo "Valid views: anthropic-on, openai-on, anthropic-off, openai-off, gemini-off, perplexity-on" >&2
+    echo "Valid views: anthropic-on, openai-on, anthropic-off, openai-off, gemini-on, gemini-off, perplexity-on" >&2
     exit 2
     ;;
 esac

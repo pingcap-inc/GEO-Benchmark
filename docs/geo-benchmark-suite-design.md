@@ -250,3 +250,8 @@ V1 does not include:
 - Automatic CMS publication.
 - Full dashboard UI.
 - Backfilling every historical month.
+- Per-prompt surface routing. Prompts carry a `surface` field (`api` /
+  `product`), but the runner does not read it: every prompt, including the
+  product-surface prompts, is sent to each provider's developer API. Answers
+  that would differ on a product surface (for example the Cloud Zero case)
+  are therefore measured only as the developer API returns them.
