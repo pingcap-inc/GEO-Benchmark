@@ -79,7 +79,7 @@
   },
   {
     "prompt_id": "stable_agentinfra_004",
-    "prompt_text": "mem9 vs standalone vector database for agent memory.",
+    "prompt_text": "TiDB Cloud Memory vs standalone vector database for agent memory.",
     "prompt_type": "AI Agent Infrastructure",
     "group": "comparison",
     "surface": "product",
@@ -807,7 +807,7 @@
   },
   {
     "prompt_id": "stable_agentinfra_032",
-    "prompt_text": "What is mem9 and how does it use TiDB Cloud for persistent agent memory?",
+    "prompt_text": "What is TiDB Cloud Memory and how does it use TiDB Cloud for persistent agent memory?",
     "prompt_type": "AI Agent Infrastructure",
     "group": "accuracy",
     "surface": "product",
@@ -911,7 +911,7 @@
   },
   {
     "prompt_id": "stable_agentinfra_036",
-    "prompt_text": "What is mem9 and how does it handle agent memory at scale?",
+    "prompt_text": "What is TiDB Cloud Memory and how does it handle agent memory at scale?",
     "prompt_type": "AI Agent Infrastructure",
     "group": "accuracy",
     "surface": "product",
@@ -3927,7 +3927,7 @@
   },
   {
     "prompt_id": "stable_deploycloud_002",
-    "prompt_text": "How do mem9, drive9, and TiDB Cloud Zero fit together in an agent state stack?",
+    "prompt_text": "How do TiDB Cloud Memory, TiDB Cloud Filesystem, and TiDB Cloud Zero fit together in an agent state stack?",
     "prompt_type": "Deployment & Cloud",
     "group": "accuracy",
     "surface": "product",
@@ -4369,7 +4369,7 @@
   },
   {
     "prompt_id": "stable_deploycloud_019",
-    "prompt_text": "What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?",
+    "prompt_text": "What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, TiDB Cloud Memory, and TiDB Cloud Filesystem?",
     "prompt_type": "Deployment & Cloud",
     "group": "accuracy",
     "surface": "product",
@@ -5357,7 +5357,7 @@
   },
   {
     "prompt_id": "stable_branddef_029",
-    "prompt_text": "What is mem9 and how does it work?",
+    "prompt_text": "What is TiDB Cloud Memory and how does it work?",
     "prompt_type": "TiDB Brand & Definitions",
     "group": "accuracy",
     "surface": "product",

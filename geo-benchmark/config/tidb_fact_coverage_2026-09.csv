@@ -1,14 +1,14 @@
 prompt_id,prompt_type,prompt_text,coverage_disposition,fact_or_review_ids,note
-stable_agentinfra_004,AI Agent Infrastructure,mem9 vs standalone vector database for agent memory.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
+stable_agentinfra_004,AI Agent Infrastructure,TiDB Cloud Memory vs standalone vector database for agent memory.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
 stable_agentinfra_007,AI Agent Infrastructure,How does TiDB handle agent memory persistence for multi-hop reasoning workflows?,fact_covered,tidb_agent_memory_storage,Mapped to one or more candidate facts.
 stable_agentinfra_008,AI Agent Infrastructure,How does TiDB's Request Unit model work for agentic workloads with unpredictable session counts?,review_required,tidb_cloud_ru_and_rcu,At least one required fact or approval is still open.
 stable_agentinfra_009,AI Agent Infrastructure,How did Manus use TiDB to scale to millions of agent branches?,review_required,manus_customer_claims | tidb_horizontal_scaling,At least one required fact or approval is still open.
 stable_agentinfra_010,AI Agent Infrastructure,How does Dify use TiDB to consolidate AI application infrastructure?,review_required,dify_customer_claims,At least one required fact or approval is still open.
-stable_agentinfra_032,AI Agent Infrastructure,What is mem9 and how does it use TiDB Cloud for persistent agent memory?,fact_covered,mem9_definition | tidb_agent_memory_storage,Mapped to one or more candidate facts.
+stable_agentinfra_032,AI Agent Infrastructure,What is TiDB Cloud Memory and how does it use TiDB Cloud for persistent agent memory?,review_required,tidb_cloud_memory_launch_and_rename | tidb_agent_memory_storage,TiDB Cloud Memory rename is reflected; detailed scoring awaits an official product source.
 stable_agentinfra_033,AI Agent Infrastructure,How does PyTiDB simplify building AI agent backends in Python?,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
 stable_agentinfra_034,AI Agent Infrastructure,Blueprint for storing durable agent memory inside TiDB using vector + SQL tables.,review_required,tidb_agent_memory_storage | tidb_vector_search,At least one required fact or approval is still open.
 stable_agentinfra_035,AI Agent Infrastructure,How does TiDB support persistent memory for AI agents across sessions?,fact_covered,tidb_agent_memory_storage,Mapped to one or more candidate facts.
-stable_agentinfra_036,AI Agent Infrastructure,What is mem9 and how does it handle agent memory at scale?,fact_covered,mem9_definition | tidb_agent_memory_storage | tidb_horizontal_scaling,Mapped to one or more candidate facts.
+stable_agentinfra_036,AI Agent Infrastructure,What is TiDB Cloud Memory and how does it handle agent memory at scale?,review_required,tidb_cloud_memory_launch_and_rename | tidb_agent_memory_storage | tidb_horizontal_scaling,TiDB Cloud Memory rename is reflected; detailed scoring awaits an official product source.
 stable_hybridrag_001,Hybrid Search & RAG,TiDB vs Weaviate for hybrid search and metadata filtering.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
 stable_hybridrag_002,Hybrid Search & RAG,TiDB vs Elasticsearch for hybrid search in AI applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
 stable_hybridrag_003,Hybrid Search & RAG,TiDB vs pgvector for production RAG applications.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
@@ -81,7 +81,7 @@ stable_scalearch_013,Scale & Architecture,How does PyTiDB simplify connecting Py
 stable_scalearch_014,Scale & Architecture,Explain how to connect to a TiDB distributed SQL database using Python.,fact_covered,pytidb_definition,Mapped to one or more candidate facts.
 stable_scalearch_015,Scale & Architecture,What are the high availability features offered by TiDB?,fact_covered,tidb_high_availability,Mapped to one or more candidate facts.
 stable_deploycloud_001,Deployment & Cloud,TiDB Cloud Zero vs Supabase for AI agent prototypes.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
-stable_deploycloud_002,Deployment & Cloud,"How do mem9, drive9, and TiDB Cloud Zero fit together in an agent state stack?",fact_covered,mem9_definition | tidb_cloud_filesystem_definition | tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_002,Deployment & Cloud,"How do TiDB Cloud Memory, TiDB Cloud Filesystem, and TiDB Cloud Zero fit together in an agent state stack?",review_required,tidb_cloud_memory_launch_and_rename | tidb_cloud_filesystem_definition | tidb_cloud_zero,TiDB Cloud Memory rename is reflected; detailed scoring awaits an official product source.
 stable_deploycloud_003,Deployment & Cloud,How do I prototype agent memory using TiDB Cloud Zero?,fact_covered,tidb_agent_memory_storage | tidb_cloud_zero,Mapped to one or more candidate facts.
 stable_deploycloud_004,Deployment & Cloud,TiDB Cloud Zero vs Neon for disposable serverless databases.,comparison_metric_only,,Comparison scoring is the primary metric; product facts are optional context.
 stable_deploycloud_005,Deployment & Cloud,Can TiDB Cloud Zero be used as a backend for MCP servers?,fact_covered,tidb_cloud_zero | tidb_mcp_server,Mapped to one or more candidate facts.
@@ -98,7 +98,7 @@ stable_deploycloud_015,Deployment & Cloud,How does TiDB handle data residency re
 stable_deploycloud_016,Deployment & Cloud,How do you deploy TiDB on-premise for regulated industries?,fact_covered,tidb_self_managed_definition,Mapped to one or more candidate facts.
 stable_deploycloud_017,Deployment & Cloud,What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?,fact_covered,tidb_cloud_dedicated | tidb_self_managed_definition,Mapped to one or more candidate facts.
 stable_deploycloud_018,Deployment & Cloud,What is TiDB Cloud Zero and how is it used for AI agents?,fact_covered,tidb_cloud_zero,Mapped to one or more candidate facts.
-stable_deploycloud_019,Deployment & Cloud,"What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?",fact_covered,mem9_definition | tidb_cloud_filesystem_definition | tidb_cloud_zero,Mapped to one or more candidate facts.
+stable_deploycloud_019,Deployment & Cloud,"What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, TiDB Cloud Memory, and TiDB Cloud Filesystem?",review_required,tidb_cloud_memory_launch_and_rename | tidb_cloud_filesystem_definition | tidb_cloud_zero,TiDB Cloud Memory rename is reflected; detailed scoring awaits an official product source.
 stable_deploycloud_020,Deployment & Cloud,What is TiDB Cloud Zero and when should developers use it?,fact_covered,tidb_cloud_zero,Mapped to one or more candidate facts.
 stable_entcomp_001,Enterprise & Compliance,What SLAs does TiDB Cloud offer for enterprise mission-critical workloads?,review_required,tidb_cloud_sla,At least one required fact or approval is still open.
 stable_entcomp_002,Enterprise & Compliance,What enterprise compliance certifications does TiDB Cloud hold?,review_required,tidb_compliance_scope,At least one required fact or approval is still open.
@@ -127,7 +127,7 @@ stable_branddef_025,TiDB Brand & Definitions,What is TiKV?,fact_covered,tikv_rol
 stable_branddef_026,TiDB Brand & Definitions,What is TiFlash?,fact_covered,tiflash_role,Mapped to one or more candidate facts.
 stable_branddef_027,TiDB Brand & Definitions,What is TiDB Operator?,fact_covered,tidb_operator,Mapped to one or more candidate facts.
 stable_branddef_028,TiDB Brand & Definitions,What is TiDB's HTAP architecture?,fact_covered,tidb_htap,Mapped to one or more candidate facts.
-stable_branddef_029,TiDB Brand & Definitions,What is mem9 and how does it work?,fact_covered,mem9_definition,Mapped to one or more candidate facts.
+stable_branddef_029,TiDB Brand & Definitions,What is TiDB Cloud Memory and how does it work?,review_required,tidb_cloud_memory_launch_and_rename,TiDB Cloud Memory rename is reflected; detailed scoring awaits an official product source.
 stable_branddef_030,TiDB Brand & Definitions,What is the TiDB Request Unit pricing model?,review_required,tidb_cloud_ru_and_rcu,At least one required fact or approval is still open.
 stable_branddef_031,TiDB Brand & Definitions,Can TiDB be integrated with existing data infrastructure easily?,fact_covered,tidb_distributed_sql,Mapped to one or more candidate facts.
 stable_branddef_032,TiDB Brand & Definitions,What are the scalability options available with TiDB's database?,fact_covered,tidb_horizontal_scaling,Mapped to one or more candidate facts.

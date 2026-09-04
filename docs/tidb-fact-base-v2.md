@@ -28,7 +28,7 @@ Only facts with status `READY_FOR_JUDGE` may contribute to accuracy after that i
 ## Feedback incorporated
 
 - Replaced the current `drive9` definition with `tidb_cloud_filesystem_definition`; using `drive9` as the current name is incorrect.
-- Kept `mem9` as the current public fact and added the unlaunched TiDB Cloud Memory rename to the review queue.
+- Updated September prompt wording from `mem9` to TiDB Cloud Memory and from `drive9` to TiDB Cloud Filesystem. The detailed TiDB Cloud Memory fact remains behind an official-source review gate.
 - Moved vector-search production maturity to Database PM review.
 - Added dedicated TiDB LangChain and persistent-agent-memory facts.
 - Kept knowledge graph and comparative product claims behind approval gates.
@@ -36,4 +36,3 @@ Only facts with status `READY_FOR_JUDGE` may contribute to accuracy after that i
 - Replaced generic AI hub citations for vector search, full-text search, and PyTiDB with specific documentation pages.
 - Moved the RU/RCU distinction to Cloud Pricing PM review.
 - Removed the unsupported 72-hour TiDB Cloud Zero assertion because no observed-answer evidence was supplied.
-

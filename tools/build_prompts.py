@@ -50,9 +50,10 @@ RECENT_PRODUCTS = [
     "cloud essential",
     "cloud premium",
     "tidb x",
-    "mem9",
-    "drive9",              # retired name, kept so old-name questions still route correctly
-    "tidb cloud filesystem",  # current name for drive9
+    "tidb cloud memory",
+    "tidb cloud filesystem",
+    "mem9",   # retired name, retained for historical prompt routing
+    "drive9", # retired name, retained for historical prompt routing
 ]
 
 # Phrasings that make a question a head-to-head comparison.

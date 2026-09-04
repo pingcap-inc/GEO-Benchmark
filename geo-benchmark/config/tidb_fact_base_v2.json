@@ -314,21 +314,22 @@
       "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: The TiDB MCP Server exposes TiDB capabilities to MCP-compatible clients such as Claude Code and Cursor. It does not turn TiDB itself into an AI model. Count as correct when: Describes an MCP integration or server that lets agents and IDEs interact with TiDB using tools. Mark incorrect when: TiDB is an LLM; MCP replaces the database; every TiDB connection is automatically an MCP server Apply only to: MCP, Claude, Cursor, OpenAI agent, and agent tooling prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
     },
     {
-      "fact_id": "mem9_definition",
+      "fact_id": "tidb_cloud_memory_definition",
       "category": "Agent memory and workspace products",
-      "status": "READY_FOR_JUDGE",
+      "status": "REVIEW_REQUIRED",
       "owner": "AI PM",
-      "verified_on": "2026-09-03",
-      "review_by": "2027-09-03",
+      "verified_on": null,
+      "review_by": null,
       "review_cadence": "annual",
-      "canonical_truth": "mem9 is a persistent memory service for AI agents, powered by TiDB Cloud. It is designed to retain and recall durable facts, preferences, and context across sessions and can support shared memory across agents.",
-      "correct_when": "Describes persistent or long-term agent memory, recall across sessions, and TiDB Cloud as the backing data platform.",
-      "incorrect_when": "a TiDB database plan; a local-only cache; the same product as drive9; an LLM or agent framework",
-      "applies_to": "What is mem9, persistent agent memory, multi-agent memory, and mem9/TiDB relationship prompts.",
+      "canonical_truth": "TiDB Cloud Memory is the current name for the persistent memory service for AI agents previously called mem9. It is intended to retain and recall durable facts, preferences, and context across sessions.",
+      "correct_when": "Uses TiDB Cloud Memory as the current name and describes persistent or long-term agent memory and recall across sessions.",
+      "incorrect_when": "presents mem9 as the current product name; calls it a database plan, local-only cache, workspace filesystem, LLM, or agent framework",
+      "applies_to": "TiDB Cloud Memory, mem9, persistent agent memory, multi-agent memory, and product-relationship prompts.",
       "source_urls": [
         "https://mem9.ai/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: mem9 is a persistent memory service for AI agents, powered by TiDB Cloud. It is designed to retain and recall durable facts, preferences, and context across sessions and can support shared memory across agents. Count as correct when: Describes persistent or long-term agent memory, recall across sessions, and TiDB Cloud as the backing data platform. Mark incorrect when: a TiDB database plan; a local-only cache; the same product as drive9; an LLM or agent framework Apply only to: What is mem9, persistent agent memory, multi-agent memory, and mem9/TiDB relationship prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: TiDB Cloud Memory is the current name for the persistent memory service for AI agents previously called mem9. It is intended to retain and recall durable facts, preferences, and context across sessions. Count as correct when: Uses TiDB Cloud Memory as the current name and describes persistent or long-term agent memory and recall across sessions. Mark incorrect when: presents mem9 as the current product name; calls it a database plan, local-only cache, workspace filesystem, LLM, or agent framework Apply only to: TiDB Cloud Memory, mem9, persistent agent memory, multi-agent memory, and product-relationship prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information.",
+      "decision_needed": "The rename is confirmed for prompt wording, but an official current product page and approved detailed capability statement are still required before this fact contributes to accuracy scoring."
     },
     {
       "fact_id": "tidb_cloud_filesystem_definition",
@@ -616,7 +617,7 @@
       "review_cadence": "annual",
       "canonical_truth": "TiDB Cloud plan names have changed repeatedly. Developer Tier became Serverless Tier in November 2022. Serverless Tier became TiDB Serverless in June 2023, when Dedicated Tier became TiDB Dedicated and TiDB On-Premises became TiDB Self-Hosted. TiDB Cloud Serverless became TiDB Cloud Starter on August 12, 2025. Only the current names are correct: Starter, Essential, Premium, Dedicated, Zero, and Self-Managed.",
       "correct_when": "Uses only current plan names, or uses a retired name and explicitly identifies it as retired with the correct current equivalent.",
-      "incorrect_when": "presents Developer Tier, Serverless Tier, TiDB Serverless, Dedicated Tier, TiDB Dedicated Tier, TiDB On-Premises, TiDB Self-Hosted, or \"the free tier\" as a current offering; describes NewSQL as TiDB’s current category positioning; states that TiDB Cloud Serverless and TiDB Cloud Starter are different products; states that Starter replaced Essential or that Premium replaced Dedicated",
+      "incorrect_when": "presents Developer Tier, Serverless Tier, TiDB Serverless, Dedicated Tier, TiDB Dedicated Tier, TiDB On-Premises, TiDB Self-Hosted, or \"the free tier\" as a current offering; describes NewSQL as TiDB\u2019s current category positioning; states that TiDB Cloud Serverless and TiDB Cloud Starter are different products; states that Starter replaced Essential or that Premium replaced Dedicated",
       "applies_to": "Every plan, pricing, tier, and \"which TiDB should I use\" prompt. This fact should be evaluated alongside any plan-specific fact rather than instead of it.",
       "source_urls": [
         "https://docs.pingcap.com/tidbcloud/tidb-cloud-release-notes-2022/",
@@ -624,7 +625,7 @@
         "https://docs.pingcap.com/tidbcloud/tidb-cloud-starter-faqs/",
         "https://docs.pingcap.com/tidbcloud/select-cluster-tier/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: TiDB Cloud plan names have changed repeatedly. Developer Tier became Serverless Tier in November 2022. Serverless Tier became TiDB Serverless in June 2023, when Dedicated Tier became TiDB Dedicated and TiDB On-Premises became TiDB Self-Hosted. TiDB Cloud Serverless became TiDB Cloud Starter on August 12, 2025. Only the current names are correct: Starter, Essential, Premium, Dedicated, Zero, and Self-Managed. Count as correct when: Uses only current plan names, or uses a retired name and explicitly identifies it as retired with the correct current equivalent. Mark incorrect when: presents Developer Tier, Serverless Tier, TiDB Serverless, Dedicated Tier, TiDB Dedicated Tier, TiDB On-Premises, TiDB Self-Hosted, or \"the free tier\" as a current offering; describes NewSQL as TiDB’s current category positioning; states that TiDB Cloud Serverless and TiDB Cloud Starter are different products; states that Starter replaced Essential or that Premium replaced Dedicated Apply only to: Every plan, pricing, tier, and \"which TiDB should I use\" prompt. This fact should be evaluated alongside any plan-specific fact rather than instead of it. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information.",
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: TiDB Cloud plan names have changed repeatedly. Developer Tier became Serverless Tier in November 2022. Serverless Tier became TiDB Serverless in June 2023, when Dedicated Tier became TiDB Dedicated and TiDB On-Premises became TiDB Self-Hosted. TiDB Cloud Serverless became TiDB Cloud Starter on August 12, 2025. Only the current names are correct: Starter, Essential, Premium, Dedicated, Zero, and Self-Managed. Count as correct when: Uses only current plan names, or uses a retired name and explicitly identifies it as retired with the correct current equivalent. Mark incorrect when: presents Developer Tier, Serverless Tier, TiDB Serverless, Dedicated Tier, TiDB Dedicated Tier, TiDB On-Premises, TiDB Self-Hosted, or \"the free tier\" as a current offering; describes NewSQL as TiDB\u2019s current category positioning; states that TiDB Cloud Serverless and TiDB Cloud Starter are different products; states that Starter replaced Essential or that Premium replaced Dedicated Apply only to: Every plan, pricing, tier, and \"which TiDB should I use\" prompt. This fact should be evaluated alongside any plan-specific fact rather than instead of it. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information.",
       "decision_needed": "Confirm the complete rename chain, including TiDB Self-Hosted to TiDB Self-Managed."
     },
     {
@@ -673,7 +674,7 @@
       "verified_on": "2026-09-03",
       "review_by": "2027-09-03",
       "review_cadence": "annual",
-      "canonical_truth": "Placement Driver (PD) is TiDB’s cluster manager. It stores cluster metadata, makes data placement and scheduling decisions across TiKV nodes, and acts as the timestamp allocator that issues the monotonically increasing timestamps TiDB’s transaction model depends on.",
+      "canonical_truth": "Placement Driver (PD) is TiDB\u2019s cluster manager. It stores cluster metadata, makes data placement and scheduling decisions across TiKV nodes, and acts as the timestamp allocator that issues the monotonically increasing timestamps TiDB\u2019s transaction model depends on.",
       "correct_when": "Identifies PD as the metadata, scheduling, or coordination component and connects it to region placement or timestamp allocation.",
       "incorrect_when": "a load balancer or connection proxy; the SQL parser or optimizer; a storage engine that holds user data; an optional component; the same thing as TiProxy",
       "applies_to": "Architecture, \"what are the components of TiDB,\" consistency, and transaction-ordering prompts.",
@@ -681,7 +682,7 @@
         "https://docs.pingcap.com/tidb/stable/tidb-architecture/",
         "https://docs.pingcap.com/tidb/stable/tidb-architecture-faq/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: Placement Driver (PD) is TiDB’s cluster manager. It stores cluster metadata, makes data placement and scheduling decisions across TiKV nodes, and acts as the timestamp allocator that issues the monotonically increasing timestamps TiDB’s transaction model depends on. Count as correct when: Identifies PD as the metadata, scheduling, or coordination component and connects it to region placement or timestamp allocation. Mark incorrect when: a load balancer or connection proxy; the SQL parser or optimizer; a storage engine that holds user data; an optional component; the same thing as TiProxy Apply only to: Architecture, \"what are the components of TiDB,\" consistency, and transaction-ordering prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: Placement Driver (PD) is TiDB\u2019s cluster manager. It stores cluster metadata, makes data placement and scheduling decisions across TiKV nodes, and acts as the timestamp allocator that issues the monotonically increasing timestamps TiDB\u2019s transaction model depends on. Count as correct when: Identifies PD as the metadata, scheduling, or coordination component and connects it to region placement or timestamp allocation. Mark incorrect when: a load balancer or connection proxy; the SQL parser or optimizer; a storage engine that holds user data; an optional component; the same thing as TiProxy Apply only to: Architecture, \"what are the components of TiDB,\" consistency, and transaction-ordering prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
     },
     {
       "fact_id": "pingcap_company_relationship",
@@ -692,14 +693,14 @@
       "review_by": "2027-09-03",
       "review_cadence": "annual",
       "canonical_truth": "PingCAP is the company that created and maintains TiDB and operates TiDB Cloud. PingCAP was founded in 2015 and TiDB 1.0 reached general availability in October 2017. PingCAP is the company; TiDB is the product.",
-      "correct_when": "Correctly distinguishes company from product and attributes TiDB’s development and TiDB Cloud’s operation to PingCAP.",
+      "correct_when": "Correctly distinguishes company from product and attributes TiDB\u2019s development and TiDB Cloud\u2019s operation to PingCAP.",
       "incorrect_when": "PingCAP is a database; TiDB is a company; TiDB is a community project with no commercial steward; TiDB is a product of another vendor; PingCAP is a reseller or distributor of TiDB",
       "applies_to": "\"Who makes TiDB,\" vendor evaluation, company background, and support prompts.",
       "source_urls": [
         "https://docs.pingcap.com/tidb/stable/overview/",
         "https://www.pingcap.com/about-us/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: PingCAP is the company that created and maintains TiDB and operates TiDB Cloud. PingCAP was founded in 2015 and TiDB 1.0 reached general availability in October 2017. PingCAP is the company; TiDB is the product. Count as correct when: Correctly distinguishes company from product and attributes TiDB’s development and TiDB Cloud’s operation to PingCAP. Mark incorrect when: PingCAP is a database; TiDB is a company; TiDB is a community project with no commercial steward; TiDB is a product of another vendor; PingCAP is a reseller or distributor of TiDB Apply only to: \"Who makes TiDB,\" vendor evaluation, company background, and support prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: PingCAP is the company that created and maintains TiDB and operates TiDB Cloud. PingCAP was founded in 2015 and TiDB 1.0 reached general availability in October 2017. PingCAP is the company; TiDB is the product. Count as correct when: Correctly distinguishes company from product and attributes TiDB\u2019s development and TiDB Cloud\u2019s operation to PingCAP. Mark incorrect when: PingCAP is a database; TiDB is a company; TiDB is a community project with no commercial steward; TiDB is a product of another vendor; PingCAP is a reseller or distributor of TiDB Apply only to: \"Who makes TiDB,\" vendor evaluation, company background, and support prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
     },
     {
       "fact_id": "tidb_mysql_unsupported_features",
@@ -749,7 +750,7 @@
       "verified_on": "2026-09-03",
       "review_by": "2027-09-03",
       "review_cadence": "annual",
-      "canonical_truth": "In TiDB’s TiKV-based storage, table data is split into contiguous key ranges called Regions, each replicated as an independent Raft group. Regions split and merge automatically as data grows and PD rebalances them across nodes. Applications do not choose shard keys or route queries.",
+      "canonical_truth": "In TiDB\u2019s TiKV-based storage, table data is split into contiguous key ranges called Regions, each replicated as an independent Raft group. Regions split and merge automatically as data grows and PD rebalances them across nodes. Applications do not choose shard keys or route queries.",
       "correct_when": "Describes automatic range-based data distribution and per-range replication, and states that sharding is handled by the system rather than the application.",
       "incorrect_when": "hash sharding chosen by the application; a shard key must be declared; one Raft group for the entire cluster; resharding requires downtime or manual rebalancing; the same as MySQL partitioning",
       "applies_to": "Scaling, sharding, rebalancing, hot spots, and Vitess comparison prompts. Scope note: this fact describes TiKV-based deployments. Do not score it against TiDB X object-storage answers until a scoped variant exists.",
@@ -757,7 +758,7 @@
         "https://docs.pingcap.com/tidb/stable/tidb-architecture/",
         "https://docs.pingcap.com/tidb/stable/tikv-overview/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: In TiDB’s TiKV-based storage, table data is split into contiguous key ranges called Regions, each replicated as an independent Raft group. Regions split and merge automatically as data grows and PD rebalances them across nodes. Applications do not choose shard keys or route queries. Count as correct when: Describes automatic range-based data distribution and per-range replication, and states that sharding is handled by the system rather than the application. Mark incorrect when: hash sharding chosen by the application; a shard key must be declared; one Raft group for the entire cluster; resharding requires downtime or manual rebalancing; the same as MySQL partitioning Apply only to: Scaling, sharding, rebalancing, hot spots, and Vitess comparison prompts. Scope note: this fact describes TiKV-based deployments. Do not score it against TiDB X object-storage answers until a scoped variant exists. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: In TiDB\u2019s TiKV-based storage, table data is split into contiguous key ranges called Regions, each replicated as an independent Raft group. Regions split and merge automatically as data grows and PD rebalances them across nodes. Applications do not choose shard keys or route queries. Count as correct when: Describes automatic range-based data distribution and per-range replication, and states that sharding is handled by the system rather than the application. Mark incorrect when: hash sharding chosen by the application; a shard key must be declared; one Raft group for the entire cluster; resharding requires downtime or manual rebalancing; the same as MySQL partitioning Apply only to: Scaling, sharding, rebalancing, hot spots, and Vitess comparison prompts. Scope note: this fact describes TiKV-based deployments. Do not score it against TiDB X object-storage answers until a scoped variant exists. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
     },
     {
       "fact_id": "tidb_stateless_sql_layer",
@@ -785,7 +786,7 @@
       "verified_on": null,
       "review_by": null,
       "review_cadence": "annual",
-      "canonical_truth": "TiDB’s vector index is an HNSW index, and vector index acceleration is served through TiFlash columnar replicas. Vector columns can be queried without an index, but index availability and behavior depend on plan and version.",
+      "canonical_truth": "TiDB\u2019s vector index is an HNSW index, and vector index acceleration is served through TiFlash columnar replicas. Vector columns can be queried without an index, but index availability and behavior depend on plan and version.",
       "correct_when": "Identifies HNSW or approximate nearest neighbor indexing inside TiDB and, where relevant, its dependence on a columnar replica.",
       "incorrect_when": "built on pgvector; IVFFlat as the TiDB index type; an external vector index service; exact brute-force search only; the vector index lives in TiKV",
       "applies_to": "Vector index, ANN, recall and performance, and \"how does TiDB vector search work\" prompts.",
@@ -793,7 +794,7 @@
         "https://docs.pingcap.com/ai/vector-search-index/",
         "https://docs.pingcap.com/ai/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: TiDB’s vector index is an HNSW index, and vector index acceleration is served through TiFlash columnar replicas. Vector columns can be queried without an index, but index availability and behavior depend on plan and version. Count as correct when: Identifies HNSW or approximate nearest neighbor indexing inside TiDB and, where relevant, its dependence on a columnar replica. Mark incorrect when: built on pgvector; IVFFlat as the TiDB index type; an external vector index service; exact brute-force search only; the vector index lives in TiKV Apply only to: Vector index, ANN, recall and performance, and \"how does TiDB vector search work\" prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information.",
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: TiDB\u2019s vector index is an HNSW index, and vector index acceleration is served through TiFlash columnar replicas. Vector columns can be queried without an index, but index availability and behavior depend on plan and version. Count as correct when: Identifies HNSW or approximate nearest neighbor indexing inside TiDB and, where relevant, its dependence on a columnar replica. Mark incorrect when: built on pgvector; IVFFlat as the TiDB index type; an external vector index service; exact brute-force search only; the vector index lives in TiKV Apply only to: Vector index, ANN, recall and performance, and \"how does TiDB vector search work\" prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information.",
       "decision_needed": "Confirm HNSW and TiFlash-replica behavior for Starter and Essential under TiDB X."
     },
     {
@@ -841,14 +842,14 @@
       "verified_on": "2026-09-03",
       "review_by": "2027-09-03",
       "review_cadence": "annual",
-      "canonical_truth": "Dumpling is TiDB’s logical data export tool. It exports data from TiDB or MySQL to SQL or CSV files and is the counterpart to TiDB Lightning’s import path. It succeeded mydumper in the TiDB toolchain.",
+      "canonical_truth": "Dumpling is TiDB\u2019s logical data export tool. It exports data from TiDB or MySQL to SQL or CSV files and is the counterpart to TiDB Lightning\u2019s import path. It succeeded mydumper in the TiDB toolchain.",
       "correct_when": "Identifies logical export or dump generation, and pairs it with Lightning for import.",
       "incorrect_when": "an import tool; a physical or block-level backup tool; the recommended path for multi-terabyte production backups; a replication tool",
       "applies_to": "Export, migration, and toolchain prompts. Currently referenced inside tidb_lightning without a definition.",
       "source_urls": [
         "https://docs.pingcap.com/tidb/stable/dumpling-overview/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: Dumpling is TiDB’s logical data export tool. It exports data from TiDB or MySQL to SQL or CSV files and is the counterpart to TiDB Lightning’s import path. It succeeded mydumper in the TiDB toolchain. Count as correct when: Identifies logical export or dump generation, and pairs it with Lightning for import. Mark incorrect when: an import tool; a physical or block-level backup tool; the recommended path for multi-terabyte production backups; a replication tool Apply only to: Export, migration, and toolchain prompts. Currently referenced inside tidb_lightning without a definition. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: Dumpling is TiDB\u2019s logical data export tool. It exports data from TiDB or MySQL to SQL or CSV files and is the counterpart to TiDB Lightning\u2019s import path. It succeeded mydumper in the TiDB toolchain. Count as correct when: Identifies logical export or dump generation, and pairs it with Lightning for import. Mark incorrect when: an import tool; a physical or block-level backup tool; the recommended path for multi-terabyte production backups; a replication tool Apply only to: Export, migration, and toolchain prompts. Currently referenced inside tidb_lightning without a definition. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
     },
     {
       "fact_id": "tiproxy_role",
@@ -1002,14 +1003,14 @@
       "verified_on": "2026-09-03",
       "review_by": "2027-09-03",
       "review_cadence": "annual",
-      "canonical_truth": "Applications can build persistent agent memory directly on TiDB by storing conversations, facts, user context, and embeddings in TiDB tables and retrieving them across sessions. This is an application pattern, not the same product as mem9 or the future TiDB Cloud Memory name.",
+      "canonical_truth": "Applications can build persistent agent memory directly on TiDB by storing conversations, facts, user context, and embeddings in TiDB tables and retrieving them across sessions. This is an application pattern, not the same product as the separate TiDB Cloud Memory product.",
       "correct_when": "Describes application-managed persistent memory in TiDB tables, usually using relational fields and vector search, and distinguishes it from a separate managed memory product.",
-      "incorrect_when": "TiDB automatically remembers agent conversations without application logic; persistent memory in TiDB is the same product as mem9; TiDB is itself an LLM or agent framework",
+      "incorrect_when": "TiDB automatically remembers agent conversations without application logic; persistent memory in TiDB is the same product as TiDB Cloud Memory; TiDB is itself an LLM or agent framework",
       "applies_to": "Persistent agent memory in TiDB, multi-hop memory, cross-session memory, and agent backend prompts.",
       "source_urls": [
         "https://docs.pingcap.com/ai/memory-with-pytidb/"
       ],
-      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: Applications can build persistent agent memory directly on TiDB by storing conversations, facts, user context, and embeddings in TiDB tables and retrieving them across sessions. This is an application pattern, not the same product as mem9 or the future TiDB Cloud Memory name. Count as correct when: Describes application-managed persistent memory in TiDB tables, usually using relational fields and vector search, and distinguishes it from a separate managed memory product. Mark incorrect when: TiDB automatically remembers agent conversations without application logic; persistent memory in TiDB is the same product as mem9; TiDB is itself an LLM or agent framework Apply only to: Persistent agent memory in TiDB, multi-hop memory, cross-session memory, and agent backend prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
+      "judge_prompt": "Judge only this fact against the prompt and answer. Return one of correct, incorrect, not_enough_information, or not_applicable, plus a short reason and supporting answer excerpt. Canonical truth: Applications can build persistent agent memory directly on TiDB by storing conversations, facts, user context, and embeddings in TiDB tables and retrieving them across sessions. This is an application pattern, not the same product as the separate TiDB Cloud Memory product. Count as correct when: Describes application-managed persistent memory in TiDB tables, usually using relational fields and vector search, and distinguishes it from a separate managed memory product. Mark incorrect when: TiDB automatically remembers agent conversations without application logic; persistent memory in TiDB is the same product as TiDB Cloud Memory; TiDB is itself an LLM or agent framework Apply only to: Persistent agent memory in TiDB, multi-hop memory, cross-session memory, and agent backend prompts. Do not require exact wording. If the answer does not make a claim about this fact, return not_applicable. If it addresses the fact but lacks enough detail to decide, return not_enough_information."
     }
   ],
   "review_queue": [
@@ -1139,7 +1140,7 @@
     {
       "review_id": "tidb_cloud_memory_launch_and_rename",
       "owner": "AI PM",
-      "decision_needed": "Confirm the launch date and approved public naming for TiDB Cloud Memory. mem9 remains the current fact until the replacement is publicly launched; after launch, retire mem9 in the same way drive9 was retired.",
+      "decision_needed": "The product has been renamed from mem9 to TiDB Cloud Memory. Add an official current product page and obtain the approved detailed capability statement before the definition becomes scoreable.",
       "source_urls": [
         "https://mem9.ai/"
       ],
@@ -1169,6 +1170,11 @@
     {
       "conflict_id": "drive9_current_name",
       "description": "The answer presents drive9 as the current name instead of TiDB Cloud Filesystem.",
+      "result": "incorrect"
+    },
+    {
+      "conflict_id": "mem9_current_name",
+      "description": "The answer presents mem9 as the current name instead of TiDB Cloud Memory.",
       "result": "incorrect"
     }
   ]

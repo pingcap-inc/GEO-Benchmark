@@ -55,11 +55,31 @@ class TiDBFactBaseV2Tests(unittest.TestCase):
     def test_product_rename_and_review_gates(self):
         by_id = {fact["fact_id"]: fact for fact in self.facts}
         self.assertNotIn("drive9_definition", by_id)
+        self.assertNotIn("mem9_definition", by_id)
         filesystem = by_id["tidb_cloud_filesystem_definition"]
+        memory = by_id["tidb_cloud_memory_definition"]
         self.assertIn("drive9", filesystem["incorrect_when"])
         self.assertIn("drive9 as the current product name", filesystem["incorrect_when"])
+        self.assertIn("mem9 as the current product name", memory["incorrect_when"])
+        self.assertEqual(memory["status"], "REVIEW_REQUIRED")
         self.assertEqual(by_id["tidb_vector_search"]["status"], "REVIEW_REQUIRED")
         self.assertEqual(by_id["tidb_cloud_ru_and_rcu"]["status"], "REVIEW_REQUIRED")
+
+    def test_september_prompts_use_current_memory_and_filesystem_names(self):
+        prompts = json.loads(
+            (ROOT / "geo-benchmark" / "prompts" / "2026-09" / "prompts.json").read_text()
+        )
+        relevant = [
+            row["prompt_text"]
+            for row in prompts
+            if "memory" in row["prompt_text"].lower()
+            or "filesystem" in row["prompt_text"].lower()
+            or "mem9" in row["prompt_text"].lower()
+            or "drive9" in row["prompt_text"].lower()
+        ]
+        self.assertTrue(any("TiDB Cloud Memory" in text for text in relevant))
+        self.assertTrue(any("TiDB Cloud Filesystem" in text for text in relevant))
+        self.assertFalse(any("mem9" in text.lower() or "drive9" in text.lower() for text in relevant))
 
     def test_specific_ai_sources_replace_hub_links(self):
         by_id = {fact["fact_id"]: fact for fact in self.facts}
