@@ -1,0 +1,41 @@
+{
+  "mock": {
+    "provider": "mock",
+    "model": "mock-geo-buyer-v1",
+    "temperature": 0.2,
+    "max_output_tokens": 700,
+    "env_var": null
+  },
+  "openai": {
+    "provider": "openai",
+    "model": "gpt-5-mini",
+    "temperature": null,
+    "max_output_tokens": 1600,
+    "env_var": "OPENAI_API_KEY",
+    "fallback_model": "gpt-4o-mini",
+    "fallback_max_output_tokens": 1000,
+    "fallback_retries": 1
+  },
+  "anthropic": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-5",
+    "temperature": null,
+    "max_output_tokens": 700,
+    "env_var": "ANTHROPIC_API_KEY"
+  },
+  "gemini": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash-lite",
+    "temperature": 0.2,
+    "max_output_tokens": 700,
+    "env_var": "GEMINI_API_KEY"
+  },
+  "perplexity": {
+    "provider": "perplexity",
+    "model": "sonar",
+    "temperature": 0.2,
+    "max_output_tokens": 700,
+    "env_var": "PERPLEXITY_API_KEY",
+    "search_context_size": "low"
+  }
+}

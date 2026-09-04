@@ -1,0 +1,10 @@
+{
+  "targets": [
+    "TiDB",
+    "CockroachDB",
+    "YugabyteDB",
+    "Supabase",
+    "PlanetScale",
+    "Neon"
+  ]
+}
