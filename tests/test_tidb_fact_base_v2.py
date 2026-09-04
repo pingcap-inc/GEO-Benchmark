@@ -45,7 +45,8 @@ class TiDBFactBaseV2Tests(unittest.TestCase):
 
     def test_preview_facts_are_reviewed_quarterly(self):
         for fact in self.facts:
-            if "public preview" not in fact["canonical_truth"].lower():
+            normalized_truth = fact["canonical_truth"].lower().replace("-", " ")
+            if "public preview" not in normalized_truth:
                 continue
             self.assertEqual(fact["review_cadence"], "quarterly", fact["fact_id"])
             verified = date.fromisoformat(fact["verified_on"])
