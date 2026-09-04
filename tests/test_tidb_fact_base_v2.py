@@ -86,6 +86,31 @@ class TiDBFactBaseV2Tests(unittest.TestCase):
         for fact_id in ("tidb_vector_search", "tidb_full_text_search", "pytidb_definition"):
             self.assertNotIn("https://docs.pingcap.com/ai/", by_id[fact_id]["source_urls"])
 
+    def test_general_answers_do_not_require_unasked_qualifiers(self):
+        policy = self.payload["judge_scope_policy"]
+        self.assertIn("general 'What is X?'", policy["core_answer_rule"])
+        self.assertIn("omitting qualifiers is not an error", policy["omission_rule"])
+        example = policy["examples"][0]
+        self.assertEqual(example["prompt"], "What is TiDB vector search?")
+        self.assertIn("without plan or maturity details", example["expected"])
+
+    def test_questions_and_answers_can_activate_qualifier_checks(self):
+        policy = self.payload["judge_scope_policy"]
+        activators = " ".join(policy["qualifier_check_activates_when"])
+        self.assertIn("The prompt asks", activators)
+        self.assertIn("The answer makes a specific claim", activators)
+        self.assertEqual(
+            policy["qualifier_dimensions"],
+            ["maturity", "plan", "region", "version", "access"],
+        )
+        self.assertIn("asked about or asserted", policy["claim_rule"])
+
+    def test_every_fact_judge_prompt_includes_conditional_scope_rule(self):
+        for fact in self.facts:
+            prompt = fact["judge_prompt"]
+            self.assertIn("Scope rule:", prompt, fact["fact_id"])
+            self.assertIn("Omission is not an error", prompt, fact["fact_id"])
+
     def test_review_queue_is_unique(self):
         reviews = self.payload["review_queue"]
         ids = [item["review_id"] for item in reviews]

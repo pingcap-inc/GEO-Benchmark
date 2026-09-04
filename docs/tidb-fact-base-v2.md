@@ -17,6 +17,17 @@ The current scorer uses literal `triggers`, `expected_any`, and `wrong_any` subs
 
 Only facts with status `READY_FOR_JUDGE` may contribute to accuracy after that implementation lands. Facts with status `REVIEW_REQUIRED` must remain unscored.
 
+## Conditional qualifier rule
+
+For a general definition or core-capability question, an answer can pass by accurately describing the relevant core capability. It does not have to repeat every maturity, plan, region, version, or access qualifier recorded in `canonical_truth`.
+
+Those qualifiers become scoreable when either condition is true:
+
+- The prompt asks about availability, support, eligibility, maturity, plans, regions, versions, or access.
+- The answer makes a specific claim about one of those dimensions, even if the prompt did not ask.
+
+When activated, the judge checks only the qualifiers asked about or asserted. A conflicting claim is incorrect, but omitting unrelated qualifiers is not. For example, “TiDB can store vectors and perform similarity search” can answer “What is TiDB vector search?” without listing plan availability. If the answer adds that it is generally available on every plan, that volunteered claim must be verified.
+
 ## Review policy
 
 - Re-verify public-preview facts at least quarterly.
