@@ -1,0 +1,56 @@
+{
+  "pricing_version": "2026-07-30",
+  "currency": "USD",
+  "notes": [
+    "Prices are editable planning defaults; always verify provider billing pages before a production run.",
+    "Per-token prices are per 1M tokens. Per-request prices are per request."
+  ],
+  "models": {
+    "gpt-5-mini": {
+      "input_per_1m": 0.25,
+      "output_per_1m": 2.0,
+      "request_fee": 0.0,
+      "source": "https://openai.com/index/introducing-gpt-5-for-developers/",
+      "web_search_fee": 0.01
+    },
+    "gpt-4o-mini": {
+      "input_per_1m": 0.15,
+      "output_per_1m": 0.6,
+      "request_fee": 0.0,
+      "source": "https://developers.openai.com/api/docs/models/gpt-4o-mini",
+      "web_search_fee": 0.01
+    },
+    "claude-sonnet-5": {
+      "input_per_1m": 2.0,
+      "output_per_1m": 10.0,
+      "request_fee": 0.0,
+      "source": "https://claude.com/pricing",
+      "web_search_fee": 0.01
+    },
+    "gemini-3.5-flash-lite": {
+      "input_per_1m": 0.3,
+      "output_per_1m": 2.5,
+      "request_fee": 0.0,
+      "web_search_fee": 0.014,
+      "source": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    "sonar": {
+      "input_per_1m": 1.0,
+      "output_per_1m": 1.0,
+      "request_fee": 0.005,
+      "source": "https://docs.perplexity.ai/docs/getting-started/pricing"
+    },
+    "sonar-pro": {
+      "input_per_1m": 3.0,
+      "output_per_1m": 15.0,
+      "request_fee": 0.006,
+      "source": "https://docs.perplexity.ai/docs/getting-started/pricing"
+    },
+    "mock-geo-buyer-v1": {
+      "input_per_1m": 0.0,
+      "output_per_1m": 0.0,
+      "request_fee": 0.0,
+      "source": "local mock provider"
+    }
+  }
+}

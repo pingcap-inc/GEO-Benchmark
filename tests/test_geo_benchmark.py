@@ -896,6 +896,42 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(result.fan_out_queries, [])
         self.assertEqual(result.fan_out_status, "not_exposed")
 
+    def test_perplexity_reports_grounded_search_requests(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
+        config = {"model": "sonar", "env_var": "PERPLEXITY_API_KEY", "max_output_tokens": 100}
+
+        def fake_post_reported(endpoint, payload, headers):
+            return {
+                "model": "sonar",
+                "choices": [{"message": {"content": "TiDB is one option."}}],
+                "search_results": ["https://docs.pingcap.com/tidb/stable"],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 5, "num_search_queries": 2},
+            }
+
+        def fake_post_unreported(endpoint, payload, headers):
+            return {
+                "model": "sonar",
+                "choices": [{"message": {"content": "TiDB is one option."}}],
+                "citations": ["https://docs.pingcap.com/tidb/stable"],
+                "usage": {"prompt_tokens": 10, "completion_tokens": 5},
+            }
+
+        old_key = os.environ.get("PERPLEXITY_API_KEY")
+        try:
+            os.environ["PERPLEXITY_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post_reported):
+                reported = PerplexityProvider("perplexity", config).generate(prompt, 1)
+            with patch("geo_benchmark.providers._post_json", fake_post_unreported):
+                fallback = PerplexityProvider("perplexity", config).generate(prompt, 1)
+        finally:
+            restore_env("PERPLEXITY_API_KEY", old_key)
+
+        # Uses the provider-reported query count when present ...
+        self.assertEqual(reported.web_search_requests, 2)
+        # ... and falls back to one grounded search per Sonar request otherwise,
+        # so canonical web-search-on audits see a positive count.
+        self.assertEqual(fallback.web_search_requests, 1)
+
     def test_seed_prompts_are_neutral_and_evidence_backed(self):
         prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)
         prompt_texts = [prompt["prompt_text"] for prompt in prompts]

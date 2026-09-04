@@ -261,14 +261,17 @@ class PerplexityProvider(OpenAIProvider):
         answer = data["choices"][0]["message"]["content"]
         citations = data.get("citations") or data.get("search_results") or []
         usage = data.get("usage", {})
+        web_search_requests = perplexity_web_search_request_count(data)
+        # Sonar is always web-grounded but never exposes the query strings.
         return ProviderResult(
             answer=answer,
             citations=[str(item) for item in citations],
             input_tokens=usage.get("prompt_tokens", estimate_tokens(self._input_text(prompt))),
             output_tokens=usage.get("completion_tokens", estimate_tokens(answer)),
             model_name=data.get("model", self.model),
+            web_search_requests=web_search_requests,
             fan_out_queries=[],
-            fan_out_status="not_exposed",
+            fan_out_status=fan_out_status(True, web_search_requests, []),
             raw_response=data,
         )
 
@@ -538,6 +541,19 @@ def fan_out_status(web_search_on: bool, search_requests: int, queries: list[str]
     if search_requests:
         return "not_exposed"
     return "no_search"
+
+
+def perplexity_web_search_request_count(data: dict[str, Any]) -> int:
+    """Perplexity Sonar always retrieves; report its search count.
+
+    Prefer the provider-reported query count when present, otherwise fall
+    back to one grounded search per request (Sonar's default behavior).
+    """
+    usage = data.get("usage", {}) or {}
+    queries = usage.get("num_search_queries")
+    if isinstance(queries, int) and queries >= 0:
+        return queries
+    return 1
 
 
 def _post_json(endpoint: str, payload: dict[str, Any], headers: dict[str, str]) -> dict[str, Any]:
