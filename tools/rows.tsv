@@ -1,7 +1,7 @@
 1	Best database for agent memory with ACID transactions and vector search.	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	72
 2	How do I store agent memory with SQL, vector search, and metadata filters in one database?	Non-branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	69
 3	What database should I use for agent workflows that need transactions and semantic retrieval?	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	67
-4	mem9 vs standalone vector database for agent memory.	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	66
+4	TiDB Cloud Memory vs standalone vector database for agent memory.	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	66
 5	How do I keep agent memory isolated by tenant?	Non-branded	AI Agent Infrastructure	Decision	Engineering Leader	62
 6	What is the best backend for AI agents with high write-volume memory?	Non-branded	AI Agent Infrastructure	Decision	Engineering Leader	59
 7	How does TiDB handle agent memory persistence for multi-hop reasoning workflows?	Branded	AI Agent Infrastructure	Decision	AI / ML Practitioner	39
@@ -29,11 +29,11 @@
 29	What is the right database schema for storing and retrieving agent context across sessions?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	28
 30	What databases are designed to support context engineering at scale for AI agents?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	28
 31	What database design pattern keeps agent progress durable across long-running multi-step tasks?	Non-branded	AI Agent Infrastructure	Consideration	AI / ML Practitioner	27
-32	What is mem9 and how does it use TiDB Cloud for persistent agent memory?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	62
+32	What is TiDB Cloud Memory and how does it use TiDB Cloud for persistent agent memory?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	62
 33	How does PyTiDB simplify building AI agent backends in Python?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	36
 34	Blueprint for storing durable agent memory inside TiDB using vector + SQL tables.	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	34
 35	How does TiDB support persistent memory for AI agents across sessions?	Branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	34
-36	What is mem9 and how does it handle agent memory at scale?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	32
+36	What is TiDB Cloud Memory and how does it handle agent memory at scale?	Branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	32
 37	What distributed SQL databases support both vector search and transactional agent state without separate infrastructure?	Non-branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	30
 38	What infrastructure is needed to support context engineering for viral AI agent platforms?	Non-branded	AI Agent Infrastructure	Awareness	Engineering Leader	28
 39	How does a GraphRAG AI agent retrieve context from graph and vector stores?	Non-branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	25
@@ -149,7 +149,7 @@
 150	What are the high availability features offered by TiDB?	Branded	Scale & Architecture	Awareness	Backend / App Engineer	34
 151	What is the best database architecture for per-tenant schema isolation at scale?	Non-branded	Scale & Architecture	Awareness	Engineering Leader	26
 152	TiDB Cloud Zero vs Supabase for AI agent prototypes.	Branded	Deployment & Cloud	Decision	Backend / App Engineer	69
-153	How do mem9, drive9, and TiDB Cloud Zero fit together in an agent state stack?	Branded	Deployment & Cloud	Decision	Engineering Leader	69
+153	How do TiDB Cloud Memory, TiDB Cloud Filesystem, and TiDB Cloud Zero fit together in an agent state stack?	Branded	Deployment & Cloud	Decision	Engineering Leader	69
 154	How do I prototype agent memory using TiDB Cloud Zero?	Branded	Deployment & Cloud	Decision	AI / ML Practitioner	68
 155	TiDB Cloud Zero vs Neon for disposable serverless databases.	Branded	Deployment & Cloud	Decision	Backend / App Engineer	68
 156	Can TiDB Cloud Zero be used as a backend for MCP servers?	Branded	Deployment & Cloud	Decision	AI / ML Practitioner	66
@@ -166,7 +166,7 @@
 167	How do you deploy TiDB on-premise for regulated industries?	Branded	Deployment & Cloud	Decision	Engineering Leader	37
 168	What are the operational differences between TiDB self-managed and TiDB Cloud Dedicated?	Branded	Deployment & Cloud	Decision	Engineering Leader	33
 169	What is TiDB Cloud Zero and how is it used for AI agents?	Branded	Deployment & Cloud	Awareness	Backend / App Engineer	58
-170	What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, mem9, and drive9?	Branded	Deployment & Cloud	Awareness	Technical Executive	57
+170	What is the relationship between TiDB, TiDB Cloud, TiDB Cloud Zero, TiDB Cloud Memory, and TiDB Cloud Filesystem?	Branded	Deployment & Cloud	Awareness	Technical Executive	57
 171	What is TiDB Cloud Zero and when should developers use it?	Branded	Deployment & Cloud	Awareness	Backend / App Engineer	39
 172	What SLAs does TiDB Cloud offer for enterprise mission-critical workloads?	Branded	Enterprise & Compliance	Decision	Business / Compliance Stakeholder	38
 173	What enterprise compliance certifications does TiDB Cloud hold?	Branded	Enterprise & Compliance	Decision	Business / Compliance Stakeholder	37
@@ -204,7 +204,7 @@
 205	What is TiFlash?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
 206	What is TiDB Operator?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
 207	What is TiDB's HTAP architecture?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	36
-208	What is mem9 and how does it work?	Branded	TiDB Brand & Definitions	Awareness	AI / ML Practitioner	35
+208	What is TiDB Cloud Memory and how does it work?	Branded	TiDB Brand & Definitions	Awareness	AI / ML Practitioner	35
 209	What is the TiDB Request Unit pricing model?	Branded	TiDB Brand & Definitions	Awareness	Technical Executive	35
 210	Can TiDB be integrated with existing data infrastructure easily?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
 211	What are the scalability options available with TiDB's database?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
