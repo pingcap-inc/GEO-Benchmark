@@ -73,6 +73,10 @@ def write_markdown(
         )
     lines.extend(["## Executive KPI", ""])
     lines.extend(executive_kpi_table(summary))
+    branded_table = branded_accuracy_table(summary)
+    if branded_table:
+        lines.extend(["", "## Branded Accuracy", ""])
+        lines.extend(branded_table)
     lines.extend(
         [
             "",
@@ -84,20 +88,19 @@ def write_markdown(
     )
     lines.extend(prompt_type_metric_tables(summary))
 
-    target_order = report_target_order(summary)
-    first_target = target_order[0] if target_order else None
-    first_summary = summary["targets"][first_target] if first_target else summary
-    overall = first_summary["overall"]
-    unchanged = first_summary["unchanged"]
     lines.extend(
         [
             "",
             "## Coverage",
             "",
-            f"- Overall prompts per target: {overall['prompt_count']}",
-            f"- Overall target-answer rows per target: {overall['answer_count']}",
-            f"- Unchanged prompts per target: {unchanged['prompt_count']}",
-            f"- Unchanged target-answer rows per target: {unchanged['answer_count']}",
+            "| Target | Non-branded prompts | Branded prompts | Target-answer rows |",
+            "| --- | ---: | ---: | ---: |",
+            *[
+                f"| {target} | {summary['targets'][target]['overall']['prompt_count']} | "
+                f"{summary['targets'][target]['overall'].get('branded_prompt_count', 0)} | "
+                f"{summary['targets'][target]['overall']['answer_count']} |"
+                for target in report_target_order(summary)
+            ],
             "",
             "## Quality Signals",
             "",
@@ -129,6 +132,23 @@ def write_markdown(
                 "",
                 f"- Estimated cost: ${cost_summary.get('total_estimated_cost_usd', 0)}",
                 f"- Pricing version: {cost_summary.get('pricing_version')}",
+                f"- Fact judge mode: {cost_summary.get('fact_judge', {}).get('mode', 'off')}",
+                f"- Fact judge estimated cost: ${cost_summary.get('fact_judge', {}).get('estimated_cost_usd', 0)}",
+                f"- Combined provider and judge cost: ${cost_summary.get('combined_total_estimated_cost_usd', cost_summary.get('total_estimated_cost_usd', 0))}",
+                "",
+            ]
+        )
+    metadata = summary.get("run_metadata", {})
+    if metadata:
+        lines.extend(
+            [
+                "## Run Metadata",
+                "",
+                f"- Prompt set hash: `{metadata.get('prompt_set_hash')}`",
+                f"- Legacy facts version: `{metadata.get('legacy_facts_version')}`",
+                f"- Semantic fact-base version: `{metadata.get('fact_base_version')}`",
+                f"- Source-authority version: `{metadata.get('source_authority_version')}`",
+                f"- Models config hash: `{metadata.get('models_config_hash')}`",
                 "",
             ]
         )
@@ -159,6 +179,38 @@ def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
             + " |"
         )
     return lines
+
+
+def branded_accuracy_table(summary: dict[str, Any]) -> list[str]:
+    rows = []
+    for target in report_target_order(summary):
+        metrics = summary["targets"][target]["overall"]
+        if not metrics.get("branded_prompt_count"):
+            continue
+        rows.append(
+            "| "
+            + " | ".join(
+                [
+                    target,
+                    str(metrics.get("branded_prompt_count", 0)),
+                    fmt_optional(metrics.get("brand_accuracy")),
+                    fmt_percentage(metrics.get("brand_accuracy_coverage")),
+                    fmt_optional(metrics.get("semantic_brand_accuracy")),
+                    fmt_percentage(metrics.get("semantic_brand_accuracy_coverage")),
+                    str(metrics.get("semantic_brand_unavailable_facts", 0)),
+                ]
+            )
+            + " |"
+        )
+    if not rows:
+        return []
+    return [
+        "| Target | Prompts | Legacy accuracy | Legacy coverage | Semantic accuracy | Semantic decision coverage | Judge unavailable |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        *rows,
+        "",
+        "Semantic results are written alongside legacy substring scores; they do not replace the official metric during shadow mode.",
+    ]
 
 
 def report_target_order(summary: dict[str, Any]) -> list[str]:
@@ -246,6 +298,12 @@ def fmt_optional(value: Any) -> str:
     return f"{float(value):.2f}"
 
 
+def fmt_percentage(value: Any) -> str:
+    if value is None:
+        return "N/A"
+    return f"{float(value) * 100:.2f}%"
+
+
 def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
     fieldnames = [
         "target",
@@ -262,6 +320,15 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
         "negative_recommendation_rate",
         "avg_source_authority",
         "avg_accuracy",
+        "branded_prompt_count",
+        "brand_accuracy",
+        "brand_accuracy_coverage",
+        "brand_citation_rate",
+        "semantic_brand_accuracy",
+        "semantic_brand_accuracy_coverage",
+        "semantic_brand_selected_facts",
+        "semantic_brand_unavailable_facts",
+        "semantic_brand_not_enough_information_facts",
         "avg_freshness",
         "prompt_count",
         "answer_count",
@@ -308,6 +375,14 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "citation_authority_answer",
         "source_authority",
         "accuracy",
+        "accuracy_checked_facts",
+        "accuracy_correct_facts",
+        "semantic_fact_accuracy",
+        "semantic_checked_facts",
+        "semantic_correct_facts",
+        "semantic_incorrect_facts",
+        "semantic_not_enough_information_facts",
+        "semantic_unavailable_facts",
         "freshness",
         "recommendation_class",
         "recommendation_score",
@@ -315,12 +390,29 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "comparison_products",
         "input_tokens",
         "output_tokens",
+        "prompt_set_hash",
+        "legacy_facts_version",
+        "fact_base_version",
+        "source_authority_version",
+        "models_config_hash",
+        "fact_judge_mode",
     ]
     with path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for row in rows:
-            writer.writerow({key: row.get(key) for key in fieldnames})
+            output = {key: row.get(key) for key in fieldnames}
+            metadata = row.get("run_metadata", {})
+            for key in [
+                "prompt_set_hash",
+                "legacy_facts_version",
+                "fact_base_version",
+                "source_authority_version",
+                "models_config_hash",
+                "fact_judge_mode",
+            ]:
+                output[key] = metadata.get(key)
+            writer.writerow(output)
 
 
 def write_breakdown_csv(path: Path, breakdown: dict[str, Any]) -> None:

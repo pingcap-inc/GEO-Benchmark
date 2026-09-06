@@ -26,8 +26,12 @@ MONTH=2026-08 PROVIDERS=openai,anthropic WEB_SEARCH=on RUNS=1 ./scripts/run-benc
 Run a no-cost local smoke test:
 
 ```bash
-MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
+DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock RUNS=1 FACT_JUDGE=mock ./scripts/run-benchmark-workflow.sh
 ```
+
+`FACT_JUDGE=mock` exercises v2 fact selection, review gates, qualifier scope,
+structured verdicts, caching, scoring, and reporting without an API key. It
+writes semantic accuracy beside the legacy substring score rather than replacing it.
 
 ## Key Files
 

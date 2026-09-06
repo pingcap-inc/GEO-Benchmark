@@ -191,7 +191,13 @@ def score_answer(
     citation_presence = bool(target_citations)
     source_score = mean([item["weight"] for item in target_citations]) if target_citations else 0.0
     grounding_score = grounding(answer, citation_presence)
-    accuracy_score, checked_facts, correct_facts = accuracy(answer, facts, target)
+    target_in_prompt = product_in_prompt(prompt, target)
+    if mentioned_target or target_in_prompt:
+        accuracy_score, checked_facts, correct_facts = accuracy(answer, facts, target)
+    else:
+        # Generic trigger words such as "distributed", "vector", or "Postgres"
+        # must not activate facts for a product the answer never discusses.
+        accuracy_score, checked_facts, correct_facts = 1.0, 0, 0
     freshness_score = freshness(target_citations)
     citation_authority_answer = (
         (1.0 if citation_presence else 0.0)
@@ -204,7 +210,6 @@ def score_answer(
     rec_class, rec_score, rec_reasons = recommendation(answer, mention_position, target)
     comparison_candidates = comparison_products(prompt)
     winner = competitive_winner(answer, prompt)
-    target_in_prompt = product_in_prompt(prompt, target)
     fan_out_queries = [str(query) for query in row.get("fan_out_queries", [])]
     fan_out_status = str(row.get("fan_out_status") or "unavailable")
     consideration_eligible = not target_in_prompt and fan_out_status in {"captured", "no_search"}
@@ -550,6 +555,8 @@ def aggregate_scores(scored: list[dict[str, Any]]) -> dict[str, Any]:
         "target_order": targets,
         "targets": target_summaries,
     }
+    if scored and scored[0].get("run_metadata"):
+        result["run_metadata"] = scored[0]["run_metadata"]
     if first_target:
         result.update(target_summaries[first_target])
     else:
@@ -679,8 +686,15 @@ def brand_metrics(branded_rows: list[dict[str, Any]]) -> dict[str, Any]:
             "brand_accuracy_coverage": 0.0,
             "brand_citation_rate": None,
             "brand_negative_rate": None,
+            "semantic_brand_accuracy": None,
+            "semantic_brand_accuracy_coverage": 0.0,
+            "semantic_brand_selected_facts": 0,
+            "semantic_brand_unavailable_facts": 0,
+            "semantic_brand_not_enough_information_facts": 0,
         }
     checked = [row for row in branded_rows if row.get("accuracy_checked_facts", 0) > 0]
+    semantic_selected = [row for row in branded_rows if row.get("semantic_fact_judge", {}).get("selected_facts", 0) > 0]
+    semantic_decided = [row for row in semantic_selected if row.get("semantic_fact_accuracy") is not None]
     cited = sum(1 for row in branded_rows if row.get("citation_presence"))
     negative = sum(1 for row in branded_rows if row.get("recommendation_class") == "negative")
     return {
@@ -690,6 +704,15 @@ def brand_metrics(branded_rows: list[dict[str, Any]]) -> dict[str, Any]:
         "brand_accuracy_coverage": round(len(checked) / len(branded_rows), 4),
         "brand_citation_rate": round((cited / len(branded_rows)) * 100, 2),
         "brand_negative_rate": round((negative / len(branded_rows)) * 100, 2),
+        "semantic_brand_accuracy": round(mean(row["semantic_fact_accuracy"] for row in semantic_decided) * 100, 2)
+        if semantic_decided
+        else None,
+        "semantic_brand_accuracy_coverage": round(len(semantic_decided) / len(branded_rows), 4),
+        "semantic_brand_selected_facts": sum(row.get("semantic_fact_judge", {}).get("selected_facts", 0) for row in branded_rows),
+        "semantic_brand_unavailable_facts": sum(row.get("semantic_unavailable_facts", 0) for row in branded_rows),
+        "semantic_brand_not_enough_information_facts": sum(
+            row.get("semantic_not_enough_information_facts", 0) for row in branded_rows
+        ),
     }
 
 
@@ -719,6 +742,11 @@ def empty_metrics() -> dict[str, Any]:
         "brand_accuracy_coverage": 0.0,
         "brand_citation_rate": None,
         "brand_negative_rate": None,
+        "semantic_brand_accuracy": None,
+        "semantic_brand_accuracy_coverage": 0.0,
+        "semantic_brand_selected_facts": 0,
+        "semantic_brand_unavailable_facts": 0,
+        "semantic_brand_not_enough_information_facts": 0,
     }
 
 

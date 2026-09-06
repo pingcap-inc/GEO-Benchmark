@@ -9,6 +9,10 @@ PROMPTS="${PROMPTS:-120}"
 UPDATE_RATIO="${UPDATE_RATIO:-0.3}"
 ASSUMED_OUTPUT_TOKENS="${ASSUMED_OUTPUT_TOKENS:-700}"
 WEB_SEARCH="${WEB_SEARCH:-off}"
+FACT_JUDGE="${FACT_JUDGE:-off}"
+FACT_JUDGE_PROVIDER="${FACT_JUDGE_PROVIDER:-openai}"
+FACT_JUDGE_MODEL="${FACT_JUDGE_MODEL:-gpt-5-mini}"
+FACT_JUDGE_RETRIES="${FACT_JUDGE_RETRIES:-1}"
 
 if [[ -z "$MONTH" ]]; then
   echo "Set MONTH=YYYY-MM before running this workflow." >&2
@@ -23,6 +27,10 @@ run_args=(
   --update-ratio "$UPDATE_RATIO"
   --assumed-output-tokens "$ASSUMED_OUTPUT_TOKENS"
   --web-search "$WEB_SEARCH"
+  --fact-judge "$FACT_JUDGE"
+  --fact-judge-provider "$FACT_JUDGE_PROVIDER"
+  --fact-judge-model "$FACT_JUDGE_MODEL"
+  --fact-judge-retries "$FACT_JUDGE_RETRIES"
 )
 
 if [[ "${FORCE:-0}" == "1" ]]; then
@@ -55,6 +63,6 @@ echo "Running benchmark..."
 
 echo "Running local checks..."
 PYTHONPYCACHEPREFIX="${PYTHONPYCACHEPREFIX:-/private/tmp/geo-benchmark-pycache}" python3 -m py_compile geo_benchmark/*.py
-python3 -m unittest tests/test_geo_benchmark.py
+python3 -m unittest discover -s tests
 
 echo "Workflow complete."

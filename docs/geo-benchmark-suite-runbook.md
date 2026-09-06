@@ -2,10 +2,10 @@
 
 ## One-Command Run
 
-Normal monthly runs should use the guarded workflow wrapper:
+Use the guarded workflow wrapper for a no-cost end-to-end check:
 
 ```bash
-MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
+DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock RUNS=1 FACT_JUDGE=mock ./scripts/run-benchmark-workflow.sh
 ```
 
 This workflow:
@@ -108,6 +108,40 @@ export ANTHROPIC_API_KEY="..."
 export GEMINI_API_KEY="..."
 export PERPLEXITY_API_KEY="..."
 ```
+
+## Semantic Fact Judge
+
+The semantic judge is opt-in and remains a shadow metric:
+
+```bash
+# Keyless end-to-end judge test
+DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock FACT_JUDGE=mock ./scripts/run-benchmark-workflow.sh
+
+# Live OpenAI judge over existing answers
+./geo-bench --data-dir geo-benchmark score \
+  --month 2026-09 \
+  --fact-judge live \
+  --fact-judge-provider openai \
+  --fact-judge-model gpt-5-mini
+```
+
+Only `READY_FOR_JUDGE` facts are evaluated. `REVIEW_REQUIRED` facts remain
+visible but unscored. General definition questions require the core capability;
+maturity, plan, region, version, and access qualifiers activate only when the
+question asks or the answer makes a specific claim. Judge failures are recorded
+as `judge_unavailable`, not as inaccurate answers. Successful judgments are
+cached by answer, prompt, fact-base version, model, and qualifier scope.
+
+### Activation test plan
+
+| Stage | Credentials | Required checks |
+| --- | --- | --- |
+| Unit | None | Coverage mapping, review gates, qualifier activation, parsing, caching, and calculations |
+| Mock end to end | None | Prompt collection through semantic reports with deterministic verdicts |
+| Failure handling | Missing or invalid test key | Authentication, malformed output, retries, and `judge_unavailable` |
+| Live canary | Real key | Correct, incorrect, incomplete, availability, volunteered-claim, review-gated, and comparison cases |
+| Shadow benchmark | Real key | Literal and semantic results side by side, with cost and latency |
+| Activation gate | Human review | Approve a stratified sample and resolve disagreements before replacing the official score |
 
 Then run:
 
