@@ -11,11 +11,11 @@ This directory contains the review-ready TiDB fact base derived from the approve
 
 ## Activation status
 
-This is a candidate v2 fact base. It does not replace the existing `facts.json` files and is not consumed by the current scorer.
+This is a candidate v2 fact base. It does not replace the existing `facts.json` files. The optional semantic judge consumes it in shadow mode and writes results beside the current score.
 
-The current scorer uses literal `triggers`, `expected_any`, and `wrong_any` substring lists. The v2 fact base preserves semantic judgment guidance and adds a `judge_prompt` per fact. Activating it requires a separate LLM-judge change with structured outputs, cost tracking, retry behavior, and regression tests.
+The current official scorer uses literal `triggers`, `expected_any`, and `wrong_any` substring lists. Use `--fact-judge mock` for a keyless pipeline test or `--fact-judge live` for structured semantic judgments. Semantic results include cost, cache, failure, qualifier-scope, and per-fact audit fields but remain a shadow metric until approved.
 
-Only facts with status `READY_FOR_JUDGE` may contribute to accuracy after that implementation lands. Facts with status `REVIEW_REQUIRED` must remain unscored.
+Only facts with status `READY_FOR_JUDGE` may contribute to semantic accuracy. Facts with status `REVIEW_REQUIRED` remain unscored.
 
 ## Conditional qualifier rule
 

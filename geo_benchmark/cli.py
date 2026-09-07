@@ -11,7 +11,14 @@ from typing import Any
 
 from .costs import estimate_actual_cost, estimate_planned_cost
 from .defaults import DEFAULT_FACTS, DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_SOURCE_AUTHORITY, DEFAULT_TARGETS
-from .io_utils import ensure_dir, previous_month, read_json, read_jsonl, stable_hash, write_json, write_jsonl
+from .fact_judge import (
+    CoverageValidationError,
+    JudgeSettings,
+    SemanticFactJudge,
+    prepare_fact_coverage,
+    validate_fact_coverage,
+)
+from .io_utils import canonical_data_root, ensure_dir, file_hash, previous_month, read_json, read_jsonl, stable_hash, write_json, write_jsonl
 from .providers import ProviderError, provider_for, run_with_retries
 from .reports import write_reports
 from .scoring import aggregate_scores, score_answers
@@ -44,6 +51,7 @@ def main(argv: list[str] | None = None) -> int:
     run_p.add_argument("--no-fallback", action="store_true", help="Do not auto-retry failed answers with configured fallback models.")
     run_p.add_argument("--only-prompt-type", default=None, help="Only collect prompts of this prompt_type, preserving other raw answers.")
     run_p.add_argument("--only-prompt-ids", default=None, help="Comma-separated prompt_ids to collect, preserving other raw answers.")
+    add_fact_judge_args(run_p)
 
     retry_p = sub.add_parser("retry-errors", help="Retry failed raw answers without rerunning successes.")
     retry_p.add_argument("--month", required=True)
@@ -53,6 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     retry_p.add_argument("--retries", type=int, default=1)
     retry_p.add_argument("--targets", default=None)
     retry_p.add_argument("--web-search", choices=["off", "on"], default="off")
+    add_fact_judge_args(retry_p)
 
     estimate_p = sub.add_parser("estimate-cost", help="Estimate planned cost without calling providers.")
     estimate_p.add_argument("--month", required=True)
@@ -66,6 +75,7 @@ def main(argv: list[str] | None = None) -> int:
     score_p.add_argument("--month", required=True)
     score_p.add_argument("--targets", default=None)
     score_p.add_argument("--web-search", choices=["off", "on"], default="off")
+    add_fact_judge_args(score_p)
 
     report_p = sub.add_parser("report", help="Generate reports from scored answers.")
     report_p.add_argument("--month", required=True)
@@ -80,6 +90,13 @@ def main(argv: list[str] | None = None) -> int:
     validate_p = sub.add_parser("validate-prompts", help="Validate prompts and fail on benchmark policy violations.")
     validate_p.add_argument("--month", required=True)
 
+    coverage_p = sub.add_parser("prepare-fact-coverage", help="Reuse approved mappings and flag new branded prompts for review.")
+    coverage_p.add_argument("--month", required=True)
+    coverage_p.add_argument("--from-month", default=None)
+
+    coverage_validate_p = sub.add_parser("validate-fact-coverage", help="Require approved fact mappings for every branded prompt.")
+    coverage_validate_p.add_argument("--month", required=True)
+
     env_p = sub.add_parser("check-env", help="Check configured provider API keys without printing secrets.")
     env_p.add_argument("--providers", default="openai,anthropic,gemini,perplexity")
 
@@ -92,6 +109,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "run":
         prepare(root, args.month, args.prompts, args.update_ratio, force=False)
         validate_prompts_or_exit(root, args.month)
+        if args.fact_judge != "off":
+            prepare_and_validate_fact_coverage(root, args.month)
         providers = split_csv(args.providers)
         prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
         collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids, args.web_search)
@@ -103,12 +122,20 @@ def main(argv: list[str] | None = None) -> int:
                         f"{result['succeeded']}/{result['attempted']} recovered, "
                         f"{result['failed']} still failed."
                     )
-        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None, args.web_search)
+        scored, summary, cost = score_and_report(
+            root,
+            args.month,
+            split_csv(args.targets) if args.targets else None,
+            args.web_search,
+            JudgeSettings(args.fact_judge, args.fact_judge_provider, args.fact_judge_model, args.fact_judge_retries),
+        )
         planned = planned_cost(root, args.month, providers, args.runs, args.assumed_output_tokens, args.web_search)
         write_json(month_report_dir(root, args.month) / "planned_cost_summary.json", planned)
         print_run_summary(root, args.month, summary, cost, planned, len(scored))
         return 0
     if args.command == "retry-errors":
+        if args.fact_judge != "off":
+            prepare_and_validate_fact_coverage(root, args.month)
         result = retry_errors(
             root,
             args.month,
@@ -118,7 +145,13 @@ def main(argv: list[str] | None = None) -> int:
             args.retries,
             args.web_search,
         )
-        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None, args.web_search)
+        scored, summary, cost = score_and_report(
+            root,
+            args.month,
+            split_csv(args.targets) if args.targets else None,
+            args.web_search,
+            JudgeSettings(args.fact_judge, args.fact_judge_provider, args.fact_judge_model, args.fact_judge_retries),
+        )
         print(
             f"Retried {result['attempted']} failed answers for {args.provider}: "
             f"{result['succeeded']} succeeded, {result['failed']} still failed."
@@ -136,7 +169,13 @@ def main(argv: list[str] | None = None) -> int:
         print_cost_estimate(estimate)
         return 0
     if args.command == "score":
-        scored, summary, cost = score_and_report(root, args.month, split_csv(args.targets) if args.targets else None, args.web_search)
+        scored, summary, cost = score_and_report(
+            root,
+            args.month,
+            split_csv(args.targets) if args.targets else None,
+            args.web_search,
+            JudgeSettings(args.fact_judge, args.fact_judge_provider, args.fact_judge_model, args.fact_judge_retries),
+        )
         print(f"Scored {len(scored)} answers. Overall Answer Share: {summary['overall']['answer_share']}")
         print(f"Cost estimate: ${cost.get('total_estimated_cost_usd', 0)}")
         return 0
@@ -158,6 +197,24 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate-prompts":
         validate_prompts_or_exit(root, args.month)
         return 0
+    if args.command == "prepare-fact-coverage":
+        try:
+            result = prepare_fact_coverage(root, args.month, args.from_month)
+        except CoverageValidationError as exc:
+            raise SystemExit(str(exc)) from exc
+        print(
+            f"Fact coverage prepared for {args.month}: {result['total']} branded prompts, "
+            f"{result['reused']} reused, {result['needs_review']} need review. "
+            f"File: {result['path']}"
+        )
+        return 0
+    if args.command == "validate-fact-coverage":
+        try:
+            result = validate_fact_coverage(root, args.month)
+        except CoverageValidationError as exc:
+            raise SystemExit(str(exc)) from exc
+        print(f"Fact coverage validation passed for {args.month}: {result['total']} branded prompts.")
+        return 0
     if args.command == "check-env":
         check_env(root, split_csv(args.providers))
         return 0
@@ -165,6 +222,27 @@ def main(argv: list[str] | None = None) -> int:
 
 
 ENV_LINE_RE = re.compile(r"^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$")
+
+
+def add_fact_judge_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--fact-judge",
+        choices=["off", "mock", "live"],
+        default="off",
+        help="Write semantic TiDB fact results beside the legacy score.",
+    )
+    parser.add_argument("--fact-judge-provider", default="openai")
+    parser.add_argument("--fact-judge-model", default="gpt-5-mini")
+    parser.add_argument("--fact-judge-retries", type=int, default=1)
+
+
+def prepare_and_validate_fact_coverage(root: Path, month: str) -> dict[str, Any]:
+    """Generate the monthly mapping and stop before provider calls if review is pending."""
+    try:
+        prepare_fact_coverage(root, month)
+        return validate_fact_coverage(root, month)
+    except CoverageValidationError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 def load_env_files(base_dirs: list[Path]) -> None:
@@ -533,6 +611,7 @@ def score_and_report(
     month: str,
     targets: list[str] | None = None,
     web_search_mode: str = "off",
+    judge_settings: JudgeSettings | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
     prompts = load_prompts(root, month)
     raw = [
@@ -545,14 +624,100 @@ def score_and_report(
     pricing = read_json(root / "config" / "pricing.json")
     targets = targets or read_json(root / "config" / "targets.json", default=DEFAULT_TARGETS)["targets"]
     scored = score_answers(raw, prompts, source_authority, facts, targets)
+    judge_settings = judge_settings or JudgeSettings()
+    judge = None
+    if judge_settings.mode != "off":
+        try:
+            validate_fact_coverage(root, month)
+        except CoverageValidationError as exc:
+            raise SystemExit(str(exc)) from exc
+        judge = SemanticFactJudge(root, month, judge_settings)
+        raw_by_id = {row["answer_id"]: row for row in raw if row.get("status") == "ok"}
+        prompt_by_id = {prompt["prompt_id"]: prompt for prompt in prompts}
+        for row in scored:
+            if row.get("target") != "TiDB":
+                continue
+            raw_row = raw_by_id[row["answer_id"]]
+            semantic = judge.judge_answer(
+                prompt_by_id[row["prompt_id"]],
+                raw_row.get("raw_answer", ""),
+                raw_row.get("raw_answer_hash") or stable_hash(raw_row.get("raw_answer", "")),
+            )
+            row["semantic_fact_judge"] = semantic
+            row["semantic_fact_accuracy"] = semantic["accuracy"]
+            row["semantic_checked_facts"] = semantic["checked_facts"]
+            row["semantic_correct_facts"] = semantic["correct_facts"]
+            row["semantic_incorrect_facts"] = semantic["incorrect_facts"]
+            row["semantic_not_enough_information_facts"] = semantic["not_enough_information_facts"]
+            row["semantic_unavailable_facts"] = semantic["unavailable_facts"]
+        judge.flush_cache()
     summary = aggregate_scores(scored)
     cost = estimate_actual_cost(raw, pricing)
     cost["web_search_mode"] = web_search_mode
+    cost["fact_judge"] = fact_judge_cost(judge, pricing, judge_settings)
+    cost["combined_total_estimated_cost_usd"] = round(
+        float(cost.get("total_estimated_cost_usd", 0))
+        + float(cost["fact_judge"].get("estimated_cost_usd", 0)),
+        6,
+    )
+    run_metadata = add_run_metadata(root, month, summary, cost, facts, source_authority, judge)
+    for row in scored:
+        row["run_metadata"] = run_metadata
     run_dir = month_run_dir(root, month)
     write_jsonl(run_dir / "scored_answers.jsonl", scored)
     write_json(month_report_dir(root, month) / "cost_summary.json", cost)
     write_reports(month_report_dir(root, month), month, summary, scored, cost)
     return scored, summary, cost
+
+
+def fact_judge_cost(
+    judge: SemanticFactJudge | None,
+    pricing: dict[str, Any],
+    settings: JudgeSettings,
+) -> dict[str, Any]:
+    if judge is None:
+        return {"mode": "off", "calls": 0, "estimated_cost_usd": 0.0}
+    model_price = pricing.get("models", {}).get(settings.model, {}) if settings.mode == "live" else {}
+    usage = judge.usage
+    cost = (
+        usage.input_tokens * float(model_price.get("input_per_1m", 0)) / 1_000_000
+        + usage.output_tokens * float(model_price.get("output_per_1m", 0)) / 1_000_000
+        + usage.calls * float(model_price.get("request_fee", 0))
+    )
+    return {
+        "mode": settings.mode,
+        "provider": settings.provider if settings.mode == "live" else settings.mode,
+        "model": settings.model if settings.mode == "live" else "local-mock-v1",
+        "calls": usage.calls,
+        "cache_hits": usage.cache_hits,
+        "input_tokens": usage.input_tokens,
+        "output_tokens": usage.output_tokens,
+        "unavailable": usage.unavailable,
+        "estimated_cost_usd": round(cost, 6),
+    }
+
+
+def add_run_metadata(
+    root: Path,
+    month: str,
+    summary: dict[str, Any],
+    cost: dict[str, Any],
+    facts: dict[str, Any],
+    source_authority: dict[str, Any],
+    judge: SemanticFactJudge | None,
+) -> dict[str, Any]:
+    prompt_dir = prompt_source_root(root) / "prompts" / month
+    metadata = {
+        "prompt_set_hash": (prompt_dir / "prompt_set_hash.txt").read_text(encoding="utf-8").strip(),
+        "legacy_facts_version": facts.get("facts_version"),
+        "source_authority_version": source_authority.get("source_authority_version"),
+        "models_config_hash": file_hash(root / "config" / "models.json"),
+        "fact_base_version": judge.fact_base_version if judge else None,
+        "fact_judge_mode": judge.settings.mode if judge else "off",
+    }
+    summary["run_metadata"] = metadata
+    cost["run_metadata"] = metadata
+    return metadata
 
 
 def planned_cost(
@@ -575,9 +740,7 @@ def load_prompts(root: Path, month: str) -> list[dict[str, Any]]:
 
 def prompt_source_root(root: Path) -> Path:
     """Return the canonical prompt root for a benchmark data directory."""
-    if root.name.startswith("geo-benchmark-"):
-        return root.parent / "geo-benchmark"
-    return root
+    return canonical_data_root(root)
 
 
 def month_run_dir(root: Path, month: str) -> Path:
@@ -622,7 +785,21 @@ def print_run_summary(
             f"Citation Authority {metrics['overall']['citation_authority']}, "
             f"Recommendation Rate {metrics['overall']['qualified_recommendation_rate']}"
         )
+    judge_cost = cost.get("fact_judge", {})
+    if judge_cost.get("mode") != "off":
+        tidb_metrics = summary.get("targets", {}).get("TiDB", {}).get("overall", {})
+        semantic_accuracy = tidb_metrics.get("semantic_brand_accuracy")
+        accuracy_text = "N/A" if semantic_accuracy is None else f"{semantic_accuracy}%"
+        print(
+            f"Semantic fact judge ({judge_cost.get('mode')}): "
+            f"accuracy {accuracy_text}, decision coverage "
+            f"{round(float(tidb_metrics.get('semantic_brand_accuracy_coverage', 0)) * 100, 2)}%, "
+            f"API calls {judge_cost.get('calls', 0)}, cache hits {judge_cost.get('cache_hits', 0)}, "
+            f"unavailable facts {judge_cost.get('unavailable', 0)}"
+        )
     print(f"Actual/usage-estimated cost: ${cost.get('total_estimated_cost_usd', 0)}")
+    if judge_cost.get("mode") != "off":
+        print(f"Combined provider + fact judge cost: ${cost.get('combined_total_estimated_cost_usd', 0)}")
     print(f"Planned cost estimate: ${planned.get('total_estimated_cost_usd', 0)}")
     print(f"Report: {report_dir / 'llm-report.md'}")
 

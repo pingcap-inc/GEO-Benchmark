@@ -2,10 +2,10 @@
 
 ## One-Command Run
 
-Normal monthly runs should use the guarded workflow wrapper:
+Use the guarded workflow wrapper for a no-cost end-to-end check:
 
 ```bash
-MONTH=2026-08 PROVIDERS=mock RUNS=1 ./scripts/run-benchmark-workflow.sh
+DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock RUNS=1 FACT_JUDGE=mock ./scripts/run-benchmark-workflow.sh
 ```
 
 This workflow:
@@ -108,6 +108,69 @@ export ANTHROPIC_API_KEY="..."
 export GEMINI_API_KEY="..."
 export PERPLEXITY_API_KEY="..."
 ```
+
+## Semantic Fact Judge
+
+The semantic judge is opt-in and remains a shadow metric:
+
+```bash
+# Keyless end-to-end judge test
+DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock FACT_JUDGE=mock ./scripts/run-benchmark-workflow.sh
+
+# Live OpenAI judge over existing answers
+./geo-bench --data-dir geo-benchmark score \
+  --month 2026-09 \
+  --fact-judge live \
+  --fact-judge-provider openai \
+  --fact-judge-model gpt-5-mini
+```
+
+Only `READY_FOR_JUDGE` facts are evaluated. `REVIEW_REQUIRED` facts remain
+visible but unscored. General definition questions require the core capability;
+maturity, plan, region, version, and access qualifiers activate only when the
+question asks or the answer makes a specific claim. Judge failures are recorded
+as `judge_unavailable`, not as inaccurate answers. Successful judgments are
+cached by answer, prompt, fact-base version, model, and qualifier scope.
+
+### Monthly fact coverage workflow
+
+The coverage CSV is a generated review artifact, not another manually authored
+prompt list. It joins each branded prompt to the fact or review IDs that the
+semantic judge should use.
+
+```bash
+./geo-bench --data-dir geo-benchmark prepare-fact-coverage --month 2026-10
+./geo-bench --data-dir geo-benchmark validate-fact-coverage --month 2026-10
+```
+
+Preparation finds the newest earlier coverage CSV by default. A reviewer can
+select a specific source with `--from-month`. A mapping is reused only when its
+prompt ID and exact prompt text are unchanged. New or edited branded prompts are
+written with `mapping_status=needs_review`; non-branded prompts are excluded.
+
+For each pending row, the reviewer must select one disposition, add the required
+fact or review IDs, update the note if useful, and set `mapping_status=approved`:
+
+| Disposition | Meaning | ID rule |
+| --- | --- | --- |
+| `fact_covered` | Approved facts can score the answer | One or more `READY_FOR_JUDGE` fact IDs |
+| `review_required` | Product truth is still held behind a fact-base review | One or more fact or review-queue IDs |
+| `comparison_metric_only` | The prompt is evaluated by comparison metrics | No IDs |
+
+Both the wrapper workflow and direct `run --fact-judge mock|live` validate this
+file before provider collection. Missing, stale, duplicate, unknown, or pending
+mappings stop the run with the affected prompt IDs.
+
+### Activation test plan
+
+| Stage | Credentials | Required checks |
+| --- | --- | --- |
+| Unit | None | Coverage mapping, review gates, qualifier activation, parsing, caching, and calculations |
+| Mock end to end | None | Prompt collection through semantic reports with deterministic verdicts |
+| Failure handling | Missing or invalid test key | Authentication, malformed output, retries, and `judge_unavailable` |
+| Live canary | Real key | Correct, incorrect, incomplete, availability, volunteered-claim, review-gated, and comparison cases |
+| Shadow benchmark | Real key | Literal and semantic results side by side, with cost and latency |
+| Activation gate | Human review | Approve a stratified sample and resolve disagreements before replacing the official score |
 
 Then run:
 

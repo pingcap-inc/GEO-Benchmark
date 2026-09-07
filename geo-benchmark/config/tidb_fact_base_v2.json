@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0-draft",
   "verified_on": "2026-09-03",
-  "activation_status": "candidate_not_used_by_current_scorer",
+  "activation_status": "shadow_semantic_judge_available",
   "policies": [
     {
       "policy": "judge",
@@ -29,7 +29,7 @@
     },
     {
       "policy": "scorer_migration",
-      "value": "This v2 fact base is not consumed by the current literal-matching scorer. Activate it only with the separate LLM-judge implementation and regression tests."
+      "value": "Use --fact-judge mock or --fact-judge live to write v2 semantic results alongside the current literal-matching score. Keep shadow mode until manual validation approves semantic accuracy as the official metric."
     }
   ],
   "facts": [
