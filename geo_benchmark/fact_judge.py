@@ -8,11 +8,25 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .io_utils import estimate_tokens, read_json, read_jsonl, stable_hash, write_jsonl
+from .io_utils import canonical_data_root, ensure_dir, estimate_tokens, read_json, read_jsonl, stable_hash, write_jsonl
 from .providers import ProviderError, _post_json, extract_openai_response_text
 
 
 VERDICTS = {"correct", "incorrect", "not_enough_information", "not_applicable", "judge_unavailable"}
+COVERAGE_FIELDS = [
+    "prompt_id",
+    "prompt_type",
+    "prompt_text",
+    "coverage_disposition",
+    "fact_or_review_ids",
+    "note",
+    "mapping_status",
+]
+COVERAGE_DISPOSITIONS = {"fact_covered", "review_required", "comparison_metric_only"}
+
+
+class CoverageValidationError(ValueError):
+    pass
 
 
 @dataclass
@@ -177,15 +191,207 @@ class SemanticFactJudge:
 
 
 def fact_base_paths(root: Path, month: str) -> tuple[Path, Path]:
-    local = root / "config"
-    canonical = root.parent / "geo-benchmark" / "config" if root.name.startswith("geo-benchmark-") else local
-    config = local if (local / "tidb_fact_base_v2.json").exists() else canonical
-    return config / "tidb_fact_base_v2.json", config / f"tidb_fact_coverage_{month}.csv"
+    config = canonical_data_root(root) / "config"
+    fact_base = config / "tidb_fact_base_v2.json"
+    coverage = config / f"tidb_fact_coverage_{month}.csv"
+    if not fact_base.exists():
+        raise CoverageValidationError(f"Semantic fact base not found: {fact_base}")
+    if not coverage.exists():
+        raise CoverageValidationError(
+            f"Fact coverage for {month} has not been prepared. Run `./geo-bench --data-dir {root} "
+            f"prepare-fact-coverage --month {month}`, then review and approve the generated mappings."
+        )
+    return fact_base, coverage
 
 
 def load_coverage(path: Path) -> dict[str, dict[str, str]]:
+    return {row["prompt_id"]: row for row in load_coverage_rows(path)}
+
+
+def load_coverage_rows(path: Path) -> list[dict[str, str]]:
     with path.open(newline="", encoding="utf-8") as handle:
-        return {row["prompt_id"]: row for row in csv.DictReader(handle)}
+        return list(csv.DictReader(handle))
+
+
+def prepare_fact_coverage(root: Path, month: str, from_month: str | None = None) -> dict[str, Any]:
+    canonical = canonical_data_root(root)
+    prompts_path = canonical / "prompts" / month / "prompts.json"
+    if not prompts_path.exists():
+        raise CoverageValidationError(
+            f"Prompt set for {month} does not exist: {prompts_path}. Prepare the monthly prompts first."
+        )
+    prompts = [prompt for prompt in read_json(prompts_path) if prompt.get("brand_class") == "branded"]
+    config = canonical / "config"
+    current_path = config / f"tidb_fact_coverage_{month}.csv"
+    current_rows = load_coverage_rows(current_path) if current_path.exists() else []
+
+    previous_path = previous_coverage_path(config, month, from_month)
+    previous_rows = load_coverage_rows(previous_path) if previous_path else []
+    sources = [
+        {row.get("prompt_id"): row for row in rows}
+        for rows in [current_rows, previous_rows]
+    ]
+
+    output: list[dict[str, str]] = []
+    reused = 0
+    needs_review = 0
+    for prompt in prompts:
+        source = next(
+            (
+                rows[prompt["prompt_id"]]
+                for rows in sources
+                if prompt["prompt_id"] in rows
+                and rows[prompt["prompt_id"]].get("prompt_text") == prompt.get("prompt_text")
+            ),
+            None,
+        )
+        if source:
+            output.append(
+                {
+                    "prompt_id": prompt["prompt_id"],
+                    "prompt_type": str(prompt.get("prompt_type", "")),
+                    "prompt_text": str(prompt.get("prompt_text", "")),
+                    "coverage_disposition": source.get("coverage_disposition", ""),
+                    "fact_or_review_ids": source.get("fact_or_review_ids", ""),
+                    "note": source.get("note", ""),
+                    "mapping_status": source.get("mapping_status") or "approved",
+                }
+            )
+            reused += 1
+            if (source.get("mapping_status") or "approved") != "approved":
+                needs_review += 1
+        else:
+            output.append(
+                {
+                    "prompt_id": prompt["prompt_id"],
+                    "prompt_type": str(prompt.get("prompt_type", "")),
+                    "prompt_text": str(prompt.get("prompt_text", "")),
+                    "coverage_disposition": "review_required",
+                    "fact_or_review_ids": "",
+                    "note": "AUTO-GENERATED: select the appropriate fact or review IDs and approve this mapping.",
+                    "mapping_status": "needs_review",
+                }
+            )
+            needs_review += 1
+
+    if not current_path.exists() or not coverage_rows_equivalent(current_rows, output):
+        ensure_dir(current_path.parent)
+        with current_path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=COVERAGE_FIELDS, lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(output)
+    return {
+        "path": str(current_path),
+        "source_path": str(previous_path) if previous_path else None,
+        "total": len(output),
+        "reused": reused,
+        "needs_review": needs_review,
+    }
+
+
+def previous_coverage_path(config: Path, month: str, from_month: str | None) -> Path | None:
+    if from_month:
+        path = config / f"tidb_fact_coverage_{from_month}.csv"
+        if not path.exists():
+            raise CoverageValidationError(f"Requested source coverage does not exist: {path}")
+        return path
+    candidates = []
+    for path in config.glob("tidb_fact_coverage_????-??.csv"):
+        match = re.fullmatch(r"tidb_fact_coverage_(\d{4}-\d{2})\.csv", path.name)
+        if match and match.group(1) < month:
+            candidates.append((match.group(1), path))
+    return max(candidates, default=(None, None))[1]
+
+
+def coverage_rows_equivalent(current: list[dict[str, str]], generated: list[dict[str, str]]) -> bool:
+    if len(current) != len(generated):
+        return False
+    for old, new in zip(current, generated):
+        if any((old.get(field) or ("approved" if field == "mapping_status" else "")) != new.get(field, "") for field in COVERAGE_FIELDS):
+            return False
+    return True
+
+
+def validate_fact_coverage(root: Path, month: str) -> dict[str, Any]:
+    canonical = canonical_data_root(root)
+    prompts_path = canonical / "prompts" / month / "prompts.json"
+    coverage_path = canonical / "config" / f"tidb_fact_coverage_{month}.csv"
+    fact_base_path = canonical / "config" / "tidb_fact_base_v2.json"
+    if not prompts_path.exists():
+        raise CoverageValidationError(f"Prompt set for {month} does not exist: {prompts_path}")
+    if not coverage_path.exists():
+        raise CoverageValidationError(
+            f"Fact coverage for {month} has not been prepared. Run `./geo-bench --data-dir {root} "
+            f"prepare-fact-coverage --month {month}`, then review and approve the generated mappings."
+        )
+    if not fact_base_path.exists():
+        raise CoverageValidationError(f"Semantic fact base not found: {fact_base_path}")
+
+    prompts = {
+        prompt["prompt_id"]: prompt
+        for prompt in read_json(prompts_path)
+        if prompt.get("brand_class") == "branded"
+    }
+    rows = load_coverage_rows(coverage_path)
+    row_counts: dict[str, int] = {}
+    for row in rows:
+        prompt_id = row.get("prompt_id", "")
+        row_counts[prompt_id] = row_counts.get(prompt_id, 0) + 1
+    by_id = {row.get("prompt_id", ""): row for row in rows}
+    payload = read_json(fact_base_path)
+    facts = {fact["fact_id"]: fact for fact in payload.get("facts", [])}
+    review_ids = {item["review_id"] for item in payload.get("review_queue", [])}
+    known_ids = set(facts) | review_ids
+    errors: list[str] = []
+
+    for prompt_id, count in row_counts.items():
+        if count > 1:
+            errors.append(f"{prompt_id}: duplicate coverage rows")
+    missing = sorted(set(prompts) - set(by_id))
+    extra = sorted(set(by_id) - set(prompts))
+    if missing:
+        errors.append("missing branded prompts: " + ", ".join(missing))
+    if extra:
+        errors.append("coverage rows without current branded prompts: " + ", ".join(extra))
+
+    for prompt_id, prompt in prompts.items():
+        row = by_id.get(prompt_id)
+        if not row:
+            continue
+        if row.get("prompt_text") != prompt.get("prompt_text"):
+            errors.append(f"{prompt_id}: prompt text changed and the mapping must be reviewed")
+        if row.get("prompt_type") != str(prompt.get("prompt_type", "")):
+            errors.append(f"{prompt_id}: prompt type does not match the current prompt set")
+        mapping_status = row.get("mapping_status") or "approved"
+        if mapping_status != "approved":
+            errors.append(f"{prompt_id}: mapping_status is {mapping_status}; review and set it to approved")
+        disposition = row.get("coverage_disposition", "")
+        if disposition not in COVERAGE_DISPOSITIONS:
+            errors.append(f"{prompt_id}: invalid coverage_disposition {disposition!r}")
+            continue
+        fact_ids = split_fact_ids(row.get("fact_or_review_ids", ""))
+        unknown = [item for item in fact_ids if item not in known_ids]
+        if unknown:
+            errors.append(f"{prompt_id}: unknown fact or review IDs: {', '.join(unknown)}")
+        if disposition == "comparison_metric_only" and fact_ids:
+            errors.append(f"{prompt_id}: comparison_metric_only must not list fact or review IDs")
+        if disposition != "comparison_metric_only" and not fact_ids:
+            errors.append(f"{prompt_id}: select at least one fact or review ID")
+        if disposition == "fact_covered":
+            non_fact_ids = [item for item in fact_ids if item not in facts]
+            held_facts = [item for item in fact_ids if item in facts and facts[item].get("status") != "READY_FOR_JUDGE"]
+            if non_fact_ids:
+                errors.append(f"{prompt_id}: fact_covered contains review IDs: {', '.join(non_fact_ids)}")
+            if held_facts:
+                errors.append(f"{prompt_id}: fact_covered contains non-ready facts: {', '.join(held_facts)}")
+
+    if errors:
+        details = "\n".join(f"- {error}" for error in errors)
+        raise CoverageValidationError(
+            f"Fact coverage for {month} is not ready:\n{details}\n"
+            f"Review {coverage_path} before running the semantic judge."
+        )
+    return {"path": str(coverage_path), "total": len(prompts), "approved": len(prompts)}
 
 
 def split_fact_ids(value: str) -> list[str]:

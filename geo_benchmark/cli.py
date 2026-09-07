@@ -11,8 +11,14 @@ from typing import Any
 
 from .costs import estimate_actual_cost, estimate_planned_cost
 from .defaults import DEFAULT_FACTS, DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_SOURCE_AUTHORITY, DEFAULT_TARGETS
-from .fact_judge import JudgeSettings, SemanticFactJudge
-from .io_utils import ensure_dir, file_hash, previous_month, read_json, read_jsonl, stable_hash, write_json, write_jsonl
+from .fact_judge import (
+    CoverageValidationError,
+    JudgeSettings,
+    SemanticFactJudge,
+    prepare_fact_coverage,
+    validate_fact_coverage,
+)
+from .io_utils import canonical_data_root, ensure_dir, file_hash, previous_month, read_json, read_jsonl, stable_hash, write_json, write_jsonl
 from .providers import ProviderError, provider_for, run_with_retries
 from .reports import write_reports
 from .scoring import aggregate_scores, score_answers
@@ -84,6 +90,13 @@ def main(argv: list[str] | None = None) -> int:
     validate_p = sub.add_parser("validate-prompts", help="Validate prompts and fail on benchmark policy violations.")
     validate_p.add_argument("--month", required=True)
 
+    coverage_p = sub.add_parser("prepare-fact-coverage", help="Reuse approved mappings and flag new branded prompts for review.")
+    coverage_p.add_argument("--month", required=True)
+    coverage_p.add_argument("--from-month", default=None)
+
+    coverage_validate_p = sub.add_parser("validate-fact-coverage", help="Require approved fact mappings for every branded prompt.")
+    coverage_validate_p.add_argument("--month", required=True)
+
     env_p = sub.add_parser("check-env", help="Check configured provider API keys without printing secrets.")
     env_p.add_argument("--providers", default="openai,anthropic,gemini,perplexity")
 
@@ -96,6 +109,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "run":
         prepare(root, args.month, args.prompts, args.update_ratio, force=False)
         validate_prompts_or_exit(root, args.month)
+        if args.fact_judge != "off":
+            prepare_and_validate_fact_coverage(root, args.month)
         providers = split_csv(args.providers)
         prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
         collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids, args.web_search)
@@ -119,6 +134,8 @@ def main(argv: list[str] | None = None) -> int:
         print_run_summary(root, args.month, summary, cost, planned, len(scored))
         return 0
     if args.command == "retry-errors":
+        if args.fact_judge != "off":
+            prepare_and_validate_fact_coverage(root, args.month)
         result = retry_errors(
             root,
             args.month,
@@ -180,6 +197,24 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate-prompts":
         validate_prompts_or_exit(root, args.month)
         return 0
+    if args.command == "prepare-fact-coverage":
+        try:
+            result = prepare_fact_coverage(root, args.month, args.from_month)
+        except CoverageValidationError as exc:
+            raise SystemExit(str(exc)) from exc
+        print(
+            f"Fact coverage prepared for {args.month}: {result['total']} branded prompts, "
+            f"{result['reused']} reused, {result['needs_review']} need review. "
+            f"File: {result['path']}"
+        )
+        return 0
+    if args.command == "validate-fact-coverage":
+        try:
+            result = validate_fact_coverage(root, args.month)
+        except CoverageValidationError as exc:
+            raise SystemExit(str(exc)) from exc
+        print(f"Fact coverage validation passed for {args.month}: {result['total']} branded prompts.")
+        return 0
     if args.command == "check-env":
         check_env(root, split_csv(args.providers))
         return 0
@@ -199,6 +234,15 @@ def add_fact_judge_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--fact-judge-provider", default="openai")
     parser.add_argument("--fact-judge-model", default="gpt-5-mini")
     parser.add_argument("--fact-judge-retries", type=int, default=1)
+
+
+def prepare_and_validate_fact_coverage(root: Path, month: str) -> dict[str, Any]:
+    """Generate the monthly mapping and stop before provider calls if review is pending."""
+    try:
+        prepare_fact_coverage(root, month)
+        return validate_fact_coverage(root, month)
+    except CoverageValidationError as exc:
+        raise SystemExit(str(exc)) from exc
 
 
 def load_env_files(base_dirs: list[Path]) -> None:
@@ -583,6 +627,10 @@ def score_and_report(
     judge_settings = judge_settings or JudgeSettings()
     judge = None
     if judge_settings.mode != "off":
+        try:
+            validate_fact_coverage(root, month)
+        except CoverageValidationError as exc:
+            raise SystemExit(str(exc)) from exc
         judge = SemanticFactJudge(root, month, judge_settings)
         raw_by_id = {row["answer_id"]: row for row in raw if row.get("status") == "ok"}
         prompt_by_id = {prompt["prompt_id"]: prompt for prompt in prompts}
@@ -692,9 +740,7 @@ def load_prompts(root: Path, month: str) -> list[dict[str, Any]]:
 
 def prompt_source_root(root: Path) -> Path:
     """Return the canonical prompt root for a benchmark data directory."""
-    if root.name.startswith("geo-benchmark-"):
-        return root.parent / "geo-benchmark"
-    return root
+    return canonical_data_root(root)
 
 
 def month_run_dir(root: Path, month: str) -> Path:

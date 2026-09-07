@@ -10,6 +10,13 @@ def ensure_dir(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
+def canonical_data_root(root: Path) -> Path:
+    """Return the shared canonical data root for provider-specific run directories."""
+    if root.name.startswith("geo-benchmark-"):
+        return root.parent / "geo-benchmark"
+    return root
+
+
 def read_json(path: Path, default: Any | None = None) -> Any:
     if not path.exists():
         if default is not None:

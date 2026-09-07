@@ -132,6 +132,35 @@ question asks or the answer makes a specific claim. Judge failures are recorded
 as `judge_unavailable`, not as inaccurate answers. Successful judgments are
 cached by answer, prompt, fact-base version, model, and qualifier scope.
 
+### Monthly fact coverage workflow
+
+The coverage CSV is a generated review artifact, not another manually authored
+prompt list. It joins each branded prompt to the fact or review IDs that the
+semantic judge should use.
+
+```bash
+./geo-bench --data-dir geo-benchmark prepare-fact-coverage --month 2026-10
+./geo-bench --data-dir geo-benchmark validate-fact-coverage --month 2026-10
+```
+
+Preparation finds the newest earlier coverage CSV by default. A reviewer can
+select a specific source with `--from-month`. A mapping is reused only when its
+prompt ID and exact prompt text are unchanged. New or edited branded prompts are
+written with `mapping_status=needs_review`; non-branded prompts are excluded.
+
+For each pending row, the reviewer must select one disposition, add the required
+fact or review IDs, update the note if useful, and set `mapping_status=approved`:
+
+| Disposition | Meaning | ID rule |
+| --- | --- | --- |
+| `fact_covered` | Approved facts can score the answer | One or more `READY_FOR_JUDGE` fact IDs |
+| `review_required` | Product truth is still held behind a fact-base review | One or more fact or review-queue IDs |
+| `comparison_metric_only` | The prompt is evaluated by comparison metrics | No IDs |
+
+Both the wrapper workflow and direct `run --fact-judge mock|live` validate this
+file before provider collection. Missing, stale, duplicate, unknown, or pending
+mappings stop the run with the affected prompt IDs.
+
 ### Activation test plan
 
 | Stage | Credentials | Required checks |

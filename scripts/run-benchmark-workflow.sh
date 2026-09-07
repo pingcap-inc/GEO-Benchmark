@@ -58,6 +58,13 @@ echo "Preparing prompt set and configuration..."
 echo "Validating prompt set..."
 ./geo-bench --data-dir "$DATA_DIR" validate-prompts --month "$MONTH"
 
+if [[ "$FACT_JUDGE" != "off" ]]; then
+  echo "Preparing monthly fact coverage..."
+  ./geo-bench --data-dir "$DATA_DIR" prepare-fact-coverage --month "$MONTH"
+  echo "Validating monthly fact coverage..."
+  ./geo-bench --data-dir "$DATA_DIR" validate-fact-coverage --month "$MONTH"
+fi
+
 echo "Running benchmark..."
 ./geo-bench --data-dir "$DATA_DIR" run "${run_args[@]}"
 
