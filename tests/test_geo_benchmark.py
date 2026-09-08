@@ -59,6 +59,7 @@ class GeoBenchmarkTests(unittest.TestCase):
             "recommendation_score": 1.0,
             "recommendation_class": "best",
             "qualified_recommendation_opportunity": True,
+            "mentioned_target": True,
             "mention_position": "first",
             "source_authority": 1.0,
             "accuracy": 1.0,
@@ -235,7 +236,11 @@ class GeoBenchmarkTests(unittest.TestCase):
         ]
         summary = aggregate_scores(rows)
         self.assertEqual(summary["overall"]["answer_share"], 50.0)
+        self.assertEqual(summary["overall"]["prominence_score"], 50.0)
+        self.assertEqual(summary["overall"]["mention_rate"], 50.0)
         self.assertEqual(summary["unchanged"]["answer_share"], 100.0)
+        self.assertEqual(summary["unchanged"]["prominence_score"], 100.0)
+        self.assertEqual(summary["unchanged"]["mention_rate"], 100.0)
 
     def test_branded_rows_excluded_from_visibility(self):
         prompt = {
@@ -262,6 +267,8 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertTrue(scored["target_in_prompt"])
         self.assertEqual(scored["brand_class"], "branded")
         self.assertEqual(scored["mention_position"], "first")
+        self.assertEqual(metrics["mention_rate"], 0.0)
+        self.assertEqual(metrics["prominence_score"], 0.0)
         self.assertEqual(metrics["answer_share"], 0.0)
         self.assertEqual(metrics["prompt_count"], 0)
         self.assertEqual(metrics["answer_count"], 1)
@@ -276,9 +283,30 @@ class GeoBenchmarkTests(unittest.TestCase):
 
         metrics = aggregate_slice([row])
 
+        self.assertEqual(metrics["mention_rate"], 100.0)
+        self.assertEqual(metrics["prominence_score"], 60.0)
         self.assertEqual(metrics["answer_share"], 60.0)
         self.assertEqual(metrics["citation_authority"], 50.0)
         self.assertEqual(metrics["qualified_recommendation_rate"], 100.0)
+
+    def test_mention_rate_is_binary_while_prominence_uses_position(self):
+        rows = [
+            self._aggregate_row("mentioned", presence_score=0.6, mention_position="top3"),
+            self._aggregate_row(
+                "absent",
+                mentioned_target=False,
+                presence_score=0.0,
+                mention_position="none",
+                recommendation_score=0.0,
+                recommendation_class="not_mentioned",
+            ),
+        ]
+
+        metrics = aggregate_slice(rows)
+
+        self.assertEqual(metrics["mention_rate"], 50.0)
+        self.assertEqual(metrics["prominence_score"], 30.0)
+        self.assertEqual(metrics["answer_share"], metrics["prominence_score"])
 
     def test_brand_metrics_populated_for_branded_rows(self):
         row = self._aggregate_row(
@@ -615,6 +643,7 @@ class GeoBenchmarkTests(unittest.TestCase):
                     metrics["qualified_recommendation_rate"],
                 )
                 self.assertEqual(actual, published)
+                self.assertEqual(metrics["prominence_score"], published[0])
 
     def test_cost_estimate_counts_requests(self):
         prompts = [{"prompt_text": "best distributed SQL database"} for _ in range(10)]
@@ -1218,6 +1247,8 @@ class GeoBenchmarkTests(unittest.TestCase):
                 "targets": {
                     "TiDB": {
                         "overall": {
+                            "mention_rate": 30,
+                            "prominence_score": 20,
                             "answer_share": 20,
                             "citation_authority": 10,
                             "qualified_recommendation_rate": 5,
@@ -1225,6 +1256,8 @@ class GeoBenchmarkTests(unittest.TestCase):
                             "answer_count": 2,
                         },
                         "unchanged": {
+                            "mention_rate": 35,
+                            "prominence_score": 25,
                             "answer_share": 25,
                             "citation_authority": 11,
                             "qualified_recommendation_rate": 6,
@@ -1238,6 +1271,8 @@ class GeoBenchmarkTests(unittest.TestCase):
                     },
                     "CockroachDB": {
                         "overall": {
+                            "mention_rate": 50,
+                            "prominence_score": 40,
                             "answer_share": 40,
                             "citation_authority": 30,
                             "qualified_recommendation_rate": 20,
@@ -1245,6 +1280,8 @@ class GeoBenchmarkTests(unittest.TestCase):
                             "answer_count": 2,
                         },
                         "unchanged": {
+                            "mention_rate": 52,
+                            "prominence_score": 42,
                             "answer_share": 42,
                             "citation_authority": 31,
                             "qualified_recommendation_rate": 21,
@@ -1264,7 +1301,7 @@ class GeoBenchmarkTests(unittest.TestCase):
             report_text = (report_dir / "llm-report.md").read_text(encoding="utf-8")
 
             self.assertEqual(markdown_files, ["llm-report.md"])
-            self.assertIn("| Target | Consideration Rate | Answer Share | Citation Authority | Recommendation Rate | Stable Consideration Rate | Stable Answer Share | Stable Recommendation Rate |", report_text)
+            self.assertIn("| Target | Consideration Rate | Mention Rate | Prominence Score | Citation Authority | Recommendation Rate | Comparison Win Rate | Stable Consideration Rate | Stable Mention Rate | Stable Prominence Score | Stable Recommendation Rate |", report_text)
             self.assertNotIn("Top 3", report_text)
             self.assertNotIn("Not Mentioned", report_text)
 

@@ -157,8 +157,8 @@ def write_markdown(
 
 def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
     lines = [
-        "| Target | Consideration Rate | Answer Share | Citation Authority | Recommendation Rate | Stable Consideration Rate | Stable Answer Share | Stable Recommendation Rate |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Target | Consideration Rate | Mention Rate | Prominence Score | Citation Authority | Recommendation Rate | Comparison Win Rate | Stable Consideration Rate | Stable Mention Rate | Stable Prominence Score | Stable Recommendation Rate |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for target in report_target_order(summary):
         metrics = summary["targets"][target]
@@ -168,11 +168,14 @@ def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
                 [
                     target,
                     fmt_optional(metrics["overall"].get("consideration_rate")),
-                    fmt(metrics["overall"].get("answer_share")),
+                    fmt_optional(metrics["overall"].get("mention_rate")),
+                    fmt(metric_value(metrics["overall"], "prominence_score", "answer_share")),
                     fmt(metrics["overall"].get("citation_authority")),
                     fmt(metrics["overall"].get("qualified_recommendation_rate")),
+                    fmt_optional(metrics.get("competitive", {}).get("target_win_rate")),
                     fmt_optional(metrics["unchanged"].get("consideration_rate")),
-                    fmt(metrics["unchanged"].get("answer_share")),
+                    fmt_optional(metrics["unchanged"].get("mention_rate")),
+                    fmt(metric_value(metrics["unchanged"], "prominence_score", "answer_share")),
                     fmt(metrics["unchanged"].get("qualified_recommendation_rate")),
                 ]
             )
@@ -228,7 +231,8 @@ def prompt_type_metric_tables(summary: dict[str, Any]) -> list[str]:
     tables: list[str] = []
     for title, metric_key in [
         ("Consideration Rate", "consideration_rate"),
-        ("Answer Share", "answer_share"),
+        ("Mention Rate", "mention_rate"),
+        ("Prominence Score", "prominence_score"),
         ("Citation Authority", "citation_authority"),
         ("Recommendation Rate", "qualified_recommendation_rate"),
     ]:
@@ -250,8 +254,13 @@ def prompt_type_metric_table(summary: dict[str, Any], metric_key: str) -> list[s
         cells = []
         for target in target_order:
             metrics = summary["targets"][target].get("by_prompt_type", {}).get(prompt_type, {})
-            formatter = fmt_optional if metric_key == "consideration_rate" else fmt
-            cells.append(formatter(metrics.get(metric_key)))
+            formatter = fmt_optional if metric_key in {"consideration_rate", "mention_rate"} else fmt
+            value = (
+                metric_value(metrics, "prominence_score", "answer_share")
+                if metric_key == "prominence_score"
+                else metrics.get(metric_key)
+            )
+            cells.append(formatter(value))
         lines.append(f"| `{prompt_type}` | " + " | ".join(cells) + " |")
     return lines
 
@@ -259,15 +268,16 @@ def prompt_type_metric_table(summary: dict[str, Any], metric_key: str) -> list[s
 def prompt_type_leaders_table(summary: dict[str, Any]) -> list[str]:
     prompt_types = ordered_prompt_types(summary)
     lines = [
-        "| Prompt Type | Answer Share Leader | Citation Authority Leader | Recommendation Leader |",
+        "| Prompt Type | Prominence Leader | Citation Authority Leader | Recommendation Leader |",
         "| --- | --- | --- | --- |",
     ]
     for prompt_type in prompt_types:
         metric_leaders = []
-        for metric_key in ["answer_share", "citation_authority", "qualified_recommendation_rate"]:
+        for metric_key in ["prominence_score", "citation_authority", "qualified_recommendation_rate"]:
             values: list[tuple[str, float]] = []
             for target in summary.get("target_order", []):
-                value = summary["targets"][target].get("by_prompt_type", {}).get(prompt_type, {}).get(metric_key, 0)
+                metrics = summary["targets"][target].get("by_prompt_type", {}).get(prompt_type, {})
+                value = metric_value(metrics, metric_key, "answer_share") if metric_key == "prominence_score" else metrics.get(metric_key, 0)
                 values.append((target, float(value)))
             leader_value = max((value for _, value in values), default=0.0)
             if leader_value == 0.0:
@@ -308,10 +318,18 @@ def fmt_percentage(value: Any) -> str:
     return f"{float(value) * 100:.2f}%"
 
 
+def metric_value(metrics: dict[str, Any], key: str, fallback: str) -> Any:
+    """Read a renamed metric while supporting summaries from older runs."""
+    value = metrics.get(key)
+    return metrics.get(fallback) if value is None else value
+
+
 def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
     fieldnames = [
         "target",
         "scope",
+        "mention_rate",
+        "prominence_score",
         "answer_share",
         "consideration_rate",
         "consideration_coverage",
@@ -320,6 +338,8 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
         "avg_fan_out_queries",
         "citation_authority",
         "qualified_recommendation_rate",
+        "comparison_win_rate",
+        "valid_comparison_answers",
         "weighted_recommendation_score",
         "negative_recommendation_rate",
         "avg_source_authority",
@@ -343,11 +363,15 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
         for target in summary.get("target_order", []):
             for scope in ["overall", "unchanged"]:
                 metrics = summary["targets"][target][scope]
+                competitive = summary["targets"][target].get("competitive", {})
                 writer.writerow(
                     {
                         "target": target,
                         "scope": scope,
                         **{key: metrics.get(key) for key in fieldnames if key not in {"target", "scope"}},
+                        "prominence_score": metric_value(metrics, "prominence_score", "answer_share"),
+                        "comparison_win_rate": competitive.get("target_win_rate") if scope == "overall" else None,
+                        "valid_comparison_answers": competitive.get("valid_comparison_answers") if scope == "overall" else None,
                     }
                 )
 
@@ -424,6 +448,8 @@ def write_breakdown_csv(path: Path, breakdown: dict[str, Any]) -> None:
         "segment",
         "prompt_count",
         "answer_count",
+        "mention_rate",
+        "prominence_score",
         "answer_share",
         "consideration_rate",
         "consideration_coverage",
@@ -436,7 +462,13 @@ def write_breakdown_csv(path: Path, breakdown: dict[str, Any]) -> None:
         writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for segment, metrics in breakdown.items():
-            writer.writerow({"segment": segment, **{key: metrics.get(key) for key in fieldnames if key != "segment"}})
+            writer.writerow(
+                {
+                    "segment": segment,
+                    **{key: metrics.get(key) for key in fieldnames if key != "segment"},
+                    "prominence_score": metric_value(metrics, "prominence_score", "answer_share"),
+                }
+            )
 
 
 def write_audit_samples(path: Path, rows: list[dict[str, Any]]) -> None:

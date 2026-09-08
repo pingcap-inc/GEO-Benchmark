@@ -9,9 +9,11 @@ The suite measures how AI answer engines talk about database products across rea
 
 | Executive KPI | Question | Output |
 | --- | --- | --- |
-| Intent-weighted Answer Share | Are we seen? | 0-100 score, trend, competitor gap |
+| Mention Rate | Are we present? | Percentage of eligible non-branded answers, trend, competitor gap |
+| Intent-weighted Prominence Score | How prominently are we seen? | 0-100 score, trend, competitor gap |
 | Citation Authority Index | Are we trusted? | 0-100 score, source mix, accuracy, freshness |
 | Qualified Recommendation Rate | Are we recommended? | 0-100 score, recommendation quality, competitor gap |
+| Comparison Win Rate | Do we win head-to-head evaluations? | 0-100 score and explicit winner counts |
 
 Design principles:
 
@@ -85,9 +87,11 @@ Default production surfaces:
 
 Each provider answer is scored locally for every configured target. Adding targets does not increase provider-call cost.
 
-## KPI 1: Answer Share
+## KPI 1: Mention Rate and Prominence Score
 
-Answer Share measures whether a target is mentioned and how prominent the mention is.
+Mention Rate measures the percentage of eligible non-branded answer rows that mention the target at all. It treats every eligible answer equally and does not depend on mention order or prompt intent.
+
+Prominence Score measures how early a target appears, weighted by prompt intent. It preserves the metric previously named Answer Share; `answer_share` remains in machine-readable output as a deprecated compatibility alias.
 
 Single-answer presence score:
 
@@ -101,7 +105,7 @@ Single-answer presence score:
 Monthly KPI:
 
 ```text
-Intent-weighted Answer Share =
+Intent-weighted Prominence Score =
 sum(prompt_weight * presence_score) / sum(prompt_weight)
 ```
 
@@ -152,6 +156,10 @@ recommended answers / qualified recommendation opportunities
 ```
 
 The denominator excludes prompts that are not reasonable recommendation opportunities.
+
+## KPI 4: Comparison Win Rate
+
+Comparison Win Rate measures how often the target is the single explicit winner in valid head-to-head comparison answers. It uses recommendation language such as “recommend,” “choose,” or “preferred”; mention order does not determine the winner. Answers with no clear or unique winner are excluded from the win-rate denominator and reported through the valid-comparison count.
 
 ## Comparability
 

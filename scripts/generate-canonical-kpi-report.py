@@ -212,15 +212,16 @@ def input_audit_table(month: str) -> str:
 def executive_table(rows: list[dict[str, Any]]) -> str:
     targets = aggregate_scores(rows)["targets"]
     lines = [
-        "| Target | Answer Share | Citation Authority | Recommendation Rate | Stable Answer Share | Stable Recommendation Rate |",
-        "| --- | ---: | ---: | ---: | ---: | ---: |",
+        "| Target | Mention Rate | Prominence Score | Citation Authority | Recommendation Rate | Stable Mention Rate | Stable Prominence Score | Stable Recommendation Rate |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for target in TARGETS:
         overall = targets[target]["overall"]
         stable = targets[target]["unchanged"]
         lines.append(
-            f"| {target} | {overall['answer_share']:.2f} | {overall['citation_authority']:.2f} | "
-            f"{overall['qualified_recommendation_rate']:.2f} | {stable['answer_share']:.2f} | "
+            f"| {target} | {overall['mention_rate']:.2f} | {overall['prominence_score']:.2f} | "
+            f"{overall['citation_authority']:.2f} | {overall['qualified_recommendation_rate']:.2f} | "
+            f"{stable['mention_rate']:.2f} | {stable['prominence_score']:.2f} | "
             f"{stable['qualified_recommendation_rate']:.2f} |"
         )
     return "\n".join(lines)
@@ -268,14 +269,15 @@ def comparison_table(off_rows: list[dict[str, Any]], on_rows: list[dict[str, Any
     off = aggregate_scores(off_rows)["targets"]
     on = aggregate_scores(on_rows)["targets"]
     lines = [
-        "| Target | Off Answer Share | On Answer Share | Delta | Off Citation Authority | On Citation Authority | Delta | Off Recommendation Rate | On Recommendation Rate | Delta |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Target | Off Mention Rate | On Mention Rate | Delta | Off Prominence | On Prominence | Delta | Off Citation Authority | On Citation Authority | Delta | Off Recommendation Rate | On Recommendation Rate | Delta |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for target in TARGETS:
         old = off[target][slice_name]
         new = on[target][slice_name]
         lines.append(
-            f"| {target} | {old['answer_share']:.2f} | {new['answer_share']:.2f} | {metric_delta(old['answer_share'], new['answer_share'])} | "
+            f"| {target} | {old['mention_rate']:.2f} | {new['mention_rate']:.2f} | {metric_delta(old['mention_rate'], new['mention_rate'])} | "
+            f"{old['prominence_score']:.2f} | {new['prominence_score']:.2f} | {metric_delta(old['prominence_score'], new['prominence_score'])} | "
             f"{old['citation_authority']:.2f} | {new['citation_authority']:.2f} | {metric_delta(old['citation_authority'], new['citation_authority'])} | "
             f"{old['qualified_recommendation_rate']:.2f} | {new['qualified_recommendation_rate']:.2f} | "
             f"{metric_delta(old['qualified_recommendation_rate'], new['qualified_recommendation_rate'])} |"
@@ -287,14 +289,15 @@ def prompt_type_table(off_rows: list[dict[str, Any]], on_rows: list[dict[str, An
     off = aggregate_scores(off_rows)["targets"][target]["by_prompt_type"]
     on = aggregate_scores(on_rows)["targets"][target]["by_prompt_type"]
     lines = [
-        "| Prompt Type | Off Answer Share | On Answer Share | Delta | Off Citation Authority | On Citation Authority | Delta | Off Recommendation Rate | On Recommendation Rate | Delta |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Prompt Type | Off Mention Rate | On Mention Rate | Delta | Off Prominence | On Prominence | Delta | Off Citation Authority | On Citation Authority | Delta | Off Recommendation Rate | On Recommendation Rate | Delta |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for prompt_type in sorted(off):
         old = off[prompt_type]
         new = on[prompt_type]
         lines.append(
-            f"| {prompt_type} | {old['answer_share']:.2f} | {new['answer_share']:.2f} | {metric_delta(old['answer_share'], new['answer_share'])} | "
+            f"| {prompt_type} | {old['mention_rate']:.2f} | {new['mention_rate']:.2f} | {metric_delta(old['mention_rate'], new['mention_rate'])} | "
+            f"{old['prominence_score']:.2f} | {new['prominence_score']:.2f} | {metric_delta(old['prominence_score'], new['prominence_score'])} | "
             f"{old['citation_authority']:.2f} | {new['citation_authority']:.2f} | {metric_delta(old['citation_authority'], new['citation_authority'])} | "
             f"{old['qualified_recommendation_rate']:.2f} | {new['qualified_recommendation_rate']:.2f} | "
             f"{metric_delta(old['qualified_recommendation_rate'], new['qualified_recommendation_rate'])} |"
@@ -335,17 +338,17 @@ def tidb_aeo_actions(month: str) -> list[str]:
     deltas = {
         provider: {
             metric: tidb_on[provider][metric] - tidb_off[provider][metric]
-            for metric in ["answer_share", "citation_authority", "qualified_recommendation_rate"]
+            for metric in ["mention_rate", "prominence_score", "citation_authority", "qualified_recommendation_rate"]
         }
         for provider in provider_summaries
     }
     provider_priority = min(
         provider_summaries,
-        key=lambda provider: tidb_on[provider]["answer_share"],
+        key=lambda provider: tidb_on[provider]["prominence_score"],
     )
     strongest_provider = max(
         provider_summaries,
-        key=lambda provider: tidb_on[provider]["answer_share"],
+        key=lambda provider: tidb_on[provider]["prominence_score"],
     )
     weak_prompt = weakest_prompt_type(provider_summaries[provider_priority]["on"])
     largest_competitor_gap = competitor_gap(provider_summaries[provider_priority]["on"])
@@ -364,10 +367,10 @@ def tidb_aeo_actions(month: str) -> list[str]:
         "This section is regenerated from the latest scored outputs every time the canonical KPI report is generated.",
         "",
         f"1. Prioritize {provider_priority} visibility.",
-        f"In {provider_priority} web-on, TiDB Answer Share is {tidb_on[provider_priority]['answer_share']:.2f}. The largest visible competitor gap is vs {largest_competitor_gap['target']} at {largest_competitor_gap['gap']:.2f} points. Build pages and snippets that answer the exact buying pains where TiDB should be first: scale-out SQL, MySQL compatibility, HTAP, operational analytics, AI application data, and vector search over fresh operational data.",
+        f"In {provider_priority} web-on, TiDB Mention Rate is {tidb_on[provider_priority]['mention_rate']:.2f} and Prominence Score is {tidb_on[provider_priority]['prominence_score']:.2f}. The largest prominence gap is vs {largest_competitor_gap['target']} at {largest_competitor_gap['gap']:.2f} points. Build pages and snippets that answer the exact buying pains where TiDB should be first: scale-out SQL, MySQL compatibility, HTAP, operational analytics, AI application data, and vector search over fresh operational data.",
         "",
         f"2. Fix the weakest TiDB prompt type: `{weak_prompt['prompt_type']}`.",
-        f"In {provider_priority} web-on, `{weak_prompt['prompt_type']}` has TiDB Answer Share {weak_prompt['answer_share']:.2f}, Citation Authority {weak_prompt['citation_authority']:.2f}, and Recommendation Rate {weak_prompt['recommendation_rate']:.2f}. Create use-case pages, docs examples, and comparison content specifically for this query family.",
+        f"In {provider_priority} web-on, `{weak_prompt['prompt_type']}` has TiDB Prominence Score {weak_prompt['prominence_score']:.2f}, Citation Authority {weak_prompt['citation_authority']:.2f}, and Recommendation Rate {weak_prompt['recommendation_rate']:.2f}. Create use-case pages, docs examples, and comparison content specifically for this query family.",
         "",
         f"3. Raise {citation_priority} citation authority.",
         f"TiDB Citation Authority in {citation_priority} web-on is {tidb_on[citation_priority]['citation_authority']:.2f}. Publish citation-ready assets with current dates, official docs links, architecture diagrams, schema examples, customer proof, and clear claims that answer engines can quote directly.",
@@ -376,7 +379,7 @@ def tidb_aeo_actions(month: str) -> list[str]:
         f"TiDB Recommendation Rate in {recommendation_priority} moved from {tidb_off[recommendation_priority]['qualified_recommendation_rate']:.2f} off to {tidb_on[recommendation_priority]['qualified_recommendation_rate']:.2f} on, a delta of {deltas[recommendation_priority]['qualified_recommendation_rate']:+.2f}. Add explicit 'choose TiDB when...' and 'when not to choose TiDB...' sections so models can recommend it conditionally instead of merely listing it.",
         "",
         f"5. Preserve what is working in {strongest_provider}.",
-        f"{strongest_provider} web-on gives TiDB the strongest Answer Share at {tidb_on[strongest_provider]['answer_share']:.2f}. Use this as a pattern source: inspect high-scoring prompt types, then replicate that evidence structure and wording across lower-performing pages and provider surfaces.",
+        f"{strongest_provider} web-on gives TiDB the strongest Prominence Score at {tidb_on[strongest_provider]['prominence_score']:.2f}. Use this as a pattern source: inspect high-scoring prompt types, then replicate that evidence structure and wording across lower-performing pages and provider surfaces.",
         "",
     ]
 
@@ -385,7 +388,7 @@ def weakest_prompt_type(targets: dict[str, Any]) -> dict[str, Any]:
     rows = []
     for prompt_type, metrics in targets["TiDB"]["by_prompt_type"].items():
         score = (
-            metrics["answer_share"]
+            metrics["prominence_score"]
             + metrics["citation_authority"]
             + metrics["qualified_recommendation_rate"]
         ) / 3
@@ -393,7 +396,7 @@ def weakest_prompt_type(targets: dict[str, Any]) -> dict[str, Any]:
             {
                 "prompt_type": prompt_type,
                 "score": score,
-                "answer_share": metrics["answer_share"],
+                "prominence_score": metrics["prominence_score"],
                 "citation_authority": metrics["citation_authority"],
                 "recommendation_rate": metrics["qualified_recommendation_rate"],
             }
@@ -402,12 +405,12 @@ def weakest_prompt_type(targets: dict[str, Any]) -> dict[str, Any]:
 
 
 def competitor_gap(targets: dict[str, Any]) -> dict[str, Any]:
-    tidb = targets["TiDB"]["overall"]["answer_share"]
+    tidb = targets["TiDB"]["overall"]["prominence_score"]
     gaps = []
     for target in TARGETS:
         if target == "TiDB":
             continue
-        gap = targets[target]["overall"]["answer_share"] - tidb
+        gap = targets[target]["overall"]["prominence_score"] - tidb
         gaps.append({"target": target, "gap": gap})
     return max(gaps, key=lambda row: row["gap"])
 

@@ -638,10 +638,26 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
         consideration_weight_sum += weight
         consideration_sum += mean(bool(row.get("considered_in_fan_out")) for row in prompt_rows) * weight
     weighted_rec_avg = rec_sum / rec_weight_sum if rec_weight_sum else 0.0
+    mention_rate = round(
+        (
+            sum(
+                bool(row.get("mentioned_target", row.get("presence_score", 0) > 0))
+                for row in visible_rows
+            )
+            / len(visible_rows)
+        )
+        * 100,
+        2,
+    )
+    prominence_score = round((presence_sum / weight_sum) * 100, 2) if weight_sum else 0.0
     metrics = {
         "prompt_count": len(prompt_groups),
         "answer_count": len(rows),
-        "answer_share": round((presence_sum / weight_sum) * 100, 2) if weight_sum else 0.0,
+        "mention_rate": mention_rate,
+        "prominence_score": prominence_score,
+        # Deprecated compatibility alias. New reports should label and read this
+        # position-weighted metric as prominence_score.
+        "answer_share": prominence_score,
         "citation_authority": round((citation_sum / weight_sum) * 100, 2) if weight_sum else 0.0,
         "qualified_recommendation_rate": round((recommended_answers / qualified_answers) * 100, 2)
         if qualified_answers
@@ -720,6 +736,8 @@ def empty_metrics() -> dict[str, Any]:
     return {
         "prompt_count": 0,
         "answer_count": 0,
+        "mention_rate": 0.0,
+        "prominence_score": 0.0,
         "answer_share": 0.0,
         "citation_authority": 0.0,
         "qualified_recommendation_rate": 0.0,
