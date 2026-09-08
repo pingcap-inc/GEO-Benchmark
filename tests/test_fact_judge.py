@@ -29,6 +29,109 @@ CONFIG = REPO / "geo-benchmark" / "config"
 
 
 class SemanticFactJudgeTests(unittest.TestCase):
+    @staticmethod
+    def completed_judge_response():
+        return {
+            "id": "resp_test",
+            "status": "completed",
+            "usage": {"input_tokens": 20, "output_tokens": 80, "output_tokens_details": {"reasoning_tokens": 30}},
+            "output": [{"type": "message", "content": [{
+                "type": "output_text",
+                "text": json.dumps({"verdict": "correct", "reason": "Core capability is accurate.", "answer_excerpt": "Agent state"}),
+            }]}],
+        }
+
+    def test_live_judge_requests_strict_schema_and_more_output_space(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=self.completed_judge_response()
+        ) as request:
+            result = judge.judge_answer({"prompt_id": "stable_agentinfra_007"}, "Agent state", "hash")
+        payload = request.call_args.args[1]
+        self.assertEqual(payload["model"], "gpt-5-mini")
+        self.assertEqual(payload["max_output_tokens"], 4000)
+        schema = payload["text"]["format"]
+        self.assertEqual(schema["type"], "json_schema")
+        self.assertTrue(schema["strict"])
+        self.assertFalse(schema["schema"]["additionalProperties"])
+        self.assertEqual(result["accuracy"], 1)
+        self.assertEqual(result["results"][0]["response_diagnostics"][0]["reasoning_tokens"], 30)
+
+    def test_failed_judge_responses_have_specific_diagnostics(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        cases = [
+            ({"status": "incomplete", "incomplete_details": {"reason": "max_output_tokens"}}, "output_limit"),
+            ({"status": "incomplete", "incomplete_details": {"reason": "content_filter"}}, "incomplete_response"),
+            ({"status": "failed"}, "response_not_completed"),
+            ({"status": "completed", "output": []}, "empty_output"),
+            ({"status": "completed", "output_text": "bad JSON"}, "invalid_json"),
+            ({"status": "completed", "output_text": "[]"}, "invalid_schema"),
+            ({"status": "completed", "output_text": '{"verdict":"correct","reason":null,"answer_excerpt":"x"}'}, "invalid_schema"),
+            ({"status": "completed", "output": [{"type": "message", "content": [{"type": "refusal", "refusal": "declined"}]}]}, "refusal"),
+        ]
+        for response, code in cases:
+            with self.subTest(code=code):
+                judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+                with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+                    "geo_benchmark.fact_judge._post_json", return_value=response
+                ):
+                    result = judge.judge_answer({"prompt_id": "stable_agentinfra_007"}, "answer", "hash")
+                verdict = result["results"][0]
+                self.assertEqual(verdict["verdict"], "judge_unavailable")
+                self.assertEqual(verdict["response_diagnostics"][0]["error_code"], code)
+                self.assertIsNone(result["accuracy"])
+                self.assertFalse(judge.cache)
+
+    def test_incomplete_response_is_rejected_even_with_parseable_text(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        response = self.completed_judge_response()
+        response.update(status="incomplete", incomplete_details={"reason": "max_output_tokens"})
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=response
+        ):
+            result = judge.judge_answer({"prompt_id": "stable_agentinfra_007"}, "answer", "hash")
+        self.assertEqual(result["unavailable_facts"], 1)
+
+    def test_retry_retains_attempts_and_usage_then_caches_success(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=1))
+        prompt = {"prompt_id": "stable_agentinfra_007"}
+        failed = {"status": "incomplete", "incomplete_details": {"reason": "max_output_tokens"},
+                  "usage": {"input_tokens": 10, "output_tokens": 4000}}
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", side_effect=[failed, self.completed_judge_response()]
+        ) as request:
+            result = judge.judge_answer(prompt, "Agent state", "hash")
+        self.assertEqual(request.call_count, 2)
+        self.assertEqual(judge.usage.output_tokens, 4080)
+        self.assertEqual(len(result["results"][0]["response_diagnostics"]), 2)
+        judge.flush_cache()
+        fresh = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live"))
+        with patch("geo_benchmark.fact_judge._post_json", side_effect=AssertionError("Network forbidden")):
+            cached = fresh.judge_answer(prompt, "Agent state", "hash")
+        self.assertTrue(cached["results"][0]["cached"])
+
+    def test_refusal_does_not_retry_and_preview_is_bounded(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=2))
+        response = {"status": "completed", "output_text": "x" * 800,
+                    "output": [{"type": "message", "content": [{"type": "refusal"}]}]}
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=response
+        ) as request:
+            result = judge.judge_answer({"prompt_id": "stable_agentinfra_007"}, "answer", "hash")
+        self.assertEqual(request.call_count, 1)
+        diagnostic = result["results"][0]["response_diagnostics"][0]
+        self.assertEqual(len(diagnostic["output_preview"]), 500)
+        self.assertEqual(diagnostic["output_characters"], 800)
+
     def test_changed_content_invalidates_saved_judgments(self):
         temp, root = self.make_root()
         self.addCleanup(temp.cleanup)
