@@ -655,7 +655,7 @@ def score_and_report(
     cost = estimate_actual_cost(raw, pricing)
     cost["web_search_mode"] = web_search_mode
     cost["fact_judge"] = fact_judge_cost(judge, pricing, judge_settings)
-    cost["combined_total_estimated_cost_usd"] = round(
+    cost["combined_total_estimated_cost_usd"] = None if cost["fact_judge"]["estimated_cost_usd"] is None else round(
         float(cost.get("total_estimated_cost_usd", 0))
         + float(cost["fact_judge"].get("estimated_cost_usd", 0)),
         6,
@@ -678,12 +678,16 @@ def fact_judge_cost(
     if judge is None:
         return {"mode": "off", "calls": 0, "estimated_cost_usd": 0.0}
     model_price = pricing.get("models", {}).get(settings.model, {}) if settings.mode == "live" else {}
+    pricing_known = settings.mode != "live" or all(
+        isinstance(model_price.get(key), (int, float)) and model_price[key] >= 0
+        for key in ("input_per_1m", "output_per_1m")
+    )
     usage = judge.usage
     cost = (
         usage.input_tokens * float(model_price.get("input_per_1m", 0)) / 1_000_000
         + usage.output_tokens * float(model_price.get("output_per_1m", 0)) / 1_000_000
         + usage.calls * float(model_price.get("request_fee", 0))
-    )
+    ) if pricing_known else 0.0
     return {
         "mode": settings.mode,
         "provider": settings.provider if settings.mode == "live" else settings.mode,
@@ -693,7 +697,8 @@ def fact_judge_cost(
         "input_tokens": usage.input_tokens,
         "output_tokens": usage.output_tokens,
         "unavailable": usage.unavailable,
-        "estimated_cost_usd": round(cost, 6),
+        "estimated_cost_usd": round(cost, 6) if pricing_known else None,
+        "pricing_status": "known" if pricing_known else "unknown",
     }
 
 
@@ -799,7 +804,8 @@ def print_run_summary(
         )
     print(f"Actual/usage-estimated cost: ${cost.get('total_estimated_cost_usd', 0)}")
     if judge_cost.get("mode") != "off":
-        print(f"Combined provider + fact judge cost: ${cost.get('combined_total_estimated_cost_usd', 0)}")
+        combined = cost.get("combined_total_estimated_cost_usd")
+        print("Combined provider + fact judge cost: " + ("Unknown (missing judge pricing)" if combined is None else f"${combined}"))
     print(f"Planned cost estimate: ${planned.get('total_estimated_cost_usd', 0)}")
     print(f"Report: {report_dir / 'llm-report.md'}")
 

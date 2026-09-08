@@ -97,6 +97,10 @@ class SemanticFactJudge:
                     prompt["prompt_id"],
                     fact["fact_id"],
                     self.fact_base_version,
+                    stable_hash(self.payload),
+                    prompt.get("prompt_text", ""),
+                    answer,
+                    "judge-contract-v2",
                     self.settings.mode,
                     self.settings.provider,
                     self.settings.model,
@@ -179,8 +183,8 @@ class SemanticFactJudge:
                 last_error = str(exc)
                 if not exc.retryable:
                     break
-            except (ValueError, json.JSONDecodeError) as exc:
-                last_error = str(exc)
+            except (ValueError, TypeError, AttributeError, KeyError) as exc:
+                last_error = "Invalid judge response structure: " + type(exc).__name__
         self.usage.unavailable += 1
         return unavailable_result(fact, dimensions, last_error)
 
@@ -254,11 +258,11 @@ def prepare_fact_coverage(root: Path, month: str, from_month: str | None = None)
                     "coverage_disposition": source.get("coverage_disposition", ""),
                     "fact_or_review_ids": source.get("fact_or_review_ids", ""),
                     "note": source.get("note", ""),
-                    "mapping_status": source.get("mapping_status") or "approved",
+                    "mapping_status": source.get("mapping_status") or "needs_review",
                 }
             )
             reused += 1
-            if (source.get("mapping_status") or "approved") != "approved":
+            if source.get("mapping_status") != "approved":
                 needs_review += 1
         else:
             output.append(
@@ -307,7 +311,7 @@ def coverage_rows_equivalent(current: list[dict[str, str]], generated: list[dict
     if len(current) != len(generated):
         return False
     for old, new in zip(current, generated):
-        if any((old.get(field) or ("approved" if field == "mapping_status" else "")) != new.get(field, "") for field in COVERAGE_FIELDS):
+        if any((old.get(field) or "") != new.get(field, "") for field in COVERAGE_FIELDS):
             return False
     return True
 
@@ -362,7 +366,7 @@ def validate_fact_coverage(root: Path, month: str) -> dict[str, Any]:
             errors.append(f"{prompt_id}: prompt text changed and the mapping must be reviewed")
         if row.get("prompt_type") != str(prompt.get("prompt_type", "")):
             errors.append(f"{prompt_id}: prompt type does not match the current prompt set")
-        mapping_status = row.get("mapping_status") or "approved"
+        mapping_status = row.get("mapping_status") or "needs_review"
         if mapping_status != "approved":
             errors.append(f"{prompt_id}: mapping_status is {mapping_status}; review and set it to approved")
         disposition = row.get("coverage_disposition", "")
@@ -496,6 +500,11 @@ def parse_judge_json(value: str) -> dict[str, Any]:
 
 
 def normalize_result(value: dict[str, Any], fact: dict[str, Any], dimensions: list[str]) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise ValueError("Judge result must be an object")
+    for field in ("verdict", "reason", "answer_excerpt"):
+        if not isinstance(value.get(field), str):
+            raise ValueError("Judge result requires string fields")
     verdict = str(value.get("verdict", "")).lower()
     if verdict not in VERDICTS - {"judge_unavailable"}:
         raise ValueError(f"Invalid judge verdict: {verdict}")

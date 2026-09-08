@@ -161,6 +161,15 @@ Both the wrapper workflow and direct `run --fact-judge mock|live` validate this
 file before provider collection. Missing, stale, duplicate, unknown, or pending
 mappings stop the run with the affected prompt IDs.
 
+Approval must be explicit: a blank or missing `mapping_status` is not approved.
+The previously reviewed September mappings have been migrated to explicit
+`approved` values without changing their fact assignments.
+
+Saved judgments are invalidated when the fact-base content, question text,
+answer, or judge-contract version changes, even if the fact-base schema label
+stays the same. Unknown judge-model pricing is reported as unknown, not zero;
+the combined cost is also unknown until that pricing is configured.
+
 ### Activation test plan
 
 | Stage | Credentials | Required checks |
