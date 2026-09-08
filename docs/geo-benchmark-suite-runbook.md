@@ -43,7 +43,7 @@ This command:
 2. Calls the selected provider.
 3. Stores provider answers.
 4. Retries failed answers for providers with fallback configuration.
-5. Scores Consideration Rate, Answer Share, Citation Authority, and Recommendation Rate.
+5. Scores Consideration Rate, Mention Rate, Prominence Score, Citation Authority, Recommendation Rate, and Comparison Win Rate.
 6. Generates Overall and Unchanged KPI views for every target in `targets.json`.
 7. Writes cost estimates and reports.
 
@@ -94,7 +94,7 @@ Provider behavior is based on the structured response returned by each developer
 | Gemini | `groundingMetadata.webSearchQueries` | Captured when `--web-search on` enables Google Search grounding; grounding redirect URLs are resolved to their destination domains for citation scoring |
 | Perplexity Sonar | `search_results` contains result pages, but no executed query field | Marked `not_exposed` |
 
-Consideration is scored per target-answer row. A target is considered when one of its configured product aliases appears in at least one captured query. The aggregate rate is intent-weighted in the same way as Answer Share. It uses only non-branded rows and only providers where query capture is observable. `consideration_coverage` reports the fraction of non-branded answer rows in that denominator, so unsupported or missing data cannot silently become a zero.
+Consideration is scored per target-answer row. A target is considered when one of its configured product aliases appears in at least one captured query. The aggregate rate is intent-weighted in the same way as Prominence Score. It uses only non-branded rows and only providers where query capture is observable. `consideration_coverage` reports the fraction of non-branded answer rows in that denominator, so unsupported or missing data cannot silently become a zero.
 
 Existing raw rows have no fan-out fields and remain outside the consideration denominator. Re-collect with `--web-search on` to populate the metric. Provider response schemas: [OpenAI web search](https://developers.openai.com/api/docs/guides/tools-web-search), [Anthropic web search](https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool), [Gemini Google Search grounding](https://ai.google.dev/gemini-api/docs/generate-content/google-search), and [Perplexity Sonar](https://docs.perplexity.ai/docs/sonar/models/sonar).
 

@@ -4,9 +4,11 @@ A repeatable benchmark for measuring how AI answer engines mention, cite, and re
 
 ## Metrics
 
-- Answer Share: how often a product appears, weighted by position and intent.
+- Mention Rate: how often a product appears in eligible non-branded answers.
+- Prominence Score: how early a product appears, weighted by position and prompt intent.
 - Citation Authority: whether product claims are backed by credible, fresh, accurate sources.
 - Recommendation Rate: whether a product is actually recommended, not just listed.
+- Comparison Win Rate: how often a product is the explicit winner in valid comparison answers.
 
 ## Quick Start
 

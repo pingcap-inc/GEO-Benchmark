@@ -176,7 +176,10 @@ def main(argv: list[str] | None = None) -> int:
             args.web_search,
             JudgeSettings(args.fact_judge, args.fact_judge_provider, args.fact_judge_model, args.fact_judge_retries),
         )
-        print(f"Scored {len(scored)} answers. Overall Answer Share: {summary['overall']['answer_share']}")
+        print(
+            f"Scored {len(scored)} answers. Overall Mention Rate: {summary['overall']['mention_rate']}; "
+            f"Prominence Score: {summary['overall']['prominence_score']}"
+        )
         print(f"Cost estimate: ${cost.get('total_estimated_cost_usd', 0)}")
         return 0
     if args.command == "report":
@@ -785,8 +788,10 @@ def print_run_summary(
     for target in summary.get("target_order", []):
         metrics = summary["targets"][target]
         print(
-            f"{target}: Overall Answer Share {metrics['overall']['answer_share']}, "
-            f"Unchanged {metrics['unchanged']['answer_share']}, "
+            f"{target}: Mention Rate {metrics['overall']['mention_rate']}, "
+            f"Prominence Score {metrics['overall']['prominence_score']}, "
+            f"Stable Mention Rate {metrics['unchanged']['mention_rate']}, "
+            f"Stable Prominence Score {metrics['unchanged']['prominence_score']}, "
             f"Citation Authority {metrics['overall']['citation_authority']}, "
             f"Recommendation Rate {metrics['overall']['qualified_recommendation_rate']}"
         )
@@ -831,7 +836,8 @@ def compare(root: Path, from_month: str, to_month: str) -> None:
     from_summary = read_json(from_path)
     to_summary = read_json(to_path)
     metrics = [
-        ("Answer Share", "answer_share"),
+        ("Mention Rate", "mention_rate"),
+        ("Prominence Score", "prominence_score"),
         ("Citation Authority", "citation_authority"),
         ("Recommendation Rate", "qualified_recommendation_rate"),
     ]
@@ -845,9 +851,25 @@ def compare(root: Path, from_month: str, to_month: str) -> None:
         from_metrics = from_summary.get("targets", {}).get(target, from_summary)
         to_metrics = to_summary.get("targets", {}).get(target, to_summary)
         for label, key in metrics:
-            overall_delta = to_metrics["overall"][key] - from_metrics["overall"][key]
-            unchanged_delta = to_metrics["unchanged"][key] - from_metrics["unchanged"][key]
-            print(f"{target} | {label} | {overall_delta:+.2f} | {unchanged_delta:+.2f}")
+            from_overall = comparison_metric_value(from_metrics["overall"], key)
+            to_overall = comparison_metric_value(to_metrics["overall"], key)
+            from_unchanged = comparison_metric_value(from_metrics["unchanged"], key)
+            to_unchanged = comparison_metric_value(to_metrics["unchanged"], key)
+            overall_delta = "N/A" if from_overall is None or to_overall is None else f"{to_overall - from_overall:+.2f}"
+            unchanged_delta = (
+                "N/A"
+                if from_unchanged is None or to_unchanged is None
+                else f"{to_unchanged - from_unchanged:+.2f}"
+            )
+            print(f"{target} | {label} | {overall_delta} | {unchanged_delta}")
+
+
+def comparison_metric_value(metrics: dict[str, Any], key: str) -> float | None:
+    if key == "prominence_score":
+        value = metrics.get(key, metrics.get("answer_share"))
+    else:
+        value = metrics.get(key)
+    return float(value) if value is not None else None
 
 
 def audit_prompts(root: Path, month: str) -> None:
