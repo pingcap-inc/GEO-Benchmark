@@ -18,7 +18,7 @@ from geo_benchmark.fact_judge import (
     prepare_fact_coverage,
     validate_fact_coverage,
 )
-from geo_benchmark.cli import main
+from geo_benchmark.cli import main, prepare, collect, score_and_report, fact_judge_cost
 from geo_benchmark.scoring import score_answer
 from geo_benchmark.reports import branded_accuracy_table
 from geo_benchmark.scoring import brand_metrics
@@ -29,6 +29,60 @@ CONFIG = REPO / "geo-benchmark" / "config"
 
 
 class SemanticFactJudgeTests(unittest.TestCase):
+    def test_changed_content_invalidates_saved_judgments(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        prompt = {"prompt_id": "stable_agentinfra_007", "prompt_text": "What is agent memory?"}
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
+        judge.judge_answer(prompt, "An answer", "hash")
+        judge.flush_cache()
+        fresh = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
+        fresh.payload["facts"][0]["canonical_truth"] = "Updated truth"
+        fresh.judge_answer(prompt, "An answer", "hash")
+        self.assertEqual(fresh.usage.cache_hits, 0)
+        changed = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
+        changed.judge_answer({**prompt, "prompt_text": "Different question"}, "An answer", "hash")
+        self.assertEqual(changed.usage.cache_hits, 0)
+
+    def test_unexpected_live_structures_are_unavailable(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        for response in [[], None, {"output_text": "[]"}, {"output_text": "null"},
+                         {"output_text": '{"verdict":"correct"}'}, {"usage": None}]:
+            with self.subTest(response=response):
+                judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+                with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+                    "geo_benchmark.fact_judge._post_json", return_value=response
+                ):
+                    result = judge.judge_answer({"prompt_id": "stable_agentinfra_007"}, "answer", "hash")
+                self.assertEqual(result["unavailable_facts"], 1)
+                self.assertFalse(judge.cache)
+
+    def test_unknown_pricing_is_not_zero(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        settings = JudgeSettings(mode="live", model="unknown-model")
+        judge = SemanticFactJudge(root, "2026-09", settings)
+        self.assertIsNone(fact_judge_cost(judge, {}, settings)["estimated_cost_usd"])
+
+    def test_full_mock_scoring_writes_reports(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        shutil.copytree(REPO / "geo-benchmark/prompts/2026-09", root / "prompts/2026-09")
+        prepare(root, "2026-09", 216, 0.3, False)
+        with patch("geo_benchmark.providers._post_json", side_effect=AssertionError("Network forbidden")), patch(
+            "geo_benchmark.fact_judge._post_json", side_effect=AssertionError("Network forbidden")
+        ):
+            collect(root, "2026-09", ["mock"], 1, 0, False)
+            scored, summary, cost = score_and_report(root, "2026-09", judge_settings=JudgeSettings(mode="mock"))
+        self.assertEqual(len(scored), 1296)
+        self.assertTrue(any(row.get("semantic_checked_facts", 0) for row in scored))
+        report = (root / "reports/2026-09/llm-report.md").read_text()
+        self.assertIn("Semantic accuracy", report)
+        self.assertEqual(cost["combined_total_estimated_cost_usd"], 0)
+        csv_paths = list((root / "reports/2026-09").glob("*.csv"))
+        self.assertTrue(any("semantic_fact_accuracy" in p.read_text() for p in csv_paths))
+
     def make_root(self) -> tuple[tempfile.TemporaryDirectory, Path]:
         temp = tempfile.TemporaryDirectory()
         root = Path(temp.name) / "geo-benchmark"
@@ -299,6 +353,20 @@ class FactCoverageWorkflowTests(unittest.TestCase):
     def test_committed_september_coverage_is_valid(self):
         result = validate_fact_coverage(REPO / "geo-benchmark", "2026-09")
         self.assertEqual(result["total"], 138)
+
+    def test_missing_approval_cannot_be_inherited(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        prompt = {"prompt_id": "p", "prompt_type": "definition", "prompt_text": "What is TiDB?", "brand_class": "branded"}
+        self.write_prompts(root, "2026-10", [prompt])
+        self.write_coverage(root, "2026-09", [{
+            "prompt_id": "p", "prompt_type": "definition", "prompt_text": "What is TiDB?",
+            "coverage_disposition": "fact_covered", "fact_or_review_ids": "tidb_distributed_sql"
+        }])
+        result = prepare_fact_coverage(root, "2026-10")
+        self.assertEqual(result["needs_review"], 1)
+        with self.assertRaises(CoverageValidationError):
+            validate_fact_coverage(root, "2026-10")
 
     def test_direct_run_applies_coverage_gate_before_provider_collection(self):
         with patch("geo_benchmark.cli.prepare"), patch(

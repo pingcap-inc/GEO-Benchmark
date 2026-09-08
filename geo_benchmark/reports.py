@@ -133,8 +133,8 @@ def write_markdown(
                 f"- Estimated cost: ${cost_summary.get('total_estimated_cost_usd', 0)}",
                 f"- Pricing version: {cost_summary.get('pricing_version')}",
                 f"- Fact judge mode: {cost_summary.get('fact_judge', {}).get('mode', 'off')}",
-                f"- Fact judge estimated cost: ${cost_summary.get('fact_judge', {}).get('estimated_cost_usd', 0)}",
-                f"- Combined provider and judge cost: ${cost_summary.get('combined_total_estimated_cost_usd', cost_summary.get('total_estimated_cost_usd', 0))}",
+                f"- Fact judge estimated cost: {format_cost(cost_summary.get('fact_judge', {}).get('estimated_cost_usd', 0))}",
+                f"- Combined provider and judge cost: {format_cost(cost_summary.get('combined_total_estimated_cost_usd', cost_summary.get('total_estimated_cost_usd', 0)))}",
                 "",
             ]
         )
@@ -179,6 +179,10 @@ def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
             + " |"
         )
     return lines
+
+
+def format_cost(value: Any) -> str:
+    return "Unknown (missing pricing)" if value is None else f"${value}"
 
 
 def branded_accuracy_table(summary: dict[str, Any]) -> list[str]:
