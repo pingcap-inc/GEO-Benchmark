@@ -13,6 +13,22 @@ from .providers import ProviderError, _post_json, extract_openai_response_text
 
 
 VERDICTS = {"correct", "incorrect", "not_enough_information", "not_applicable", "judge_unavailable"}
+JUDGE_MAX_OUTPUT_TOKENS = 4000
+JUDGE_RESPONSE_FORMAT = {
+    "type": "json_schema",
+    "name": "fact_judgment",
+    "strict": True,
+    "schema": {
+        "type": "object",
+        "properties": {
+            "verdict": {"type": "string", "enum": sorted(VERDICTS - {"judge_unavailable"})},
+            "reason": {"type": "string"},
+            "answer_excerpt": {"type": "string"},
+        },
+        "required": ["verdict", "reason", "answer_excerpt"],
+        "additionalProperties": False,
+    },
+}
 COVERAGE_FIELDS = [
     "prompt_id",
     "prompt_type",
@@ -151,7 +167,8 @@ class SemanticFactJudge:
         judge_input = build_judge_input(prompt, answer, fact, dimensions)
         payload = {
             "model": self.settings.model,
-            "max_output_tokens": 500,
+            "max_output_tokens": JUDGE_MAX_OUTPUT_TOKENS,
+            "text": {"format": JUDGE_RESPONSE_FORMAT},
             "input": [
                 {
                     "role": "system",
@@ -165,7 +182,13 @@ class SemanticFactJudge:
             ],
         }
         last_error = "judge request failed"
-        for _ in range(max(1, self.settings.retries + 1)):
+        attempts: list[dict[str, Any]] = []
+        for attempt in range(max(1, self.settings.retries + 1)):
+            diagnostic: dict[str, Any] = {
+                "attempt": attempt + 1,
+                "max_output_tokens": JUDGE_MAX_OUTPUT_TOKENS,
+            }
+            attempts.append(diagnostic)
             try:
                 data = _post_json(
                     "https://api.openai.com/v1/responses",
@@ -173,20 +196,32 @@ class SemanticFactJudge:
                     {"Authorization": f"Bearer {api_key}"},
                 )
                 self.usage.calls += 1
+                diagnostic.update(judge_response_diagnostics(data))
                 usage = data.get("usage", {})
                 self.usage.input_tokens += int(usage.get("input_tokens", estimate_tokens(judge_input)))
                 output = extract_openai_response_text(data)
                 self.usage.output_tokens += int(usage.get("output_tokens", estimate_tokens(output)))
-                parsed = parse_judge_json(output)
-                return normalize_result(parsed, fact, dimensions)
+                parsed = parse_live_judge_response(data, output)
+                result = normalize_result(parsed, fact, dimensions)
+                result["response_diagnostics"] = attempts
+                return result
+            except JudgeResponseError as exc:
+                last_error = str(exc)
+                diagnostic["error_code"] = exc.code
+                if not exc.retryable:
+                    break
             except ProviderError as exc:
                 last_error = str(exc)
+                diagnostic["error_code"] = "provider_error"
                 if not exc.retryable:
                     break
             except (ValueError, TypeError, AttributeError, KeyError) as exc:
                 last_error = "Invalid judge response structure: " + type(exc).__name__
+                diagnostic["error_code"] = "invalid_response_structure"
         self.usage.unavailable += 1
-        return unavailable_result(fact, dimensions, last_error)
+        result = unavailable_result(fact, dimensions, last_error)
+        result["response_diagnostics"] = attempts
+        return result
 
     def flush_cache(self) -> None:
         if self._cache_dirty:
@@ -490,6 +525,71 @@ def build_judge_input(prompt: dict[str, Any], answer: str, fact: dict[str, Any],
         f"Fact instructions: {fact.get('judge_prompt', '')}\n\n"
         f"Pre-detected qualifier dimensions: {active}. The fact instructions remain authoritative."
     )
+
+
+class JudgeResponseError(ValueError):
+    def __init__(self, code: str, message: str, retryable: bool = True):
+        super().__init__(message)
+        self.code = code
+        self.retryable = retryable
+
+
+def judge_response_diagnostics(data: Any) -> dict[str, Any]:
+    """Keep bounded response metadata locally, never request headers or full payloads."""
+    if not isinstance(data, dict):
+        return {"response_type": type(data).__name__}
+    result = {
+        "response_id": str(data.get("id") or "")[:100],
+        "status": str(data.get("status") or "unknown")[:80],
+    }
+    details = data.get("incomplete_details")
+    if isinstance(details, dict):
+        result["incomplete_reason"] = str(details.get("reason") or "unknown")[:100]
+    usage = data.get("usage")
+    if isinstance(usage, dict):
+        for key in ("input_tokens", "output_tokens"):
+            if isinstance(usage.get(key), int):
+                result[key] = usage[key]
+        reasoning = usage.get("output_tokens_details")
+        if isinstance(reasoning, dict) and isinstance(reasoning.get("reasoning_tokens"), int):
+            result["reasoning_tokens"] = reasoning["reasoning_tokens"]
+    try:
+        output = extract_openai_response_text(data)
+        result["output_characters"] = len(output)
+        result["output_preview"] = output[:500]
+    except (TypeError, AttributeError, KeyError):
+        result["malformed_output"] = True
+    return result
+
+
+def parse_live_judge_response(data: dict[str, Any], output: str) -> dict[str, Any]:
+    status = data.get("status")
+    if status == "incomplete":
+        details = data.get("incomplete_details") or {}
+        reason = details.get("reason", "unknown") if isinstance(details, dict) else "unknown"
+        if reason == "max_output_tokens":
+            raise JudgeResponseError("output_limit", "Judge response incomplete: output token limit reached.")
+        raise JudgeResponseError("incomplete_response", "Judge response incomplete; see response_diagnostics.")
+    if status not in (None, "completed"):
+        raise JudgeResponseError("response_not_completed", "Judge response did not complete; see response_diagnostics.")
+    for item in data.get("output", []):
+        if isinstance(item, dict) and item.get("type") == "message":
+            for content in item.get("content", []):
+                if isinstance(content, dict) and content.get("type") == "refusal":
+                    raise JudgeResponseError("refusal", "Judge declined to evaluate this answer.", retryable=False)
+    if not output.strip():
+        raise JudgeResponseError("empty_output", "Judge returned no judgment text.")
+    try:
+        parsed = parse_judge_json(output)
+    except json.JSONDecodeError:
+        raise JudgeResponseError("invalid_json", "Judge returned invalid JSON; see response_diagnostics.") from None
+    if not isinstance(parsed, dict) or set(parsed) != {"verdict", "reason", "answer_excerpt"}:
+        raise JudgeResponseError("invalid_schema", "Judge response does not match the required judgment fields.")
+    if parsed.get("verdict") not in sorted(VERDICTS - {"judge_unavailable"}) or any(
+        not isinstance(parsed.get(key), str) for key in ("verdict", "reason", "answer_excerpt")
+    ):
+        raise JudgeResponseError("invalid_schema", "Judge response has invalid judgment field values.")
+    return parsed
 
 
 def parse_judge_json(value: str) -> dict[str, Any]:

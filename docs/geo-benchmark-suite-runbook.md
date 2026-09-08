@@ -170,7 +170,36 @@ answer, or judge-contract version changes, even if the fact-base schema label
 stays the same. Unknown judge-model pricing is reported as unknown, not zero;
 the combined cost is also unknown until that pricing is configured.
 
-### Activation test plan
+### Recovering unavailable live fact judgments
+
+The OpenAI judge requests a strict JSON schema and allows 4,000 output tokens.
+The larger allowance is a ceiling, not a guaranteed usage amount; monitor the
+reported judge cost. See the [OpenAI structured outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=responses).
+
+Each new live verdict includes `response_diagnostics` with per-attempt response
+status, response ID, available token usage, incomplete reason, and a bounded
+500-character output preview. These are saved locally in scored answers (and
+in the cache for successful judgments). Request headers and full API payloads
+are not stored. Output-limit, empty-output, refusal, invalid-JSON, and invalid-schema
+failures remain `judge_unavailable`, not inaccurate. Refusals are not retried;
+other response failures respect `--fact-judge-retries`.
+
+After updating the code, re-score the existing five-answer canary:
+
+```bash
+./geo-bench --data-dir geo-benchmark-live-canary score \
+  --month 2026-09 --targets TiDB --web-search off \
+  --fact-judge live --fact-judge-provider openai \
+  --fact-judge-model gpt-5-mini --fact-judge-retries 1
+```
+
+This does not collect answers again. It preserves the raw answers, reuses valid
+cached verdicts, and retries judgments that were unavailable. It replaces scored
+outputs and reports; copy those first if you need to retain the prior report.
+For a ZIP-based installation, preserve `.env.local` and the entire
+`geo-benchmark-live-canary` directory when moving to a new checkout.
+
+### Activation test stages
 
 | Stage | Credentials | Required checks |
 | --- | --- | --- |
