@@ -4,6 +4,26 @@ A repeatable benchmark for measuring how AI answer engines mention, cite, and re
 
 ## Metrics
 
+### Human review reports
+
+Every run, rescore, retry, and report refresh produces `answer-review.html` and
+`answer-review.md` in `<data-dir>/reports/<month>/`. Open the HTML file in a browser
+for full answers, citation links, captured search queries, per-target scores,
+and saved fact-judge explanations. Failed answers and missing evidence are labeled.
+Fact references reflect the configuration when the report is generated, not a
+historical snapshot. Saved judge explanations may already be truncated.
+
+To regenerate these files from existing results without API calls:
+
+```bash
+./geo-bench --data-dir geo-benchmark-live-canary-search report --month 2026-09
+open geo-benchmark-live-canary-search/reports/2026-09/answer-review.html
+```
+
+The HTML escapes model content and works offline; source links open only when clicked.
+
+### Metric definitions
+
 - Mention Rate: how often a product appears in eligible non-branded answers.
 - Prominence Score: how early a product appears, weighted by position and prompt intent.
 - Citation Authority: whether product claims are backed by credible, fresh, accurate sources.

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from .io_utils import ensure_dir, write_json
+from .review_report import write_review_report
 
 
 PROMPT_TYPE_ORDER = ["pain_point", "database_type", "ai_infra", "case_selection"]
@@ -17,6 +18,8 @@ def write_reports(
     summary: dict[str, Any],
     scored_answers: list[dict[str, Any]],
     cost_summary: dict[str, Any] | None,
+    raw_answers: list[dict[str, Any]] | None = None,
+    fact_base: dict[str, Any] | None = None,
 ) -> None:
     ensure_dir(report_dir)
     cleanup_legacy_single_target_files(report_dir)
@@ -26,6 +29,7 @@ def write_reports(
     write_markdown(report_dir / "llm-report.md", month, summary, cost_summary, scored_answers)
     write_target_summary_csv(report_dir / "target-kpi-summary.csv", summary)
     write_csv(report_dir / "scored_answers.csv", scored_answers)
+    write_review_report(report_dir, month, scored_answers, raw_answers or [], fact_base)
     for target, target_summary in summary.get("targets", {}).items():
         safe_target = target.lower().replace(" ", "-")
         write_breakdown_csv(report_dir / f"model-breakdown-{safe_target}.csv", target_summary.get("by_model", {}))
