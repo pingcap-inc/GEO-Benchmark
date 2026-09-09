@@ -267,9 +267,9 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertTrue(scored["target_in_prompt"])
         self.assertEqual(scored["brand_class"], "branded")
         self.assertEqual(scored["mention_position"], "first")
-        self.assertEqual(metrics["mention_rate"], 0.0)
-        self.assertEqual(metrics["prominence_score"], 0.0)
-        self.assertEqual(metrics["answer_share"], 0.0)
+        self.assertIsNone(metrics["mention_rate"])
+        self.assertIsNone(metrics["prominence_score"])
+        self.assertIsNone(metrics["answer_share"])
         self.assertEqual(metrics["prompt_count"], 0)
         self.assertEqual(metrics["answer_count"], 1)
 

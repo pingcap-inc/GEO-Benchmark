@@ -24,6 +24,18 @@ The HTML escapes model content and works offline; source links open only when cl
 
 ### Metric definitions
 
+Reports describe only saved scored answers, which can be a subset of the monthly
+prompt list. Coverage tables show the number of eligible answer rows. A metric
+with no eligible observations is `N/A` (JSON `null`, CSV empty); a measured zero
+remains `0`. Branded prompts are excluded from visibility metrics.
+
+Planned costs honor `--only-prompt-ids` and `--only-prompt-type` on both `run`
+and `estimate-cost`. They estimate fresh collection for that selection, excluding
+judge calls, retries, and fallback. Search count and token usage are assumptions,
+not spending limits. Saved-answer costs cover successful stored answers; judge
+costs cover the latest scoring invocation. Neither is a lifetime billing ledger.
+Unknown model pricing produces an unknown total rather than a zero-dollar cost.
+
 - Mention Rate: how often a product appears in eligible non-branded answers.
 - Prominence Score: how early a product appears, weighted by position and prompt intent.
 - Citation Authority: whether product claims are backed by credible, fresh, accurate sources.
