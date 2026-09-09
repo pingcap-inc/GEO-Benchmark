@@ -21,9 +21,12 @@ def estimate_planned_cost(
 ) -> dict[str, Any]:
     rows = []
     total = 0.0
+    pricing_complete = True
     for provider_name in providers:
         model_name = models_config[provider_name]["model"]
-        price = pricing_config["models"].get(model_name, {})
+        price = price_for_model(pricing_config, model_name, provider_name)
+        known = all(key in price for key in ("input_per_1m", "output_per_1m"))
+        pricing_complete = pricing_complete and known
         input_rate = float(price.get("input_per_1m", 0.0))
         output_rate = float(price.get("output_per_1m", 0.0))
         request_fee = float(price.get("request_fee", 0.0))
@@ -66,7 +69,8 @@ def estimate_planned_cost(
                 ),
                 "web_search_requests": web_search_requests,
                 "web_search_fee": web_search_fee,
-                "estimated_cost_usd": round(cost, 4),
+                "estimated_cost_usd": round(cost, 4) if known else None,
+                "pricing_known": known,
                 "pricing_source": price.get("source"),
             }
         )
@@ -76,7 +80,10 @@ def estimate_planned_cost(
         "prompt_count": len(prompts),
         "assumed_output_tokens": assumed_output_tokens,
         "web_search_mode": web_search_mode,
-        "total_estimated_cost_usd": round(total, 4),
+        "total_estimated_cost_usd": round(total, 4) if pricing_complete else None,
+        "pricing_complete": pricing_complete,
+        "scope": "Selected prompts and providers, assuming fresh collection; excludes fact judging, retries and fallback. Not an incremental bill for rerunning cached answers.",
+        "assumptions": "Input tokens are approximated from prompt text; output tokens use the configured assumption. Search-on assumes one search request per answer; actual search count, search context and reasoning tokens can differ.",
         "providers": rows,
         "pricing_version": pricing_config.get("pricing_version"),
     }
@@ -100,8 +107,11 @@ def estimate_actual_cost(
 
     rows = []
     total = 0.0
+    pricing_complete = True
     for (provider, model), usage in sorted(grouped.items()):
         price = price_for_model(pricing_config, model, provider)
+        known = all(key in price for key in ("input_per_1m", "output_per_1m"))
+        pricing_complete = pricing_complete and known
         input_rate = float(price.get("input_per_1m", 0.0))
         output_rate = float(price.get("output_per_1m", 0.0))
         request_fee = float(price.get("request_fee", 0.0))
@@ -118,13 +128,16 @@ def estimate_actual_cost(
                 "provider": provider,
                 "model": model,
                 **usage,
-                "estimated_cost_usd": round(cost, 4),
+                "estimated_cost_usd": round(cost, 4) if known else None,
+                "pricing_known": known,
                 "pricing_source": price.get("source"),
             }
         )
     return {
         "mode": "actual_or_usage_estimated",
-        "total_estimated_cost_usd": round(total, 4),
+        "total_estimated_cost_usd": round(total, 4) if pricing_complete else None,
+        "pricing_complete": pricing_complete,
+        "scope": "Usage estimate for successful saved answers in this report's search mode. Not a billing ledger; excludes failed or overwritten attempts and may include answers collected previously.",
         "providers": rows,
         "pricing_version": pricing_config.get("pricing_version"),
     }

@@ -20,7 +20,7 @@ from .fact_judge import (
 )
 from .io_utils import canonical_data_root, ensure_dir, file_hash, previous_month, read_json, read_jsonl, stable_hash, write_json, write_jsonl
 from .providers import ProviderError, provider_for, run_with_retries
-from .reports import write_reports
+from .reports import write_reports, fmt_optional, format_cost
 from .scoring import aggregate_scores, score_answers
 from .seed import generate_seed_prompts
 
@@ -70,6 +70,8 @@ def main(argv: list[str] | None = None) -> int:
     estimate_p.add_argument("--prompts", type=int, default=120)
     estimate_p.add_argument("--assumed-output-tokens", type=int, default=700)
     estimate_p.add_argument("--web-search", choices=["off", "on"], default="off")
+    estimate_p.add_argument("--only-prompt-type", default=None)
+    estimate_p.add_argument("--only-prompt-ids", default=None)
 
     score_p = sub.add_parser("score", help="Score existing raw answers.")
     score_p.add_argument("--month", required=True)
@@ -113,6 +115,7 @@ def main(argv: list[str] | None = None) -> int:
             prepare_and_validate_fact_coverage(root, args.month)
         providers = split_csv(args.providers)
         prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
+        planned = planned_cost(root, args.month, providers, args.runs, args.assumed_output_tokens, args.web_search, prompt_ids)
         collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids, args.web_search)
         if not args.no_fallback:
             for result in retry_configured_errors(root, args.month, providers, args.retries, args.web_search):
@@ -128,8 +131,8 @@ def main(argv: list[str] | None = None) -> int:
             split_csv(args.targets) if args.targets else None,
             args.web_search,
             JudgeSettings(args.fact_judge, args.fact_judge_provider, args.fact_judge_model, args.fact_judge_retries),
+            planned,
         )
-        planned = planned_cost(root, args.month, providers, args.runs, args.assumed_output_tokens, args.web_search)
         write_json(month_report_dir(root, args.month) / "planned_cost_summary.json", planned)
         print_run_summary(root, args.month, summary, cost, planned, len(scored))
         return 0
@@ -159,12 +162,13 @@ def main(argv: list[str] | None = None) -> int:
         if result["backup_path"]:
             print(f"Backup: {result['backup_path']}")
         print(f"Scored answers: {len(scored)}")
-        print(f"Cost estimate: ${cost.get('total_estimated_cost_usd', 0)}")
+        print(f"Saved-answer cost estimate: {format_cost(cost.get('total_estimated_cost_usd'))}")
         print(f"Report: {month_report_dir(root, args.month) / 'llm-report.md'}")
         return 0
     if args.command == "estimate-cost":
         prepare(root, args.month, args.prompts, 0.3, force=False)
-        estimate = planned_cost(root, args.month, split_csv(args.providers), args.runs, args.assumed_output_tokens, args.web_search)
+        prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
+        estimate = planned_cost(root, args.month, split_csv(args.providers), args.runs, args.assumed_output_tokens, args.web_search, prompt_ids)
         write_json(month_report_dir(root, args.month) / "planned_cost_summary.json", estimate)
         print_cost_estimate(estimate)
         return 0
@@ -177,10 +181,10 @@ def main(argv: list[str] | None = None) -> int:
             JudgeSettings(args.fact_judge, args.fact_judge_provider, args.fact_judge_model, args.fact_judge_retries),
         )
         print(
-            f"Scored {len(scored)} answers. Overall Mention Rate: {summary['overall']['mention_rate']}; "
-            f"Prominence Score: {summary['overall']['prominence_score']}"
+            f"Scored {len(scored)} answers. Overall Mention Rate: {fmt_optional(summary['overall']['mention_rate'])}; "
+            f"Prominence Score: {fmt_optional(summary['overall']['prominence_score'])}"
         )
-        print(f"Cost estimate: ${cost.get('total_estimated_cost_usd', 0)}")
+        print(f"Saved-answer cost estimate: {format_cost(cost.get('total_estimated_cost_usd'))}")
         return 0
     if args.command == "report":
         scored_path = month_run_dir(root, args.month) / "scored_answers.jsonl"
@@ -619,6 +623,7 @@ def score_and_report(
     targets: list[str] | None = None,
     web_search_mode: str = "off",
     judge_settings: JudgeSettings | None = None,
+    planned_estimate: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
     prompts = load_prompts(root, month)
     raw = [
@@ -660,9 +665,11 @@ def score_and_report(
         judge.flush_cache()
     summary = aggregate_scores(scored)
     cost = estimate_actual_cost(raw, pricing)
+    if planned_estimate is not None:
+        cost["planned"] = planned_estimate
     cost["web_search_mode"] = web_search_mode
     cost["fact_judge"] = fact_judge_cost(judge, pricing, judge_settings)
-    cost["combined_total_estimated_cost_usd"] = None if cost["fact_judge"]["estimated_cost_usd"] is None else round(
+    cost["combined_total_estimated_cost_usd"] = None if cost["fact_judge"]["estimated_cost_usd"] is None or cost.get("total_estimated_cost_usd") is None else round(
         float(cost.get("total_estimated_cost_usd", 0))
         + float(cost["fact_judge"].get("estimated_cost_usd", 0)),
         6,
@@ -740,8 +747,11 @@ def planned_cost(
     runs: int,
     assumed_output_tokens: int,
     web_search_mode: str = "off",
+    prompt_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     prompts = load_prompts(root, month)
+    if prompt_ids is not None:
+        prompts = [prompt for prompt in prompts if prompt["prompt_id"] in prompt_ids]
     models = read_json(root / "config" / "models.json")
     pricing = read_json(root / "config" / "pricing.json")
     return estimate_planned_cost(prompts, providers, runs, models, pricing, assumed_output_tokens, web_search_mode)
@@ -793,12 +803,12 @@ def print_run_summary(
     for target in summary.get("target_order", []):
         metrics = summary["targets"][target]
         print(
-            f"{target}: Mention Rate {metrics['overall']['mention_rate']}, "
-            f"Prominence Score {metrics['overall']['prominence_score']}, "
-            f"Stable Mention Rate {metrics['unchanged']['mention_rate']}, "
-            f"Stable Prominence Score {metrics['unchanged']['prominence_score']}, "
-            f"Citation Authority {metrics['overall']['citation_authority']}, "
-            f"Recommendation Rate {metrics['overall']['qualified_recommendation_rate']}"
+            f"{target}: Mention Rate {fmt_optional(metrics['overall']['mention_rate'])}, "
+            f"Prominence Score {fmt_optional(metrics['overall']['prominence_score'])}, "
+            f"Stable Mention Rate {fmt_optional(metrics['unchanged']['mention_rate'])}, "
+            f"Stable Prominence Score {fmt_optional(metrics['unchanged']['prominence_score'])}, "
+            f"Citation Authority {fmt_optional(metrics['overall']['citation_authority'])}, "
+            f"Recommendation Rate {fmt_optional(metrics['overall']['qualified_recommendation_rate'])}"
         )
     judge_cost = cost.get("fact_judge", {})
     if judge_cost.get("mode") != "off":
@@ -812,23 +822,25 @@ def print_run_summary(
             f"API calls {judge_cost.get('calls', 0)}, cache hits {judge_cost.get('cache_hits', 0)}, "
             f"unavailable facts {judge_cost.get('unavailable', 0)}"
         )
-    print(f"Actual/usage-estimated cost: ${cost.get('total_estimated_cost_usd', 0)}")
+    print(f"Saved-answer usage estimate: {format_cost(cost.get('total_estimated_cost_usd'))}")
     if judge_cost.get("mode") != "off":
         combined = cost.get("combined_total_estimated_cost_usd")
-        print("Combined provider + fact judge cost: " + ("Unknown (missing judge pricing)" if combined is None else f"${combined}"))
-    print(f"Planned cost estimate: ${planned.get('total_estimated_cost_usd', 0)}")
+        print("Saved answers + this scoring invocation's judge cost: " + format_cost(combined))
+    print(f"Planned fresh collection ({planned.get('prompt_count')} prompts, excludes judge/retries): {format_cost(planned.get('total_estimated_cost_usd'))}")
     print(f"Report: {report_dir / 'llm-report.md'}")
 
 
 def print_cost_estimate(estimate: dict[str, Any]) -> None:
-    print(f"Total estimated cost: ${estimate['total_estimated_cost_usd']}")
+    print(f"Total estimated cost: {format_cost(estimate['total_estimated_cost_usd'])}")
+    print(estimate.get('scope', ''))
+    print(estimate.get('assumptions', ''))
     for row in estimate["providers"]:
         print(
             f"- {row['provider']} / {row['model']}: "
             f"{row['requests']} requests, "
             f"{row['input_tokens']} input tokens, "
             f"{row['output_tokens']} output tokens, "
-            f"${row['estimated_cost_usd']}"
+            + format_cost(row['estimated_cost_usd'])
         )
 
 

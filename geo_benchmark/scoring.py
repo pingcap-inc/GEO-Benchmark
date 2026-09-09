@@ -653,6 +653,8 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
     metrics = {
         "prompt_count": len(prompt_groups),
         "answer_count": len(rows),
+        "visibility_answer_count": len(visible_rows),
+        "recommendation_answer_count": qualified_answers,
         "mention_rate": mention_rate,
         "prominence_score": prominence_score,
         # Deprecated compatibility alias. New reports should label and read this
@@ -661,11 +663,11 @@ def aggregate_slice(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "citation_authority": round((citation_sum / weight_sum) * 100, 2) if weight_sum else 0.0,
         "qualified_recommendation_rate": round((recommended_answers / qualified_answers) * 100, 2)
         if qualified_answers
-        else 0.0,
-        "weighted_recommendation_score": round(max(0.0, min(1.0, weighted_rec_avg)) * 100, 2),
+        else None,
+        "weighted_recommendation_score": round(max(0.0, min(1.0, weighted_rec_avg)) * 100, 2) if rec_weight_sum else None,
         "negative_recommendation_rate": round((negative_answers / qualified_answers) * 100, 2)
         if qualified_answers
-        else 0.0,
+        else None,
         "mention_counts": dict(mention_counts),
         "recommendation_counts": dict(recommendation_counts),
         "avg_source_authority": round(mean(row["source_authority"] for row in visible_rows), 4),
@@ -736,13 +738,15 @@ def empty_metrics() -> dict[str, Any]:
     return {
         "prompt_count": 0,
         "answer_count": 0,
-        "mention_rate": 0.0,
-        "prominence_score": 0.0,
-        "answer_share": 0.0,
-        "citation_authority": 0.0,
-        "qualified_recommendation_rate": 0.0,
-        "weighted_recommendation_score": 0.0,
-        "negative_recommendation_rate": 0.0,
+        "visibility_answer_count": 0,
+        "recommendation_answer_count": 0,
+        "mention_rate": None,
+        "prominence_score": None,
+        "answer_share": None,
+        "citation_authority": None,
+        "qualified_recommendation_rate": None,
+        "weighted_recommendation_score": None,
+        "negative_recommendation_rate": None,
         "mention_counts": {},
         "recommendation_counts": {},
         "avg_source_authority": 0.0,

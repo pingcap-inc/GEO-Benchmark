@@ -26,7 +26,7 @@ def write_reports(
     write_json(report_dir / "kpi_summary.json", summary)
     if cost_summary:
         write_json(report_dir / "cost_summary.json", cost_summary)
-    write_markdown(report_dir / "llm-report.md", month, summary, cost_summary, scored_answers)
+    write_markdown(report_dir / "llm-report.md", month, summary, cost_summary, scored_answers, raw_answers)
     write_target_summary_csv(report_dir / "target-kpi-summary.csv", summary)
     write_csv(report_dir / "scored_answers.csv", scored_answers)
     write_review_report(report_dir, month, scored_answers, raw_answers or [], fact_base)
@@ -57,6 +57,7 @@ def write_markdown(
     summary: dict[str, Any],
     cost_summary: dict[str, Any] | None,
     scored_answers: list[dict[str, Any]],
+    raw_answers: list[dict[str, Any]] | None = None,
 ) -> None:
     providers = sorted({row.get("model_surface", "unknown") for row in scored_answers})
     lines = [
@@ -64,7 +65,9 @@ def write_markdown(
         "",
         f"Providers: {', '.join(providers) if providers else 'none'}",
         f"Web search mode: {cost_summary.get('web_search_mode', 'off') if cost_summary else 'off'}",
-        f"Raw answers: {len({row.get('answer_id') for row in scored_answers})}",
+        f"Saved raw records: {len(raw_answers) if raw_answers is not None else 'not supplied'}",
+        f"Successfully scored answers: {len({row.get('answer_id') for row in scored_answers})}",
+        f"Failed raw records: {sum(row.get('status') == 'error' for row in raw_answers) if raw_answers is not None else 'not supplied'}",
         f"Scored target-answer rows: {len(scored_answers)}",
         "",
     ]
@@ -84,7 +87,11 @@ def write_markdown(
     lines.extend(
         [
             "",
-            "Overall columns use all prompts for the month. Stable columns use only stable prompts and are the strict comparable view.",
+            "Overall columns use the saved scored answers in this report, which may be only a subset of the month. Stable columns use the stable subset; compare runs only when prompt and provider coverage also match.",
+            "",
+            "Mention Rate uses non-branded answer rows (questions that do not name the target). Prominence and Citation Authority average those answers per prompt, then apply prompt weights. Recommendation Rate uses only qualifying non-branded recommendation answers. Consideration uses only non-branded answers with captured queries or confirmed no-search status. Branded accuracy uses branded answers with fact decisions; comparison win rate uses valid comparison answers.",
+            "",
+            "N/A means no eligible observations; 0 means eligible observations were measured and the result was zero. CSV exports represent N/A as an empty cell; JSON uses null.",
             "",
             "## Prompt-Type Breakdown",
             "",
@@ -103,6 +110,15 @@ def write_markdown(
                 f"| {target} | {summary['targets'][target]['overall']['prompt_count']} | "
                 f"{summary['targets'][target]['overall'].get('branded_prompt_count', 0)} | "
                 f"{summary['targets'][target]['overall']['answer_count']} |"
+                for target in report_target_order(summary)
+            ],
+            "",
+            "| Target | Visibility answers | Recommendation-eligible answers | Consideration-eligible answers |",
+            "| --- | ---: | ---: | ---: |",
+            *[
+                f"| {target} | {summary['targets'][target]['overall'].get('visibility_answer_count', 'N/A')} | "
+                f"{summary['targets'][target]['overall'].get('recommendation_answer_count', 'N/A')} | "
+                f"{summary['targets'][target]['overall'].get('consideration_answer_count', 0)} |"
                 for target in report_target_order(summary)
             ],
             "",
@@ -134,14 +150,24 @@ def write_markdown(
             [
                 "## Cost",
                 "",
-                f"- Estimated cost: ${cost_summary.get('total_estimated_cost_usd', 0)}",
+                f"- Saved-answer usage estimate: {format_cost(cost_summary.get('total_estimated_cost_usd', 0))}",
+                f"- Scope: {cost_summary.get('scope', 'Successful saved answers; not a billing ledger.')}",
                 f"- Pricing version: {cost_summary.get('pricing_version')}",
                 f"- Fact judge mode: {cost_summary.get('fact_judge', {}).get('mode', 'off')}",
                 f"- Fact judge estimated cost: {format_cost(cost_summary.get('fact_judge', {}).get('estimated_cost_usd', 0))}",
                 f"- Combined provider and judge cost: {format_cost(cost_summary.get('combined_total_estimated_cost_usd', cost_summary.get('total_estimated_cost_usd', 0)))}",
+                "- Judge cost covers this scoring invocation. Cache hits add no new judge calls; previous judge charges are not included. The combined figure is not lifetime project spend.",
                 "",
             ]
         )
+        if cost_summary.get('planned'):
+            planned = cost_summary['planned']
+            lines.extend([
+                f"- Planned fresh-collection estimate: {format_cost(planned.get('total_estimated_cost_usd'))}",
+                f"- Planned scope: {planned.get('prompt_count')} prompts × {planned.get('runs_per_prompt')} runs per provider.",
+                f"- {planned.get('scope', '')}",
+                f"- Assumptions: {planned.get('assumptions', '')}", "",
+            ])
     metadata = summary.get("run_metadata", {})
     if metadata:
         lines.extend(
@@ -306,7 +332,7 @@ def ordered_prompt_types(summary: dict[str, Any]) -> list[str]:
 
 def fmt(value: Any) -> str:
     if value is None:
-        return "0.00"
+        return "N/A"
     return f"{float(value):.2f}"
 
 
@@ -360,6 +386,8 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
         "avg_freshness",
         "prompt_count",
         "answer_count",
+        "visibility_answer_count",
+        "recommendation_answer_count",
     ]
     with path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
