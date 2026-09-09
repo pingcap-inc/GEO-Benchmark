@@ -1300,7 +1300,7 @@ class GeoBenchmarkTests(unittest.TestCase):
             markdown_files = sorted(path.name for path in report_dir.glob("*.md"))
             report_text = (report_dir / "llm-report.md").read_text(encoding="utf-8")
 
-            self.assertEqual(markdown_files, ["llm-report.md"])
+            self.assertEqual(markdown_files, ["answer-review.md", "llm-report.md"])
             self.assertIn("| Target | Consideration Rate | Mention Rate | Prominence Score | Citation Authority | Recommendation Rate | Comparison Win Rate | Stable Consideration Rate | Stable Mention Rate | Stable Prominence Score | Stable Recommendation Rate |", report_text)
             self.assertNotIn("Top 3", report_text)
             self.assertNotIn("Not Mentioned", report_text)

@@ -188,7 +188,11 @@ def main(argv: list[str] | None = None) -> int:
         summary = aggregate_scores(scored)
         cost_path = month_report_dir(root, args.month) / "cost_summary.json"
         cost = read_json(cost_path, default={})
-        write_reports(month_report_dir(root, args.month), args.month, summary, scored, cost)
+        raw = read_jsonl(month_run_dir(root, args.month) / "raw_answers.jsonl")
+        if cost.get("web_search_mode"):
+            raw = [row for row in raw if raw_web_search_mode(row) == cost["web_search_mode"]]
+        write_reports(month_report_dir(root, args.month), args.month, summary, scored, cost,
+                      raw, read_json(canonical_data_root(root) / "config" / "tidb_fact_base_v2.json", default={}))
         print(f"Wrote reports to {month_report_dir(root, args.month)}")
         return 0
     if args.command == "compare":
@@ -669,7 +673,8 @@ def score_and_report(
     run_dir = month_run_dir(root, month)
     write_jsonl(run_dir / "scored_answers.jsonl", scored)
     write_json(month_report_dir(root, month) / "cost_summary.json", cost)
-    write_reports(month_report_dir(root, month), month, summary, scored, cost)
+    write_reports(month_report_dir(root, month), month, summary, scored, cost, raw,
+                  read_json(canonical_data_root(root) / "config" / "tidb_fact_base_v2.json", default={}))
     return scored, summary, cost
 
 
