@@ -29,6 +29,53 @@ CONFIG = REPO / "geo-benchmark" / "config"
 
 
 class SemanticFactJudgeTests(unittest.TestCase):
+    def test_scope_policy_overrides_embedded_checklist(self):
+        from geo_benchmark.fact_judge import QUALIFIER_SCOPE_POLICY, build_judge_input
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+        fact = judge.facts["tidb_cloud_zero"]
+        fact["judge_prompt"] = "LEGACY REQUIRE EVERY QUALIFIER"
+        prompt = {"prompt_id": "stable_branddef_022", "prompt_text": "What is TiDB Cloud Zero?"}
+        text = build_judge_input(prompt, "A temporary TiDB database for experiments.", fact, [])
+        self.assertNotIn("LEGACY REQUIRE EVERY QUALIFIER", text)
+        self.assertIn("system scoring policy takes precedence", text)
+        self.assertIn("not an exhaustive required checklist", text)
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=self.completed_judge_response()
+        ) as request:
+            judge.judge_answer(prompt, "A temporary TiDB database for experiments.", "hash")
+        self.assertIn(QUALIFIER_SCOPE_POLICY, request.call_args.args[1]["input"][0]["content"])
+
+    def test_scope_policy_change_invalidates_cache(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        prompt = {"prompt_id": "stable_branddef_022", "prompt_text": "What is TiDB Cloud Zero?"}
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
+        judge.judge_answer(prompt, "Temporary database", "hash")
+        judge.flush_cache()
+        fresh = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
+        with patch("geo_benchmark.fact_judge.QUALIFIER_SCOPE_POLICY", "Different policy"):
+            result = fresh.judge_answer(prompt, "Temporary database", "hash")
+        self.assertEqual(fresh.usage.cache_hits, 0)
+
+    def test_qualifier_eval_preview_is_keyless(self):
+        import contextlib
+        import io
+        from geo_benchmark.qualifier_eval import main as preview
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), patch(
+            "geo_benchmark.fact_judge._post_json", side_effect=AssertionError("Network forbidden")
+        ):
+            self.assertEqual(preview([]), 0)
+        data = json.loads(output.getvalue())
+        self.assertEqual(data["api_calls"], 0)
+        self.assertEqual(len(data["cases"]), 8)
+        expected = {case["case"]: case["expected"] for case in data["cases"]}
+        self.assertEqual(expected["core_only"], "correct")
+        self.assertEqual(expected["requested_maturity_missing"], "not_enough_information")
+        self.assertEqual(expected["volunteered_false_maturity"], "incorrect")
+
     @staticmethod
     def completed_judge_response():
         return {
