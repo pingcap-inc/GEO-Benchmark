@@ -199,7 +199,42 @@ outputs and reports; copy those first if you need to retain the prior report.
 For a ZIP-based installation, preserve `.env.local` and the entire
 `geo-benchmark-live-canary` directory when moving to a new checkout.
 
-### Activation test stages
+### Conditional qualifier validation
+
+The system-level scope policy overrides per-fact correctness checklists. Runtime
+judge input is built from canonical truth, correctness/contradiction examples,
+and applicability instead of the legacy concatenated `judge_prompt`. Correctness
+examples are not a mandatory checklist. For Cloud Zero, a temporary database
+experience is the core; preview status, exact lifetime, signup details, and the
+Starter claim flow need not all appear in a general definition. Missing an asked
+qualifier is `not_enough_information`; explicit false claims are `incorrect`.
+Activating plan checks does not automatically require maturity or other dimensions.
+
+This is an evaluation-policy change. The new cache contract invalidates prior
+judgments, including successful ones; re-scoring the five-answer canary will
+make up to three fresh fact judgments, without regenerating answers.
+
+Preview eight fixed examples without keys:
+
+```bash
+python3 -m geo_benchmark.qualifier_eval
+```
+
+Run the same examples against the real judge (paid OpenAI calls, no answer generation):
+
+```bash
+python3 -m geo_benchmark.qualifier_eval --live
+```
+
+The live command prints each expected verdict, actual verdict, explanation, and
+match status, and exits unsuccessfully if any case disagrees or is unavailable.
+Expected verdicts are not sent to the judge. Results are cached in the separate
+`geo-benchmark-qualifier-check` run directory. These are policy fixtures based on
+the current candidate fact base, not independent product verification. Revisit
+the expectations when product truth changes. Keyless tests check the instruction
+wiring and cache invalidation; they do not prove semantic judge compliance.
+
+### Activation stages
 
 | Stage | Credentials | Required checks |
 | --- | --- | --- |
