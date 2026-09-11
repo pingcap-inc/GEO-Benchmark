@@ -32,6 +32,23 @@ recommendation.
 
 The HTML escapes model content and works offline; source links open only when clicked.
 
+### Monthly prompt research
+
+After a completed benchmark run, the optional prompt research workflow combines
+aggregated internal questions, Semrush and DataForSEO external signals, and
+captured model fan-out queries. Themes must appear in at least two of the three
+signal groups. The command writes up to 20 review candidates and never edits the
+approved prompt set.
+
+```bash
+MONTH=2026-09 PROVIDERS=openai,anthropic,gemini,perplexity WEB_SEARCH=on \
+PROMPT_RESEARCH=on ./scripts/run-benchmark-workflow.sh
+```
+
+External responses are cached to avoid repeat charges. See
+[`docs/monthly-prompt-research.md`](docs/monthly-prompt-research.md) for seed
+governance, internal-input format, API configuration, scoring, and outputs.
+
 ### Metric definitions
 
 Reports describe only saved scored answers, which can be a subset of the monthly
