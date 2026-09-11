@@ -196,7 +196,8 @@ def main(argv: list[str] | None = None) -> int:
         if cost.get("web_search_mode"):
             raw = [row for row in raw if raw_web_search_mode(row) == cost["web_search_mode"]]
         write_reports(month_report_dir(root, args.month), args.month, summary, scored, cost,
-                      raw, read_json(canonical_data_root(root) / "config" / "tidb_fact_base_v2.json", default={}))
+                      raw, read_json(canonical_data_root(root) / "config" / "tidb_fact_base_v2.json", default={}),
+                      prompts=load_prompts(root, args.month))
         print(f"Wrote reports to {month_report_dir(root, args.month)}")
         return 0
     if args.command == "compare":
@@ -681,7 +682,8 @@ def score_and_report(
     write_jsonl(run_dir / "scored_answers.jsonl", scored)
     write_json(month_report_dir(root, month) / "cost_summary.json", cost)
     write_reports(month_report_dir(root, month), month, summary, scored, cost, raw,
-                  read_json(canonical_data_root(root) / "config" / "tidb_fact_base_v2.json", default={}))
+                  read_json(canonical_data_root(root) / "config" / "tidb_fact_base_v2.json", default={}),
+                  prompts=prompts)
     return scored, summary, cost
 
 
