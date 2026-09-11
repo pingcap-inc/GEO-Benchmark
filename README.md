@@ -20,6 +20,16 @@ To regenerate these files from existing results without API calls:
 open geo-benchmark-live-canary-search/reports/2026-09/answer-review.html
 ```
 
+### Cited-domain reports
+
+Every report refresh also produces `cited-domains.html`,
+`cited-domain-summary.csv`, and `cited-domain-details.csv`. The offline HTML
+report ranks domains by unique prompts and can be filtered by brand class,
+prompt group and type, provider, panel, source type, recommended product, and
+whether TiDB appeared. Recommendation labels describe products recommended in
+answers that cite the domain; they do not claim that the citation caused the
+recommendation.
+
 The HTML escapes model content and works offline; source links open only when clicked.
 
 ### Metric definitions
@@ -79,6 +89,7 @@ calls until a reviewer assigns a disposition and sets `mapping_status=approved`.
 - Anthropic report: `geo-benchmark/reports/2026-08/llm-report.md`
 - OpenAI report: `geo-benchmark-openai/reports/2026-08/llm-report.md`
 - Web search on report: `geo-benchmark-websearch-on/reports/2026-08/llm-report.md`
+- Filterable source report: `<data-dir>/reports/<month>/cited-domains.html`
 - Canonical KPI report: `docs/geo-benchmark-2026-08-canonical-kpi.md`
 
 Raw answer files are intentionally not published. Reports and scored outputs are included for review and comparison.

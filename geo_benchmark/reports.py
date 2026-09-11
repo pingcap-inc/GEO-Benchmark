@@ -6,6 +6,7 @@ from typing import Any
 
 from .io_utils import ensure_dir, write_json
 from .review_report import write_review_report
+from .source_report import write_cited_domain_report
 
 
 PROMPT_TYPE_ORDER = ["pain_point", "database_type", "ai_infra", "case_selection"]
@@ -20,6 +21,7 @@ def write_reports(
     cost_summary: dict[str, Any] | None,
     raw_answers: list[dict[str, Any]] | None = None,
     fact_base: dict[str, Any] | None = None,
+    prompts: list[dict[str, Any]] | None = None,
 ) -> None:
     ensure_dir(report_dir)
     cleanup_legacy_single_target_files(report_dir)
@@ -30,11 +32,49 @@ def write_reports(
     write_target_summary_csv(report_dir / "target-kpi-summary.csv", summary)
     write_csv(report_dir / "scored_answers.csv", scored_answers)
     write_review_report(report_dir, month, scored_answers, raw_answers or [], fact_base)
+    cited_domains = write_cited_domain_report(
+        report_dir, month, raw_answers or [], scored_answers, prompts
+    )
+    if cited_domains:
+        append_cited_domain_section(report_dir / "llm-report.md", cited_domains)
     for target, target_summary in summary.get("targets", {}).items():
         safe_target = target.lower().replace(" ", "-")
         write_breakdown_csv(report_dir / f"model-breakdown-{safe_target}.csv", target_summary.get("by_model", {}))
         write_breakdown_csv(report_dir / f"use-case-breakdown-{safe_target}.csv", target_summary.get("by_use_case", {}))
         write_breakdown_csv(report_dir / f"prompt-type-breakdown-{safe_target}.csv", target_summary.get("by_prompt_type", {}))
+
+
+def append_cited_domain_section(path: Path, cited_domains: list[dict[str, Any]]) -> None:
+    """Add a compact entry point to the standalone source report."""
+    lines = [
+        "",
+        "## Cited Domain Analysis",
+        "",
+        "Domains are ranked by the number of unique prompts for which they were cited. "
+        "Open the [filterable cited-domain report](cited-domains.html) for answer-level evidence.",
+        "",
+        "| Domain | Type | Prompts | Cited answers | TiDB appeared | Recommended products |",
+        "| --- | --- | ---: | ---: | ---: | --- |",
+    ]
+    for row in cited_domains[:10]:
+        recommendations = ", ".join(
+            f"{product} ({count})"
+            for product, count in row["recommended_products"].items()
+        ) or "None"
+        lines.append(
+            f"| {row['domain']} | {row['source_type']} | {row['prompt_count']} | "
+            f"{row['cited_answer_count']} | {row['tidb_appeared_prompt_count']} | "
+            f"{recommendations} |"
+        )
+    lines.extend(
+        [
+            "",
+            "Recommendations are observed in answers that cite the domain; this is an association, not proof of causation.",
+            "",
+        ]
+    )
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write("\n".join(lines))
 
 
 def cleanup_legacy_single_target_files(report_dir: Path) -> None:
