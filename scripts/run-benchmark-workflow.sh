@@ -13,6 +13,7 @@ FACT_JUDGE="${FACT_JUDGE:-off}"
 FACT_JUDGE_PROVIDER="${FACT_JUDGE_PROVIDER:-openai}"
 FACT_JUDGE_MODEL="${FACT_JUDGE_MODEL:-gpt-5-mini}"
 FACT_JUDGE_RETRIES="${FACT_JUDGE_RETRIES:-1}"
+PROMPT_RESEARCH="${PROMPT_RESEARCH:-off}"
 
 if [[ -z "$MONTH" ]]; then
   echo "Set MONTH=YYYY-MM before running this workflow." >&2
@@ -67,6 +68,24 @@ fi
 
 echo "Running benchmark..."
 ./geo-bench --data-dir "$DATA_DIR" run "${run_args[@]}"
+
+if [[ "$PROMPT_RESEARCH" == "on" ]]; then
+  echo "Generating monthly prompt research candidates..."
+  research_args=(
+    --month "$MONTH"
+    --max-candidates "${PROMPT_RESEARCH_MAX_CANDIDATES:-20}"
+    --country "${PROMPT_RESEARCH_COUNTRY:-US}"
+    --location-code "${PROMPT_RESEARCH_LOCATION_CODE:-2840}"
+    --language-code "${PROMPT_RESEARCH_LANGUAGE_CODE:-en}"
+  )
+  if [[ "${PROMPT_RESEARCH_REFRESH:-0}" == "1" ]]; then
+    research_args+=(--refresh)
+  fi
+  if [[ -n "${PROMPT_RESEARCH_INTERNAL_SIGNALS:-}" ]]; then
+    research_args+=(--internal-signals "$PROMPT_RESEARCH_INTERNAL_SIGNALS")
+  fi
+  ./geo-bench --data-dir "$DATA_DIR" research-prompts "${research_args[@]}"
+fi
 
 echo "Running local checks..."
 PYTHONPYCACHEPREFIX="${PYTHONPYCACHEPREFIX:-/private/tmp/geo-benchmark-pycache}" python3 -m py_compile geo_benchmark/*.py

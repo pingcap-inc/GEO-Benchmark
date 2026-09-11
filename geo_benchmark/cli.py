@@ -20,6 +20,7 @@ from .fact_judge import (
 )
 from .io_utils import canonical_data_root, ensure_dir, file_hash, previous_month, read_json, read_jsonl, stable_hash, write_json, write_jsonl
 from .providers import ProviderError, provider_for, run_with_retries
+from .prompt_research import PromptResearchError, ResearchSettings, run_prompt_research
 from .reports import write_reports, fmt_optional, format_cost
 from .scoring import aggregate_scores, score_answers
 from .seed import generate_seed_prompts
@@ -98,6 +99,25 @@ def main(argv: list[str] | None = None) -> int:
 
     coverage_validate_p = sub.add_parser("validate-fact-coverage", help="Require approved fact mappings for every branded prompt.")
     coverage_validate_p.add_argument("--month", required=True)
+
+    research_p = sub.add_parser(
+        "research-prompts",
+        help="Combine internal, external, and model-observed signals into review-only prompt candidates.",
+    )
+    research_p.add_argument("--month", required=True)
+    research_p.add_argument("--max-candidates", type=int, default=20)
+    research_p.add_argument("--country", default="US", help="Semrush two-letter country code.")
+    research_p.add_argument("--location-code", type=int, default=2840, help="DataForSEO location code (2840 is US).")
+    research_p.add_argument("--language-code", default="en")
+    research_p.add_argument("--workers", type=int, default=4)
+    research_p.add_argument("--max-seeds", type=int, default=None, help="Optional canary limit for approved seed queries.")
+    research_p.add_argument("--internal-signals", type=Path, default=None)
+    research_p.add_argument("--seed-file", type=Path, default=None)
+    research_p.add_argument("--refresh", action="store_true", help="Ignore cached external responses and make fresh paid calls.")
+    research_p.add_argument("--offline", action="store_true", help="Use saved external responses only; make no paid calls.")
+    research_p.add_argument("--skip-paa", action="store_true")
+    research_p.add_argument("--skip-trends", action="store_true")
+    research_p.add_argument("--skip-semrush", action="store_true")
 
     env_p = sub.add_parser("check-env", help="Check configured provider API keys without printing secrets.")
     env_p.add_argument("--providers", default="openai,anthropic,gemini,perplexity")
@@ -226,6 +246,36 @@ def main(argv: list[str] | None = None) -> int:
         except CoverageValidationError as exc:
             raise SystemExit(str(exc)) from exc
         print(f"Fact coverage validation passed for {args.month}: {result['total']} branded prompts.")
+        return 0
+    if args.command == "research-prompts":
+        try:
+            result = run_prompt_research(
+                root,
+                args.month,
+                ResearchSettings(
+                    max_candidates=args.max_candidates,
+                    country=args.country.upper(),
+                    location_code=args.location_code,
+                    language_code=args.language_code,
+                    refresh=args.refresh,
+                    offline=args.offline,
+                    include_paa=not args.skip_paa,
+                    include_trends=not args.skip_trends,
+                    include_semrush=not args.skip_semrush,
+                    workers=args.workers,
+                    max_seeds=args.max_seeds,
+                    internal_signals_path=args.internal_signals,
+                    seed_file=args.seed_file,
+                ),
+            )
+        except PromptResearchError as exc:
+            raise SystemExit(str(exc)) from exc
+        print(
+            f"Prompt research produced {result['candidate_count']} review candidates from "
+            f"{result['signal_count']} signals. Report: {result['report_dir']}"
+        )
+        for warning in result["warnings"]:
+            print(f"Warning: {warning}")
         return 0
     if args.command == "check-env":
         check_env(root, split_csv(args.providers))
