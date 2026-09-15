@@ -39,6 +39,8 @@
 39	How does a GraphRAG AI agent retrieve context from graph and vector stores?	Non-branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	25
 40	Where can I find a database for LangChain agents?	Non-branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	25
 41	How do OpenAI agents integrate with SQL and vector databases for stateful execution?	Non-branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	24
+217	Best database for AI full stack applications.	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	31	new	Clarity: 13 citations, 86% SoA; highest SoA of any uncovered gap
+218	What is database branching and how does it help AI agents?	Non-branded	AI Agent Infrastructure	Awareness	Backend / App Engineer	30	new	Trends peaked at 100 in May 2026; category entry point
 42	TiDB vs Weaviate for hybrid search and metadata filtering.	Branded	Hybrid Search & RAG	Decision	AI / ML Practitioner	69
 43	TiDB vs Elasticsearch for hybrid search in AI applications.	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	66
 44	TiDB vs pgvector for production RAG applications.	Branded	Hybrid Search & RAG	Decision	Backend / App Engineer	65
@@ -67,14 +69,15 @@
 67	Which databases support BM25 plus vector search?	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	55
 68	MongoDB vector search vs distributed SQL databases for AI retrieval.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	32
 69	PostgreSQL + pgvector vs vector-native databases for semantic search workloads.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	25
-70	How can I scale pgvector?	Non-branded	Hybrid Search & RAG	Consideration	Backend / App Engineer	23
+70	What database should I use when pgvector is no longer enough?	Non-branded	Hybrid Search & RAG	Consideration	Backend / App Engineer	23	rewritten	Clearer buyer decision point
 71	What is TiDB LangChain?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	40
 72	What is TiDB LlamaIndex?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	38
 73	What is TiDB RAG?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	38
 74	What is TiDB vector search?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	38
 75	What is LlamaIndex for TiDB?	Branded	Hybrid Search & RAG	Awareness	Backend / App Engineer	34
-76	Blueprint for scaling pgvector workloads using a distributed SQL backend.	Non-branded	Hybrid Search & RAG	Awareness	AI / ML Practitioner	27
+76	Best database for production RAG when pgvector doesn't scale?	Non-branded	Hybrid Search & RAG	Awareness	AI / ML Practitioner	27	rewritten	Removed blueprint document framing
 77	How does an auto-embedding database create embeddings without an external pipeline?	Non-branded	Hybrid Search & RAG	Awareness	AI / ML Practitioner	26
+219	Best database for LLMs that need to generate SQL against live operational data.	Non-branded	Hybrid Search & RAG	Consideration	AI / ML Practitioner	32	new	Clarity: 19 citations, 47% SoA; maps to MySQL compatibility and HTAP
 78	TiDB vs Aurora MySQL for high-concurrency SaaS workloads.	Branded	Competitive Comparisons	Decision	Engineering Leader	65
 79	TiDB vs Neon for serverless database workloads.	Branded	Competitive Comparisons	Decision	Backend / App Engineer	63
 80	TiDB X vs traditional distributed SQL for AI workloads.	Branded	Competitive Comparisons	Decision	Technical Executive	62
@@ -109,7 +112,7 @@
 109	Best alternative to managed cloud MySQL for write-heavy AI workloads.	Non-branded	Competitive Comparisons	Consideration	Engineering Leader	62
 111	How does TiDB handle schema changes during live migration from MySQL?	Branded	MySQL Scale & Migration	Decision	Backend / App Engineer	39
 112	What are some scalable MySQL alternatives that can handle millions of schemas and tables?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	32
-113	Are there MySQL alternatives that can support both high transaction volumes and complex analytics?	Non-branded	MySQL Scale & Migration	Consideration	Backend / App Engineer	31
+113	What database handles both transactions and real-time analytics without a separate data warehouse?	Non-branded	MySQL Scale & Migration	Consideration	Backend / App Engineer	31	rewritten	HTAP intent kept; updated to buyer language
 114	What are the best open-source MySQL alternatives for handling large datasets with high availability?	Non-branded	MySQL Scale & Migration	Consideration	Backend / App Engineer	31
 115	Modern SQL alternatives to MySQL for high-scale transactional systems.	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	29
 116	What alternatives to MySQL provide efficient management of large amounts of data?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	26
@@ -117,15 +120,16 @@
 118	Blueprint for migrating from managed cloud MySQL to a horizontally scalable SQL platform.	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	33
 119	What are some open-source distributed SQL databases similar to MySQL that can handle high workloads and ensure data consistency?	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	30
 120	Can you recommend a distributed SQL database that supports AI workloads and is similar to MySQL?	Non-branded	MySQL Scale & Migration	Awareness	Technical Executive	29
-121	Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	28
+121	Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.	Non-branded	MySQL Scale & Migration	Awareness	Backend / App Engineer	28	retired	Document framing, no external validation
 122	Can you suggest scalable databases that work like MySQL but offer better flexibility and scalability?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	27
 123	What are the top MySQL-compatible distributed databases for handling diverse data processing needs?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	26
-124	What does MySQL modernization involve for applications facing performance ceilings?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	26
+124	What does MySQL modernization involve for applications facing performance ceilings?	Non-branded	MySQL Scale & Migration	Awareness	Engineering Leader	26	retired	No Trends, Clarity, or GSC signal
+220	What factors should I consider when choosing an HTAP database?	Non-branded	MySQL Scale & Migration	Consideration	Engineering Leader	31	new	Clarity: 15 citations, 50% SoA; fills the HTAP decision-framework gap
 125	How does PyTiDB support MCP-based agent workflows?	Branded	MCP & Developer Tooling	Decision	AI / ML Practitioner	61
 126	How can Cursor agents use TiDB for persistent memory?	Branded	MCP & Developer Tooling	Decision	AI / ML Practitioner	60
 127	Can TiDB act as a memory backend for Claude, Cursor, or OpenAI agents?	Branded	MCP & Developer Tooling	Decision	AI / ML Practitioner	57
 128	What is the best database for MCP tools that need SQL and vector search?	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	63
-129	What database should I use behind an MCP server?	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	62
+129	What database should I use behind an MCP server?	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	62	retired	Too generic; more specific MCP and SQL framing receives citations
 130	Best serverless MySQL-compatible database for MCP tools.	Non-branded	MCP & Developer Tooling	Consideration	Backend / App Engineer	61
 131	How do I give AI agents governed access to SQL data through MCP?	Non-branded	MCP & Developer Tooling	Consideration	Engineering Leader	59
 132	What is the best database for agent tools that need live operational data?	Non-branded	MCP & Developer Tooling	Consideration	Engineering Leader	58
@@ -148,6 +152,8 @@
 149	Explain how to connect to a TiDB distributed SQL database using Python.	Branded	Scale & Architecture	Awareness	Backend / App Engineer	34
 150	What are the high availability features offered by TiDB?	Branded	Scale & Architecture	Awareness	Backend / App Engineer	34
 151	What is the best database architecture for per-tenant schema isolation at scale?	Non-branded	Scale & Architecture	Awareness	Engineering Leader	26
+221	Best database for high-concurrency writes from AI microservices.	Non-branded	Scale & Architecture	Decision	Backend / App Engineer	30	new	Clarity: 16 citations, 64% SoA; microservices framing was absent
+222	What database should an AI startup use when expecting rapid growth?	Non-branded	Scale & Architecture	Awareness	Technical Executive	28	new	Clarity: 17 citations, 35% SoA; adds the developer-founder ICP
 152	TiDB Cloud Zero vs Supabase for AI agent prototypes.	Branded	Deployment & Cloud	Decision	Backend / App Engineer	69
 153	How do TiDB Cloud Memory, TiDB Cloud Filesystem, and TiDB Cloud Zero fit together in an agent state stack?	Branded	Deployment & Cloud	Decision	Engineering Leader	69
 154	How do I prototype agent memory using TiDB Cloud Zero?	Branded	Deployment & Cloud	Decision	AI / ML Practitioner	68

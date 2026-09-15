@@ -219,13 +219,14 @@ class SemanticFactJudgeTests(unittest.TestCase):
         temp, root = self.make_root()
         self.addCleanup(temp.cleanup)
         shutil.copytree(REPO / "geo-benchmark/prompts/2026-09", root / "prompts/2026-09")
-        prepare(root, "2026-09", 216, 0.3, False)
+        prompt_count = len(json.loads((root / "prompts/2026-09/prompts.json").read_text()))
+        prepare(root, "2026-09", prompt_count, 0.3, False)
         with patch("geo_benchmark.providers._post_json", side_effect=AssertionError("Network forbidden")), patch(
             "geo_benchmark.fact_judge._post_json", side_effect=AssertionError("Network forbidden")
         ):
             collect(root, "2026-09", ["mock"], 1, 0, False)
             scored, summary, cost = score_and_report(root, "2026-09", judge_settings=JudgeSettings(mode="mock"))
-        self.assertEqual(len(scored), 1296)
+        self.assertEqual(len(scored), prompt_count * 6)
         self.assertTrue(any(row.get("semantic_checked_facts", 0) for row in scored))
         report = (root / "reports/2026-09/llm-report.md").read_text()
         self.assertIn("Semantic accuracy", report)

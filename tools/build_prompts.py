@@ -4,6 +4,8 @@ Convert the Core Monitoring Set (from the Google Sheet) into geo-bench prompts.j
 
 Input : rows.tsv  — tab-separated, one row per prompt, columns:
         rank, prompt_text, branded, cluster, funnel_stage, icp, score
+        Optional columns: status, note. A retired row reserves its prompt ID
+        but is omitted from the generated prompt set.
 Output: prompts.json          — the file geo-bench reads
         prompt_set_hash.txt    — fingerprint proving the set has not changed
         prompts_review.csv     — flat view for eyeballing the tagging in Sheets
@@ -108,7 +110,12 @@ def build(rows, month: str):
     per_cluster = Counter()
     seen_text = {}
 
-    for rank, text, branded, cluster, funnel, icp, score in rows:
+    for row in rows:
+        if len(row) not in {7, 8, 9}:
+            raise SystemExit(f"Expected 7 to 9 columns, got {len(row)}: {row!r}")
+        rank, text, branded, cluster, funnel, icp, score = row[:7]
+        status = row[7].strip().lower() if len(row) >= 8 and row[7].strip() else "active"
+        note = row[8].strip() if len(row) >= 9 else ""
         text = text.strip()
         cluster = cluster.strip()
         funnel = funnel.strip()
@@ -129,8 +136,28 @@ def build(rows, month: str):
         per_cluster[code] += 1
         prompt_id = f"stable_{code}_{per_cluster[code]:03d}"
 
+        if status == "retired":
+            continue
+        if status not in {"active", "new", "rewritten"}:
+            raise SystemExit(f"Unknown prompt status on row {rank}: {status!r}")
+
         group = classify_group(text, branded)
         surface = classify_surface(text)
+
+        source = {
+            "source_type": "manual_curated",
+            "validation_status": "case_pattern_validated",
+            "source_evidence_urls": [
+                "https://docs.google.com/spreadsheets/d/"
+                "12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+            ],
+            "collected_at": f"{month}-01",
+            "sheet_rank": int(rank),
+        }
+        if status != "active":
+            source["update_status"] = status
+        if note:
+            source["update_note"] = note
 
         prompts.append({
             "prompt_id": prompt_id,
@@ -148,16 +175,7 @@ def build(rows, month: str):
             "competitors": [],
             "panel": "stable",
             "priority_score": int(score),
-            "source": {
-                "source_type": "manual_curated",
-                "validation_status": "case_pattern_validated",
-                "source_evidence_urls": [
-                    "https://docs.google.com/spreadsheets/d/"
-                    "12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
-                ],
-                "collected_at": f"{month}-01",
-                "sheet_rank": int(rank),
-            },
+            "source": source,
         })
 
     return prompts
@@ -176,8 +194,8 @@ def main():
             if not line.strip():
                 continue
             parts = line.rstrip("\n").split("\t")
-            if len(parts) != 7:
-                raise SystemExit(f"Expected 7 columns, got {len(parts)}: {line[:80]}")
+            if len(parts) not in {7, 8, 9}:
+                raise SystemExit(f"Expected 7 to 9 columns, got {len(parts)}: {line[:80]}")
             rows.append(parts)
 
     print(f"Read {len(rows)} rows from {args.tsv}\n")
@@ -190,13 +208,14 @@ def main():
     (out / "prompt_set_hash.txt").write_text(stable_hash(prompts) + "\n")
 
     with open(out / "prompts_review.csv", "w", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(["prompt_id", "group", "surface", "cluster", "funnel_stage",
-                    "intent_weight", "persona", "score", "prompt_text"])
+                    "intent_weight", "persona", "score", "prompt_text", "update_status", "note"])
         for p in prompts:
             w.writerow([p["prompt_id"], p["group"], p["surface"], p["prompt_type"],
                         p["funnel_stage"], p["intent_weight"], p["persona"],
-                        p["priority_score"], p["prompt_text"]])
+                        p["priority_score"], p["prompt_text"],
+                        p["source"].get("update_status", ""), p["source"].get("update_note", "")])
 
     # ------------------------------------------------------------ summary
     g = Counter(p["group"] for p in prompts)
