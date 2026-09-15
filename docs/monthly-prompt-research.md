@@ -72,6 +72,11 @@ Run research again from an existing completed run:
 
 External responses are cached. A normal rerun reuses the cache and does not spend new API units. Use `--refresh` only when a fresh paid collection is intended. Use `--max-seeds 3` for a small paid canary.
 
+`--offline` and `--refresh` cannot be combined. Offline runs report missing PAA,
+Semrush, and Trends caches as warnings rather than silently omitting those sources.
+Fan-out queries retain the first observed spelling and punctuation in review
+outputs; equivalent normalized queries still share frequency and provider counts.
+
 Use only cached data and make no external calls:
 
 ```bash

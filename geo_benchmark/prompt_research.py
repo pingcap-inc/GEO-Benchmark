@@ -67,6 +67,8 @@ class ResearchSettings:
 
 def run_prompt_research(root: Path, month: str, settings: ResearchSettings) -> dict[str, Any]:
     """Collect monthly research signals and write review-only prompt candidates."""
+    if settings.offline and settings.refresh:
+        raise PromptResearchError("--offline and --refresh cannot be used together: offline reuses saved responses; refresh requests new data.")
     canonical_root = canonical_data_root(root)
     seed_path = settings.seed_file or canonical_root / "config" / "prompt_research_seeds.csv"
     bundled_seed_path = Path(__file__).resolve().parent.parent / "geo-benchmark" / "config" / "prompt_research_seeds.csv"
@@ -176,6 +178,7 @@ def load_internal_signals(
 def load_fan_out_signals(root: Path, month: str, profiles: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     counts: Counter[tuple[str, str]] = Counter()
     providers: defaultdict[tuple[str, str], set[str]] = defaultdict(set)
+    original_text: dict[tuple[str, str], str] = {}
     for row in read_jsonl(root / "runs" / month / "raw_answers.jsonl"):
         if row.get("status") != "ok" or row.get("fan_out_status") != "captured":
             continue
@@ -184,10 +187,12 @@ def load_fan_out_signals(root: Path, month: str, profiles: dict[str, dict[str, A
             for theme in assign_themes(text, profiles):
                 key = (theme, normalize_text(text))
                 counts[key] += 1
+                original_text.setdefault(key, text)
                 providers[key].add(str(row.get("model_surface", "unknown")))
     return [
-        signal("model", "fan_out", text, theme, frequency, {"providers": sorted(providers[(theme, text)])})
-        for (theme, text), frequency in sorted(counts.items())
+        signal("model", "fan_out", original_text[(theme, normalized)], theme, frequency,
+               {"providers": sorted(providers[(theme, normalized)])})
+        for (theme, normalized), frequency in sorted(counts.items())
     ]
 
 
@@ -199,10 +204,9 @@ def collect_external_signals(
     signals: list[dict[str, Any]] = []
     warnings: list[str] = []
     usage = {"dataforseo_calls": 0, "dataforseo_cost_usd": 0.0, "semrush_calls": 0, "semrush_api_units_estimate": 0}
-    if settings.offline:
-        missing_ok = True
-    else:
-        missing_ok = False
+    if settings.offline and settings.refresh:
+        raise PromptResearchError("--offline and --refresh cannot be used together.")
+    if not settings.offline:
         if (settings.include_paa or settings.include_trends) and not dataforseo_credentials():
             raise PromptResearchError("Set DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD, or use --offline/skip the DataForSEO sources.")
         if settings.include_semrush and not os.getenv("SEMRUSH_API_KEY"):
@@ -224,8 +228,7 @@ def collect_external_signals(
                 warnings.append(f"PAA failed for '{seed['seed_query']}': {error}")
                 continue
             if response is None:
-                if not missing_ok:
-                    warnings.append(f"PAA cache unavailable for '{seed['seed_query']}'.")
+                warnings.append(f"PAA cache unavailable for '{seed['seed_query']}'.")
                 continue
             if not cached:
                 usage["dataforseo_calls"] += 1
@@ -251,6 +254,7 @@ def collect_external_signals(
                 warnings.append(f"Semrush failed for '{seed['seed_query']}': {error}")
                 continue
             if response is None:
+                warnings.append(f"Semrush cache unavailable for '{seed['seed_query']}'.")
                 continue
             if not cached:
                 usage["semrush_calls"] += 1
@@ -281,6 +285,7 @@ def collect_external_signals(
                 warnings.append(f"Trends failed for {queries}: {exc}")
                 continue
             if response is None:
+                warnings.append(f"Trends cache unavailable for {queries}.")
                 continue
             if not cached:
                 usage["dataforseo_calls"] += 1
@@ -353,8 +358,11 @@ def fetch_dataforseo_trends(queries: list[str], settings: ResearchSettings) -> d
 
 
 def fetch_semrush_metrics(query: str, settings: ResearchSettings) -> dict[str, Any]:
+    api_key = os.getenv("SEMRUSH_API_KEY")
+    if not api_key:
+        raise PromptResearchError("Set SEMRUSH_API_KEY before requesting Semrush metrics.")
     url = SEMRUSH_KEYWORD_ENDPOINT + "?" + urllib.parse.urlencode({"keyword": query, "country": settings.country})
-    return request_json(url, "GET", None, {"Authorization": f"Apikey {os.environ['SEMRUSH_API_KEY']}"})
+    return request_json(url, "GET", None, {"Authorization": f"Apikey {api_key}"})
 
 
 def request_json(url: str, method: str, payload: Any, headers: dict[str, str]) -> dict[str, Any]:

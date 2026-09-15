@@ -1,4 +1,6 @@
 import csv
+import contextlib
+import io
 import json
 import os
 import tempfile
@@ -7,6 +9,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 from geo_benchmark.io_utils import write_json, write_jsonl
+from geo_benchmark.cli import main
 from geo_benchmark.prompt_research import (
     DATAFORSEO_TRENDS_ENDPOINT,
     PromptResearchError,
@@ -16,6 +19,8 @@ from geo_benchmark.prompt_research import (
     build_theme_profiles,
     extract_paa_questions,
     extract_trend_stats,
+    collect_external_signals,
+    fetch_semrush_metrics,
     request_json,
     run_prompt_research,
     signal,
@@ -23,6 +28,60 @@ from geo_benchmark.prompt_research import (
 
 
 class PromptResearchTests(unittest.TestCase):
+    def test_cli_preserves_fan_out_text_and_warns_about_missing_offline_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            month = '2026-10'
+            (root / 'config').mkdir()
+            (root / 'config/prompt_research_seeds.csv').write_text(
+                'theme,seed_query,brand_class,match_terms,status\n'
+                'tidb_htap,TiDB HTAP,branded,HTAP,approved\n')
+            internal = root / 'prompt-research' / month / 'internal_signals.csv'
+            internal.parent.mkdir(parents=True)
+            internal.write_text('query,source,frequency\nTiDB HTAP,support,2\n')
+            write_json(root / 'prompts' / month / 'prompts.json', [])
+            question = "How does TiDB's HTAP work?"
+            write_jsonl(root / 'runs' / month / 'raw_answers.jsonl', [
+                {'status': 'ok', 'fan_out_status': 'captured', 'model_surface': provider,
+                 'fan_out_queries': [text]} for provider, text in
+                [('openai', question), ('gemini', 'how does tidb s htap work')]])
+            before = (root / 'prompts' / month / 'prompts.json').read_bytes()
+            output = io.StringIO()
+            with contextlib.redirect_stdout(output), patch('socket.socket', side_effect=AssertionError('Network forbidden')):
+                self.assertEqual(main(['--data-dir', str(root), 'research-prompts',
+                                       '--month', month, '--offline']), 0)
+            report = root / 'reports' / month / 'prompt-research'
+            with (report / 'prompt_research_evidence.csv').open() as handle:
+                model = next(r for r in csv.DictReader(handle) if r['signal_group'] == 'model')
+            self.assertEqual(model['text'], question)
+            self.assertEqual(model['frequency'], '2')
+            self.assertEqual(json.loads(model['metadata'])['providers'], ['gemini', 'openai'])
+            with (report / 'top_20_prompt_candidates.csv').open() as handle:
+                candidate = next(csv.DictReader(handle))
+            self.assertEqual(candidate['candidate_prompt'], question)
+            self.assertEqual(candidate['source_question'], question)
+            self.assertIn(question, (report / 'prompt-research.md').read_text())
+            summary = json.loads((report / 'prompt_research_summary.json').read_text())
+            for source in ['PAA', 'Semrush', 'Trends']:
+                self.assertTrue(any(source + ' cache unavailable' in w for w in summary['warnings']))
+                self.assertIn(source + ' cache unavailable', output.getvalue())
+            self.assertEqual(summary['usage_this_invocation']['dataforseo_calls'], 0)
+            self.assertEqual(summary['usage_this_invocation']['semrush_calls'], 0)
+            self.assertEqual(before, (root / 'prompts' / month / 'prompts.json').read_bytes())
+
+    def test_offline_refresh_conflict_is_rejected_before_writes_or_fetches(self):
+        with tempfile.TemporaryDirectory() as tmp, patch('socket.socket', side_effect=AssertionError('Network forbidden')):
+            with self.assertRaisesRegex(SystemExit, '--offline and --refresh'):
+                main(['--data-dir', tmp, 'research-prompts', '--month', '2026-10', '--offline', '--refresh'])
+            self.assertEqual(list(Path(tmp).iterdir()), [])
+            with self.assertRaisesRegex(PromptResearchError, '--offline and --refresh'):
+                collect_external_signals([], Path(tmp), ResearchSettings(offline=True, refresh=True))
+
+    def test_semrush_direct_call_without_key_has_clear_error(self):
+        with patch.dict(os.environ, {}, clear=True), patch('socket.socket', side_effect=AssertionError('Network forbidden')):
+            with self.assertRaisesRegex(PromptResearchError, 'Set SEMRUSH_API_KEY'):
+                fetch_semrush_metrics('TiDB', ResearchSettings())
+
     def test_extract_paa_questions_handles_nested_dataforseo_items(self):
         response = {
             "tasks": [{
