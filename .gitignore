@@ -6,3 +6,7 @@ __pycache__/
 .env
 .env.local
 .env.*.local
+
+# Prompt research can contain internal query text and paid API response caches.
+*/prompt-research/*/internal_signals.csv
+*/reports/*/prompt-research/

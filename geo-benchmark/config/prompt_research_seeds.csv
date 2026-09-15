@@ -1,0 +1,31 @@
+theme,seed_query,brand_class,match_terms,status
+agent_memory,database for persistent AI agent memory,non_branded,agent memory|persistent memory|long term memory,approved
+agent_state,database for AI agent state,non_branded,agent state|workflow state|checkpoint,approved
+ai_app_backend,database for AI applications,non_branded,ai application database|ai app backend|genai application,approved
+transactional_vector_search,vector database with ACID transactions,non_branded,transactional vector|acid vector|vector transactions,approved
+hybrid_search_rag,database for hybrid search and RAG,non_branded,hybrid search|retrieval augmented generation|rag database,approved
+knowledge_graph,database for knowledge graphs and vector search,non_branded,knowledge graph|graph rag|graphrag,approved
+distributed_sql,best distributed SQL database,non_branded,distributed sql|distributed relational database,approved
+mysql_scaling,scale MySQL horizontally,non_branded,mysql scaling|horizontal mysql|mysql sharding,approved
+mysql_migration,migrate from MySQL to a distributed database,non_branded,mysql migration|migrate mysql|mysql alternative,approved
+htap,HTAP database,non_branded,htap|hybrid transactional analytical,approved
+real_time_analytics,database for real time operational analytics,non_branded,real time analytics|operational analytics|fresh analytics,approved
+horizontal_scaling,horizontally scalable relational database,non_branded,horizontal scaling|scale out sql|relational scaling,approved
+high_write_transactions,database for high write transaction workloads,non_branded,high write|write intensive|transaction throughput,approved
+multi_region,multi region transactional database,non_branded,multi region database|global transactions|geo distributed,approved
+saas_multitenancy,database for multi tenant SaaS,non_branded,multi tenant|saas database|tenant isolation,approved
+serverless_database,best serverless relational database,non_branded,serverless database|autoscaling database|scale to zero,approved
+database_observability,database observability for distributed systems,non_branded,database observability|query monitoring|database monitoring,approved
+cloud_deployment,managed versus self hosted database,non_branded,managed database|self hosted database|cloud deployment,approved
+mcp_database,database MCP server for AI agents,non_branded,mcp database|model context protocol database|database tools for agents,approved
+database_comparison,distributed SQL database comparison,non_branded,database comparison|distributed sql alternatives|compare databases,approved
+tidb_cloud_zero,what is TiDB Cloud Zero,branded,tidb cloud zero|temporary tidb database,approved
+tidb_cloud_memory,what is TiDB Cloud Memory,branded,tidb cloud memory|mem9,approved
+tidb_cloud_filesystem,what is TiDB Cloud Filesystem,branded,tidb cloud filesystem|tidb cloud filesystems|drive9,approved
+tidb_vector_search,how does TiDB vector search work,branded,tidb vector search|tidb vector index,approved
+tidb_cloud_plans,compare TiDB Cloud plans,branded,tidb cloud plan|tidb starter|tidb essential|tidb premium|tidb dedicated,approved
+tidb_security_compliance,TiDB security and compliance,branded,tidb security|tidb compliance|tidb encryption,approved
+pytidb,what is PyTiDB,branded,pytidb|python tidb,approved
+tidb_langchain,TiDB LangChain integration,branded,tidb langchain|langchain tidb,approved
+tidb_mysql_compatibility,TiDB MySQL compatibility,branded,tidb mysql compatibility|mysql compatible tidb,approved
+tidb_htap,TiDB HTAP architecture,branded,tidb htap|tiflash analytics,approved
