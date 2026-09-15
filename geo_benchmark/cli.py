@@ -462,27 +462,41 @@ def collect(
                         "raw_citations": result.citations,
                         "input_tokens": result.input_tokens,
                         "output_tokens": result.output_tokens,
+                        "stop_reason": result.stop_reason,
                         "raw_answer_hash": stable_hash(result.answer),
                     }
                 except ProviderError as exc:
+                    partial = exc.partial_result
                     row = {
                         "answer_id": answer_id,
                         "run_id": run_id,
-                        "status": "error",
+                        "status": "incomplete" if exc.stop_reason else "error",
                         "month": month,
                         "prompt_id": prompt["prompt_id"],
                         "prompt_text": prompt["prompt_text"],
                         "model_surface": provider_name,
-                        "model_name": provider_config.get("model"),
+                        "model_name": partial.model_name if partial else provider_config.get("model"),
+                        "model_version": partial.model_version if partial else None,
                         "web_search_mode": web_search_mode,
-                        "web_search_requests": 0,
-                        "fan_out_queries": [],
-                        "fan_out_status": "request_failed",
+                        "web_search_requests": partial.web_search_requests if partial else 0,
+                        "fan_out_queries": (partial.fan_out_queries or []) if partial else [],
+                        "fan_out_status": partial.fan_out_status if partial else "request_failed",
                         "run_index": run_index,
                         "timestamp": timestamp,
                         "error": str(exc),
                         "retryable": exc.retryable,
+                        "stop_reason": exc.stop_reason,
                     }
+                    if partial:
+                        row.update(
+                            {
+                                "raw_answer": partial.answer,
+                                "raw_citations": partial.citations,
+                                "input_tokens": partial.input_tokens,
+                                "output_tokens": partial.output_tokens,
+                                "raw_answer_hash": stable_hash(partial.answer),
+                            }
+                        )
                 rows.append(row)
                 if len(rows) >= 1:
                     write_jsonl_append(raw_path, rows)
@@ -591,6 +605,7 @@ def retry_errors(
                 "raw_citations": result.citations,
                 "input_tokens": result.input_tokens,
                 "output_tokens": result.output_tokens,
+                "stop_reason": result.stop_reason,
                 "raw_answer_hash": stable_hash(result.answer),
                 "retry_of_run_id": old.get("run_id"),
                 "retry_error": old.get("error"),
@@ -598,21 +613,35 @@ def retry_errors(
             }
             succeeded += 1
         except ProviderError as exc:
+            partial = exc.partial_result
             raw[index] = {
                 **old,
                 "run_id": run_id,
                 "timestamp": timestamp,
-                "model_name": config.get("model"),
+                "status": "incomplete" if exc.stop_reason else "error",
+                "model_name": partial.model_name if partial else config.get("model"),
+                "model_version": partial.model_version if partial else None,
                 "web_search_mode": web_search_mode,
-                "web_search_requests": 0,
-                "fan_out_queries": [],
-                "fan_out_status": "request_failed",
+                "web_search_requests": partial.web_search_requests if partial else 0,
+                "fan_out_queries": (partial.fan_out_queries or []) if partial else [],
+                "fan_out_status": partial.fan_out_status if partial else "request_failed",
                 "error": str(exc),
                 "retryable": exc.retryable,
+                "stop_reason": exc.stop_reason,
                 "retry_of_run_id": old.get("run_id"),
                 "retry_error": old.get("error"),
                 "retry_model_override": model_override,
             }
+            if partial:
+                raw[index].update(
+                    {
+                        "raw_answer": partial.answer,
+                        "raw_citations": partial.citations,
+                        "input_tokens": partial.input_tokens,
+                        "output_tokens": partial.output_tokens,
+                        "raw_answer_hash": stable_hash(partial.answer),
+                    }
+                )
             failed += 1
         write_jsonl(raw_path, raw)
         print(f"retry-errors progress: {succeeded + failed}/{len(error_indices)}")
