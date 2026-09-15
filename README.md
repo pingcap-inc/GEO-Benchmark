@@ -61,6 +61,11 @@ cp .env.example .env.local
 MONTH=2026-08 PROVIDERS=openai,anthropic RUNS=1 ./scripts/run-benchmark-workflow.sh
 ```
 
+Any run that uses a paid provider prints the planned-cost estimate and asks for
+confirmation before making a single API call. Set `YES=1` (or pass `--yes` to
+`geo-bench run`) to skip the prompt in non-interactive shells; a paid run started
+without a TTY and without `--yes` aborts before spending. Mock-only runs never prompt.
+
 Run with provider web search:
 
 ```bash
@@ -108,7 +113,7 @@ VIEW=gemini-off MONTH=2026-08 FORCE=1 ./scripts/run-canonical-provider-benchmark
 VIEW=perplexity-on MONTH=2026-08 FORCE=1 ./scripts/run-canonical-provider-benchmark.sh
 ```
 
-This command collects raw answers, scores them, writes reports, and audits that the run has 120 successful answers, 720 scored target rows, the expected provider/mode, and the expected model. Fallback is disabled for canonical runs.
+This command collects raw answers, scores them, writes reports, and audits that the run has one successful answer per prompt in that month's prompt set (six scored target rows each), the expected provider/mode, and the expected model. The expected answer count is derived from the month's `prompts.json`; override it with `--expected-answers` on `audit-canonical-provider-run.py` if needed. Fallback is disabled for canonical runs.
 For OpenAI, canonical on/off runs both use the Responses API; the only intended difference is whether the web search tool is enabled.
 Gemini grounds through the `google_search` tool, so it has both `gemini-on` and `gemini-off` views; Perplexity Sonar is always web-grounded, so its only canonical view is `perplexity-on`.
 

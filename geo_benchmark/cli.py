@@ -51,6 +51,7 @@ def main(argv: list[str] | None = None) -> int:
     run_p.add_argument("--no-fallback", action="store_true", help="Do not auto-retry failed answers with configured fallback models.")
     run_p.add_argument("--only-prompt-type", default=None, help="Only collect prompts of this prompt_type, preserving other raw answers.")
     run_p.add_argument("--only-prompt-ids", default=None, help="Comma-separated prompt_ids to collect, preserving other raw answers.")
+    run_p.add_argument("--yes", "-y", action="store_true", help="Skip the pre-spend confirmation for paid providers (for non-interactive runs).")
     add_fact_judge_args(run_p)
 
     retry_p = sub.add_parser("retry-errors", help="Retry failed raw answers without rerunning successes.")
@@ -116,6 +117,7 @@ def main(argv: list[str] | None = None) -> int:
         providers = split_csv(args.providers)
         prompt_ids = selected_prompt_ids(root, args.month, args.only_prompt_type, args.only_prompt_ids)
         planned = planned_cost(root, args.month, providers, args.runs, args.assumed_output_tokens, args.web_search, prompt_ids)
+        confirm_live_run(root, providers, planned, args.yes)
         collect(root, args.month, providers, args.runs, args.retries, args.force, prompt_ids, args.web_search)
         if not args.no_fallback:
             for result in retry_configured_errors(root, args.month, providers, args.retries, args.web_search):
@@ -757,6 +759,41 @@ def planned_cost(
     models = read_json(root / "config" / "models.json")
     pricing = read_json(root / "config" / "pricing.json")
     return estimate_planned_cost(prompts, providers, runs, models, pricing, assumed_output_tokens, web_search_mode)
+
+
+def confirm_live_run(
+    root: Path,
+    providers: list[str],
+    planned: dict[str, Any],
+    assume_yes: bool,
+) -> None:
+    """Show the planned cost and require confirmation before any paid provider call.
+
+    Free provider sets (mock only) proceed silently so dry runs stay frictionless.
+    """
+    models = read_json(root / "config" / "models.json", default=DEFAULT_MODELS)
+    paid_providers = [name for name in providers if models.get(name, {}).get("env_var")]
+    if not paid_providers:
+        return
+
+    print("About to start a paid live run for these providers: " + ", ".join(paid_providers))
+    print_cost_estimate(planned)
+    print(
+        "This estimate excludes fact judging, retries, and fallback, and can understate "
+        "reasoning/search token usage. Actual billing may be higher."
+    )
+
+    if assume_yes:
+        print("Proceeding without prompting (--yes).")
+        return
+    if not sys.stdin.isatty():
+        raise SystemExit(
+            "Refusing to start a paid live run without confirmation in a non-interactive "
+            "shell. Re-run with --yes to proceed."
+        )
+    reply = input("Proceed with this paid live run? [y/N] ").strip().lower()
+    if reply not in {"y", "yes"}:
+        raise SystemExit("Aborted before any provider calls.")
 
 
 def load_prompts(root: Path, month: str) -> list[dict[str, Any]]:
