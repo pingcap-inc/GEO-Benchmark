@@ -21,6 +21,8 @@ from geo_benchmark.prompt_research import (
     extract_trend_stats,
     collect_external_signals,
     fetch_semrush_metrics,
+    infer_brand_class,
+    infer_prompt_group,
     request_json,
     run_prompt_research,
     signal,
@@ -28,6 +30,33 @@ from geo_benchmark.prompt_research import (
 
 
 class PromptResearchTests(unittest.TestCase):
+    def test_brand_class_is_relative_to_tidb(self):
+        non_branded_seed = [{'brand_class': 'non_branded'}]
+        branded_seed = [{'brand_class': 'branded'}]
+        cases = [
+            ('How do I scale MySQL horizontally for a growing SaaS product?', 'non_branded', 'discovery'),
+            ('Should I use PostgreSQL for agent memory?', 'non_branded', 'discovery'),
+            ('What is TiDB Cloud?', 'branded', 'accuracy'),
+            ('TiDB vs MySQL for horizontal scaling?', 'branded', 'comparison'),
+        ]
+        for text, expected_class, expected_group in cases:
+            with self.subTest(text=text):
+                actual_class = infer_brand_class(text, non_branded_seed)
+                self.assertEqual(actual_class, expected_class)
+                self.assertEqual(infer_prompt_group(text, actual_class), expected_group)
+        self.assertEqual(infer_brand_class('How does this database scale?', branded_seed), 'branded')
+
+    def test_competitor_candidate_keeps_discovery_class(self):
+        seeds = [{'theme': 'mysql_scaling', 'seed_query': 'scale MySQL horizontally',
+                  'brand_class': 'non_branded', 'match_terms': ['scale mysql']}]
+        question = 'How do I scale MySQL horizontally for a growing SaaS product?'
+        candidates = build_candidates([
+            signal('internal', 'gsc', question, 'mysql_scaling', 2, {}),
+            signal('model', 'fan_out', question, 'mysql_scaling', 1, {}),
+        ], [], seeds)
+        self.assertEqual(candidates[0]['brand_class'], 'non_branded')
+        self.assertEqual(candidates[0]['group'], 'discovery')
+
     def test_cli_preserves_fan_out_text_and_warns_about_missing_offline_sources(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

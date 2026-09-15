@@ -12,6 +12,11 @@ Candidates must map to an approved seed theme and appear in at least two of thre
 
 Semrush, People Also Ask, and Trends all count as one external group. Multiple external tools do not satisfy the two-group requirement by themselves. Relevance is a human-controlled in-scope/out-of-scope gate and is not part of the numeric ranking.
 
+`brand_class` is relative to TiDB: a question is branded when it names TiDB,
+PingCAP, or a TiDB product alias. A question that names MySQL or another product
+without naming TiDB remains non-branded and is classified as discovery. A query
+that names TiDB and another product is a branded comparison.
+
 The priority score is:
 
 ```text
