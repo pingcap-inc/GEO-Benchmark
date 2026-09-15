@@ -29,8 +29,10 @@ from geo_benchmark.providers import (
     OpenAIProvider,
     PerplexityProvider,
     ProviderError,
+    ProviderResult,
     _post_json,
     resolve_google_grounding_url,
+    run_with_retries,
 )
 from geo_benchmark.reports import write_reports
 from geo_benchmark.scoring import (
@@ -686,6 +688,23 @@ class GeoBenchmarkTests(unittest.TestCase):
         estimate = estimate_actual_cost(raw, DEFAULT_PRICING)
         self.assertGreater(estimate["total_estimated_cost_usd"], 0)
 
+    def test_actual_cost_includes_billed_incomplete_response(self):
+        raw = [
+            {
+                "status": "incomplete",
+                "model_surface": "anthropic",
+                "model_name": DEFAULT_MODELS["anthropic"]["model"],
+                "input_tokens": 1000,
+                "output_tokens": 700,
+                "web_search_requests": 1,
+            }
+        ]
+
+        estimate = estimate_actual_cost(raw, DEFAULT_PRICING)
+
+        self.assertEqual(estimate["providers"][0]["requests"], 1)
+        self.assertGreater(estimate["total_estimated_cost_usd"], 0)
+
     def test_openai_web_search_on_uses_responses_api_low_mode(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Which database category fits fresh operational analytics?"}
         config = {"model": "gpt-5-mini", "env_var": "OPENAI_API_KEY", "web_search": "on", "max_output_tokens": 100}
@@ -781,6 +800,7 @@ class GeoBenchmarkTests(unittest.TestCase):
             captured["payload"] = payload
             return {
                 "model": "claude-sonnet-5",
+                "stop_reason": "end_turn",
                 "content": [
                     {
                         "type": "server_tool_use",
@@ -817,13 +837,114 @@ class GeoBenchmarkTests(unittest.TestCase):
             captured["payload"]["tools"],
             [{"type": "web_search_20250305", "name": "web_search", "max_uses": 5}],
         )
+        self.assertEqual(captured["payload"]["max_tokens"], 1600)
         self.assertEqual(result.web_search_requests, 2)
         self.assertEqual(
             result.fan_out_queries,
             ["distributed SQL operational analytics", "TiDB operational analytics"],
         )
         self.assertEqual(result.fan_out_status, "captured")
+        self.assertEqual(result.stop_reason, "end_turn")
         self.assertIn("https://docs.pingcap.com/tidb/stable", result.citations)
+
+    def test_anthropic_max_tokens_is_retryable_and_preserves_partial_result(self):
+        prompt = {"prompt_id": "p1", "prompt_text": "What is TiDB?"}
+        config = {
+            "model": "claude-sonnet-5",
+            "env_var": "ANTHROPIC_API_KEY",
+            "web_search": "on",
+            "max_output_tokens": 1600,
+        }
+
+        def fake_post(endpoint, payload, headers):
+            return {
+                "model": "claude-sonnet-5",
+                "stop_reason": "max_tokens",
+                "content": [
+                    {"type": "server_tool_use", "name": "web_search", "input": {"query": "TiDB"}},
+                    {"type": "text", "text": "TiDB is a distributed"},
+                ],
+                "usage": {
+                    "input_tokens": 20,
+                    "output_tokens": 1600,
+                    "server_tool_use": {"web_search_requests": 1},
+                },
+            }
+
+        old_key = os.environ.get("ANTHROPIC_API_KEY")
+        try:
+            os.environ["ANTHROPIC_API_KEY"] = "test-key"
+            with patch("geo_benchmark.providers._post_json", fake_post):
+                with self.assertRaises(ProviderError) as raised:
+                    AnthropicProvider("anthropic", config).generate(prompt, 1)
+        finally:
+            restore_env("ANTHROPIC_API_KEY", old_key)
+
+        error = raised.exception
+        self.assertTrue(error.retryable)
+        self.assertEqual(error.stop_reason, "max_tokens")
+        self.assertEqual(error.partial_result.answer, "TiDB is a distributed")
+        self.assertEqual(error.partial_result.output_tokens, 1600)
+
+    def test_collect_marks_anthropic_token_limit_incomplete(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            prepare(root, "2026-08", 20, 0.3, False)
+            prompt = read_json(root / "prompts" / "2026-08" / "prompts.json")[0]
+            partial = ProviderResult(
+                answer="TiDB is a distributed",
+                citations=["https://docs.pingcap.com/tidb/stable"],
+                input_tokens=20,
+                output_tokens=1600,
+                model_name="claude-sonnet-5",
+                web_search_requests=1,
+                fan_out_queries=["TiDB"],
+                fan_out_status="captured",
+                stop_reason="max_tokens",
+            )
+            provider = MockProvider("mock", {})
+            provider.generate = lambda *_: (_ for _ in ()).throw(
+                ProviderError(
+                    "Anthropic response incomplete: stop_reason=max_tokens",
+                    retryable=True,
+                    stop_reason="max_tokens",
+                    partial_result=partial,
+                )
+            )
+
+            with patch("geo_benchmark.cli.provider_for", return_value=provider):
+                collect(root, "2026-08", ["anthropic"], 1, 0, False, {prompt["prompt_id"]}, "on")
+
+            row = read_jsonl(root / "runs" / "2026-08" / "raw_answers.jsonl")[0]
+            self.assertEqual(row["status"], "incomplete")
+            self.assertEqual(row["stop_reason"], "max_tokens")
+            self.assertTrue(row["retryable"])
+            self.assertEqual(row["raw_answer"], "TiDB is a distributed")
+            self.assertEqual(row["fan_out_queries"], ["TiDB"])
+            self.assertEqual(row["output_tokens"], 1600)
+
+    def test_anthropic_token_limit_waits_for_explicit_larger_retry(self):
+        provider = MockProvider("mock", {})
+        calls = 0
+
+        def fail_at_limit(*_):
+            nonlocal calls
+            calls += 1
+            raise ProviderError(
+                "Anthropic response incomplete: stop_reason=max_tokens",
+                retryable=True,
+                stop_reason="max_tokens",
+            )
+
+        provider.generate = fail_at_limit
+
+        with self.assertRaises(ProviderError):
+            run_with_retries(provider, {"prompt_id": "p1"}, 1, retries=3)
+
+        self.assertEqual(calls, 1)
+
+    def test_anthropic_default_output_limit_allows_complete_web_answers(self):
+        self.assertEqual(DEFAULT_MODELS["anthropic"]["max_output_tokens"], 1600)
 
     def test_gemini_web_search_captures_grounding_queries(self):
         prompt = {"prompt_id": "p1", "prompt_text": "Best database for agent memory?"}

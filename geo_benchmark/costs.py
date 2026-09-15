@@ -97,7 +97,9 @@ def estimate_actual_cost(
         lambda: {"requests": 0, "input_tokens": 0, "output_tokens": 0, "web_search_requests": 0}
     )
     for row in raw_answers:
-        if row.get("status") != "ok":
+        # A provider bills a token-limited response even though it is excluded
+        # from scoring and must be retried.
+        if row.get("status") not in {"ok", "incomplete"}:
             continue
         key = (row["model_surface"], row.get("model_name") or "")
         grouped[key]["requests"] += 1
