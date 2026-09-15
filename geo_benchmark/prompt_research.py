@@ -510,7 +510,7 @@ def assign_themes(text: str, profiles: dict[str, dict[str, Any]]) -> list[str]:
         overlap = len(text_tokens & profile["tokens"])
         denominator = max(1, min(len(text_tokens), len(profile["tokens"]), 5))
         score = phrase_hits * 2 + overlap / denominator
-        if score >= 0.34:
+        if score >= 0.5:
             scores.append((score, theme))
     if not scores:
         return []
@@ -540,6 +540,7 @@ def build_candidates(
         candidate_sources = [item for item in theme_signals if item["source"] == "people_also_ask"]
         candidate_sources += [item for item in theme_signals if item["signal_group"] == "model"]
         candidate_sources += [item for item in theme_signals if item["signal_group"] == "internal"]
+        evidence = evidence_summary(theme_signals)
         seen_texts: list[str] = []
         for item in candidate_sources:
             text = candidate_prompt_text(item["text"])
@@ -560,7 +561,6 @@ def build_candidates(
             priority = round(0.50 * support_score + 0.30 * intent_score + 0.20 * coverage_score, 1)
             brand_class = infer_brand_class(text, seed_by_theme[theme])
             group = infer_prompt_group(text, brand_class)
-            evidence = evidence_summary(theme_signals)
             ranked.append({
                 "candidate_prompt": text,
                 "theme": theme,
@@ -622,9 +622,11 @@ def buyer_intent(text: str) -> tuple[str, int]:
 
 def infer_brand_class(text: str, theme_seeds: list[dict[str, Any]]) -> str:
     lower = normalize_text(text)
-    for aliases in PRODUCT_ALIASES.values():
-        if any(re.search(rf"(?<![a-z0-9]){re.escape(alias.lower())}(?![a-z0-9])", lower) for alias in aliases):
-            return "branded"
+    # "Branded" is target-relative: it means the question names TiDB/PingCAP.
+    # Competitor or category names remain discovery prompts unless TiDB also appears.
+    if any(re.search(rf"(?<![a-z0-9]){re.escape(normalize_text(alias))}(?![a-z0-9])", lower)
+           for alias in PRODUCT_ALIASES["TiDB"]):
+        return "branded"
     if theme_seeds and all(seed["brand_class"] == "branded" for seed in theme_seeds):
         return "branded"
     return "non_branded"
