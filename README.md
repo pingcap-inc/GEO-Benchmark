@@ -82,6 +82,29 @@ DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock RUNS=1 FACT_JUDGE=mo
 structured verdicts, caching, scoring, and reporting without an API key. It
 writes semantic accuracy beside the legacy substring score rather than replacing it.
 
+### First paid live test (small set)
+
+Before the full run, validate the live chain (provider auth, real API call,
+citation extraction, scoring, reporting) on a few prompts for a few cents. Use an
+isolated data dir and a prompt filter; do not use the canonical script, which has
+no prompt selection and audits the full month.
+
+```bash
+./geo-bench check-env --providers openai
+DATA_DIR=geo-benchmark-livetest MONTH=2026-09 PROVIDERS=openai WEB_SEARCH=on RUNS=1 \
+  ONLY_PROMPT_IDS=stable_agentinfra_001,stable_agentinfra_002,stable_agentinfra_004 \
+  ./scripts/run-benchmark-workflow.sh
+```
+
+Leave `YES` unset the first time so the confirmation gate prints the estimate and
+prompts before spending. The `geo-benchmark-` prefix keeps this dir reading the
+committed prompts and fact base while keeping test answers out of the canonical
+dirs. To also exercise the semantic judge, add `FACT_JUDGE=live
+FACT_JUDGE_PROVIDER=openai` (requires approved fact coverage). Scale up by adding
+providers and dropping `ONLY_PROMPT_IDS` for the full set; the current month has
+216 prompts, so a full four-provider search-on run is materially more than the
+120-prompt months. Confirm the estimate, then pass `YES=1` for the full run.
+
 When the semantic judge is enabled, the workflow creates that month's fact
 coverage CSV from the canonical prompt list. It reuses an approved mapping only
 when both the prompt ID and exact prompt text are unchanged. New or edited
