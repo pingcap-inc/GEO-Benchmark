@@ -23,7 +23,7 @@ DEFAULT_MODELS = {
         "provider": "anthropic",
         "model": "claude-sonnet-5",
         "temperature": None,
-        "max_output_tokens": 700,
+        "max_output_tokens": 1600,
         "env_var": "ANTHROPIC_API_KEY",
     },
     "gemini": {
