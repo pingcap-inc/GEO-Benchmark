@@ -108,6 +108,7 @@ def write_markdown(
         f"Saved raw records: {len(raw_answers) if raw_answers is not None else 'not supplied'}",
         f"Successfully scored answers: {len({row.get('answer_id') for row in scored_answers})}",
         f"Failed raw records: {sum(row.get('status') == 'error' for row in raw_answers) if raw_answers is not None else 'not supplied'}",
+        f"Incomplete raw records: {sum(row.get('status') == 'incomplete' for row in raw_answers) if raw_answers is not None else 'not supplied'}",
         f"Scored target-answer rows: {len(scored_answers)}",
         "",
     ]
