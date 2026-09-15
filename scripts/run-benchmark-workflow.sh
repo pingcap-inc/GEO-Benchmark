@@ -37,6 +37,10 @@ if [[ "${FORCE:-0}" == "1" ]]; then
   run_args+=(--force)
 fi
 
+if [[ "${YES:-0}" == "1" ]]; then
+  run_args+=(--yes)
+fi
+
 if [[ "${NO_FALLBACK:-0}" == "1" ]]; then
   run_args+=(--no-fallback)
 fi

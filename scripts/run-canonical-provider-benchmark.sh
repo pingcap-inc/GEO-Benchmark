@@ -90,6 +90,10 @@ if [[ "$FORCE" == "1" ]]; then
   run_args+=(--force)
 fi
 
+if [[ "${YES:-0}" == "1" ]]; then
+  run_args+=(--yes)
+fi
+
 echo "Canonical view: $VIEW"
 echo "Data dir: $DATA_DIR"
 echo "Provider: $PROVIDERS"

@@ -61,6 +61,11 @@ cp .env.example .env.local
 MONTH=2026-08 PROVIDERS=openai,anthropic RUNS=1 ./scripts/run-benchmark-workflow.sh
 ```
 
+Any run that uses a paid provider prints the planned-cost estimate and asks for
+confirmation before making a single API call. Set `YES=1` (or pass `--yes` to
+`geo-bench run`) to skip the prompt in non-interactive shells; a paid run started
+without a TTY and without `--yes` aborts before spending. Mock-only runs never prompt.
+
 Run with provider web search:
 
 ```bash
@@ -76,6 +81,29 @@ DATA_DIR=geo-benchmark-dry-run MONTH=2026-09 PROVIDERS=mock RUNS=1 FACT_JUDGE=mo
 `FACT_JUDGE=mock` exercises v2 fact selection, review gates, qualifier scope,
 structured verdicts, caching, scoring, and reporting without an API key. It
 writes semantic accuracy beside the legacy substring score rather than replacing it.
+
+### First paid live test (small set)
+
+Before the full run, validate the live chain (provider auth, real API call,
+citation extraction, scoring, reporting) on a few prompts for a few cents. Use an
+isolated data dir and a prompt filter; do not use the canonical script, which has
+no prompt selection and audits the full month.
+
+```bash
+./geo-bench check-env --providers openai
+DATA_DIR=geo-benchmark-livetest MONTH=2026-09 PROVIDERS=openai WEB_SEARCH=on RUNS=1 \
+  ONLY_PROMPT_IDS=stable_agentinfra_001,stable_agentinfra_002,stable_agentinfra_004 \
+  ./scripts/run-benchmark-workflow.sh
+```
+
+Leave `YES` unset the first time so the confirmation gate prints the estimate and
+prompts before spending. The `geo-benchmark-` prefix keeps this dir reading the
+committed prompts and fact base while keeping test answers out of the canonical
+dirs. To also exercise the semantic judge, add `FACT_JUDGE=live
+FACT_JUDGE_PROVIDER=openai` (requires approved fact coverage). Scale up by adding
+providers and dropping `ONLY_PROMPT_IDS` for the full set; the current month has
+216 prompts, so a full four-provider search-on run is materially more than the
+120-prompt months. Confirm the estimate, then pass `YES=1` for the full run.
 
 When the semantic judge is enabled, the workflow creates that month's fact
 coverage CSV from the canonical prompt list. It reuses an approved mapping only
@@ -108,7 +136,7 @@ VIEW=gemini-off MONTH=2026-08 FORCE=1 ./scripts/run-canonical-provider-benchmark
 VIEW=perplexity-on MONTH=2026-08 FORCE=1 ./scripts/run-canonical-provider-benchmark.sh
 ```
 
-This command collects raw answers, scores them, writes reports, and audits that the run has 120 successful answers, 720 scored target rows, the expected provider/mode, and the expected model. Fallback is disabled for canonical runs.
+This command collects raw answers, scores them, writes reports, and audits that the run has one successful answer per prompt in that month's prompt set (six scored target rows each), the expected provider/mode, and the expected model. The expected answer count is derived from the month's `prompts.json`; override it with `--expected-answers` on `audit-canonical-provider-run.py` if needed. Fallback is disabled for canonical runs.
 For OpenAI, canonical on/off runs both use the Responses API; the only intended difference is whether the web search tool is enabled.
 Gemini grounds through the `google_search` tool, so it has both `gemini-on` and `gemini-off` views; Perplexity Sonar is always web-grounded, so its only canonical view is `perplexity-on`.
 

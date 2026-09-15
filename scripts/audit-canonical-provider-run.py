@@ -10,8 +10,6 @@ from pathlib import Path
 
 
 TARGETS = {"CockroachDB", "TiDB", "YugabyteDB", "Neon", "Supabase", "PlanetScale"}
-EXPECTED_ANSWERS = 120
-EXPECTED_TARGET_ROWS = EXPECTED_ANSWERS * len(TARGETS)
 
 
 def main() -> int:
@@ -22,9 +20,19 @@ def main() -> int:
     parser.add_argument("--provider", required=True)
     parser.add_argument("--web-search", choices=["on", "off"], required=True)
     parser.add_argument("--expected-model", required=True)
+    parser.add_argument(
+        "--expected-answers",
+        type=int,
+        default=None,
+        help="Expected number of answers. Defaults to the month's prompt set size.",
+    )
     args = parser.parse_args()
 
     root = Path(args.data_dir)
+    expected_answers = args.expected_answers
+    if expected_answers is None:
+        expected_answers = prompt_set_size(root, args.month)
+    expected_target_rows = expected_answers * len(TARGETS)
     raw_path = root / "runs" / args.month / "raw_answers.jsonl"
     scored_path = root / "runs" / args.month / "scored_answers.jsonl"
     report_path = root / "reports" / args.month / "llm-report.md"
@@ -48,14 +56,14 @@ def main() -> int:
     error_raw = [row for row in raw_rows if row.get("status") != "ok"]
 
     failures: list[str] = []
-    if len(raw_rows) != EXPECTED_ANSWERS:
-        failures.append(f"expected {EXPECTED_ANSWERS} raw answers, got {len(raw_rows)}")
-    if len(ok_raw) != EXPECTED_ANSWERS:
-        failures.append(f"expected {EXPECTED_ANSWERS} ok raw answers, got {len(ok_raw)}")
+    if len(raw_rows) != expected_answers:
+        failures.append(f"expected {expected_answers} raw answers, got {len(raw_rows)}")
+    if len(ok_raw) != expected_answers:
+        failures.append(f"expected {expected_answers} ok raw answers, got {len(ok_raw)}")
     if error_raw:
         failures.append(f"found {len(error_raw)} raw error rows")
-    if len(scored_rows) != EXPECTED_TARGET_ROWS:
-        failures.append(f"expected {EXPECTED_TARGET_ROWS} scored target rows, got {len(scored_rows)}")
+    if len(scored_rows) != expected_target_rows:
+        failures.append(f"expected {expected_target_rows} scored target rows, got {len(scored_rows)}")
 
     raw_models = Counter(row.get("model_name") for row in ok_raw)
     scored_models = Counter(row.get("model_name") for row in scored_rows)
@@ -65,8 +73,8 @@ def main() -> int:
         failures.append(f"scored model mismatch: expected {args.expected_model}, got {dict(scored_models)}")
 
     prompt_ids = {row.get("prompt_id") for row in ok_raw}
-    if len(prompt_ids) != EXPECTED_ANSWERS:
-        failures.append(f"expected {EXPECTED_ANSWERS} unique prompts, got {len(prompt_ids)}")
+    if len(prompt_ids) != expected_answers:
+        failures.append(f"expected {expected_answers} unique prompts, got {len(prompt_ids)}")
 
     scored_targets = {row.get("target") for row in scored_rows}
     if scored_targets != TARGETS:
@@ -101,6 +109,25 @@ def main() -> int:
 
     print("Audit passed.")
     return 0
+
+
+def prompt_set_size(data_dir: Path, month: str) -> int:
+    """Count prompts in the month's canonical prompt set.
+
+    Mirrors geo_benchmark.io_utils.canonical_data_root: provider-specific data
+    directories (geo-benchmark-*) share the sibling geo-benchmark prompt root.
+    """
+    if data_dir.name.startswith("geo-benchmark-"):
+        canonical_root = data_dir.parent / "geo-benchmark"
+    else:
+        canonical_root = data_dir
+    prompts_path = canonical_root / "prompts" / month / "prompts.json"
+    if not prompts_path.exists():
+        raise SystemExit(
+            f"Missing prompt set: {prompts_path}\n"
+            "Pass --expected-answers to override the derived count."
+        )
+    return len(json.loads(prompts_path.read_text(encoding="utf-8")))
 
 
 def require_file(path: Path) -> None:
