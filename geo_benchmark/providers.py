@@ -23,6 +23,8 @@ SYSTEM_PROMPT = (
     "Keep each answer under 220 words with a ranked shortlist when relevant."
 )
 
+ANTHROPIC_MIN_OUTPUT_TOKENS = 1600
+
 MOCK_PRODUCTS = [
     "TiDB",
     "CockroachDB",
@@ -87,13 +89,22 @@ class ProviderResult:
     web_search_requests: int = 0
     fan_out_queries: list[str] | None = None
     fan_out_status: str = "not_supported"
+    stop_reason: str | None = None
     raw_response: dict[str, Any] | None = None
 
 
 class ProviderError(RuntimeError):
-    def __init__(self, message: str, retryable: bool = False):
+    def __init__(
+        self,
+        message: str,
+        retryable: bool = False,
+        stop_reason: str | None = None,
+        partial_result: ProviderResult | None = None,
+    ):
         super().__init__(message)
         self.retryable = retryable
+        self.stop_reason = stop_reason
+        self.partial_result = partial_result
 
 
 class BaseProvider:
@@ -285,7 +296,12 @@ class AnthropicProvider(BaseProvider):
             raise ProviderError("Missing ANTHROPIC_API_KEY")
         payload: dict[str, Any] = {
             "model": self.model,
-            "max_tokens": self.config.get("max_output_tokens", 700),
+            # Existing data directories may still contain the former 700-token
+            # setting, so enforce the safer floor as well as updating defaults.
+            "max_tokens": max(
+                int(self.config.get("max_output_tokens", ANTHROPIC_MIN_OUTPUT_TOKENS)),
+                ANTHROPIC_MIN_OUTPUT_TOKENS,
+            ),
             "system": SYSTEM_PROMPT,
             "messages": [{"role": "user", "content": self._input_text(prompt)}],
         }
@@ -312,7 +328,8 @@ class AnthropicProvider(BaseProvider):
         usage = data.get("usage", {})
         web_search_requests = anthropic_web_search_request_count(data)
         fan_out_queries = extract_anthropic_fan_out_queries(data)
-        return ProviderResult(
+        stop_reason = str(data.get("stop_reason")) if data.get("stop_reason") else None
+        result = ProviderResult(
             answer=answer,
             citations=extract_urls_from_value(data),
             input_tokens=usage.get("input_tokens", estimate_tokens(self._input_text(prompt))),
@@ -325,8 +342,17 @@ class AnthropicProvider(BaseProvider):
                 web_search_requests,
                 fan_out_queries,
             ),
+            stop_reason=stop_reason,
             raw_response=data,
         )
+        if stop_reason == "max_tokens":
+            raise ProviderError(
+                "Anthropic response incomplete: stop_reason=max_tokens",
+                retryable=True,
+                stop_reason=stop_reason,
+                partial_result=result,
+            )
+        return result
 
 
 class GeminiProvider(BaseProvider):
@@ -589,6 +615,11 @@ def run_with_retries(provider: BaseProvider, prompt: dict[str, Any], run_index: 
             return provider.generate(prompt, run_index)
         except ProviderError as exc:
             attempt += 1
+            # Retrying with the same output limit would usually reproduce the
+            # truncation and incur another charge. Store it for an explicit
+            # retry with a larger --max-output-tokens value instead.
+            if exc.stop_reason == "max_tokens":
+                raise
             if not exc.retryable or attempt > retries:
                 raise
             time.sleep(min(2**attempt, 10))
