@@ -1066,6 +1066,62 @@
     }
   },
   {
+    "prompt_id": "stable_agentinfra_042",
+    "prompt_text": "Best database for AI full stack applications.",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 31,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 217,
+      "update_status": "new",
+      "update_note": "Clarity: 13 citations, 86% SoA; highest SoA of any uncovered gap"
+    }
+  },
+  {
+    "prompt_id": "stable_agentinfra_043",
+    "prompt_text": "What is database branching and how does it help AI agents?",
+    "prompt_type": "AI Agent Infrastructure",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "agentinfra",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 30,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 218,
+      "update_status": "new",
+      "update_note": "Trends peaked at 100 in May 2026; category entry point"
+    }
+  },
+  {
     "prompt_id": "stable_hybridrag_001",
     "prompt_text": "TiDB vs Weaviate for hybrid search and metadata filtering.",
     "prompt_type": "Hybrid Search & RAG",
@@ -1795,7 +1851,7 @@
   },
   {
     "prompt_id": "stable_hybridrag_029",
-    "prompt_text": "How can I scale pgvector?",
+    "prompt_text": "What database should I use when pgvector is no longer enough?",
     "prompt_type": "Hybrid Search & RAG",
     "group": "discovery",
     "surface": "api",
@@ -1816,7 +1872,9 @@
         "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
       ],
       "collected_at": "2026-09-01",
-      "sheet_rank": 70
+      "sheet_rank": 70,
+      "update_status": "rewritten",
+      "update_note": "Clearer buyer decision point"
     }
   },
   {
@@ -1951,7 +2009,7 @@
   },
   {
     "prompt_id": "stable_hybridrag_035",
-    "prompt_text": "Blueprint for scaling pgvector workloads using a distributed SQL backend.",
+    "prompt_text": "Best database for production RAG when pgvector doesn't scale?",
     "prompt_type": "Hybrid Search & RAG",
     "group": "discovery",
     "surface": "api",
@@ -1972,7 +2030,9 @@
         "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
       ],
       "collected_at": "2026-09-01",
-      "sheet_rank": 76
+      "sheet_rank": 76,
+      "update_status": "rewritten",
+      "update_note": "Removed blueprint document framing"
     }
   },
   {
@@ -1999,6 +2059,34 @@
       ],
       "collected_at": "2026-09-01",
       "sheet_rank": 77
+    }
+  },
+  {
+    "prompt_id": "stable_hybridrag_037",
+    "prompt_text": "Best database for LLMs that need to generate SQL against live operational data.",
+    "prompt_type": "Hybrid Search & RAG",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "consideration",
+    "persona": "AI / ML Practitioner",
+    "region": "US",
+    "use_case": "hybridrag",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 32,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 219,
+      "update_status": "new",
+      "update_note": "Clarity: 19 citations, 47% SoA; maps to MySQL compatibility and HTAP"
     }
   },
   {
@@ -2887,7 +2975,7 @@
   },
   {
     "prompt_id": "stable_mysqlscale_003",
-    "prompt_text": "Are there MySQL alternatives that can support both high transaction volumes and complex analytics?",
+    "prompt_text": "What database handles both transactions and real-time analytics without a separate data warehouse?",
     "prompt_type": "MySQL Scale & Migration",
     "group": "discovery",
     "surface": "api",
@@ -2908,7 +2996,9 @@
         "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
       ],
       "collected_at": "2026-09-01",
-      "sheet_rank": 113
+      "sheet_rank": 113,
+      "update_status": "rewritten",
+      "update_note": "HTAP intent kept; updated to buyer language"
     }
   },
   {
@@ -3094,32 +3184,6 @@
     }
   },
   {
-    "prompt_id": "stable_mysqlscale_011",
-    "prompt_text": "Checklist for planning a zero-downtime MySQL migration to a distributed SQL backend.",
-    "prompt_type": "MySQL Scale & Migration",
-    "group": "discovery",
-    "surface": "api",
-    "brand_class": "non_branded",
-    "funnel_stage": "awareness",
-    "persona": "Backend / App Engineer",
-    "region": "US",
-    "use_case": "mysqlscale",
-    "intent_weight": 2,
-    "qualified_recommendation_opportunity": true,
-    "competitors": [],
-    "panel": "stable",
-    "priority_score": 28,
-    "source": {
-      "source_type": "manual_curated",
-      "validation_status": "case_pattern_validated",
-      "source_evidence_urls": [
-        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
-      ],
-      "collected_at": "2026-09-01",
-      "sheet_rank": 121
-    }
-  },
-  {
     "prompt_id": "stable_mysqlscale_012",
     "prompt_text": "Can you suggest scalable databases that work like MySQL but offer better flexibility and scalability?",
     "prompt_type": "MySQL Scale & Migration",
@@ -3172,13 +3236,13 @@
     }
   },
   {
-    "prompt_id": "stable_mysqlscale_014",
-    "prompt_text": "What does MySQL modernization involve for applications facing performance ceilings?",
+    "prompt_id": "stable_mysqlscale_015",
+    "prompt_text": "What factors should I consider when choosing an HTAP database?",
     "prompt_type": "MySQL Scale & Migration",
     "group": "discovery",
     "surface": "api",
     "brand_class": "non_branded",
-    "funnel_stage": "awareness",
+    "funnel_stage": "consideration",
     "persona": "Engineering Leader",
     "region": "US",
     "use_case": "mysqlscale",
@@ -3186,7 +3250,7 @@
     "qualified_recommendation_opportunity": true,
     "competitors": [],
     "panel": "stable",
-    "priority_score": 26,
+    "priority_score": 31,
     "source": {
       "source_type": "manual_curated",
       "validation_status": "case_pattern_validated",
@@ -3194,7 +3258,9 @@
         "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
       ],
       "collected_at": "2026-09-01",
-      "sheet_rank": 124
+      "sheet_rank": 220,
+      "update_status": "new",
+      "update_note": "Clarity: 15 citations, 50% SoA; fills the HTAP decision-framework gap"
     }
   },
   {
@@ -3299,32 +3365,6 @@
       ],
       "collected_at": "2026-09-01",
       "sheet_rank": 128
-    }
-  },
-  {
-    "prompt_id": "stable_mcptooling_005",
-    "prompt_text": "What database should I use behind an MCP server?",
-    "prompt_type": "MCP & Developer Tooling",
-    "group": "discovery",
-    "surface": "api",
-    "brand_class": "non_branded",
-    "funnel_stage": "consideration",
-    "persona": "Backend / App Engineer",
-    "region": "US",
-    "use_case": "mcptooling",
-    "intent_weight": 2,
-    "qualified_recommendation_opportunity": true,
-    "competitors": [],
-    "panel": "stable",
-    "priority_score": 62,
-    "source": {
-      "source_type": "manual_curated",
-      "validation_status": "case_pattern_validated",
-      "source_evidence_urls": [
-        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
-      ],
-      "collected_at": "2026-09-01",
-      "sheet_rank": 129
     }
   },
   {
@@ -3897,6 +3937,62 @@
       ],
       "collected_at": "2026-09-01",
       "sheet_rank": 151
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_017",
+    "prompt_text": "Best database for high-concurrency writes from AI microservices.",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "decision",
+    "persona": "Backend / App Engineer",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 3,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 30,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 221,
+      "update_status": "new",
+      "update_note": "Clarity: 16 citations, 64% SoA; microservices framing was absent"
+    }
+  },
+  {
+    "prompt_id": "stable_scalearch_018",
+    "prompt_text": "What database should an AI startup use when expecting rapid growth?",
+    "prompt_type": "Scale & Architecture",
+    "group": "discovery",
+    "surface": "api",
+    "brand_class": "non_branded",
+    "funnel_stage": "awareness",
+    "persona": "Technical Executive",
+    "region": "US",
+    "use_case": "scalearch",
+    "intent_weight": 2,
+    "qualified_recommendation_opportunity": true,
+    "competitors": [],
+    "panel": "stable",
+    "priority_score": 28,
+    "source": {
+      "source_type": "manual_curated",
+      "validation_status": "case_pattern_validated",
+      "source_evidence_urls": [
+        "https://docs.google.com/spreadsheets/d/12tyuVZkSQeK4mlSjrVn5abpOKdj7pyEHTSyCc0-3MoA"
+      ],
+      "collected_at": "2026-09-01",
+      "sheet_rank": 222,
+      "update_status": "new",
+      "update_note": "Clarity: 17 citations, 35% SoA; adds the developer-founder ICP"
     }
   },
   {
