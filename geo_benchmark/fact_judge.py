@@ -33,8 +33,21 @@ QUALIFIER_SCOPE_POLICY = (
 MAPPED_FACT_BOUNDARY_POLICY = (
     "Judge only the mapped fact. Never state or imply that an unrelated claim in the answer is accurate, "
     "supported, inaccurate, or unsupported. Do not use unrelated claims as evidence for a correct verdict. "
-    "Separate fact judgments and deterministic conflict checks evaluate those claims."
+    "Separate fact judgments and deterministic conflict checks evaluate those claims. Return incorrect only "
+    "when answer_excerpt itself directly contradicts the mapped fact; a false unrelated claim cannot make the "
+    "mapped verdict incorrect."
 )
+# Incorrect verdicts for these facts require auditable, fact-specific evidence in
+# answer_excerpt. Keep patterns deliberately narrow: generic words such as
+# "usage" would let an unrelated customer-usage claim affect an RU judgment.
+INCORRECT_EVIDENCE_SCOPE_PATTERNS = {
+    "tidb_cloud_ru_and_rcu": (
+        r"\brequest units?\b",
+        r"\brus?\b",
+        r"\brequest capacity units?\b",
+        r"\brcus?\b",
+    ),
+}
 CORE_RUBRICS = {
     "tidb_cloud_zero": (
         "For a general definition, the core is an on-demand temporary TiDB database experience "
@@ -147,7 +160,7 @@ class SemanticFactJudge:
                     stable_hash(self.payload),
                     prompt.get("prompt_text", ""),
                     answer,
-                    "judge-contract-v3-conditional-scope",
+                    "judge-contract-v4-enforced-fact-scope",
                     QUALIFIER_SCOPE_POLICY,
                     MAPPED_FACT_BOUNDARY_POLICY,
                     CORE_RUBRICS.get(fact["fact_id"], ""),
@@ -239,7 +252,7 @@ class SemanticFactJudge:
                 output = extract_openai_response_text(data)
                 self.usage.output_tokens += int(usage.get("output_tokens", estimate_tokens(output)))
                 parsed = parse_live_judge_response(data, output)
-                result = normalize_result(parsed, fact, dimensions)
+                result = normalize_result(parsed, fact, dimensions, answer)
                 result["response_diagnostics"] = attempts
                 return result
             except JudgeResponseError as exc:
@@ -247,6 +260,18 @@ class SemanticFactJudge:
                 diagnostic["error_code"] = exc.code
                 if not exc.retryable:
                     break
+                if exc.code == "out_of_scope_evidence":
+                    payload["input"].append(
+                        {
+                            "role": "system",
+                            "content": (
+                                "Your previous judgment used evidence outside the mapped fact. Re-evaluate only "
+                                f"{fact['fact_id']}. If verdict is incorrect, answer_excerpt must quote the "
+                                "specific claim that directly contradicts this mapped fact. Ignore unrelated "
+                                "claims; they cannot change this fact's verdict."
+                            ),
+                        }
+                    )
             except ProviderError as exc:
                 last_error = str(exc)
                 diagnostic["error_code"] = "provider_error"
@@ -689,7 +714,12 @@ def parse_judge_json(value: str) -> dict[str, Any]:
     return json.loads(text)
 
 
-def normalize_result(value: dict[str, Any], fact: dict[str, Any], dimensions: list[str]) -> dict[str, Any]:
+def normalize_result(
+    value: dict[str, Any],
+    fact: dict[str, Any],
+    dimensions: list[str],
+    answer: str = "",
+) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError("Judge result must be an object")
     for field in ("verdict", "reason", "answer_excerpt"):
@@ -698,15 +728,41 @@ def normalize_result(value: dict[str, Any], fact: dict[str, Any], dimensions: li
     verdict = str(value.get("verdict", "")).lower()
     if verdict not in VERDICTS - {"judge_unavailable"}:
         raise ValueError(f"Invalid judge verdict: {verdict}")
+    excerpt = str(value.get("answer_excerpt", ""))
+    validate_incorrect_evidence_scope(verdict, excerpt, answer, fact)
     return {
         "fact_id": fact["fact_id"],
         "verdict": verdict,
         "reason": str(value.get("reason", ""))[:500],
-        "answer_excerpt": str(value.get("answer_excerpt", ""))[:500],
+        "answer_excerpt": excerpt[:500],
         "qualifier_check_activated": bool(dimensions),
         "qualifier_dimensions": dimensions,
         "cached": False,
     }
+
+
+def validate_incorrect_evidence_scope(
+    verdict: str,
+    excerpt: str,
+    answer: str,
+    fact: dict[str, Any],
+) -> None:
+    """Reject an incorrect verdict whose quoted evidence is outside the mapped fact."""
+    patterns = INCORRECT_EVIDENCE_SCOPE_PATTERNS.get(str(fact.get("fact_id", "")))
+    if verdict != "incorrect" or not patterns:
+        return
+    normalized_excerpt = " ".join(excerpt.casefold().split())
+    normalized_answer = " ".join(answer.casefold().split())
+    if not normalized_excerpt or normalized_excerpt not in normalized_answer:
+        raise JudgeResponseError(
+            "out_of_scope_evidence",
+            "Incorrect judgment did not quote evidence found in the answer for the mapped fact.",
+        )
+    if not any(re.search(pattern, excerpt, flags=re.IGNORECASE) for pattern in patterns):
+        raise JudgeResponseError(
+            "out_of_scope_evidence",
+            "Incorrect judgment cited evidence outside the mapped fact.",
+        )
 
 
 def unavailable_result(fact: dict[str, Any], dimensions: list[str], reason: str) -> dict[str, Any]:

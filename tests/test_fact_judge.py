@@ -382,6 +382,97 @@ class SemanticFactJudgeTests(unittest.TestCase):
         system = request.call_args.args[1]["input"][0]["content"]
         self.assertIn("Never state or imply that an unrelated claim", system)
 
+    def test_ru_incorrect_verdict_retries_when_evidence_is_unrelated(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=1))
+        unrelated = self.completed_judge_response()
+        unrelated["output"][0]["content"][0]["text"] = json.dumps({
+            "verdict": "incorrect",
+            "reason": "The customer metrics are unsupported.",
+            "answer_excerpt": "Manus and Kimi process billions of agent sessions.",
+        })
+        corrected = self.completed_judge_response()
+        corrected["output"][0]["content"][0]["text"] = json.dumps({
+            "verdict": "correct",
+            "reason": "The RU description matches the mapped fact.",
+            "answer_excerpt": "Request Units measure resources consumed by requests.",
+        })
+        answer = (
+            "Request Units measure resources consumed by requests. "
+            "Manus and Kimi process billions of agent sessions."
+        )
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", side_effect=[unrelated, corrected]
+        ) as request:
+            result = judge.judge_answer(
+                {
+                    "prompt_id": "stable_agentinfra_008",
+                    "prompt_text": "How does TiDB's Request Unit model work?",
+                },
+                answer,
+                "hash",
+            )
+        self.assertEqual(request.call_count, 2)
+        self.assertEqual(result["results"][0]["verdict"], "correct")
+        self.assertEqual(
+            result["results"][0]["response_diagnostics"][0]["error_code"],
+            "out_of_scope_evidence",
+        )
+        retry_payload = request.call_args_list[1].args[1]
+        self.assertIn("previous judgment used evidence outside", retry_payload["input"][-1]["content"])
+
+    def test_ru_incorrect_verdict_accepts_direct_ru_evidence(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=1))
+        response = self.completed_judge_response()
+        response["output"][0]["content"][0]["text"] = json.dumps({
+            "verdict": "incorrect",
+            "reason": "RU does not mean replica unit.",
+            "answer_excerpt": "RU means replica unit.",
+        })
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=response
+        ) as request:
+            result = judge.judge_answer(
+                {
+                    "prompt_id": "stable_agentinfra_008",
+                    "prompt_text": "How does TiDB's Request Unit model work?",
+                },
+                "RU means replica unit.",
+                "hash",
+            )
+        self.assertEqual(request.call_count, 1)
+        self.assertEqual(result["results"][0]["verdict"], "incorrect")
+
+    def test_repeated_out_of_scope_ru_evidence_becomes_unavailable(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=1))
+        response = self.completed_judge_response()
+        response["output"][0]["content"][0]["text"] = json.dumps({
+            "verdict": "incorrect",
+            "reason": "An unrelated statement is unsupported.",
+            "answer_excerpt": "A customer processes billions of sessions.",
+        })
+        answer = "Request Units measure request resources. A customer processes billions of sessions."
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=response
+        ) as request:
+            result = judge.judge_answer(
+                {
+                    "prompt_id": "stable_agentinfra_008",
+                    "prompt_text": "How does TiDB's Request Unit model work?",
+                },
+                answer,
+                "hash",
+            )
+        self.assertEqual(request.call_count, 2)
+        self.assertEqual(result["results"][0]["verdict"], "judge_unavailable")
+        self.assertEqual(result["results"][0]["response_diagnostics"][-1]["error_code"], "out_of_scope_evidence")
+        self.assertFalse(judge.cache)
+
     def test_mock_judge_writes_structured_verdict_and_uses_cache(self):
         temp, root = self.make_root()
         self.addCleanup(temp.cleanup)
