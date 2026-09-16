@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 from geo_benchmark.fact_judge import (
     COVERAGE_FIELDS,
+    MAPPED_FACT_BOUNDARY_POLICY,
     CoverageValidationError,
     JudgeSettings,
     SemanticFactJudge,
@@ -266,7 +267,7 @@ class SemanticFactJudgeTests(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
         result = judge.judge_answer(
-            {"prompt_id": "stable_agentinfra_008", "prompt_text": "How does the RU model work?"},
+            {"prompt_id": "stable_scalearch_001", "prompt_text": "Can TiDB support millions of schemas?"},
             "A mock answer.",
             "answer-hash",
         )
@@ -278,11 +279,78 @@ class SemanticFactJudgeTests(unittest.TestCase):
         rules = [
             {"conflict_id": "drive9_current_name"},
             {"conflict_id": "mem9_current_name"},
+            {"conflict_id": "tidb_serverless_current_name"},
         ]
         current = detect_conflicts("mem9 is the current memory product.", rules)
         historical = detect_conflicts("mem9 was renamed and is now called TiDB Cloud Memory.", rules)
         self.assertEqual([row["fact_id"] for row in current], ["conflict:mem9_current_name"])
         self.assertEqual(historical, [])
+        self.assertEqual(
+            [row["fact_id"] for row in detect_conflicts("Use TiDB Serverless for this workload.", rules)],
+            ["conflict:tidb_serverless_current_name"],
+        )
+        self.assertEqual(
+            detect_conflicts("TiDB Serverless was renamed and is now called TiDB Cloud Starter.", rules),
+            [],
+        )
+
+    def test_cloud_zero_false_positioning_is_a_global_conflict(self):
+        rules = [{
+            "conflict_id": "cloud_zero_false_positioning",
+            "description": "Zero is not a scale-to-zero production service.",
+        }]
+        answer = (
+            "TiDB Cloud Zero is useful for prototypes. Its consumption model can scale to zero "
+            "and is pay-for-use for small production services."
+        )
+        conflicts = detect_conflicts(answer, rules)
+        self.assertEqual([row["fact_id"] for row in conflicts], ["conflict:cloud_zero_false_positioning"])
+        self.assertEqual(conflicts[0]["verdict"], "incorrect")
+        self.assertEqual(
+            detect_conflicts("TiDB Cloud Zero is a production-grade database for demos.", rules)[0]["verdict"],
+            "incorrect",
+        )
+
+    def test_false_global_claim_overrides_an_inconclusive_mapped_judgment(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+        response = self.completed_judge_response()
+        response["output"][0]["content"][0]["text"] = json.dumps({
+            "verdict": "not_enough_information",
+            "reason": "The temporary characteristic is missing.",
+            "answer_excerpt": "TiDB Cloud Zero scales to zero.",
+        })
+        answer = "TiDB Cloud Zero scales to zero and is pay-for-use for small production services."
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=response
+        ):
+            result = judge.judge_answer(
+                {"prompt_id": "stable_branddef_022", "prompt_text": "What is TiDB Cloud Zero?"},
+                answer,
+                "hash",
+            )
+        self.assertEqual(result["incorrect_facts"], 1)
+        self.assertEqual(result["not_enough_information_facts"], 1)
+        self.assertEqual(result["accuracy"], 0.0)
+
+    def test_judge_is_told_not_to_endorse_unrelated_claims(self):
+        from geo_benchmark.fact_judge import build_judge_input
+
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="live", retries=0))
+        fact = judge.facts["tidb_langchain_integration"]
+        prompt = {"prompt_id": "stable_hybridrag_030", "prompt_text": "What is TiDB LangChain?"}
+        answer = "It is an integration. TiDB vector search is experimental."
+        text = build_judge_input(prompt, answer, fact, ["maturity"])
+        self.assertIn(MAPPED_FACT_BOUNDARY_POLICY, text)
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "dummy"}), patch(
+            "geo_benchmark.fact_judge._post_json", return_value=self.completed_judge_response()
+        ) as request:
+            judge.judge_answer(prompt, answer, "hash")
+        system = request.call_args.args[1]["input"][0]["content"]
+        self.assertIn("Never state or imply that an unrelated claim", system)
 
     def test_mock_judge_writes_structured_verdict_and_uses_cache(self):
         temp, root = self.make_root()
