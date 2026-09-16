@@ -1,6 +1,6 @@
 # TiDB fact base v2
 
-This directory contains the review-ready TiDB fact base derived from the approved-facts document, the Proposed Additions tab, document comments, and product feedback reviewed on 2026-09-03.
+This directory contains the review-ready TiDB fact base derived from the approved-facts document, the Proposed Additions tab, document comments, and product feedback updated on 2026-09-16.
 
 ## Files
 
@@ -8,6 +8,16 @@ This directory contains the review-ready TiDB fact base derived from the approve
 - `geo-benchmark/config/tidb_fact_base_v2.csv` is the fact-review sheet.
 - `geo-benchmark/config/tidb_fact_base_review_queue.csv` contains unresolved Product, Legal, Security, and benchmark-design decisions.
 - `geo-benchmark/config/tidb_fact_coverage_2026-09.csv` maps every branded September prompt to a candidate fact, an open review item, or the comparison-metric-only policy.
+- `docs/tidb-fact-base-review-2026-09-16.md` is the reviewed human-readable source used for this update.
+- `scripts/sync-fact-base-markdown.py` regenerates the JSON, CSV, review queue, and affected coverage dispositions from that source.
+
+Regenerate the machine-readable artifacts with an explicit review date:
+
+```bash
+python3 scripts/sync-fact-base-markdown.py \
+  docs/tidb-fact-base-review-2026-09-16.md \
+  --verified-on 2026-09-16
+```
 
 ## Activation status
 
@@ -16,6 +26,8 @@ This is a candidate v2 fact base. It does not replace the existing `facts.json` 
 The current official scorer uses literal `triggers`, `expected_any`, and `wrong_any` substring lists. Use `--fact-judge mock` for a keyless pipeline test or `--fact-judge live` for structured semantic judgments. Semantic results include cost, cache, failure, qualifier-scope, and per-fact audit fields but remain a shadow metric until approved.
 
 Only facts with status `READY_FOR_JUDGE` may contribute to semantic accuracy. Facts with status `REVIEW_REQUIRED` remain unscored.
+
+The current review contains 55 prompt-relevant facts: 48 are judge-ready and seven remain gated. The separate review queue contains 12 unresolved Product, Legal, Security, or benchmark-policy decisions.
 
 ## Conditional qualifier rule
 
@@ -45,5 +57,8 @@ When activated, the judge checks only the qualifiers asked about or asserted. A 
 - Kept knowledge graph and comparative product claims behind approval gates.
 - Added dates, owners, review cadence, conflict rules, and explicit out-of-scope rules.
 - Replaced generic AI hub citations for vector search, full-text search, and PyTiDB with specific documentation pages.
-- Moved the RU/RCU distinction to Cloud Pricing PM review.
+- Activated the RU/RCU distinction after internal confirmation of the Essential v1 versus v2 billing models.
+- Activated the vector capability fact while keeping the unresolved full-text product-surface boundary gated.
+- Added global checks for the retired TiDB Serverless name and false TiDB Cloud Zero positioning.
+- Prevented a mapped-fact judge from endorsing unrelated claims in its explanation.
 - Removed the unsupported 72-hour TiDB Cloud Zero assertion because no observed-answer evidence was supplied.

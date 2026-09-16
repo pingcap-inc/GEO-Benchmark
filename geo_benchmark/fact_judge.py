@@ -30,6 +30,11 @@ QUALIFIER_SCOPE_POLICY = (
     "what the answer asserts. In the reason, explain the decisive claim or core description; "
     "do not list unrelated canonical details as mandatory."
 )
+MAPPED_FACT_BOUNDARY_POLICY = (
+    "Judge only the mapped fact. Never state or imply that an unrelated claim in the answer is accurate, "
+    "supported, inaccurate, or unsupported. Do not use unrelated claims as evidence for a correct verdict. "
+    "Separate fact judgments and deterministic conflict checks evaluate those claims."
+)
 CORE_RUBRICS = {
     "tidb_cloud_zero": (
         "For a general definition, the core is an on-demand temporary TiDB database experience "
@@ -123,7 +128,6 @@ class SemanticFactJudge:
             return summarize(base)
         if coverage.get("coverage_disposition") == "comparison_metric_only":
             return summarize(base)
-
         base["results"].extend(detect_conflicts(answer, self.conflict_rules))
 
         fact_ids = split_fact_ids(coverage.get("fact_or_review_ids", ""))
@@ -145,6 +149,7 @@ class SemanticFactJudge:
                     answer,
                     "judge-contract-v3-conditional-scope",
                     QUALIFIER_SCOPE_POLICY,
+                    MAPPED_FACT_BOUNDARY_POLICY,
                     CORE_RUBRICS.get(fact["fact_id"], ""),
                     self.settings.mode,
                     self.settings.provider,
@@ -204,7 +209,10 @@ class SemanticFactJudge:
                     "content": (
                         "You are a strict product-fact evaluator. Return only one JSON object with keys "
                         "verdict, reason, answer_excerpt. verdict must be correct, incorrect, "
-                        "not_enough_information, or not_applicable. " + QUALIFIER_SCOPE_POLICY
+                        "not_enough_information, or not_applicable. "
+                        + QUALIFIER_SCOPE_POLICY
+                        + " "
+                        + MAPPED_FACT_BOUNDARY_POLICY
                     ),
                 },
                 {"role": "user", "content": judge_input},
@@ -468,11 +476,13 @@ def split_fact_ids(value: str) -> list[str]:
 
 def detect_conflicts(answer: str, rules: list[dict[str, Any]]) -> list[dict[str, Any]]:
     lower = answer.lower()
-    active_ids = {rule.get("conflict_id") for rule in rules}
+    active_rules = {rule.get("conflict_id"): rule for rule in rules}
+    active_ids = set(active_rules)
     retired_context = r"(?:former(?:ly)?|old name|previously|renamed|now called|became|replaced)"
     patterns = {
         "drive9_current_name": r"\bdrive9\b\s+(?:is|provides|offers|serves as)\b",
         "mem9_current_name": r"\bmem9\b\s+(?:is|provides|offers|serves as)\b",
+        "tidb_serverless_current_name": r"\btidb(?: cloud)? serverless\b",
         "starter_serverless_double_product": r"\btidb cloud starter\b[^.\n]{0,100}\b(?:and|or|versus|vs\.?)\b[^.\n]{0,100}\btidb cloud serverless\b",
         "tikv_tiflash_role_swap": r"\b(?:tikv[^.\n]{0,50}(?:columnar|analytics store)|tiflash[^.\n]{0,50}(?:row store|transactional row))\b",
     }
@@ -484,7 +494,12 @@ def detect_conflicts(answer: str, rules: list[dict[str, Any]]) -> list[dict[str,
         if not match:
             continue
         context = lower[max(0, match.start() - 45) : min(len(lower), match.end() + 45)]
-        if conflict_id in {"drive9_current_name", "mem9_current_name", "starter_serverless_double_product"} and re.search(
+        if conflict_id in {
+            "drive9_current_name",
+            "mem9_current_name",
+            "tidb_serverless_current_name",
+            "starter_serverless_double_product",
+        } and re.search(
             retired_context, context
         ):
             continue
@@ -492,14 +507,55 @@ def detect_conflicts(answer: str, rules: list[dict[str, Any]]) -> list[dict[str,
             {
                 "fact_id": f"conflict:{conflict_id}",
                 "verdict": "incorrect",
-                "reason": "The answer violates an approved cross-fact conflict rule.",
+                "reason": str(active_rules[conflict_id].get("description") or "The answer violates an approved cross-fact conflict rule."),
                 "answer_excerpt": answer[match.start() : match.end()][:500],
                 "qualifier_check_activated": False,
                 "qualifier_dimensions": [],
                 "cached": False,
             }
         )
+    if "cloud_zero_false_positioning" in active_ids:
+        claim = cloud_zero_false_claim(lower)
+        if claim:
+            start, end = claim
+            results.append(
+                {
+                    "fact_id": "conflict:cloud_zero_false_positioning",
+                    "verdict": "incorrect",
+                    "reason": str(
+                        active_rules["cloud_zero_false_positioning"].get("description")
+                        or "The answer violates an approved cross-fact conflict rule."
+                    ),
+                    "answer_excerpt": answer[start:end][:500],
+                    "qualifier_check_activated": False,
+                    "qualifier_dimensions": [],
+                    "cached": False,
+                }
+            )
     return results
+
+
+CLOUD_ZERO_FALSE_CLAIM = re.compile(
+    r"\b(?:scales? to zero|pay[- ]for[- ]use|pay per use|small production services?|"
+    r"production.grade|production workloads?)\b"
+)
+CLOUD_ZERO_NEGATION = re.compile(
+    r"\b(?:does not|doesn't|do not|don't|is not|isn't|cannot|can't|never|not)\b"
+    r"(?:\s+\w+){0,4}\s*$"
+)
+
+
+def cloud_zero_false_claim(lower_answer: str) -> tuple[int, int] | None:
+    """Return a positive false-positioning claim made about Zero in the same sentence."""
+    for sentence in re.finditer(r"[^.\n]*\btidb cloud zero\b[^.\n]*", lower_answer):
+        text = sentence.group(0)
+        product_end = text.find("tidb cloud zero") + len("tidb cloud zero")
+        for claim in CLOUD_ZERO_FALSE_CLAIM.finditer(text, product_end):
+            prefix = text[max(product_end, claim.start() - 60) : claim.start()]
+            if CLOUD_ZERO_NEGATION.search(prefix):
+                continue
+            return sentence.start() + claim.start(), sentence.start() + claim.end()
+    return None
 
 
 PROMPT_QUALIFIER_PATTERNS = {
@@ -556,7 +612,8 @@ def build_judge_input(prompt: dict[str, Any], answer: str, fact: dict[str, Any],
         f"Correctness examples (not an exhaustive required checklist): {fact.get('correct_when', '')}\n\n"
         f"Contradiction examples: {fact.get('incorrect_when', '')}\n\n"
         f"Applies to: {fact.get('applies_to', '')}\n\n"
-        f"Pre-detected qualifier dimensions: {active}. The system scoring policy takes precedence."
+        f"Pre-detected qualifier dimensions: {active}. The system scoring policy takes precedence. "
+        f"{MAPPED_FACT_BOUNDARY_POLICY}"
     )
 
 

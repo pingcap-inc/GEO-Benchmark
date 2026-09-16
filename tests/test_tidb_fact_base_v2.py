@@ -59,12 +59,14 @@ class TiDBFactBaseV2Tests(unittest.TestCase):
         self.assertNotIn("mem9_definition", by_id)
         filesystem = by_id["tidb_cloud_filesystem_definition"]
         memory = by_id["tidb_cloud_memory_definition"]
-        self.assertIn("drive9", filesystem["incorrect_when"])
-        self.assertIn("drive9 as the current product name", filesystem["incorrect_when"])
-        self.assertIn("mem9 as the current product name", memory["incorrect_when"])
-        self.assertEqual(memory["status"], "REVIEW_REQUIRED")
-        self.assertEqual(by_id["tidb_vector_search"]["status"], "REVIEW_REQUIRED")
-        self.assertEqual(by_id["tidb_cloud_ru_and_rcu"]["status"], "REVIEW_REQUIRED")
+        self.assertIn("drive9", filesystem["canonical_truth"])
+        self.assertIn("TiDB Cloud Filesystem", filesystem["canonical_truth"])
+        self.assertIn("mem9", memory["canonical_truth"])
+        self.assertIn("TiDB Cloud Memory", memory["canonical_truth"])
+        self.assertEqual(memory["status"], "READY_FOR_JUDGE")
+        self.assertEqual(by_id["tidb_vector_search"]["status"], "READY_FOR_JUDGE")
+        self.assertEqual(by_id["tidb_cloud_ru_and_rcu"]["status"], "READY_FOR_JUDGE")
+        self.assertEqual(by_id["tidb_full_text_search"]["status"], "REVIEW_REQUIRED")
 
     def test_september_prompts_use_current_memory_and_filesystem_names(self):
         prompts = json.loads(
@@ -116,9 +118,27 @@ class TiDBFactBaseV2Tests(unittest.TestCase):
         reviews = self.payload["review_queue"]
         ids = [item["review_id"] for item in reviews]
         self.assertEqual(len(ids), len(set(ids)))
-        self.assertIn("tidb_vector_search_production_status", ids)
-        self.assertIn("tidb_cloud_memory_launch_and_rename", ids)
-        self.assertIn("tidb_ru_rcu_definition", ids)
+        self.assertEqual(len(ids), 12)
+        self.assertNotIn("tidb_vector_search_production_status", ids)
+        self.assertNotIn("tidb_cloud_memory_launch_and_rename", ids)
+        self.assertNotIn("tidb_ru_rcu_definition", ids)
+        self.assertIn("tidb_fulltext_scope_boundary", ids)
+        self.assertTrue(all(item["source_urls"] for item in reviews))
+
+    def test_updated_sheet_counts_and_resolved_details(self):
+        by_id = {fact["fact_id"]: fact for fact in self.facts}
+        self.assertEqual(len(self.facts), 55)
+        self.assertEqual(sum(fact["status"] == "READY_FOR_JUDGE" for fact in self.facts), 48)
+        self.assertIn("Essential v1", by_id["tidb_cloud_ru_and_rcu"]["canonical_truth"])
+        self.assertIn("Essential v2", by_id["tidb_cloud_ru_and_rcu"]["canonical_truth"])
+        self.assertIn("not created for every table by default", by_id["tiflash_role"]["canonical_truth"])
+        self.assertIn("full scan", by_id["tidb_metadata_filtering"]["canonical_truth"])
+        self.assertIn("TiDB/TiKV as the source", by_id["ticdc"]["canonical_truth"])
+
+    def test_global_conflict_rules_cover_canary_failures(self):
+        ids = {rule["conflict_id"] for rule in self.payload["conflict_rules"]}
+        self.assertIn("tidb_serverless_current_name", ids)
+        self.assertIn("cloud_zero_false_positioning", ids)
 
     def test_all_branded_prompts_have_an_explicit_disposition(self):
         prompts = json.loads(
