@@ -126,9 +126,9 @@ class SemanticFactJudge:
         }
         if self.settings.mode == "off" or not coverage:
             return summarize(base)
-        base["results"].extend(detect_conflicts(answer, self.conflict_rules))
         if coverage.get("coverage_disposition") == "comparison_metric_only":
             return summarize(base)
+        base["results"].extend(detect_conflicts(answer, self.conflict_rules))
 
         fact_ids = split_fact_ids(coverage.get("fact_or_review_ids", ""))
         selected = [
@@ -485,10 +485,6 @@ def detect_conflicts(answer: str, rules: list[dict[str, Any]]) -> list[dict[str,
         "tidb_serverless_current_name": r"\btidb(?: cloud)? serverless\b",
         "starter_serverless_double_product": r"\btidb cloud starter\b[^.\n]{0,100}\b(?:and|or|versus|vs\.?)\b[^.\n]{0,100}\btidb cloud serverless\b",
         "tikv_tiflash_role_swap": r"\b(?:tikv[^.\n]{0,50}(?:columnar|analytics store)|tiflash[^.\n]{0,50}(?:row store|transactional row))\b",
-        "cloud_zero_false_positioning": (
-            r"\btidb cloud zero\b[\s\S]{0,1500}\b(?:scales? to zero|pay[- ]for[- ]use|pay per use|"
-            r"small production services?|production.grade|production workloads?)\b"
-        ),
     }
     results = []
     for conflict_id, pattern in patterns.items():
@@ -518,7 +514,48 @@ def detect_conflicts(answer: str, rules: list[dict[str, Any]]) -> list[dict[str,
                 "cached": False,
             }
         )
+    if "cloud_zero_false_positioning" in active_ids:
+        claim = cloud_zero_false_claim(lower)
+        if claim:
+            start, end = claim
+            results.append(
+                {
+                    "fact_id": "conflict:cloud_zero_false_positioning",
+                    "verdict": "incorrect",
+                    "reason": str(
+                        active_rules["cloud_zero_false_positioning"].get("description")
+                        or "The answer violates an approved cross-fact conflict rule."
+                    ),
+                    "answer_excerpt": answer[start:end][:500],
+                    "qualifier_check_activated": False,
+                    "qualifier_dimensions": [],
+                    "cached": False,
+                }
+            )
     return results
+
+
+CLOUD_ZERO_FALSE_CLAIM = re.compile(
+    r"\b(?:scales? to zero|pay[- ]for[- ]use|pay per use|small production services?|"
+    r"production.grade|production workloads?)\b"
+)
+CLOUD_ZERO_NEGATION = re.compile(
+    r"\b(?:does not|doesn't|do not|don't|is not|isn't|cannot|can't|never|not)\b"
+    r"(?:\s+\w+){0,4}\s*$"
+)
+
+
+def cloud_zero_false_claim(lower_answer: str) -> tuple[int, int] | None:
+    """Return a positive false-positioning claim made about Zero in the same sentence."""
+    for sentence in re.finditer(r"[^.\n]*\btidb cloud zero\b[^.\n]*", lower_answer):
+        text = sentence.group(0)
+        product_end = text.find("tidb cloud zero") + len("tidb cloud zero")
+        for claim in CLOUD_ZERO_FALSE_CLAIM.finditer(text, product_end):
+            prefix = text[max(product_end, claim.start() - 60) : claim.start()]
+            if CLOUD_ZERO_NEGATION.search(prefix):
+                continue
+            return sentence.start() + claim.start(), sentence.start() + claim.end()
+    return None
 
 
 PROMPT_QUALIFIER_PATTERNS = {

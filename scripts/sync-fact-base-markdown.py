@@ -238,6 +238,10 @@ def main() -> None:
 
     # Keep the two prompt-driven additions that post-date the numbered review sheet.
     for fact_id in ("tidb_langchain_integration", "tidb_agent_memory_storage"):
+        if fact_id not in existing:
+            raise SystemExit(
+                f"Required prompt-driven fact is missing from the existing fact base: {fact_id}"
+            )
         fact = dict(existing[fact_id])
         fact["judge_prompt"] = judge_prompt(fact)
         updated.append(fact)

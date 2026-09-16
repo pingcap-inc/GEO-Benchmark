@@ -300,7 +300,7 @@ class SemanticFactJudgeTests(unittest.TestCase):
             "description": "Zero is not a scale-to-zero production service.",
         }]
         answer = (
-            "TiDB Cloud Zero is useful for prototypes. Its consumption model can scale to zero "
+            "TiDB Cloud Zero is useful for prototypes, can scale to zero, "
             "and is pay-for-use for small production services."
         )
         conflicts = detect_conflicts(answer, rules)
@@ -309,6 +309,20 @@ class SemanticFactJudgeTests(unittest.TestCase):
         self.assertEqual(
             detect_conflicts("TiDB Cloud Zero is a production-grade database for demos.", rules)[0]["verdict"],
             "incorrect",
+        )
+        self.assertEqual(
+            detect_conflicts(
+                "TiDB Cloud Zero does not scale to zero and is not a production-grade service.",
+                rules,
+            ),
+            [],
+        )
+        self.assertEqual(
+            detect_conflicts(
+                "TiDB Cloud Zero provides a temporary database. Premium targets production workloads.",
+                rules,
+            ),
+            [],
         )
 
     def test_false_global_claim_overrides_an_inconclusive_mapped_judgment(self):
@@ -333,6 +347,22 @@ class SemanticFactJudgeTests(unittest.TestCase):
         self.assertEqual(result["incorrect_facts"], 1)
         self.assertEqual(result["not_enough_information_facts"], 1)
         self.assertEqual(result["accuracy"], 0.0)
+
+    def test_comparison_only_prompts_remain_exempt_from_semantic_conflicts(self):
+        temp, root = self.make_root()
+        self.addCleanup(temp.cleanup)
+        judge = SemanticFactJudge(root, "2026-09", JudgeSettings(mode="mock"))
+        result = judge.judge_answer(
+            {
+                "prompt_id": "stable_agentinfra_004",
+                "prompt_text": "TiDB Cloud Memory vs standalone vector database for agent memory.",
+            },
+            "Use TiDB Serverless for this workload.",
+            "hash",
+        )
+        self.assertEqual(result["coverage_disposition"], "comparison_metric_only")
+        self.assertEqual(result["selected_facts"], 0)
+        self.assertEqual(result["results"], [])
 
     def test_judge_is_told_not_to_endorse_unrelated_claims(self):
         from geo_benchmark.fact_judge import build_judge_input
