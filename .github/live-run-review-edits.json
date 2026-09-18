@@ -1,0 +1,147 @@
+{
+  "base_blobs": {
+    "geo_benchmark/cli.py": "508e38e709c5f791e9ad72f339b3c9c47b453109",
+    "geo_benchmark/fact_judge.py": "b7e4fde6cf7dfa40f2a4f43cdd629fda54064355",
+    "geo_benchmark/reports.py": "3f809327e48ff228a2362589684600a098ee6a2a",
+    "geo_benchmark/review_report.py": "3b5f551cab69350fcf14a1ddc77017e134de1c84",
+    "geo_benchmark/scoring.py": "a566d1e8bdbe6bdd94de8f2d36f7fd4183270e89",
+    "tools/build_prompts.py": "c582a560a5e5d1d89b6d24dee3ea9d335e9e0c7e"
+  },
+  "edits": [
+    {
+      "path": "geo_benchmark/fact_judge.py",
+      "old": "        if self.settings.mode == \"off\" or not coverage:\n            return summarize(base)\n        if coverage[\"coverage_disposition\"] == \"comparison_metric_only\":",
+      "new": "        base[\"pending_fact_ids\"] = []\n        if self.settings.mode == \"off\":\n            return summarize(base)\n        if not coverage:\n            if prompt.get(\"brand_class\") == \"branded\":\n                raise CoverageValidationError(f\"{prompt['prompt_id']}: branded answer has no semantic mapping\")\n            return summarize(base)\n        if coverage.get(\"mapping_status\") != \"approved\":\n            raise CoverageValidationError(f\"{prompt['prompt_id']}: semantic mapping is not approved\")\n        if coverage[\"coverage_disposition\"] == \"comparison_metric_only\":"
+    },
+    {
+      "path": "geo_benchmark/fact_judge.py",
+      "old": "        for fact in selected:\n            dimensions = activated_qualifier_dimensions",
+      "new": "        base[\"pending_fact_ids\"] = [fact_id for fact_id in fact_ids if fact_id not in {fact[\"fact_id\"] for fact in selected}]\n        if coverage[\"coverage_disposition\"] == \"fact_covered\" and base[\"pending_fact_ids\"]:\n            raise CoverageValidationError(f\"{prompt['prompt_id']}: fact_covered mapping contains missing or non-ready facts\")\n        if coverage[\"coverage_disposition\"] == \"fact_covered\" and not selected:\n            raise CoverageValidationError(f\"{prompt['prompt_id']}: fact_covered mapping selected no ready facts\")\n        for fact in selected:\n            dimensions = activated_qualifier_dimensions"
+    },
+    {
+      "path": "geo_benchmark/cli.py",
+      "old": "from __future__ import annotations\n",
+      "new": "from __future__ import annotations\n\nfrom .prompt_metadata import apply_metadata_overrides\nfrom .semantic_coverage import export_fields as semantic_export_fields\n"
+    },
+    {
+      "path": "geo_benchmark/cli.py",
+      "old": "            row[\"semantic_unavailable_facts\"] = semantic[\"unavailable_facts\"]\n",
+      "new": "            row[\"semantic_unavailable_facts\"] = semantic[\"unavailable_facts\"]\n            row.update(semantic_export_fields(row))\n"
+    },
+    {
+      "path": "geo_benchmark/cli.py",
+      "old": "    return read_json(prompt_source_root(root) / \"prompts\" / month / \"prompts.json\")",
+      "new": "    canonical = prompt_source_root(root)\n    prompts = read_json(canonical / \"prompts\" / month / \"prompts.json\")\n    return apply_metadata_overrides(prompts, canonical / \"config\" / \"prompt_metadata_overrides.json\")"
+    },
+    {
+      "path": "geo_benchmark/cli.py",
+      "old": "        \"prompt_set_hash\": (prompt_dir / \"prompt_set_hash.txt\").read_text(encoding=\"utf-8\").strip(),",
+      "new": "        \"prompt_set_hash\": stable_hash(load_prompts(root, month)),\n        \"source_prompt_set_hash\": (prompt_dir / \"prompt_set_hash.txt\").read_text(encoding=\"utf-8\").strip(),\n        \"prompt_metadata_overrides_version\": read_json(\n            prompt_source_root(root) / \"config\" / \"prompt_metadata_overrides.json\", default={}\n        ).get(\"version\"),"
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "from .source_report import write_cited_domain_report\n",
+      "new": "from .source_report import write_cited_domain_report\nfrom .semantic_coverage import EXPORT_FIELDS, export_fields, write_coverage_report\n"
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "    write_csv(report_dir / \"scored_answers.csv\", scored_answers)",
+      "new": "    write_csv(report_dir / \"scored_answers.csv\", scored_answers)\n    write_coverage_report(report_dir, scored_answers)"
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "        \"semantic_fact_accuracy\",\n        \"semantic_checked_facts\",",
+      "new": "        \"semantic_fact_accuracy\",\n        *EXPORT_FIELDS,\n        \"semantic_checked_facts\","
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "        \"competitive_winner\",\n        \"comparison_products\",",
+      "new": "        \"competitive_winner\",\n        \"comparison_eligible\",\n        \"comparison_review_status\",\n        \"comparison_exclusion_reason\",\n        \"metadata_revision\",\n        \"comparison_products\","
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "            output = {key: row.get(key) for key in fieldnames}\n            metadata = row.get(\"run_metadata\", {})",
+      "new": "            output = {key: row.get(key) for key in fieldnames}\n            output.update(export_fields(row))\n            metadata = row.get(\"run_metadata\", {})"
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "                f\"- Valid comparison answers: {competitive.get('valid_comparison_answers', 0)}\",",
+      "new": "                f\"- Comparison answers: {competitive.get('comparison_answer_count', 'not recorded')}\",\n                f\"- Excluded pending prompt review: {competitive.get('excluded_comparison_answers', 0)}\",\n                f\"- Eligible answers without a detected winner: {competitive.get('no_winner_answers', 'not recorded')}\",\n                f\"- Valid comparison answers (detected winners only): {competitive.get('valid_comparison_answers', 0)}\","
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "                f\"- Prompt set hash: `{metadata.get('prompt_set_hash')}`\",",
+      "new": "                f\"- Prompt set hash (effective metadata): `{metadata.get('prompt_set_hash')}`\",\n                f\"- Frozen source prompt hash: `{metadata.get('source_prompt_set_hash', metadata.get('prompt_set_hash'))}`\",\n                f\"- Prompt metadata revision: `{metadata.get('prompt_metadata_overrides_version')}`\","
+    },
+    {
+      "path": "geo_benchmark/review_report.py",
+      "old": "from urllib.parse import urlsplit\n",
+      "new": "from urllib.parse import urlsplit\n\nfrom .semantic_coverage import export_fields\n"
+    },
+    {
+      "path": "geo_benchmark/review_report.py",
+      "old": "            judge = row.get('semantic_fact_judge') or {}\n",
+      "new": "            diagnostic = export_fields(row)\n            block('Semantic outcome', diagnostic['semantic_coverage_status'] + ': ' + diagnostic['semantic_coverage_reason'])\n            block('Pending fact/review IDs', diagnostic['semantic_pending_fact_ids'] or 'None recorded')\n            if row.get('group') == 'comparison' or row.get('prompt_type') == 'competitive':\n                block('Detected comparison winner', row.get('competitive_winner') or 'No unique winner detected')\n                block('Comparison KPI eligibility', row.get('comparison_eligible', 'Not recorded'))\n                if row.get('comparison_exclusion_reason'):\n                    block('Comparison exclusion', row['comparison_exclusion_reason'])\n            judge = row.get('semantic_fact_judge') or {}\n"
+    },
+    {
+      "path": "tools/build_prompts.py",
+      "old": "from pathlib import Path\n",
+      "new": "from pathlib import Path\nimport sys\n\nREPO_ROOT = Path(__file__).resolve().parents[1]\nif str(REPO_ROOT) not in sys.path:\n    sys.path.insert(0, str(REPO_ROOT))\nfrom geo_benchmark.prompt_metadata import apply_metadata_overrides\n"
+    },
+    {
+      "path": "tools/build_prompts.py",
+      "old": "    return prompts\n\n\ndef main():",
+      "new": "    # Apply topic corrections only after reserving frozen cluster-based IDs.\n    return apply_metadata_overrides(\n        prompts, REPO_ROOT / \"geo-benchmark\" / \"config\" / \"prompt_metadata_overrides.json\"\n    )\n\n\ndef main():"
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "        \"competitive_winner\": winner,\n        \"comparison_products\": comparison_candidates,",
+      "new": "        \"competitive_winner\": winner,\n        \"comparison_eligible\": is_comparison_prompt(prompt) and prompt.get(\"comparison_eligible\", True),\n        \"comparison_review_status\": prompt.get(\"comparison_review_status\", \"\"),\n        \"comparison_exclusion_reason\": prompt.get(\"comparison_exclusion_reason\", \"\"),\n        \"metadata_revision\": prompt.get(\"metadata_revision\"),\n        \"comparison_products\": comparison_candidates,"
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "    strengths = {\n        product: comparison_recommendation_strength(answer, product)\n        for product in candidates\n    }",
+      "new": "    guidance = comparison_guidance(answer)\n    strengths = {\n        product: comparison_recommendation_strength(guidance, product)\n        for product in candidates\n    }"
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "def comparison_recommendation_strength(answer: str, product: str) -> int:\n    \"\"\"Score explicit recommendation language without using mention order.\"\"\"\n    lower = answer.lower()",
+      "new": "def comparison_guidance(answer: str) -> str:\n    \"\"\"Prefer the final decision section over earlier conditional product profiles.\"\"\"\n    text = re.sub(r\"```.*?```\", \"\", answer, flags=re.DOTALL)\n    text = re.sub(r\"\\[([^\\]]+)\\]\\([^)]*\\)\", r\"\\1\", text)\n    text = re.sub(r\"[*_`]\", \"\", text)\n    headings = list(re.finditer(\n        r\"(?im)^\\s*(?:#{1,6}\\s*)?(?:final\\s+)?(?:recommendation|verdict|bottom line|conclusion)\"\n        r\"(?:\\s*\\([^\\n)]*\\))?\\s*[:\\n]\", text\n    ))\n    return text[headings[-1].start():] if headings else text\n\n\ndef comparison_recommendation_strength(answer: str, product: str) -> int:\n    \"\"\"Score explicit recommendation language without using mention order.\"\"\"\n    lower = comparison_guidance(answer).lower()"
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "    if any(re.search(pattern, lower) for pattern in verdict_patterns):\n        return 3\n\n    negative_patterns = [",
+      "new": "    negative_patterns = ["
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "    recommendation_terms = (\n        r\"winner|recommended|preferred|better|stronger|preferable|\"",
+      "new": "    first_patterns = [\n        rf\"(?:put|rank|shortlist|recommend|choose|pick)\\s+(?:the\\s+)?{bounded_alias}\\s+first\",\n    ]\n    if any(re.search(pattern, lower) for pattern in verdict_patterns + first_patterns):\n        return 3\n\n    recommendation_terms = (\n        r\"winner|recommended|preferred|better|stronger|preferable|\""
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "def competitive_breakdown(scored: list[dict[str, Any]]) -> dict[str, Any]:\n    if not scored:\n        return {}\n    target = scored[0].get(\"target\")\n    rows = [\n        row\n        for row in scored\n        if (row.get(\"group\") == \"comparison\" or row.get(\"prompt_type\") == \"competitive\")\n        and row.get(\"target_in_prompt\")\n        and row.get(\"competitive_winner\")\n    ]\n    if not rows:\n        return {}\n    totals: Counter[str] = Counter()\n    wins = 0\n    for row in rows:\n        winner = row.get(\"competitive_winner\") or \"unknown\"\n        totals[winner] += 1\n        if winner == target:\n            wins += 1\n    return {\n        \"valid_comparison_answers\": len(rows),\n        \"target_win_rate\": round((wins / len(rows)) * 100, 2),\n        \"winner_counts\": dict(totals),\n    }",
+      "new": "def competitive_breakdown(scored: list[dict[str, Any]]) -> dict[str, Any]:\n    if not scored:\n        return {}\n    target = scored[0].get(\"target\")\n    comparisons = [row for row in scored if is_comparison_prompt(row) and row.get(\"target_in_prompt\")]\n    if not comparisons:\n        return {}\n    eligible = [row for row in comparisons if row.get(\"comparison_eligible\", True)]\n    rows = [row for row in eligible if row.get(\"competitive_winner\")]\n    totals = Counter(row[\"competitive_winner\"] for row in rows)\n    return {\n        \"comparison_answer_count\": len(comparisons),\n        \"eligible_comparison_answers\": len(eligible),\n        \"excluded_comparison_answers\": len(comparisons) - len(eligible),\n        \"no_winner_answers\": len(eligible) - len(rows),\n        \"valid_comparison_answers\": len(rows),\n        \"target_win_rate\": round(totals[target] / len(rows) * 100, 2) if rows else None,\n        \"winner_counts\": dict(totals),\n    }"
+    },
+    {
+      "path": "geo_benchmark/scoring.py",
+      "old": "rf\"(?:recommend|choose|pick|prefer|select|go with)\\s+(?:the\\s+)?{bounded_alias}\",",
+      "new": "rf\"(?:recommend|choose|pick|prefer|select|go with|shortlist|rank|put)\\s+(?:the\\s+)?{bounded_alias}\","
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "        \"prompt_set_hash\",\n        \"legacy_facts_version\",",
+      "new": "        \"prompt_set_hash\",\n        \"source_prompt_set_hash\",\n        \"prompt_metadata_overrides_version\",\n        \"legacy_facts_version\","
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "                \"prompt_set_hash\",\n                \"legacy_facts_version\",",
+      "new": "                \"prompt_set_hash\",\n                \"source_prompt_set_hash\",\n                \"prompt_metadata_overrides_version\",\n                \"legacy_facts_version\","
+    },
+    {
+      "path": "geo_benchmark/reports.py",
+      "old": "                f\"- Target win rate: {competitive.get('target_win_rate', 0)}%\",",
+      "new": "                f\"- Target win rate: {fmt(competitive.get('target_win_rate'))}\" + (\"%\" if competitive.get(\"target_win_rate\") is not None else \"\"),"
+    }
+  ]
+}
