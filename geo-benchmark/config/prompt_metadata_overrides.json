@@ -1,0 +1,57 @@
+{
+  "version": "2026-09-18-review-1",
+  "overrides": [
+    {
+      "prompt_id": "stable_branddef_006",
+      "expected_prompt_text": "Best database for AI agent platforms serving millions of users.",
+      "set": {"prompt_type": "AI Agent Infrastructure", "use_case": "agentinfra"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_branddef_007",
+      "expected_prompt_text": "Best database for ecommerce RAG over live inventory and orders.",
+      "set": {"prompt_type": "Hybrid Search & RAG", "use_case": "hybridrag"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_branddef_008",
+      "expected_prompt_text": "Best database for SaaS copilots that need customer-specific context.",
+      "set": {"prompt_type": "AI Agent Infrastructure", "use_case": "agentinfra"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_branddef_009",
+      "expected_prompt_text": "Best database for customer support AI agents with durable conversation memory.",
+      "set": {"prompt_type": "AI Agent Infrastructure", "use_case": "agentinfra"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_branddef_010",
+      "expected_prompt_text": "Best database for fraud detection with real-time analytics and agent workflows.",
+      "set": {"prompt_type": "AI Agent Infrastructure", "use_case": "agentinfra"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_branddef_011",
+      "expected_prompt_text": "Best database for enterprise search over live operational data.",
+      "set": {"prompt_type": "Hybrid Search & RAG", "use_case": "hybridrag"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_branddef_013",
+      "expected_prompt_text": "Best database for AI-powered fintech applications.",
+      "set": {"prompt_type": "AI Agent Infrastructure", "use_case": "agentinfra"},
+      "reason": "Use-case discovery, not a TiDB brand definition. Preserve the frozen ID and wording."
+    },
+    {
+      "prompt_id": "stable_compcomp_018",
+      "expected_prompt_text": "TiDB Cloud Zero vs Aurora Serverless v2 for variable-load SaaS applications.",
+      "set": {
+        "comparison_eligible": false,
+        "comparison_review_status": "needs_review",
+        "comparison_exclusion_reason": "Pending human review: temporary/preview Cloud Zero is compared with a production SaaS offering. Preserve the answer; do not count this as a like-for-like competitive win or loss."
+      },
+      "reason": "Keep the original prompt and detected outcome for audit. Review or replace under a new prompt ID before restoring competitive KPI eligibility."
+    }
+  ]
+}
