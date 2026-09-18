@@ -1,0 +1,22 @@
+name: Live run regression tests
+
+on:
+  pull_request:
+  push:
+    branches: [main, fix/live-run-review]
+
+permissions:
+  contents: read
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check Python syntax
+        run: python3 -m compileall -q geo_benchmark tools tests
+      - name: Run offline test suite
+        run: python3 -m unittest discover -s tests -v

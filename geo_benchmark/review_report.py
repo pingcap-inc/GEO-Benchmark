@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
 
+from .semantic_coverage import export_fields
+
 
 def write_review_report(
     report_dir: Path, month: str, scored: list[dict[str, Any]],
@@ -78,6 +80,14 @@ def write_review_report(
                       'accuracy': 'Legacy accuracy', 'semantic_fact_accuracy': 'Semantic fact accuracy (0–1)'}
             block('Recorded scores', '\n'.join(f'{label}: {row[k] if row.get(k) is not None else "Not scored / unavailable"}' for k, label in labels.items()))
             block('Score guide', 'A value of 1 on a 0–1 scale means the maximum score. Semantic accuracy is a shadow score for the selected facts only. Not scored / unavailable does not mean incorrect.')
+            diagnostic = export_fields(row)
+            block('Semantic outcome', diagnostic['semantic_coverage_status'] + ': ' + diagnostic['semantic_coverage_reason'])
+            block('Pending fact/review IDs', diagnostic['semantic_pending_fact_ids'] or 'None recorded')
+            if row.get('group') == 'comparison' or row.get('prompt_type') == 'competitive':
+                block('Detected comparison winner', row.get('competitive_winner') or 'No unique winner detected')
+                block('Comparison KPI eligibility', row.get('comparison_eligible', 'Not recorded'))
+                if row.get('comparison_exclusion_reason'):
+                    block('Comparison exclusion', row['comparison_exclusion_reason'])
             judge = row.get('semantic_fact_judge') or {}
             block('Semantic coverage', f"Mode: {judge.get('mode', 'off / not recorded')}\nDisposition: {judge.get('coverage_disposition', 'Not recorded')}\nSelected facts: {judge.get('selected_facts', 0)}\nFact-base version: {judge.get('fact_base_version', 'Not recorded')}")
             if not judge.get('results'):

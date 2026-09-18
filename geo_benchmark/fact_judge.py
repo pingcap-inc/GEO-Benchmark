@@ -137,9 +137,16 @@ class SemanticFactJudge:
             "coverage_disposition": coverage.get("coverage_disposition") if coverage else "unmapped",
             "results": [],
         }
-        if self.settings.mode == "off" or not coverage:
+        base["pending_fact_ids"] = []
+        if self.settings.mode == "off":
             return summarize(base)
-        if coverage.get("coverage_disposition") == "comparison_metric_only":
+        if not coverage:
+            if prompt.get("brand_class") == "branded":
+                raise CoverageValidationError(f"{prompt['prompt_id']}: branded answer has no semantic mapping")
+            return summarize(base)
+        if coverage.get("mapping_status") != "approved":
+            raise CoverageValidationError(f"{prompt['prompt_id']}: semantic mapping is not approved")
+        if coverage["coverage_disposition"] == "comparison_metric_only":
             return summarize(base)
         base["results"].extend(detect_conflicts(answer, self.conflict_rules))
 
@@ -149,6 +156,11 @@ class SemanticFactJudge:
             for fact_id in fact_ids
             if fact_id in self.facts and self.facts[fact_id].get("status") == "READY_FOR_JUDGE"
         ]
+        base["pending_fact_ids"] = [fact_id for fact_id in fact_ids if fact_id not in {fact["fact_id"] for fact in selected}]
+        if coverage["coverage_disposition"] == "fact_covered" and base["pending_fact_ids"]:
+            raise CoverageValidationError(f"{prompt['prompt_id']}: fact_covered mapping contains missing or non-ready facts")
+        if coverage["coverage_disposition"] == "fact_covered" and not selected:
+            raise CoverageValidationError(f"{prompt['prompt_id']}: fact_covered mapping selected no ready facts")
         for fact in selected:
             dimensions = activated_qualifier_dimensions(prompt.get("prompt_text", ""), answer)
             cache_key = stable_hash(
