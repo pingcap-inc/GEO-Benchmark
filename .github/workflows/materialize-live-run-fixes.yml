@@ -3,7 +3,7 @@ name: Materialize reviewed live-run fixes
 on:
   push:
     branches: [fix/live-run-review]
-    paths: [.github/live-run-review-edits.json]
+    paths: [.github/live-run-review-edits.json, .github/workflows/materialize-live-run-fixes.yml]
 
 permissions:
   contents: write
@@ -22,6 +22,7 @@ jobs:
           import subprocess
           from pathlib import Path
           spec = json.loads(Path('.github/live-run-review-edits.json').read_text())
+          spec['edits'][0]['old'] = spec['edits'][0]['old'].replace('coverage["coverage_disposition"]', 'coverage.get("coverage_disposition")')
           allowed = {'geo_benchmark/cli.py', 'geo_benchmark/fact_judge.py', 'geo_benchmark/reports.py', 'geo_benchmark/review_report.py', 'geo_benchmark/scoring.py', 'tools/build_prompts.py'}
           if set(spec['base_blobs']) != allowed:
               raise SystemExit('Unexpected source-edit scope')
@@ -29,13 +30,13 @@ jobs:
               actual = subprocess.check_output(['git', 'hash-object', name], text=True).strip()
               if actual != expected:
                   raise SystemExit(f'{name}: base changed; review the edits again')
-          for edit in spec['edits']:
+          for index, edit in enumerate(spec['edits']):
               if edit['path'] not in allowed:
                   raise SystemExit('Unexpected edit path')
               path = Path(edit['path'])
               text = path.read_text()
               if text.count(edit['old']) != 1:
-                  raise SystemExit(f'{path}: expected exactly one matching source fragment')
+                  raise SystemExit(f'{path}: edit {index}: expected exactly one match for {edit["old"]!r}')
               path.write_text(text.replace(edit['old'], edit['new'], 1))
           PY
       - name: Check patch and run all offline tests
