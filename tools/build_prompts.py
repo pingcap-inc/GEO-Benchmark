@@ -23,6 +23,12 @@ import re
 from collections import Counter
 from datetime import date
 from pathlib import Path
+import sys
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+from geo_benchmark.prompt_metadata import apply_metadata_overrides
 
 # ---------------------------------------------------------------- tagging rules
 
@@ -178,7 +184,10 @@ def build(rows, month: str):
             "source": source,
         })
 
-    return prompts
+    # Apply topic corrections only after reserving frozen cluster-based IDs.
+    return apply_metadata_overrides(
+        prompts, REPO_ROOT / "geo-benchmark" / "config" / "prompt_metadata_overrides.json"
+    )
 
 
 def main():

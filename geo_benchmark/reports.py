@@ -7,6 +7,7 @@ from typing import Any
 from .io_utils import ensure_dir, write_json
 from .review_report import write_review_report
 from .source_report import write_cited_domain_report
+from .semantic_coverage import EXPORT_FIELDS, export_fields, write_coverage_report
 
 
 PROMPT_TYPE_ORDER = ["pain_point", "database_type", "ai_infra", "case_selection"]
@@ -31,6 +32,7 @@ def write_reports(
     write_markdown(report_dir / "llm-report.md", month, summary, cost_summary, scored_answers, raw_answers)
     write_target_summary_csv(report_dir / "target-kpi-summary.csv", summary)
     write_csv(report_dir / "scored_answers.csv", scored_answers)
+    write_coverage_report(report_dir, scored_answers)
     write_review_report(report_dir, month, scored_answers, raw_answers or [], fact_base)
     cited_domains = write_cited_domain_report(
         report_dir, month, raw_answers or [], scored_answers, prompts
@@ -178,8 +180,11 @@ def write_markdown(
             [
                 f"### {target}",
                 "",
-                f"- Valid comparison answers: {competitive.get('valid_comparison_answers', 0)}",
-                f"- Target win rate: {competitive.get('target_win_rate', 0)}%",
+                f"- Comparison answers: {competitive.get('comparison_answer_count', 'not recorded')}",
+                f"- Excluded pending prompt review: {competitive.get('excluded_comparison_answers', 0)}",
+                f"- Eligible answers without a detected winner: {competitive.get('no_winner_answers', 'not recorded')}",
+                f"- Valid comparison answers (detected winners only): {competitive.get('valid_comparison_answers', 0)}",
+                f"- Target win rate: {fmt(competitive.get('target_win_rate'))}" + ("%" if competitive.get("target_win_rate") is not None else ""),
                 f"- Winner counts: {competitive.get('winner_counts', {})}",
                 "",
             ]
@@ -215,7 +220,9 @@ def write_markdown(
             [
                 "## Run Metadata",
                 "",
-                f"- Prompt set hash: `{metadata.get('prompt_set_hash')}`",
+                f"- Prompt set hash (effective metadata): `{metadata.get('prompt_set_hash')}`",
+                f"- Frozen source prompt hash: `{metadata.get('source_prompt_set_hash', metadata.get('prompt_set_hash'))}`",
+                f"- Prompt metadata revision: `{metadata.get('prompt_metadata_overrides_version')}`",
                 f"- Legacy facts version: `{metadata.get('legacy_facts_version')}`",
                 f"- Semantic fact-base version: `{metadata.get('fact_base_version')}`",
                 f"- Source-authority version: `{metadata.get('source_authority_version')}`",
@@ -479,6 +486,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "accuracy_checked_facts",
         "accuracy_correct_facts",
         "semantic_fact_accuracy",
+        *EXPORT_FIELDS,
         "semantic_checked_facts",
         "semantic_correct_facts",
         "semantic_incorrect_facts",
@@ -488,10 +496,16 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "recommendation_class",
         "recommendation_score",
         "competitive_winner",
+        "comparison_eligible",
+        "comparison_review_status",
+        "comparison_exclusion_reason",
+        "metadata_revision",
         "comparison_products",
         "input_tokens",
         "output_tokens",
         "prompt_set_hash",
+        "source_prompt_set_hash",
+        "prompt_metadata_overrides_version",
         "legacy_facts_version",
         "fact_base_version",
         "source_authority_version",
@@ -503,9 +517,12 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writeheader()
         for row in rows:
             output = {key: row.get(key) for key in fieldnames}
+            output.update(export_fields(row))
             metadata = row.get("run_metadata", {})
             for key in [
                 "prompt_set_hash",
+                "source_prompt_set_hash",
+                "prompt_metadata_overrides_version",
                 "legacy_facts_version",
                 "fact_base_version",
                 "source_authority_version",

@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from .prompt_metadata import apply_metadata_overrides
+from .semantic_coverage import export_fields as semantic_export_fields
+
 import argparse
 import datetime as dt
 import os
@@ -744,6 +747,7 @@ def score_and_report(
             row["semantic_incorrect_facts"] = semantic["incorrect_facts"]
             row["semantic_not_enough_information_facts"] = semantic["not_enough_information_facts"]
             row["semantic_unavailable_facts"] = semantic["unavailable_facts"]
+            row.update(semantic_export_fields(row))
         judge.flush_cache()
     summary = aggregate_scores(scored)
     cost = estimate_actual_cost(raw, pricing)
@@ -811,7 +815,11 @@ def add_run_metadata(
 ) -> dict[str, Any]:
     prompt_dir = prompt_source_root(root) / "prompts" / month
     metadata = {
-        "prompt_set_hash": (prompt_dir / "prompt_set_hash.txt").read_text(encoding="utf-8").strip(),
+        "prompt_set_hash": stable_hash(load_prompts(root, month)),
+        "source_prompt_set_hash": (prompt_dir / "prompt_set_hash.txt").read_text(encoding="utf-8").strip(),
+        "prompt_metadata_overrides_version": read_json(
+            prompt_source_root(root) / "config" / "prompt_metadata_overrides.json", default={}
+        ).get("version"),
         "legacy_facts_version": facts.get("facts_version"),
         "source_authority_version": source_authority.get("source_authority_version"),
         "models_config_hash": file_hash(root / "config" / "models.json"),
@@ -876,7 +884,9 @@ def confirm_live_run(
 
 
 def load_prompts(root: Path, month: str) -> list[dict[str, Any]]:
-    return read_json(prompt_source_root(root) / "prompts" / month / "prompts.json")
+    canonical = prompt_source_root(root)
+    prompts = read_json(canonical / "prompts" / month / "prompts.json")
+    return apply_metadata_overrides(prompts, canonical / "config" / "prompt_metadata_overrides.json")
 
 
 def prompt_source_root(root: Path) -> Path:

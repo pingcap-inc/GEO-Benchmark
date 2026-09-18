@@ -260,6 +260,10 @@ def score_answer(
         "recommendation_score": rec_score,
         "classification_reason": rec_reasons,
         "competitive_winner": winner,
+        "comparison_eligible": is_comparison_prompt(prompt) and prompt.get("comparison_eligible", True),
+        "comparison_review_status": prompt.get("comparison_review_status", ""),
+        "comparison_exclusion_reason": prompt.get("comparison_exclusion_reason", ""),
+        "metadata_revision": prompt.get("metadata_revision"),
         "comparison_products": comparison_candidates,
         "input_tokens": row.get("input_tokens", estimate_tokens(row.get("prompt_text", ""))),
         "output_tokens": row.get("output_tokens", estimate_tokens(answer)),
@@ -481,8 +485,9 @@ def competitive_winner(answer: str, prompt: dict[str, Any]) -> str | None:
     if len(candidates) < 2:
         return None
 
+    guidance = comparison_guidance(answer)
     strengths = {
-        product: comparison_recommendation_strength(answer, product)
+        product: comparison_recommendation_strength(guidance, product)
         for product in candidates
     }
     best_strength = max(strengths.values(), default=0)
@@ -492,9 +497,21 @@ def competitive_winner(answer: str, prompt: dict[str, Any]) -> str | None:
     return winners[0] if len(winners) == 1 else None
 
 
+def comparison_guidance(answer: str) -> str:
+    """Prefer the final decision section over earlier conditional product profiles."""
+    text = re.sub(r"```.*?```", "", answer, flags=re.DOTALL)
+    text = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", text)
+    text = re.sub(r"[*_`]", "", text)
+    headings = list(re.finditer(
+        r"(?im)^\s*(?:#{1,6}\s*)?(?:final\s+)?(?:recommendation|verdict|bottom line|conclusion)"
+        r"(?:\s*\([^\n)]*\))?\s*[:\n]", text
+    ))
+    return text[headings[-1].start():] if headings else text
+
+
 def comparison_recommendation_strength(answer: str, product: str) -> int:
     """Score explicit recommendation language without using mention order."""
-    lower = answer.lower()
+    lower = comparison_guidance(answer).lower()
     aliases = sorted(PRODUCT_ALIASES.get(product, [product]), key=len, reverse=True)
     alias_pattern = "(?:" + "|".join(re.escape(alias.lower()) for alias in aliases) + ")"
     bounded_alias = rf"(?<![a-z0-9]){alias_pattern}(?![a-z0-9])"
@@ -503,16 +520,19 @@ def comparison_recommendation_strength(answer: str, product: str) -> int:
         rf"(?:winner|recommendation|verdict|best choice|preferred choice)\s*(?:is|:|-)?\s*(?:the\s+)?{bounded_alias}",
         rf"(?:overall|bottom line)\s*[:, -]+(?:i\s+would\s+)?(?:recommend|choose|pick|prefer)?\s*{bounded_alias}",
     ]
-    if any(re.search(pattern, lower) for pattern in verdict_patterns):
-        return 3
-
     negative_patterns = [
         rf"(?:do not|don't|would not|wouldn't|cannot|can't|not)\s+"
-        rf"(?:recommend|choose|pick|prefer|select|go with)\s+(?:the\s+)?{bounded_alias}",
+        rf"(?:recommend|choose|pick|prefer|select|go with|shortlist|rank|put)\s+(?:the\s+)?{bounded_alias}",
         rf"{bounded_alias}\s+(?:is|would be|remains)\s+not\s+(?:the\s+)?(?:best|better|preferred)",
     ]
     if any(re.search(pattern, lower) for pattern in negative_patterns):
         return 0
+
+    first_patterns = [
+        rf"(?:put|rank|shortlist|recommend|choose|pick)\s+(?:the\s+)?{bounded_alias}\s+first",
+    ]
+    if any(re.search(pattern, lower) for pattern in verdict_patterns + first_patterns):
+        return 3
 
     recommendation_terms = (
         r"winner|recommended|preferred|better|stronger|preferable|"
@@ -776,24 +796,18 @@ def competitive_breakdown(scored: list[dict[str, Any]]) -> dict[str, Any]:
     if not scored:
         return {}
     target = scored[0].get("target")
-    rows = [
-        row
-        for row in scored
-        if (row.get("group") == "comparison" or row.get("prompt_type") == "competitive")
-        and row.get("target_in_prompt")
-        and row.get("competitive_winner")
-    ]
-    if not rows:
+    comparisons = [row for row in scored if is_comparison_prompt(row) and row.get("target_in_prompt")]
+    if not comparisons:
         return {}
-    totals: Counter[str] = Counter()
-    wins = 0
-    for row in rows:
-        winner = row.get("competitive_winner") or "unknown"
-        totals[winner] += 1
-        if winner == target:
-            wins += 1
+    eligible = [row for row in comparisons if row.get("comparison_eligible", True)]
+    rows = [row for row in eligible if row.get("competitive_winner")]
+    totals = Counter(row["competitive_winner"] for row in rows)
     return {
+        "comparison_answer_count": len(comparisons),
+        "eligible_comparison_answers": len(eligible),
+        "excluded_comparison_answers": len(comparisons) - len(eligible),
+        "no_winner_answers": len(eligible) - len(rows),
         "valid_comparison_answers": len(rows),
-        "target_win_rate": round((wins / len(rows)) * 100, 2),
+        "target_win_rate": round(totals[target] / len(rows) * 100, 2) if rows else None,
         "winner_counts": dict(totals),
     }
