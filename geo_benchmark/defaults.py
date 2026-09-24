@@ -108,10 +108,11 @@ DEFAULT_PRICING = {
 
 
 DEFAULT_SOURCE_AUTHORITY = {
-    "source_authority_version": "2026-09-02",
+    "source_authority_version": "2026-09-24",
     "rules": [
         {"contains": "docs.pingcap.com", "weight": 1.0, "label": "official_docs"},
         {"contains": "pingcap.com", "weight": 1.0, "label": "official_site"},
+        {"contains": "pingcap.co.jp", "weight": 1.0, "label": "official_site"},
         {"contains": "tidb.net", "weight": 1.0, "label": "official_community"},
         {"contains": "github.com/pingcap", "weight": 1.0, "label": "github"},
         {"contains": "mem9.ai", "weight": 1.0, "label": "official_site"},
@@ -153,6 +154,7 @@ DEFAULT_SOURCE_AUTHORITY = {
         {"contains": "github.com/supabase", "weight": 1.0, "label": "github"},
         {"contains": "neon.tech/docs", "weight": 1.0, "label": "official_docs"},
         {"contains": "neon.tech", "weight": 1.0, "label": "official_site"},
+        {"contains": "neon.com", "weight": 1.0, "label": "official_site"},
         {"contains": "pinecone.io", "weight": 1.0, "label": "official_site"},
         {"contains": "weaviate.io", "weight": 1.0, "label": "official_site"},
         {"contains": "github.com/weaviate", "weight": 1.0, "label": "github"},

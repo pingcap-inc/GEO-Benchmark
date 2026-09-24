@@ -1,5 +1,5 @@
 {
-  "source_authority_version": "2026-09-02",
+  "source_authority_version": "2026-09-24",
   "rules": [
     {
       "contains": "docs.pingcap.com",
@@ -8,6 +8,11 @@
     },
     {
       "contains": "pingcap.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "pingcap.co.jp",
       "weight": 1.0,
       "label": "official_site"
     },
@@ -173,6 +178,11 @@
     },
     {
       "contains": "neon.tech",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "neon.com",
       "weight": 1.0,
       "label": "official_site"
     },
