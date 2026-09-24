@@ -6,6 +6,7 @@ from typing import Any
 
 from .io_utils import ensure_dir, write_json
 from .review_report import write_review_report
+from .scoring import extract_recommended_products
 from .source_report import write_cited_domain_report
 from .semantic_coverage import EXPORT_FIELDS, export_fields, write_coverage_report
 
@@ -26,6 +27,7 @@ def write_reports(
 ) -> None:
     ensure_dir(report_dir)
     cleanup_legacy_single_target_files(report_dir)
+    add_answer_level_recommendations(scored_answers, raw_answers or [])
     write_json(report_dir / "kpi_summary.json", summary)
     if cost_summary:
         write_json(report_dir / "cost_summary.json", cost_summary)
@@ -456,6 +458,25 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
                 )
 
 
+def add_answer_level_recommendations(
+    scored_answers: list[dict[str, Any]], raw_answers: list[dict[str, Any]]
+) -> None:
+    """Enrich old scored rows during an offline report refresh."""
+    answers_by_id = {
+        str(row.get("answer_id", "")): str(row.get("raw_answer", ""))
+        for row in raw_answers
+        if row.get("status") == "ok"
+    }
+    recommendations_by_id = {
+        answer_id: extract_recommended_products(answer)
+        for answer_id, answer in answers_by_id.items()
+    }
+    for row in scored_answers:
+        answer_id = str(row.get("answer_id", ""))
+        if answer_id in recommendations_by_id:
+            row["recommended_products"] = recommendations_by_id[answer_id]
+
+
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     if not rows:
         path.write_text("", encoding="utf-8")
@@ -495,6 +516,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "freshness",
         "recommendation_class",
         "recommendation_score",
+        "recommended_products",
         "competitive_winner",
         "comparison_eligible",
         "comparison_review_status",
@@ -517,6 +539,9 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer.writeheader()
         for row in rows:
             output = {key: row.get(key) for key in fieldnames}
+            output["recommended_products"] = " | ".join(
+                str(value) for value in row.get("recommended_products", [])
+            )
             output.update(export_fields(row))
             metadata = row.get("run_metadata", {})
             for key in [

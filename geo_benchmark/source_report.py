@@ -3,16 +3,21 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from collections import defaultdict
 from html import escape
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
 
-from .scoring import PRODUCT_URL_MARKERS, extract_raw_citation_urls, extract_urls
+from .scoring import (
+    PRODUCT_URL_MARKERS,
+    extract_raw_citation_urls,
+    extract_recommended_products,
+    extract_urls,
+)
 
 
-POSITIVE_RECOMMENDATION_CLASSES = {"best", "strong", "conditional"}
 SOURCE_TYPE_ORDER = {"PingCAP": 0, "Competitor": 1, "Other": 2}
 
 
@@ -89,17 +94,7 @@ def build_cited_domain_details(
                 if row.get("target") and row.get("mentioned_target")
             }
         )
-        recommended_products = {
-            str(row.get("target"))
-            for row in scores
-            if row.get("target")
-            and row.get("recommendation_class") in POSITIVE_RECOMMENDATION_CLASSES
-        }
-        recommended_products.update(
-            str(row.get("competitive_winner"))
-            for row in scores
-            if row.get("competitive_winner")
-        )
+        recommended_products = extract_recommended_products(answer)
 
         urls = sorted(
             {
@@ -152,7 +147,7 @@ def build_cited_domain_details(
                     "run_index": raw.get("run_index"),
                     "tidb_appeared": "TiDB" in mentioned_products,
                     "mentioned_products": mentioned_products,
-                    "recommended_products": sorted(recommended_products),
+                    "recommended_products": recommended_products,
                     "citation_urls": sorted(set(urls_by_domain[domain])),
                 }
             )
@@ -174,7 +169,9 @@ def aggregate_cited_domains(details: list[dict[str, Any]]) -> list[dict[str, Any
         recommendation_prompts: dict[str, set[str]] = defaultdict(set)
         for row in rows:
             for product in row.get("recommended_products", []):
-                recommendation_prompts[str(product)].add(str(row["prompt_id"]))
+                recommendation_prompts[recommended_product_name(str(product))].add(
+                    str(row["prompt_id"])
+                )
         recommendation_counts = {
             product: len(ids)
             for product, ids in sorted(
@@ -203,6 +200,11 @@ def aggregate_cited_domains(details: list[dict[str, Any]]) -> list[dict[str, Any
         summary,
         key=lambda row: (-row["prompt_count"], -row["cited_answer_count"], row["domain"]),
     )
+
+
+def recommended_product_name(label: str) -> str:
+    """Remove the answer-level preference rank for cross-answer aggregation."""
+    return re.sub(r"\s+\(\d+\)$", "", label).strip()
 
 
 def write_cited_domain_report(
@@ -331,11 +333,12 @@ const fields=['brand_class','group','prompt_type','model_surface','panel','sourc
 function node(tag,text,cls){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(cls)el.className=cls;return el}
 function values(field){return [...new Set(SOURCE_ROWS.map(row=>row[field]).filter(Boolean))].sort()}
 function fillSelect(id,items){const select=document.getElementById(id);select.appendChild(new Option('All',''));for(const value of items)select.appendChild(new Option(value,value))}
+function recommendationName(label){return label.replace(/\s+\(\d+\)$/,'')}
 for(const field of fields)fillSelect(field,values(field));
-fillSelect('recommended_product',[...new Set(SOURCE_ROWS.flatMap(row=>row.recommended_products))].sort());
+fillSelect('recommended_product',[...new Set(SOURCE_ROWS.flatMap(row=>row.recommended_products.map(recommendationName)))].sort());
 function selected(id){return document.getElementById(id).value}
-function filteredRows(){const term=selected('domain').toLowerCase(),tidb=selected('tidb_appeared');return SOURCE_ROWS.filter(row=>(!term||row.domain.includes(term))&&fields.every(field=>!selected(field)||row[field]===selected(field))&&(!selected('recommended_product')||row.recommended_products.includes(selected('recommended_product')))&&(!tidb||(tidb==='yes')===row.tidb_appeared))}
-function aggregate(rows){const map=new Map();for(const row of rows){if(!map.has(row.domain))map.set(row.domain,{domain:row.domain,source_type:row.source_type,prompts:new Set(),answers:new Set(),tidb:new Set(),providers:new Set(),recommended:new Map()});const item=map.get(row.domain);item.prompts.add(row.prompt_id);item.answers.add(row.answer_id);item.providers.add(row.model_surface);if(row.tidb_appeared)item.tidb.add(row.prompt_id);for(const product of row.recommended_products){if(!item.recommended.has(product))item.recommended.set(product,new Set());item.recommended.get(product).add(row.prompt_id)}}return [...map.values()].sort((a,b)=>b.prompts.size-a.prompts.size||b.answers.size-a.answers.size||a.domain.localeCompare(b.domain))}
+function filteredRows(){const term=selected('domain').toLowerCase(),tidb=selected('tidb_appeared');return SOURCE_ROWS.filter(row=>(!term||row.domain.includes(term))&&fields.every(field=>!selected(field)||row[field]===selected(field))&&(!selected('recommended_product')||row.recommended_products.some(product=>recommendationName(product)===selected('recommended_product')))&&(!tidb||(tidb==='yes')===row.tidb_appeared))}
+function aggregate(rows){const map=new Map();for(const row of rows){if(!map.has(row.domain))map.set(row.domain,{domain:row.domain,source_type:row.source_type,prompts:new Set(),answers:new Set(),tidb:new Set(),providers:new Set(),recommended:new Map()});const item=map.get(row.domain);item.prompts.add(row.prompt_id);item.answers.add(row.answer_id);item.providers.add(row.model_surface);if(row.tidb_appeared)item.tidb.add(row.prompt_id);for(const label of row.recommended_products){const product=recommendationName(label);if(!item.recommended.has(product))item.recommended.set(product,new Set());item.recommended.get(product).add(row.prompt_id)}}return [...map.values()].sort((a,b)=>b.prompts.size-a.prompts.size||b.answers.size-a.answers.size||a.domain.localeCompare(b.domain))}
 function pills(values){const box=document.createElement('div');for(const value of values)box.appendChild(node('span',value,'pill'));return box}
 function render(){const rows=filteredRows(),summary=aggregate(rows),body=document.getElementById('domainRows');body.replaceChildren();for(const item of summary){const tr=node('tr');tr.appendChild(node('td',item.domain,'domain'));tr.appendChild(node('td',item.source_type,'pill '+item.source_type));tr.appendChild(node('td',String(item.prompts.size)));tr.appendChild(node('td',String(item.answers.size)));tr.appendChild(node('td',item.tidb.size+' prompts',item.tidb.size?'yes':'no'));tr.appendChild(pills([...item.recommended.entries()].sort((a,b)=>b[1].size-a[1].size||a[0].localeCompare(b[0])).map(([p,ids])=>p+' ('+ids.size+')')));tr.appendChild(pills([...item.providers].sort()));body.appendChild(tr)}if(!summary.length){const td=node('td','No cited domains match these filters.','empty');td.colSpan=7;const tr=node('tr');tr.appendChild(td);body.appendChild(tr)}
 document.getElementById('domainCount').textContent=summary.length;document.getElementById('promptCount').textContent=new Set(rows.map(r=>r.prompt_id)).size;document.getElementById('answerCount').textContent=new Set(rows.map(r=>r.answer_id)).size;

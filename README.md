@@ -67,6 +67,7 @@ Unknown model pricing produces an unknown total rather than a zero-dollar cost.
 - Prominence Score: how early a product appears, weighted by position and prompt intent.
 - Citation Authority: whether product claims are backed by credible, fresh, accurate sources.
 - Recommendation Rate: whether a product is actually recommended, not just listed.
+- Recommended Products: every clearly recommended product in an answer, ordered by explicit preference; neutral lists and tied "it depends" answers remain empty.
 - Comparison Win Rate: how often a product is the explicit winner in valid comparison answers.
 
 ## Quick Start

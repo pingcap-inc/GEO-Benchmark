@@ -208,6 +208,7 @@ def score_answer(
     )
 
     rec_class, rec_score, rec_reasons = recommendation(answer, mention_position, target)
+    all_recommended_products = extract_recommended_products(answer)
     comparison_candidates = comparison_products(prompt)
     winner = competitive_winner(answer, prompt)
     fan_out_queries = [str(query) for query in row.get("fan_out_queries", [])]
@@ -258,6 +259,7 @@ def score_answer(
         "citation_authority_answer": round(citation_authority_answer, 4),
         "recommendation_class": rec_class,
         "recommendation_score": rec_score,
+        "recommended_products": all_recommended_products,
         "classification_reason": rec_reasons,
         "competitive_winner": winner,
         "comparison_eligible": is_comparison_prompt(prompt) and prompt.get("comparison_eligible", True),
@@ -443,6 +445,94 @@ def target_context_window(text: str, target: str, size: int) -> str:
         return ""
     idx = min(indexes)
     return text[max(0, idx - size) : idx + size]
+
+
+def extract_recommended_products(answer: str) -> list[str]:
+    """Return every clearly recommended product, ordered by explicit preference.
+
+    This answer-level field is deliberately independent of the target-specific
+    recommendation KPI. A unique recommendation is required: neutral lists and
+    equally weighted "it depends" choices remain empty. Parentheses contain a
+    dense preference rank, so equally weighted supporting choices share a rank.
+    """
+    guidance = comparison_guidance(answer)
+    positions = product_positions(answer)
+    strengths = {
+        product: product_recommendation_strength(guidance, product)
+        for product in positions
+    }
+    strengths = {product: strength for product, strength in strengths.items() if strength > 0}
+    if not strengths:
+        return []
+
+    best_strength = max(strengths.values())
+    if sum(strength == best_strength for strength in strengths.values()) != 1:
+        return []
+
+    ordered_strengths = sorted(set(strengths.values()), reverse=True)
+    rank_by_strength = {
+        strength: rank for rank, strength in enumerate(ordered_strengths, start=1)
+    }
+    ordered_products = sorted(
+        strengths,
+        key=lambda product: (
+            -strengths[product],
+            min(positions.get(product, [len(answer)])),
+            product,
+        ),
+    )
+    return [
+        f"{product} ({rank_by_strength[strengths[product]]})"
+        for product in ordered_products
+    ]
+
+
+def product_recommendation_strength(answer: str, product: str) -> int:
+    """Score explicit product preference without treating mention order as a vote."""
+    lower = comparison_guidance(answer).lower()
+    aliases = sorted(PRODUCT_ALIASES.get(product, [product]), key=len, reverse=True)
+    alias_pattern = "(?:" + "|".join(re.escape(alias.lower()) for alias in aliases) + ")"
+    bounded_alias = rf"(?<![a-z0-9]){alias_pattern}(?![a-z0-9])"
+
+    negative_patterns = [
+        rf"(?:do not|don't|would not|wouldn't|cannot|can't|not)\s+"
+        rf"(?:recommend|choose|pick|prefer|select|go with|shortlist|rank|put)\s+(?:the\s+)?{bounded_alias}",
+        rf"{bounded_alias}\s+(?:is|would be|remains)\s+not\s+(?:the\s+)?(?:best|better|preferred|recommended)",
+        rf"(?:better|stronger|more suitable|preferable)\s+than\s+(?:the\s+)?{bounded_alias}",
+    ]
+    if any(re.search(pattern, lower) for pattern in negative_patterns):
+        return 0
+
+    top_patterns = [
+        rf"(?:winner|(?:top|final|overall)\s+recommendation|verdict|best choice|preferred choice)\s*(?:is|:|-)?\s*(?:the\s+)?{bounded_alias}",
+        rf"(?:overall|bottom line)\s*[:, -]+(?:i\s+would\s+)?(?:recommend|choose|pick|prefer)\s+(?:the\s+)?{bounded_alias}",
+        rf"(?:put|rank|shortlist|recommend|choose|pick)\s+(?:the\s+)?{bounded_alias}\s+first",
+        rf"{bounded_alias}\s+(?:is|would be|remains)\s+(?:my|the)\s+(?:top recommendation|first choice|top choice|top pick|clear winner|best choice|best fit)",
+    ]
+    if any(re.search(pattern, lower) for pattern in top_patterns):
+        return 3
+
+    recommendation_terms = (
+        r"winner|recommended|preferred|better|stronger|preferable|"
+        r"best choice|better choice|stronger choice|preferred choice|recommended choice|"
+        r"best fit|better fit|stronger fit|preferred option|lower-risk default|lower-friction path"
+    )
+    explicit_patterns = [
+        rf"(?:recommend|recommended|choose|chose|pick|picked|prefer|preferred|select|selected|go with)\s+(?:the\s+)?{bounded_alias}",
+        rf"{bounded_alias}\s+(?:is|would be|remains)\s+(?:the\s+)?(?:{recommendation_terms})",
+        rf"{bounded_alias}\s+(?:wins|is my recommendation|gets the recommendation)",
+    ]
+    if any(re.search(pattern, lower) for pattern in explicit_patterns):
+        return 2
+
+    supporting_patterns = [
+        rf"(?:put|rank|shortlist)\s+(?:the\s+)?{bounded_alias}\s+(?:second|2nd)",
+        rf"{bounded_alias}\s+(?:is|would be|remains)\s+(?:also\s+)?(?:a\s+)?(?:strong|good|viable|solid)\s+(?:option|choice|fit|alternative)",
+        rf"(?:also|alternatively),?\s+(?:recommend|choose|pick|consider)\s+(?:the\s+)?{bounded_alias}",
+    ]
+    if any(re.search(pattern, lower) for pattern in supporting_patterns):
+        return 1
+    return 0
 
 
 def is_comparison_prompt(prompt: dict[str, Any]) -> bool:
