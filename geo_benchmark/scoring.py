@@ -74,7 +74,7 @@ PRODUCT_ALIASES = {
 PRODUCT_URL_MARKERS = {
     # --- PingCAP -------------------------------------------------------
     "TiDB": [
-        "pingcap.com", "github.com/pingcap", "mem9.ai", "drive9.ai",
+        "pingcap.com", "pingcap.co.jp", "github.com/pingcap", "mem9.ai", "drive9.ai",
         "tidb.io", "docs.pingcap.com",
     ],
 
@@ -103,7 +103,7 @@ PRODUCT_URL_MARKERS = {
 
     # --- Serverless / app backend --------------------------------------
     "Supabase": ["supabase.com", "github.com/supabase"],
-    "Neon": ["neon.tech"],
+    "Neon": ["neon.tech", "neon.com"],
 
     # --- Vector and retrieval ------------------------------------------
     "Pinecone": ["pinecone.io"],
