@@ -109,8 +109,8 @@ class CitedDomainReportTests(unittest.TestCase):
         self.assertEqual(example_rows[0]["brand_class"], "non_branded")
         self.assertEqual(example_rows[0]["group"], "discovery")
         self.assertTrue(example_rows[0]["tidb_appeared"])
-        self.assertEqual(example_rows[0]["recommended_products"], ["TiDB"])
-        self.assertEqual(example_rows[1]["recommended_products"], ["CockroachDB"])
+        self.assertEqual(example_rows[0]["recommended_products"], ["TiDB (1)"])
+        self.assertEqual(example_rows[1]["recommended_products"], ["CockroachDB (1)"])
 
     def test_summary_ranks_by_unique_prompts_not_repeated_answers(self):
         details = build_cited_domain_details(self.raw, self.scored, self.prompts)

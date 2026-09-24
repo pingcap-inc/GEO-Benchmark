@@ -157,6 +157,24 @@ recommended answers / qualified recommendation opportunities
 
 The denominator excludes prompts that are not reasonable recommendation opportunities.
 
+### Answer-level recommended products
+
+`recommended_products` records every clearly recommended product in the answer,
+independent of the selected scoring target and prompt type. Each entry uses the
+form `Product (rank)`, ordered by explicit preference, for example
+`Redis (1) | TiDB (2)`. A unique favored product is required. Neutral product
+lists and equally weighted "it depends" answers remain empty.
+
+This field is additive. The target-specific `recommendation_class` and
+`recommendation_score` fields retain their existing definitions and continue to
+power Recommendation Rate. In cited-domain reports, answer-level ranks are
+shown in detail rows while domain summaries aggregate counts by canonical
+product name. The association means that a domain was cited in an answer that
+recommended the product; it does not establish that the citation caused the
+recommendation. Because extraction is deterministic and uses saved raw answers,
+an offline `report` refresh can populate the field without provider or judge API
+calls.
+
 ## KPI 4: Comparison Win Rate
 
 Comparison Win Rate measures how often the target is the single explicit winner in valid head-to-head comparison answers. It uses recommendation language such as “recommend,” “choose,” or “preferred”; mention order does not determine the winner. Answers with no clear or unique winner are excluded from the win-rate denominator and reported through the valid-comparison count.
