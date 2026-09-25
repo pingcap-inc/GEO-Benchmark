@@ -7,9 +7,13 @@ on:
   issue_comment:
     types: [created]
 
-# Keep only the latest run per PR.
+# Keep only the latest run per PR. Comments without `/review` get their own
+# group so an ordinary PR comment can't cancel a review that's in progress.
 concurrency:
-  group: claude-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  group: >-
+    claude-review-${{ github.event.pull_request.number || github.event.issue.number }}${{
+    github.event_name == 'issue_comment' && !contains(github.event.comment.body, '/review')
+    && format('-comment-{0}', github.event.comment.id) || '' }}
   cancel-in-progress: true
 
 jobs:
