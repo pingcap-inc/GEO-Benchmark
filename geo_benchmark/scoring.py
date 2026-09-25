@@ -597,7 +597,7 @@ def competitive_result(
             candidates.append(product)
 
     conditional_products = explicit_choice_products(guidance, candidates)
-    if explicit_choice_clause_count(guidance) >= 2 or len(conditional_products) >= 2 or re.search(
+    if len(conditional_products) >= 2 or re.search(
         r"(?i)\b(?:depends on|depending on|choose between|based on (?:your|the))\b",
         guidance,
     ):
@@ -645,10 +645,6 @@ def explicit_choice_products(answer: str, candidates: list[str]) -> list[str]:
             if product in positions and product not in [item[1] for item in found]:
                 found.append((index, product))
     return [product for _, product in sorted(found)]
-
-
-def explicit_choice_clause_count(answer: str) -> int:
-    return len(explicit_choice_clauses(answer))
 
 
 def explicit_choice_clauses(answer: str) -> list[str]:

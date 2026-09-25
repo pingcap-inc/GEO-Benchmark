@@ -587,6 +587,19 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertIsNone(winner)
         self.assertEqual(outcome, "conditional")
 
+    def test_comparison_repeated_choice_of_same_product_is_winner(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_text": "TiDB vs CockroachDB for OLTP.",
+        }
+        winner, outcome, _ = competitive_result(
+            "Final recommendation: Choose TiDB for OLTP. "
+            "Stick with TiDB as write volume grows.",
+            prompt,
+        )
+        self.assertEqual(winner, "TiDB")
+        self.assertEqual(outcome, "winner")
+
     def test_comparison_records_untracked_product_winner(self):
         prompt = {
             "group": "comparison",
@@ -769,6 +782,7 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(estimate["providers"][0]["web_search_mode"], "on")
         self.assertEqual(estimate["providers"][0]["web_search_requests"], 30)
         self.assertEqual(estimate["providers"][0]["web_search_fee"], 0.014)
+        self.assertGreater(estimate["providers"][0]["estimated_cost_usd"], 0.42)
 
     def test_gemini_plan_uses_previous_observed_search_and_output_averages(self):
         history = {
@@ -803,7 +817,6 @@ class GeoBenchmarkTests(unittest.TestCase):
             row["token_cost_usd"] + row["request_cost_usd"] + row["web_search_cost_usd"],
             places=3,
         )
-        self.assertGreater(estimate["providers"][0]["estimated_cost_usd"], 0.42)
 
     def test_actual_cost_matches_versioned_model_name(self):
         raw = [
