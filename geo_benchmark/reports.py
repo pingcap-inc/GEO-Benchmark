@@ -33,6 +33,7 @@ def write_reports(
         write_json(report_dir / "cost_summary.json", cost_summary)
     write_markdown(report_dir / "llm-report.md", month, summary, cost_summary, scored_answers, raw_answers)
     write_target_summary_csv(report_dir / "target-kpi-summary.csv", summary)
+    write_cluster_coverage_csv(report_dir / "cluster-coverage.csv", summary)
     write_csv(report_dir / "scored_answers.csv", scored_answers)
     write_coverage_report(report_dir, scored_answers)
     write_review_report(report_dir, month, scored_answers, raw_answers or [], fact_base)
@@ -167,9 +168,16 @@ def write_markdown(
                 for target in report_target_order(summary)
             ],
             "",
+        ]
+    )
+    coverage_warnings = cluster_coverage_warnings(summary)
+    if coverage_warnings:
+        lines.extend(["### Visibility coverage warnings", "", *coverage_warnings, ""])
+    lines.extend(
+        [
             "## Quality Signals",
             "",
-            f"- Average source authority shown below is target-specific in `target-kpi-summary.csv`.",
+            "- Average source authority shown below is target-specific in `target-kpi-summary.csv`.",
             "",
         ]
     )
@@ -185,8 +193,10 @@ def write_markdown(
                 f"- Comparison answers: {competitive.get('comparison_answer_count', 'not recorded')}",
                 f"- Excluded pending prompt review: {competitive.get('excluded_comparison_answers', 0)}",
                 f"- Eligible answers without a detected winner: {competitive.get('no_winner_answers', 'not recorded')}",
+                f"- Conditional / use-case split answers: {competitive.get('conditional_answers', 0)}",
+                f"- No clear winner answers: {competitive.get('no_clear_winner_answers', 0)}",
                 f"- Valid comparison answers (detected winners only): {competitive.get('valid_comparison_answers', 0)}",
-                f"- Target win rate: {fmt(competitive.get('target_win_rate'))}" + ("%" if competitive.get("target_win_rate") is not None else ""),
+                f"- Target win rate: {comparison_win_rate_text(competitive)}",
                 f"- Winner counts: {competitive.get('winner_counts', {})}",
                 "",
             ]
@@ -208,6 +218,14 @@ def write_markdown(
                 "",
             ]
         )
+        for provider_cost in cost_summary.get("providers", []):
+            lines.append(
+                f"- {provider_cost.get('provider')} saved token cost: "
+                f"{format_cost(provider_cost.get('token_cost_usd'))}; saved web search cost: "
+                f"{format_cost(provider_cost.get('web_search_cost_usd'))}."
+            )
+        if cost_summary.get("providers"):
+            lines.append("")
         if cost_summary.get('planned'):
             planned = cost_summary['planned']
             lines.extend([
@@ -216,6 +234,20 @@ def write_markdown(
                 f"- {planned.get('scope', '')}",
                 f"- Assumptions: {planned.get('assumptions', '')}", "",
             ])
+            for provider_cost in planned.get("providers", []):
+                lines.extend(
+                    [
+                        f"- {provider_cost.get('provider')} planned token cost: "
+                        f"{format_cost(provider_cost.get('token_cost_usd'))}; planned web search cost: "
+                        f"{format_cost(provider_cost.get('web_search_cost_usd'))}.",
+                        f"- {provider_cost.get('provider')} assumptions: "
+                        f"{provider_cost.get('assumed_output_tokens_per_answer')} output tokens per answer "
+                        f"from {provider_cost.get('assumed_output_tokens_source')}; "
+                        f"{provider_cost.get('searches_per_answer')} searches per answer "
+                        f"from {provider_cost.get('searches_per_answer_source')}.",
+                        "",
+                    ]
+                )
     metadata = summary.get("run_metadata", {})
     if metadata:
         lines.extend(
@@ -252,7 +284,7 @@ def executive_kpi_table(summary: dict[str, Any]) -> list[str]:
                     fmt(metric_value(metrics["overall"], "prominence_score", "answer_share")),
                     fmt(metrics["overall"].get("citation_authority")),
                     fmt(metrics["overall"].get("qualified_recommendation_rate")),
-                    fmt_optional(metrics.get("competitive", {}).get("target_win_rate")),
+                    comparison_win_rate_text(metrics.get("competitive", {})),
                     fmt_optional(metrics["unchanged"].get("consideration_rate")),
                     fmt_optional(metrics["unchanged"].get("mention_rate")),
                     fmt(metric_value(metrics["unchanged"], "prominence_score", "answer_share")),
@@ -392,6 +424,15 @@ def fmt_optional(value: Any) -> str:
     return f"{float(value):.2f}"
 
 
+def comparison_win_rate_text(competitive: dict[str, Any]) -> str:
+    value = competitive.get("target_win_rate")
+    if value is None:
+        return "N/A"
+    sample = int(competitive.get("valid_comparison_answers", 0))
+    flag = " — low sample" if sample < 10 else ""
+    return f"{float(value):.2f}% (n = {sample}){flag}"
+
+
 def fmt_percentage(value: Any) -> str:
     if value is None:
         return "N/A"
@@ -420,6 +461,8 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
         "qualified_recommendation_rate",
         "comparison_win_rate",
         "valid_comparison_answers",
+        "conditional_comparison_answers",
+        "no_clear_winner_answers",
         "weighted_recommendation_score",
         "negative_recommendation_rate",
         "avg_source_authority",
@@ -454,6 +497,8 @@ def write_target_summary_csv(path: Path, summary: dict[str, Any]) -> None:
                         "prominence_score": metric_value(metrics, "prominence_score", "answer_share"),
                         "comparison_win_rate": competitive.get("target_win_rate") if scope == "overall" else None,
                         "valid_comparison_answers": competitive.get("valid_comparison_answers") if scope == "overall" else None,
+                        "conditional_comparison_answers": competitive.get("conditional_answers") if scope == "overall" else None,
+                        "no_clear_winner_answers": competitive.get("no_clear_winner_answers") if scope == "overall" else None,
                     }
                 )
 
@@ -518,6 +563,8 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         "recommendation_score",
         "recommended_products",
         "competitive_winner",
+        "comparison_outcome",
+        "comparison_outcome_reason",
         "comparison_eligible",
         "comparison_review_status",
         "comparison_exclusion_reason",
@@ -556,6 +603,44 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
             ]:
                 output[key] = metadata.get(key)
             writer.writerow(output)
+
+
+def write_cluster_coverage_csv(path: Path, summary: dict[str, Any]) -> None:
+    fieldnames = [
+        "target",
+        "cluster",
+        "prompt_count",
+        "non_branded_prompt_count",
+        "branded_prompt_count",
+        "minimum_non_branded_prompts",
+        "below_minimum",
+    ]
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
+        writer.writeheader()
+        for target in report_target_order(summary):
+            coverage = summary["targets"][target].get("cluster_coverage", {})
+            for cluster, counts in coverage.items():
+                writer.writerow({"target": target, "cluster": cluster, **counts})
+
+
+def cluster_coverage_warnings(summary: dict[str, Any]) -> list[str]:
+    warnings: list[str] = []
+    for target in report_target_order(summary):
+        coverage = summary["targets"][target].get("cluster_coverage", {})
+        for cluster, counts in coverage.items():
+            if not counts.get("below_minimum"):
+                continue
+            count = int(counts.get("non_branded_prompt_count", 0))
+            minimum = int(counts.get("minimum_non_branded_prompts", 3))
+            if count == 0:
+                reason = "visibility KPIs are N/A by design"
+            else:
+                reason = f"below the configured minimum of {minimum}"
+            warnings.append(
+                f"- {cluster}: {count} non-branded prompts for {target}, {reason}."
+            )
+    return warnings
 
 
 def write_breakdown_csv(path: Path, breakdown: dict[str, Any]) -> None:

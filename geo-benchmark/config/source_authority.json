@@ -1,5 +1,5 @@
 {
-  "source_authority_version": "2026-09-24",
+  "source_authority_version": "2026-09-25-path-aware",
   "rules": [
     {
       "contains": "docs.pingcap.com",
@@ -17,12 +17,27 @@
       "label": "official_site"
     },
     {
+      "contains": "tidbcloud.com",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
+      "contains": "tidbcloudzerobrowser.vercel.app",
+      "weight": 1.0,
+      "label": "official_site"
+    },
+    {
       "contains": "tidb.net",
       "weight": 1.0,
       "label": "official_community"
     },
     {
       "contains": "github.com/pingcap",
+      "weight": 1.0,
+      "label": "github"
+    },
+    {
+      "contains": "github.com/tidbcloud",
       "weight": 1.0,
       "label": "github"
     },

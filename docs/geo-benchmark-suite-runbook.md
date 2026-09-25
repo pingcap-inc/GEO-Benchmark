@@ -64,6 +64,7 @@ Primary report artifacts:
 ```text
 geo-benchmark/reports/<month>/llm-report.md
 geo-benchmark/reports/<month>/target-kpi-summary.csv
+geo-benchmark/reports/<month>/cluster-coverage.csv
 geo-benchmark/reports/<month>/kpi_summary.json
 geo-benchmark/reports/<month>/planned_cost_summary.json
 geo-benchmark/reports/<month>/cost_summary.json
@@ -393,7 +394,13 @@ Estimate budget without calling providers:
   --web-search on
 ```
 
-Default planning assumptions: 120 prompts, 4 providers, 3 runs per prompt, and 700 assumed output tokens per answer. Adding scoring targets does not increase provider-call cost because targets are scored locally against the same answers.
+Each provider config supplies `assumed_output_tokens` and
+`searches_per_answer` fallbacks. When the current month's saved
+`cost_summary.json` contains prior usage for a provider, planning uses its
+observed output-token and search-request averages instead. An explicit
+`--assumed-output-tokens` value still takes precedence for output tokens. Adding
+scoring targets does not increase provider-call cost because targets are scored
+locally against the same answers.
 
 Example estimate:
 
@@ -405,7 +412,15 @@ gemini / gemini-3.5-flash-lite: $5.6842
 perplexity / sonar: $2.0992
 ```
 
-OpenAI and Anthropic web search estimates assume one low-mode search call per prompt run when `--web-search on` is used. Actual cost summaries use the recorded tool-call count when providers return it. Claude may perform up to five searches per answer, so actual cost can exceed that planning assumption. Gemini 3.5 Flash-Lite pricing includes 5,000 free Google Search requests per month shared across Gemini 3.x models, then charges per individual search query; the planning estimate uses the post-allowance marginal rate. Perplexity Sonar includes a request fee, so its cost is not token-only.
+The planned-cost block identifies whether each output-token and search-count
+assumption came from saved history, provider config, or a command-line override,
+and reports token cost separately from web-search cost. Actual cost summaries
+use the recorded tool-call count when providers return it. Claude may perform
+multiple searches per answer. Gemini 3.5 Flash-Lite pricing includes 5,000 free
+Google Search requests per month shared across Gemini 3.x models, then charges
+per individual search query; the planner uses the configured post-allowance
+marginal rate. Perplexity Sonar includes a request fee, so its cost is not
+token-only.
 
 ## Monthly Comparability
 

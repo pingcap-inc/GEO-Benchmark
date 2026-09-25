@@ -6,7 +6,7 @@ MONTH="${MONTH:-2026-08}"
 RUNS="${RUNS:-1}"
 PROMPTS="${PROMPTS:-120}"
 UPDATE_RATIO="${UPDATE_RATIO:-0.3}"
-ASSUMED_OUTPUT_TOKENS="${ASSUMED_OUTPUT_TOKENS:-700}"
+ASSUMED_OUTPUT_TOKENS="${ASSUMED_OUTPUT_TOKENS:-}"
 FORCE="${FORCE:-0}"
 RETRIES="${RETRIES:-1}"
 
@@ -80,11 +80,14 @@ run_args=(
   --runs "$RUNS"
   --prompts "$PROMPTS"
   --update-ratio "$UPDATE_RATIO"
-  --assumed-output-tokens "$ASSUMED_OUTPUT_TOKENS"
   --retries "$RETRIES"
   --web-search "$WEB_SEARCH"
   --no-fallback
 )
+
+if [[ -n "$ASSUMED_OUTPUT_TOKENS" ]]; then
+  run_args+=(--assumed-output-tokens "$ASSUMED_OUTPUT_TOKENS")
+fi
 
 if [[ "$FORCE" == "1" ]]; then
   run_args+=(--force)
