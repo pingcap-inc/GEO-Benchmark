@@ -85,6 +85,8 @@ def write_review_report(
             block('Pending fact/review IDs', diagnostic['semantic_pending_fact_ids'] or 'None recorded')
             if row.get('group') == 'comparison' or row.get('prompt_type') == 'competitive':
                 block('Detected comparison winner', row.get('competitive_winner') or 'No unique winner detected')
+                block('Comparison outcome', row.get('comparison_outcome') or 'Not recorded')
+                block('Comparison outcome reason', row.get('comparison_outcome_reason') or 'Not recorded')
                 block('Comparison KPI eligibility', row.get('comparison_eligible', 'Not recorded'))
                 if row.get('comparison_exclusion_reason'):
                     block('Comparison exclusion', row['comparison_exclusion_reason'])

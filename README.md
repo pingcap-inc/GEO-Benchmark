@@ -54,13 +54,18 @@ governance, internal-input format, API configuration, scoring, and outputs.
 Reports describe only saved scored answers, which can be a subset of the monthly
 prompt list. Coverage tables show the number of eligible answer rows. A metric
 with no eligible observations is `N/A` (JSON `null`, CSV empty); a measured zero
-remains `0`. Branded prompts are excluded from visibility metrics.
+remains `0`. Branded prompts are excluded from visibility metrics. The Coverage
+section and `cluster-coverage.csv` warn when a target/cluster has fewer than the
+configured `minimum_non_branded_prompts_per_cluster` (default 3).
 
 Planned costs honor `--only-prompt-ids` and `--only-prompt-type` on both `run`
 and `estimate-cost`. They estimate fresh collection for that selection, excluding
-judge calls, retries, and fallback. Search count and token usage are assumptions,
-not spending limits. Saved-answer costs cover successful stored answers; judge
-costs cover the latest scoring invocation. Neither is a lifetime billing ledger.
+judge calls, retries, and fallback. Output-token and search-count assumptions
+default to observed per-answer averages from the previous saved
+`cost_summary.json` for that provider, then fall back to `models.json`. Search
+fees and token costs are reported separately. These estimates are not spending
+limits. Saved-answer costs cover successful stored answers; judge costs cover
+the latest scoring invocation. Neither is a lifetime billing ledger.
 Unknown model pricing produces an unknown total rather than a zero-dollar cost.
 
 - Mention Rate: how often a product appears in eligible non-branded answers.
@@ -68,7 +73,7 @@ Unknown model pricing produces an unknown total rather than a zero-dollar cost.
 - Citation Authority: whether product claims are backed by credible, fresh, accurate sources.
 - Recommendation Rate: whether a product is actually recommended, not just listed.
 - Recommended Products: every clearly recommended product in an answer, ordered by explicit preference; neutral lists and tied "it depends" answers remain empty.
-- Comparison Win Rate: how often a product is the explicit winner in valid comparison answers.
+- Comparison Win Rate: how often a product is the explicit winner in valid comparison answers; conditional and no-clear-winner answers are reported separately and excluded from its denominator.
 
 ## Quick Start
 

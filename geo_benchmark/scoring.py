@@ -6,6 +6,8 @@ from statistics import mean
 from typing import Any
 from urllib.parse import urlparse
 
+from .url_classification import code_host_org, code_host_product, is_pingcap_owned_url
+
 from .io_utils import estimate_tokens
 
 
@@ -75,7 +77,7 @@ PRODUCT_URL_MARKERS = {
     # --- PingCAP -------------------------------------------------------
     "TiDB": [
         "pingcap.com", "pingcap.co.jp", "github.com/pingcap", "mem9.ai", "drive9.ai",
-        "tidb.io", "docs.pingcap.com",
+        "tidb.io", "tidbcloud.com", "tidbcloudzerobrowser.vercel.app", "docs.pingcap.com",
     ],
 
     # --- Distributed SQL -----------------------------------------------
@@ -210,7 +212,7 @@ def score_answer(
     rec_class, rec_score, rec_reasons = recommendation(answer, mention_position, target)
     all_recommended_products = extract_recommended_products(answer)
     comparison_candidates = comparison_products(prompt)
-    winner = competitive_winner(answer, prompt)
+    winner, comparison_outcome, comparison_outcome_reason = competitive_result(answer, prompt)
     fan_out_queries = [str(query) for query in row.get("fan_out_queries", [])]
     fan_out_status = str(row.get("fan_out_status") or "unavailable")
     consideration_eligible = not target_in_prompt and fan_out_status in {"captured", "no_search"}
@@ -262,6 +264,8 @@ def score_answer(
         "recommended_products": all_recommended_products,
         "classification_reason": rec_reasons,
         "competitive_winner": winner,
+        "comparison_outcome": comparison_outcome,
+        "comparison_outcome_reason": comparison_outcome_reason,
         "comparison_eligible": is_comparison_prompt(prompt) and prompt.get("comparison_eligible", True),
         "comparison_review_status": prompt.get("comparison_review_status", ""),
         "comparison_exclusion_reason": prompt.get("comparison_exclusion_reason", ""),
@@ -357,6 +361,10 @@ def classify_citations(urls: list[str], source_authority: dict[str, Any]) -> lis
 
 
 def is_product_related_url(target: str, url: str) -> bool:
+    if target == "TiDB" and is_pingcap_owned_url(url):
+        return True
+    if code_host_org(url):
+        return code_host_product(url) == target
     lower = url.lower()
     markers = PRODUCT_URL_MARKERS.get(target, [target.lower()])
     return any(marker in lower for marker in markers)
@@ -569,22 +577,105 @@ def comparison_products(prompt: dict[str, Any]) -> list[str]:
 
 
 def competitive_winner(answer: str, prompt: dict[str, Any]) -> str | None:
+    return competitive_result(answer, prompt)[0]
+
+
+def competitive_result(
+    answer: str, prompt: dict[str, Any]
+) -> tuple[str | None, str | None, str]:
     if not is_comparison_prompt(prompt):
-        return None
-    candidates = comparison_products(prompt)
-    if len(candidates) < 2:
-        return None
+        return None, None, "not a comparison prompt"
+    prompt_candidates = comparison_products(prompt)
 
     guidance = comparison_guidance(answer)
+    mentioned = product_positions(guidance)
+    candidates = list(prompt_candidates)
+    for product, positions in sorted(
+        mentioned.items(), key=lambda item: min(item[1]) if item[1] else len(guidance)
+    ):
+        if product not in candidates:
+            candidates.append(product)
+
+    conditional_products = explicit_choice_products(guidance, candidates)
+    if len(conditional_products) >= 2 or re.search(
+        r"(?i)\b(?:depends on|depending on|choose between|based on (?:your|the))\b",
+        guidance,
+    ):
+        return None, "conditional", "answer splits the choice by workload or use case"
+
+    if len(prompt_candidates) >= 2:
+        legacy_strengths = {
+            product: comparison_recommendation_strength(guidance, product)
+            for product in prompt_candidates
+        }
+        legacy_best = max(legacy_strengths.values(), default=0)
+        legacy_winners = [
+            product for product, strength in legacy_strengths.items()
+            if legacy_best > 0 and strength == legacy_best
+        ]
+        if len(legacy_winners) == 1:
+            return legacy_winners[0], "winner", "unique explicit recommendation"
+
+    if not candidates:
+        return None, "no_clear_winner", "no named product candidate"
+
+    ranked = ranked_first_product(guidance, candidates)
+    if ranked:
+        return ranked, "winner", "ranked first in a recommendation shortlist"
+
     strengths = {
         product: comparison_recommendation_strength(guidance, product)
         for product in candidates
     }
     best_strength = max(strengths.values(), default=0)
-    if best_strength <= 0:
-        return None
-    winners = [product for product, strength in strengths.items() if strength == best_strength]
-    return winners[0] if len(winners) == 1 else None
+    if best_strength > 0:
+        winners = [product for product, strength in strengths.items() if strength == best_strength]
+        if len(winners) == 1:
+            return winners[0], "winner", "unique explicit recommendation"
+        return None, "conditional", "multiple products receive equal recommendation language"
+    return None, "no_clear_winner", "no unique explicit recommendation"
+
+
+def explicit_choice_products(answer: str, candidates: list[str]) -> list[str]:
+    """Return products named in explicit choice clauses, preserving answer order."""
+    found: list[tuple[int, str]] = []
+    for index, clause in enumerate(explicit_choice_clauses(answer)):
+        positions = product_positions(clause)
+        for product in candidates:
+            if product in positions and product not in [item[1] for item in found]:
+                found.append((index, product))
+    return [product for _, product in sorted(found)]
+
+
+def explicit_choice_clauses(answer: str) -> list[str]:
+    """Extract affirmative choice clauses without treating a rejection as a choice."""
+    guidance = comparison_guidance(answer)
+    matches = re.finditer(
+        r"(?is)\b(?:choose|select|pick|prefer|use|adopt|go with|stick with)\s+([^.!?;\n]+)",
+        guidance,
+    )
+    clauses: list[str] = []
+    for match in matches:
+        prefix = guidance[max(0, match.start() - 16):match.start()].lower()
+        if re.search(r"(?:do not|don't|never|not)\s*$", prefix):
+            continue
+        clauses.append(match.group(1))
+    return clauses
+
+
+def ranked_first_product(answer: str, candidates: list[str]) -> str | None:
+    """Read an explicit first-ranked item without treating ordinary lists as verdicts."""
+    guidance = comparison_guidance(answer)
+    normalized = re.sub(r"[*_`]", "", guidance)
+    for match in re.finditer(r"(?im)^\s*1[.)]\s*(?:choose\s+)?([^\n]+)", normalized):
+        prefix = normalized[max(0, match.start() - 180):match.start()].lower()
+        if not any(term in prefix for term in ("ranked", "recommendation", "shortlist")):
+            continue
+        positions = product_positions(match.group(1))
+        ranked = [product for product in candidates if product in positions]
+        if len(ranked) == 1:
+            return ranked[0]
+    return None
 
 
 def comparison_guidance(answer: str) -> str:
@@ -593,7 +684,9 @@ def comparison_guidance(answer: str) -> str:
     text = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", text)
     text = re.sub(r"[*_`]", "", text)
     headings = list(re.finditer(
-        r"(?im)^\s*(?:#{1,6}\s*)?(?:final\s+)?(?:recommendation|verdict|bottom line|conclusion)"
+        r"(?im)^\s*(?:#{1,6}\s*)?(?:final\s+)?(?:decision\s+)?"
+        r"(?:recommendation|verdict|guidance|rule|summary|bottom line|conclusion|"
+        r"(?:ranked\s+)?shortlist(?:\s+(?:&\s*)?recommendation)?)"
         r"(?:\s*\([^\n)]*\))?\s*[:\n]", text
     ))
     return text[headings[-1].start():] if headings else text
@@ -630,7 +723,7 @@ def comparison_recommendation_strength(answer: str, product: str) -> int:
         r"best fit|better fit|stronger fit|preferred option|lower-risk default|lower-friction path"
     )
     recommendation_patterns = [
-        rf"(?:recommend|recommended|choose|chose|pick|picked|prefer|preferred|select|selected|go with)\s+(?:the\s+)?{bounded_alias}",
+        rf"(?:recommend|recommended|choose|chose|pick|picked|prefer|preferred|select|selected|adopt|go with)\s+(?:the\s+)?{bounded_alias}",
         rf"(?:put|rank)\s+(?:the\s+)?{bounded_alias}\s+first",
         rf"{bounded_alias}\s+(?:is|would be|remains)\s+(?:the\s+)?(?:{recommendation_terms})",
         rf"{bounded_alias}\s+(?:wins|is my recommendation|gets the recommendation)",
@@ -654,10 +747,15 @@ def product_in_queries(queries: list[str], product: str) -> bool:
     return any(product in product_positions(query) for query in queries)
 
 
-def aggregate_scores(scored: list[dict[str, Any]]) -> dict[str, Any]:
+def aggregate_scores(
+    scored: list[dict[str, Any]], minimum_non_branded_prompts: int = 3
+) -> dict[str, Any]:
     targets = sorted({row.get("target", "TiDB") for row in scored})
     target_summaries = {
-        target: aggregate_target([row for row in scored if row.get("target", "TiDB") == target])
+        target: aggregate_target(
+            [row for row in scored if row.get("target", "TiDB") == target],
+            minimum_non_branded_prompts,
+        )
         for target in targets
     }
     first_target = targets[0] if targets else None
@@ -670,11 +768,13 @@ def aggregate_scores(scored: list[dict[str, Any]]) -> dict[str, Any]:
     if first_target:
         result.update(target_summaries[first_target])
     else:
-        result.update(aggregate_target([]))
+        result.update(aggregate_target([], minimum_non_branded_prompts))
     return result
 
 
-def aggregate_target(rows: list[dict[str, Any]]) -> dict[str, Any]:
+def aggregate_target(
+    rows: list[dict[str, Any]], minimum_non_branded_prompts: int = 3
+) -> dict[str, Any]:
     return {
         "overall": aggregate_slice(rows),
         "unchanged": aggregate_slice([row for row in rows if row.get("panel") == "stable"]),
@@ -682,6 +782,34 @@ def aggregate_target(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "by_use_case": aggregate_by(rows, "use_case"),
         "by_prompt_type": aggregate_by(rows, "prompt_type"),
         "competitive": competitive_breakdown(rows),
+        "cluster_coverage": cluster_coverage(rows, minimum_non_branded_prompts),
+    }
+
+
+def cluster_coverage(
+    rows: list[dict[str, Any]], minimum_non_branded_prompts: int = 3
+) -> dict[str, dict[str, Any]]:
+    """Count distinct branded and non-branded prompts for each target cluster."""
+    clusters: dict[str, dict[str, set[str]]] = defaultdict(
+        lambda: {"all": set(), "non_branded": set(), "branded": set()}
+    )
+    for row in rows:
+        cluster = str(row.get("prompt_type") or "unknown")
+        prompt_id = str(row.get("prompt_id") or "")
+        if not prompt_id:
+            continue
+        clusters[cluster]["all"].add(prompt_id)
+        brand_key = "branded" if row.get("target_in_prompt") else "non_branded"
+        clusters[cluster][brand_key].add(prompt_id)
+    return {
+        cluster: {
+            "prompt_count": len(counts["all"]),
+            "non_branded_prompt_count": len(counts["non_branded"]),
+            "branded_prompt_count": len(counts["branded"]),
+            "minimum_non_branded_prompts": minimum_non_branded_prompts,
+            "below_minimum": len(counts["non_branded"]) < minimum_non_branded_prompts,
+        }
+        for cluster, counts in sorted(clusters.items())
     }
 
 
@@ -891,12 +1019,21 @@ def competitive_breakdown(scored: list[dict[str, Any]]) -> dict[str, Any]:
         return {}
     eligible = [row for row in comparisons if row.get("comparison_eligible", True)]
     rows = [row for row in eligible if row.get("competitive_winner")]
+    conditional = [row for row in eligible if row.get("comparison_outcome") == "conditional"]
+    no_clear = [
+        row
+        for row in eligible
+        if not row.get("competitive_winner")
+        and row.get("comparison_outcome") != "conditional"
+    ]
     totals = Counter(row["competitive_winner"] for row in rows)
     return {
         "comparison_answer_count": len(comparisons),
         "eligible_comparison_answers": len(eligible),
         "excluded_comparison_answers": len(comparisons) - len(eligible),
         "no_winner_answers": len(eligible) - len(rows),
+        "conditional_answers": len(conditional),
+        "no_clear_winner_answers": len(no_clear),
         "valid_comparison_answers": len(rows),
         "target_win_rate": round(totals[target] / len(rows) * 100, 2) if rows else None,
         "winner_counts": dict(totals),

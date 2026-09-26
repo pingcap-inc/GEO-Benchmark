@@ -7,6 +7,8 @@ DEFAULT_MODELS = {
         "model": "mock-geo-buyer-v1",
         "temperature": 0.2,
         "max_output_tokens": 700,
+        "assumed_output_tokens": 700,
+        "searches_per_answer": 0.0,
         "env_var": None,
     },
     "openai": {
@@ -14,6 +16,8 @@ DEFAULT_MODELS = {
         "model": "gpt-5-mini",
         "temperature": None,
         "max_output_tokens": 1600,
+        "assumed_output_tokens": 1600,
+        "searches_per_answer": 1.0,
         "env_var": "OPENAI_API_KEY",
         "fallback_model": "gpt-4o-mini",
         "fallback_max_output_tokens": 1000,
@@ -24,6 +28,8 @@ DEFAULT_MODELS = {
         "model": "claude-sonnet-5",
         "temperature": None,
         "max_output_tokens": 1600,
+        "assumed_output_tokens": 1600,
+        "searches_per_answer": 1.0,
         "env_var": "ANTHROPIC_API_KEY",
     },
     "gemini": {
@@ -31,6 +37,8 @@ DEFAULT_MODELS = {
         "model": "gemini-3.5-flash-lite",
         "temperature": 0.2,
         "max_output_tokens": 700,
+        "assumed_output_tokens": 700,
+        "searches_per_answer": 1.0,
         "env_var": "GEMINI_API_KEY",
     },
     "perplexity": {
@@ -38,6 +46,8 @@ DEFAULT_MODELS = {
         "model": "sonar",
         "temperature": 0.2,
         "max_output_tokens": 700,
+        "assumed_output_tokens": 700,
+        "searches_per_answer": 1.0,
         "env_var": "PERPLEXITY_API_KEY",
         "search_context_size": "low",
     },
@@ -45,7 +55,8 @@ DEFAULT_MODELS = {
 
 
 DEFAULT_TARGETS = {
-    "targets": ["TiDB", "CockroachDB", "YugabyteDB", "Supabase", "PlanetScale", "Neon"]
+    "targets": ["TiDB", "CockroachDB", "YugabyteDB", "Supabase", "PlanetScale", "Neon"],
+    "minimum_non_branded_prompts_per_cluster": 3,
 }
 
 
@@ -108,13 +119,20 @@ DEFAULT_PRICING = {
 
 
 DEFAULT_SOURCE_AUTHORITY = {
-    "source_authority_version": "2026-09-24",
+    "source_authority_version": "2026-09-25-path-aware",
     "rules": [
         {"contains": "docs.pingcap.com", "weight": 1.0, "label": "official_docs"},
         {"contains": "pingcap.com", "weight": 1.0, "label": "official_site"},
         {"contains": "pingcap.co.jp", "weight": 1.0, "label": "official_site"},
+        {"contains": "tidbcloud.com", "weight": 1.0, "label": "official_site"},
+        {
+            "contains": "tidbcloudzerobrowser.vercel.app",
+            "weight": 1.0,
+            "label": "official_site",
+        },
         {"contains": "tidb.net", "weight": 1.0, "label": "official_community"},
         {"contains": "github.com/pingcap", "weight": 1.0, "label": "github"},
+        {"contains": "github.com/tidbcloud", "weight": 1.0, "label": "github"},
         {"contains": "mem9.ai", "weight": 1.0, "label": "official_site"},
         {"contains": "drive9.ai", "weight": 1.0, "label": "official_site"},
         {"contains": "tidb.io", "weight": 1.0, "label": "official_site"},

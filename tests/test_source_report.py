@@ -10,6 +10,7 @@ from geo_benchmark.source_report import (
     source_type_for_url,
     write_cited_domain_report,
 )
+from geo_benchmark.url_classification import citation_display_key
 
 
 class CitedDomainReportTests(unittest.TestCase):
@@ -100,6 +101,26 @@ class CitedDomainReportTests(unittest.TestCase):
         self.assertEqual(source_type_for_url("https://cockroachlabs.com/docs/stable"), "Competitor")
         self.assertEqual(source_type_for_url("https://example.com/article"), "Other")
 
+    def test_code_host_ownership_is_path_aware(self):
+        self.assertEqual(source_type_for_url("https://github.com/pingcap/tidb"), "PingCAP")
+        self.assertEqual(source_type_for_url("https://github.com/pingcap-inc/docs"), "PingCAP")
+        self.assertEqual(source_type_for_url("https://github.com/neondatabase/db-per-tenant"), "Competitor")
+        self.assertEqual(source_type_for_url("https://github.com/pgvector/pgvector"), "Competitor")
+        self.assertEqual(source_type_for_url("https://github.com/unrelated/example"), "Other")
+        self.assertEqual(source_type_for_url("https://gitlab.com/pingcap/project"), "PingCAP")
+        self.assertEqual(
+            source_type_for_url("https://huggingface.co/neondatabase/model"), "Competitor"
+        )
+        self.assertEqual(source_type_for_url("https://gitlab.com/unrelated/example"), "Other")
+        self.assertEqual(citation_display_key("https://github.com/pingcap/tidb/issues/1"), "github.com/pingcap")
+        self.assertEqual(citation_display_key("https://github.com/neondatabase/db-per-tenant"), "github.com/neondatabase")
+
+    def test_pingcap_subdomains_and_vercel_exception(self):
+        self.assertEqual(source_type_for_url("https://zero.tidbcloud.com/"), "PingCAP")
+        self.assertEqual(source_type_for_url("https://docs.pingcap.com/tidb/stable"), "PingCAP")
+        self.assertEqual(source_type_for_url("https://tidbcloudzerobrowser.vercel.app/"), "PingCAP")
+        self.assertEqual(source_type_for_url("https://random-preview.vercel.app/"), "Other")
+
     def test_details_deduplicate_domains_within_each_answer(self):
         details = build_cited_domain_details(self.raw, self.scored, self.prompts)
         example_rows = [row for row in details if row["domain"] == "example.com"]
@@ -111,6 +132,30 @@ class CitedDomainReportTests(unittest.TestCase):
         self.assertTrue(example_rows[0]["tidb_appeared"])
         self.assertEqual(example_rows[0]["recommended_products"], ["TiDB (1)"])
         self.assertEqual(example_rows[1]["recommended_products"], ["CockroachDB (1)"])
+
+    def test_details_split_code_hosts_by_organization(self):
+        raw = [
+            {
+                "answer_id": "a1",
+                "status": "ok",
+                "prompt_id": "p1",
+                "raw_answer": "See the repositories.",
+                "raw_citations": [
+                    "https://github.com/pingcap/tidb",
+                    "https://github.com/neondatabase/db-per-tenant",
+                    "https://github.com/unrelated/example",
+                ],
+            }
+        ]
+        scored = [self.scored[0]]
+
+        details = build_cited_domain_details(raw, scored, self.prompts)
+
+        self.assertEqual(
+            {row["domain"] for row in details},
+            {"github.com/pingcap", "github.com/neondatabase", "github.com/unrelated"},
+        )
+        self.assertNotIn("github.com", {row["domain"] for row in details})
 
     def test_summary_ranks_by_unique_prompts_not_repeated_answers(self):
         details = build_cited_domain_details(self.raw, self.scored, self.prompts)

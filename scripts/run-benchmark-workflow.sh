@@ -7,7 +7,7 @@ PROVIDERS="${PROVIDERS:-mock}"
 RUNS="${RUNS:-1}"
 PROMPTS="${PROMPTS:-120}"
 UPDATE_RATIO="${UPDATE_RATIO:-0.3}"
-ASSUMED_OUTPUT_TOKENS="${ASSUMED_OUTPUT_TOKENS:-700}"
+ASSUMED_OUTPUT_TOKENS="${ASSUMED_OUTPUT_TOKENS:-}"
 WEB_SEARCH="${WEB_SEARCH:-off}"
 FACT_JUDGE="${FACT_JUDGE:-off}"
 FACT_JUDGE_PROVIDER="${FACT_JUDGE_PROVIDER:-openai}"
@@ -26,13 +26,16 @@ run_args=(
   --runs "$RUNS"
   --prompts "$PROMPTS"
   --update-ratio "$UPDATE_RATIO"
-  --assumed-output-tokens "$ASSUMED_OUTPUT_TOKENS"
   --web-search "$WEB_SEARCH"
   --fact-judge "$FACT_JUDGE"
   --fact-judge-provider "$FACT_JUDGE_PROVIDER"
   --fact-judge-model "$FACT_JUDGE_MODEL"
   --fact-judge-retries "$FACT_JUDGE_RETRIES"
 )
+
+if [[ -n "$ASSUMED_OUTPUT_TOKENS" ]]; then
+  run_args+=(--assumed-output-tokens "$ASSUMED_OUTPUT_TOKENS")
+fi
 
 if [[ "${FORCE:-0}" == "1" ]]; then
   run_args+=(--force)

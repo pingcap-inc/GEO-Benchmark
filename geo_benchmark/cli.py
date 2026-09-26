@@ -48,7 +48,7 @@ def main(argv: list[str] | None = None) -> int:
     run_p.add_argument("--runs", type=int, default=1)
     run_p.add_argument("--prompts", type=int, default=120)
     run_p.add_argument("--update-ratio", type=float, default=0.3)
-    run_p.add_argument("--assumed-output-tokens", type=int, default=700)
+    run_p.add_argument("--assumed-output-tokens", type=int, default=None)
     run_p.add_argument("--retries", type=int, default=1)
     run_p.add_argument("--web-search", choices=["off", "on"], default="off", help="Enable provider web search in low mode where supported.")
     run_p.add_argument("--force", action="store_true", help="Overwrite raw/scored/report outputs for the month.")
@@ -73,7 +73,7 @@ def main(argv: list[str] | None = None) -> int:
     estimate_p.add_argument("--providers", default="openai,anthropic,gemini,perplexity")
     estimate_p.add_argument("--runs", type=int, default=3)
     estimate_p.add_argument("--prompts", type=int, default=120)
-    estimate_p.add_argument("--assumed-output-tokens", type=int, default=700)
+    estimate_p.add_argument("--assumed-output-tokens", type=int, default=None)
     estimate_p.add_argument("--web-search", choices=["off", "on"], default="off")
     estimate_p.add_argument("--only-prompt-type", default=None)
     estimate_p.add_argument("--only-prompt-ids", default=None)
@@ -214,7 +214,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "report":
         scored_path = month_run_dir(root, args.month) / "scored_answers.jsonl"
         scored = read_jsonl(scored_path)
-        summary = aggregate_scores(scored)
+        target_config = read_json(root / "config" / "targets.json", default=DEFAULT_TARGETS)
+        summary = aggregate_scores(
+            scored,
+            int(target_config.get("minimum_non_branded_prompts_per_cluster", 3)),
+        )
         cost_path = month_report_dir(root, args.month) / "cost_summary.json"
         cost = read_json(cost_path, default={})
         raw = read_jsonl(month_run_dir(root, args.month) / "raw_answers.jsonl")
@@ -719,7 +723,8 @@ def score_and_report(
     source_authority = read_json(root / "config" / "source_authority.json")
     facts = read_json(root / "config" / "facts.json")
     pricing = read_json(root / "config" / "pricing.json")
-    targets = targets or read_json(root / "config" / "targets.json", default=DEFAULT_TARGETS)["targets"]
+    target_config = read_json(root / "config" / "targets.json", default=DEFAULT_TARGETS)
+    targets = targets or target_config["targets"]
     scored = score_answers(raw, prompts, source_authority, facts, targets)
     judge_settings = judge_settings or JudgeSettings()
     judge = None
@@ -749,7 +754,10 @@ def score_and_report(
             row["semantic_unavailable_facts"] = semantic["unavailable_facts"]
             row.update(semantic_export_fields(row))
         judge.flush_cache()
-    summary = aggregate_scores(scored)
+    summary = aggregate_scores(
+        scored,
+        int(target_config.get("minimum_non_branded_prompts_per_cluster", 3)),
+    )
     cost = estimate_actual_cost(raw, pricing)
     if planned_estimate is not None:
         cost["planned"] = planned_estimate
@@ -836,7 +844,7 @@ def planned_cost(
     month: str,
     providers: list[str],
     runs: int,
-    assumed_output_tokens: int,
+    assumed_output_tokens: int | None,
     web_search_mode: str = "off",
     prompt_ids: set[str] | None = None,
 ) -> dict[str, Any]:
@@ -845,7 +853,42 @@ def planned_cost(
         prompts = [prompt for prompt in prompts if prompt["prompt_id"] in prompt_ids]
     models = read_json(root / "config" / "models.json")
     pricing = read_json(root / "config" / "pricing.json")
-    return estimate_planned_cost(prompts, providers, runs, models, pricing, assumed_output_tokens, web_search_mode)
+    previous_cost = load_previous_cost_summary(root, month)
+    return estimate_planned_cost(
+        prompts,
+        providers,
+        runs,
+        models,
+        pricing,
+        assumed_output_tokens,
+        web_search_mode,
+        previous_cost,
+    )
+
+
+def load_previous_cost_summary(root: Path, month: str) -> dict[str, Any]:
+    """Load provider usage from the newest report at or before the planned month."""
+    reports_root = root / "reports"
+    candidates = sorted(
+        (
+            path
+            for path in reports_root.glob("*/cost_summary.json")
+            if path.parent.name <= month
+        ),
+        key=lambda path: path.parent.name,
+        reverse=True,
+    )
+    providers: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for path in candidates:
+        summary = read_json(path, default={})
+        for row in summary.get("providers", []):
+            provider = str(row.get("provider") or "")
+            if not provider or provider in seen:
+                continue
+            providers.append(row)
+            seen.add(provider)
+    return {"providers": providers}
 
 
 def confirm_live_run(
@@ -969,6 +1012,16 @@ def print_cost_estimate(estimate: dict[str, Any]) -> None:
             f"{row['input_tokens']} input tokens, "
             f"{row['output_tokens']} output tokens, "
             + format_cost(row['estimated_cost_usd'])
+        )
+        print(
+            f"  output assumption: {row.get('assumed_output_tokens_per_answer')} per answer "
+            f"from {row.get('assumed_output_tokens_source')}; "
+            f"search assumption: {row.get('searches_per_answer')} per answer "
+            f"from {row.get('searches_per_answer_source')}"
+        )
+        print(
+            f"  planned token cost: {format_cost(row.get('token_cost_usd'))}; "
+            f"planned web search cost: {format_cost(row.get('web_search_cost_usd'))}"
         )
 
 

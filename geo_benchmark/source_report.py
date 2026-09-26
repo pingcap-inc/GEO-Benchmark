@@ -16,6 +16,11 @@ from .scoring import (
     extract_recommended_products,
     extract_urls,
 )
+from .url_classification import (
+    citation_display_key,
+    code_host_source_type,
+    is_pingcap_owned_url,
+)
 
 
 SOURCE_TYPE_ORDER = {"PingCAP": 0, "Competitor": 1, "Other": 2}
@@ -51,9 +56,12 @@ def normalize_citation_url(url: str) -> str | None:
 
 def source_type_for_url(url: str) -> str:
     """Classify a citation as PingCAP-owned, competitor-owned, or other."""
-    lower = url.lower()
-    if any(marker in lower for marker in PRODUCT_URL_MARKERS.get("TiDB", [])):
+    code_host_type = code_host_source_type(url)
+    if code_host_type is not None:
+        return code_host_type
+    if is_pingcap_owned_url(url):
         return "PingCAP"
+    lower = url.lower()
     for product, markers in PRODUCT_URL_MARKERS.items():
         if product != "TiDB" and any(marker in lower for marker in markers):
             return "Competitor"
@@ -109,7 +117,7 @@ def build_cited_domain_details(
         urls_by_domain: dict[str, list[str]] = defaultdict(list)
         type_by_domain: dict[str, str] = {}
         for url in urls:
-            domain = normalize_domain(url)
+            domain = citation_display_key(url)
             if not domain:
                 continue
             urls_by_domain[domain].append(url)

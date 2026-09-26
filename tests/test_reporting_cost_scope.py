@@ -5,15 +5,51 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from geo_benchmark.cli import main, planned_cost, prepare, load_prompts
+from geo_benchmark.cli import (
+    load_previous_cost_summary,
+    load_prompts,
+    main,
+    planned_cost,
+    prepare,
+)
 from geo_benchmark.costs import estimate_actual_cost, estimate_planned_cost
 from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING
-from geo_benchmark.io_utils import read_json
+from geo_benchmark.io_utils import read_json, write_json
 from geo_benchmark.scoring import aggregate_slice, score_answer
-from geo_benchmark.reports import fmt, format_cost
+from geo_benchmark.reports import comparison_win_rate_text, fmt, format_cost
 
 
 class ReportingCostScopeTests(unittest.TestCase):
+    def test_comparison_rate_prints_denominator_and_low_sample_flag(self):
+        self.assertEqual(
+            comparison_win_rate_text({"target_win_rate": 50, "valid_comparison_answers": 4}),
+            "50.00% (n = 4) — low sample",
+        )
+        self.assertEqual(
+            comparison_win_rate_text({"target_win_rate": 45.45, "valid_comparison_answers": 11}),
+            "45.45% (n = 11)",
+        )
+
+    def test_cost_history_carries_forward_from_latest_prior_month(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_json(
+                root / "reports/2026-08/cost_summary.json",
+                {
+                    "providers": [
+                        {
+                            "provider": "gemini",
+                            "requests": 2,
+                            "output_tokens": 900,
+                            "web_search_requests": 3,
+                        }
+                    ]
+                },
+            )
+            history = load_previous_cost_summary(root, "2026-09")
+        self.assertEqual(history["providers"][0]["provider"], "gemini")
+        self.assertEqual(history["providers"][0]["web_search_requests"], 3)
+
     def test_filtered_run_and_estimate_use_same_selected_prompts_without_network(self):
         with tempfile.TemporaryDirectory() as tmp, contextlib.redirect_stdout(io.StringIO()), patch(
             'socket.socket', side_effect=AssertionError('Network forbidden')

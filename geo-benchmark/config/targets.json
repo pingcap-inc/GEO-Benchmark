@@ -6,5 +6,6 @@
     "Supabase",
     "PlanetScale",
     "Neon"
-  ]
+  ],
+  "minimum_non_branded_prompts_per_cluster": 3
 }

@@ -39,6 +39,8 @@ from geo_benchmark.scoring import (
     aggregate_scores,
     aggregate_slice,
     comparison_products,
+    competitive_breakdown,
+    competitive_result,
     competitive_winner,
     is_product_related_url,
     product_in_prompt,
@@ -166,6 +168,28 @@ class GeoBenchmarkTests(unittest.TestCase):
 
         self.assertTrue(scored["citation_presence"])
         self.assertGreater(scored["citation_authority_answer"], 0)
+
+    def test_product_related_url_uses_path_aware_ownership(self):
+        self.assertTrue(is_product_related_url("TiDB", "https://github.com/pingcap/tidb"))
+        self.assertTrue(
+            is_product_related_url("TiDB", "https://github.com/pingcap-inc/docs")
+        )
+        self.assertTrue(
+            is_product_related_url("TiDB", "https://github.com/tidbcloud/example")
+        )
+        self.assertTrue(is_product_related_url("TiDB", "https://zero.tidbcloud.com/"))
+        self.assertTrue(
+            is_product_related_url("TiDB", "https://tidbcloudzerobrowser.vercel.app/")
+        )
+        self.assertFalse(
+            is_product_related_url("TiDB", "https://github.com/pgvector/pgvector")
+        )
+        self.assertFalse(
+            is_product_related_url("TiDB", "https://github.com/unrelated/pingcap-notes")
+        )
+        self.assertTrue(
+            is_product_related_url("Neon", "https://github.com/neondatabase/db-per-tenant")
+        )
 
     def test_score_answers_supports_multiple_targets(self):
         prompts = [
@@ -535,6 +559,13 @@ class GeoBenchmarkTests(unittest.TestCase):
             ),
             "Weaviate",
         )
+        self.assertEqual(
+            competitive_winner(
+                "Choose TiDB for this workload; do not choose Weaviate.",
+                prompt,
+            ),
+            "TiDB",
+        )
 
     def test_comparison_winner_returns_none_for_split_recommendation(self):
         prompt = {
@@ -549,8 +580,62 @@ class GeoBenchmarkTests(unittest.TestCase):
                 prompt,
             )
         )
+        winner, outcome, _ = competitive_result(
+            "Choose TiDB for write scale. Choose Aurora for AWS-native read scale.",
+            prompt,
+        )
+        self.assertIsNone(winner)
+        self.assertEqual(outcome, "conditional")
 
-    def test_comparison_winner_requires_two_named_products(self):
+    def test_comparison_repeated_choice_of_same_product_is_winner(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_text": "TiDB vs CockroachDB for OLTP.",
+        }
+        winner, outcome, _ = competitive_result(
+            "Final recommendation: Choose TiDB for OLTP. "
+            "Stick with TiDB as write volume grows.",
+            prompt,
+        )
+        self.assertEqual(winner, "TiDB")
+        self.assertEqual(outcome, "winner")
+
+    def test_comparison_records_untracked_product_winner(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_text": "TiDB versus traditional databases for this workload.",
+        }
+        winner, outcome, _ = competitive_result(
+            "Final recommendation: Choose MySQL.", prompt
+        )
+        self.assertEqual(winner, "MySQL")
+        self.assertEqual(outcome, "winner")
+
+    def test_comparison_detects_ranked_untracked_winner(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_text": "TiDB vs MySQL for high concurrency.",
+        }
+        answer = """### Ranked Shortlist Recommendation
+1. MySQL: best overall fit for this workload.
+2. TiDB: strong alternative for larger scale.
+"""
+        winner, outcome, _ = competitive_result(answer, prompt)
+        self.assertEqual(winner, "MySQL")
+        self.assertEqual(outcome, "winner")
+
+    def test_comparison_uses_no_clear_winner_outcome(self):
+        prompt = {
+            "group": "comparison",
+            "prompt_text": "TiDB vs CockroachDB for distributed SQL.",
+        }
+        winner, outcome, _ = competitive_result(
+            "TiDB uses MySQL syntax. CockroachDB uses PostgreSQL syntax.", prompt
+        )
+        self.assertIsNone(winner)
+        self.assertEqual(outcome, "no_clear_winner")
+
+    def test_comparison_winner_handles_named_product_against_generic_category(self):
         prompt = {
             "group": "comparison",
             "prompt_type": "AI Agent Infrastructure",
@@ -558,7 +643,7 @@ class GeoBenchmarkTests(unittest.TestCase):
         }
 
         self.assertEqual(comparison_products(prompt), ["TiDB"])
-        self.assertIsNone(competitive_winner("I recommend mem9 for this workload.", prompt))
+        self.assertEqual(competitive_winner("I recommend mem9 for this workload.", prompt), "TiDB")
 
     def test_mock_provider_uses_september_comparison_group(self):
         prompt = {
@@ -612,6 +697,30 @@ class GeoBenchmarkTests(unittest.TestCase):
             summary["targets"]["TiDB"]["competitive"]["winner_counts"],
             {"TiDB": 1, "Weaviate": 1},
         )
+
+    def test_conditional_comparisons_are_reported_but_excluded_from_win_rate(self):
+        rows = [
+            {
+                "target": "TiDB",
+                "group": "comparison",
+                "target_in_prompt": True,
+                "comparison_eligible": True,
+                "competitive_winner": "TiDB",
+                "comparison_outcome": "winner",
+            },
+            {
+                "target": "TiDB",
+                "group": "comparison",
+                "target_in_prompt": True,
+                "comparison_eligible": True,
+                "competitive_winner": None,
+                "comparison_outcome": "conditional",
+            },
+        ]
+        result = competitive_breakdown(rows)
+        self.assertEqual(result["valid_comparison_answers"], 1)
+        self.assertEqual(result["conditional_answers"], 1)
+        self.assertEqual(result["target_win_rate"], 100.0)
 
     def test_tidb_family_aliases_match(self):
         for alias in ["PyTiDB", "TiKV", "TiFlash", "mem9", "TiDB Cloud Filesystem"]:
@@ -674,6 +783,40 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertEqual(estimate["providers"][0]["web_search_requests"], 30)
         self.assertEqual(estimate["providers"][0]["web_search_fee"], 0.014)
         self.assertGreater(estimate["providers"][0]["estimated_cost_usd"], 0.42)
+
+    def test_gemini_plan_uses_previous_observed_search_and_output_averages(self):
+        history = {
+            "providers": [
+                {
+                    "provider": "gemini",
+                    "model": "gemini-3.5-flash-lite",
+                    "requests": 219,
+                    "output_tokens": 99571,
+                    "web_search_requests": 334,
+                }
+            ]
+        }
+        prompts = [{"prompt_text": "database recommendation"} for _ in range(219)]
+        estimate = estimate_planned_cost(
+            prompts,
+            ["gemini"],
+            1,
+            DEFAULT_MODELS,
+            DEFAULT_PRICING,
+            None,
+            "on",
+            history,
+        )
+        row = estimate["providers"][0]
+        self.assertEqual(row["assumed_output_tokens_source"], "previous cost_summary.json")
+        self.assertEqual(row["searches_per_answer_source"], "previous cost_summary.json")
+        self.assertAlmostEqual(row["web_search_requests"], 334)
+        self.assertLess(abs(estimate["total_estimated_cost_usd"] - 4.9306) / 4.9306, 0.10)
+        self.assertAlmostEqual(
+            row["estimated_cost_usd"],
+            row["token_cost_usd"] + row["request_cost_usd"] + row["web_search_cost_usd"],
+            places=3,
+        )
 
     def test_actual_cost_matches_versioned_model_name(self):
         raw = [
