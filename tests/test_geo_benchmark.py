@@ -21,6 +21,7 @@ from geo_benchmark.cli import (
 )
 from geo_benchmark.costs import estimate_actual_cost, estimate_planned_cost
 from geo_benchmark.defaults import DEFAULT_MODELS, DEFAULT_PRICING, DEFAULT_TARGETS
+from geo_benchmark.scoring import PRODUCT_ALIASES
 from geo_benchmark.io_utils import read_json, read_jsonl, stable_hash, write_json, write_jsonl
 from geo_benchmark.providers import (
     AnthropicProvider,
@@ -1310,10 +1311,15 @@ class GeoBenchmarkTests(unittest.TestCase):
         self.assertTrue(any("serverless_ai prompt_text contains banned term 'pgvector'" in error for error in errors))
 
     def test_default_targets_include_competitive_set(self):
-        self.assertEqual(
-            DEFAULT_TARGETS["targets"],
-            ["TiDB", "CockroachDB", "YugabyteDB", "Supabase", "PlanetScale", "Neon"],
-        )
+        self.assertEqual(DEFAULT_TARGETS["targets"][0], "TiDB")
+        self.assertEqual(set(DEFAULT_TARGETS["targets"]), set(PRODUCT_ALIASES))
+        self.assertEqual(len(DEFAULT_TARGETS["targets"]), len(set(DEFAULT_TARGETS["targets"])))
+        for directory in (
+            "geo-benchmark", "geo-benchmark-openai", "geo-benchmark-gemini",
+            "geo-benchmark-websearch-on",
+        ):
+            path = Path(__file__).resolve().parents[1] / directory / "config/targets.json"
+            self.assertEqual(read_json(path)["targets"], DEFAULT_TARGETS["targets"])
 
     def test_ai_infra_prompts_cover_backend_serverless_and_operational_subtypes(self):
         prompts = generate_seed_prompts("2026-08", total=120, update_ratio=0.3)

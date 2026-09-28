@@ -20,6 +20,7 @@ from geo_benchmark.fact_judge import (
     validate_fact_coverage,
 )
 from geo_benchmark.cli import main, prepare, collect, score_and_report, fact_judge_cost
+from geo_benchmark.defaults import DEFAULT_TARGETS
 from geo_benchmark.scoring import score_answer
 from geo_benchmark.reports import branded_accuracy_table
 from geo_benchmark.scoring import brand_metrics
@@ -227,7 +228,7 @@ class SemanticFactJudgeTests(unittest.TestCase):
         ):
             collect(root, "2026-09", ["mock"], 1, 0, False)
             scored, summary, cost = score_and_report(root, "2026-09", judge_settings=JudgeSettings(mode="mock"))
-        self.assertEqual(len(scored), prompt_count * 6)
+        self.assertEqual(len(scored), prompt_count * len(DEFAULT_TARGETS["targets"]))
         self.assertTrue(any(row.get("semantic_checked_facts", 0) for row in scored))
         report = (root / "reports/2026-09/llm-report.md").read_text()
         self.assertIn("Semantic accuracy", report)

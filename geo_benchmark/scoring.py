@@ -68,7 +68,7 @@ PRODUCT_ALIASES = {
     "Snowflake": ["snowflake"],
     "Databricks": ["databricks"],
 
-    # --- Incumbents: report separately, not in the competitor cohort ------
+    # --- Incumbents -----------------------------------------------------
     "MySQL": ["mysql", "my sql"],
     "PostgreSQL": ["postgresql", "postgres", "pgsql"],
 }
@@ -133,7 +133,7 @@ PRODUCT_URL_MARKERS = {
     "Snowflake": ["docs.snowflake.com", "snowflake.com"],
     "Databricks": ["docs.databricks.com", "databricks.com"],
 
-    # --- Incumbents: report separately, not in the competitor cohort ----
+    # --- Incumbents -----------------------------------------------------
     "MySQL": ["dev.mysql.com", "mysql.com"],
     "PostgreSQL": ["postgresql.org"],
 }
