@@ -26,12 +26,26 @@ python scripts/rescore-saved-answers.py --month 2026-09
 ```
 
 The script checks for successful raw answers from all three providers before
-writing any reports. Use repeatable `--data-dir DIR` arguments when runs are
+writing any reports. It then creates one uploadable ZIP at
+`reports/2026-09/geo-benchmark-reports-2026-09.zip`, with an index, manifest,
+full provider reports, competitor breakdowns, and saved raw answers. Use
+repeatable `--data-dir DIR` arguments when runs are
 stored elsewhere. Existing `scored_answers.jsonl` and CSV files do not contain
 the full answer text and cannot reconstruct scores for new targets. The
 historical six-target reports committed to this repository are therefore
 unchanged until their raw answers are restored. The `score` command also
 rescores a single run directory offline, with `--web-search on` where needed.
+
+To package already generated ChatGPT, Claude, and Gemini reports without
+rescoring:
+
+```bash
+python scripts/package-reports.py --month 2026-09
+```
+
+The packager requires reports for all three providers with the same target
+set, so it cannot silently bundle mismatched competitor cohorts. Use
+`--allow-partial` only when you intentionally want an incomplete archive.
 
 ### Human review reports
 

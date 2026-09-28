@@ -10,3 +10,6 @@ __pycache__/
 # Prompt research can contain internal query text and paid API response caches.
 */prompt-research/*/internal_signals.csv
 */reports/*/prompt-research/
+
+# Generated report bundles can be large and contain complete model responses.
+reports/*/*.zip

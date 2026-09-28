@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from geo_benchmark.cli import score_and_report
 from geo_benchmark.io_utils import read_jsonl
+from geo_benchmark.report_bundle import DEFAULT_RUN_DIRS, create_report_bundle
 
 
 def main() -> int:
@@ -22,11 +23,9 @@ def main() -> int:
     parser.add_argument("--data-dir", action="append", dest="data_dirs",
                         help="Repeat for each saved run directory; defaults to the four canonical directories")
     parser.add_argument("--require-providers", default="openai,anthropic,gemini")
+    parser.add_argument("--output", type=Path, help="Destination for the combined report ZIP")
     args = parser.parse_args()
-    roots = [Path(name) for name in (args.data_dirs or [
-        "geo-benchmark", "geo-benchmark-openai", "geo-benchmark-gemini",
-        "geo-benchmark-websearch-on",
-    ])]
+    roots = [Path(name) for name in (args.data_dirs or DEFAULT_RUN_DIRS)]
     required = set(args.require_providers.split(",")) - {""}
     plan = []
     found = set()
@@ -53,6 +52,9 @@ def main() -> int:
         print(f"Scoring {root}: {count} saved answers, {mode=}, providers={sorted(providers)}", flush=True)
         scored, _, _ = score_and_report(root, args.month, web_search_mode=mode)
         print(f"Wrote {len(scored)} target-answer rows to {root / 'reports' / args.month}", flush=True)
+    output = args.output or Path("reports") / args.month / f"geo-benchmark-reports-{args.month}.zip"
+    create_report_bundle(args.month, [root for root, *_ in plan], output, required)
+    print(f"Combined report ZIP: {output}")
     return 0
 
 
