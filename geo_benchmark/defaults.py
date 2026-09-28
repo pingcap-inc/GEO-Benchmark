@@ -55,7 +55,15 @@ DEFAULT_MODELS = {
 
 
 DEFAULT_TARGETS = {
-    "targets": ["TiDB", "CockroachDB", "YugabyteDB", "Supabase", "PlanetScale", "Neon"],
+    "targets": [
+        "TiDB", "CockroachDB", "YugabyteDB", "Spanner", "AlloyDB", "OceanBase",
+        "SingleStore", "AuroraDSQL", "Aurora", "RDS", "MariaDB", "Percona",
+        "Vitess", "PlanetScale", "Supabase", "Neon", "Pinecone", "Weaviate",
+        "Qdrant", "Milvus", "Chroma", "Vespa", "pgvector", "Redis",
+        "Elasticsearch", "OpenSearch", "ClickHouse", "Druid", "Pinot",
+        "TimescaleDB", "StarRocks", "MongoDB", "Snowflake", "Databricks",
+        "MySQL", "PostgreSQL",
+    ],
     "minimum_non_branded_prompts_per_cluster": 3,
 }
 

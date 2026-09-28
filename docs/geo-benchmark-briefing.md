@@ -2,7 +2,7 @@
 
 Status: working benchmark suite  
 Primary use: monthly GEO measurement for database buying scenarios  
-Current target set: TiDB, CockroachDB, YugabyteDB, Supabase, PlanetScale, Neon
+Current target set: TiDB plus 35 recognized database, search, vector, and data-platform alternatives. See `geo-benchmark/config/targets.json` for the exact cohort. Historical reports retain their previous six-target scope until rescored from saved raw answers.
 
 ## What It Is
 
