@@ -7,23 +7,29 @@ on:
   issue_comment:
     types: [created]
 
-# Keep only the latest run per PR. Comments without `/review` get their own
-# group so an ordinary PR comment can't cancel a review that's in progress.
+# Keep only the latest run per PR. Comments that won't trigger a review (no
+# leading `/review`, or not from a trusted author) get their own group so they
+# can't cancel a review that's in progress.
 concurrency:
   group: >-
     claude-review-${{ github.event.pull_request.number || github.event.issue.number }}${{
-    github.event_name == 'issue_comment' && !contains(github.event.comment.body, '/review')
+    github.event_name == 'issue_comment' && !(startsWith(github.event.comment.body, '/review')
+    && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     && format('-comment-{0}', github.event.comment.id) || '' }}
   cancel-in-progress: true
 
 jobs:
   review:
-    # Run on PR events, or on a PR comment that contains "/review".
+    # Run on same-repo PR events, or on a "/review" PR comment from a trusted
+    # author. issue_comment runs with repo secrets, so anyone outside the repo
+    # (or a fork PR's code) must never reach this job.
     if: >
-      github.event_name == 'pull_request' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.head.repo.full_name == github.repository) ||
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
-       contains(github.event.comment.body, '/review'))
+       startsWith(github.event.comment.body, '/review') &&
+       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,20 +43,35 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      # For comment-triggered runs the checkout lands on the default branch,
-      # so switch to the PR head to review the actual proposed code.
-      - name: Checkout PR head (comment trigger)
-        if: github.event_name == 'issue_comment'
-        run: gh pr checkout "$PR"
+          # Don't leave GITHUB_TOKEN in .git/config for PR code to read.
+          persist-credentials: false
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
+      # Install before switching to PR code, from outside the checkout, so a
+      # PR-supplied .npmrc / package.json can't influence the install.
       - name: Install Claude Code CLI
+        working-directory: ${{ runner.temp }}
         run: npm install -g @anthropic-ai/claude-code
+
+      # For comment-triggered runs the checkout lands on the default branch,
+      # so switch to the PR head to review the actual proposed code.
+      - name: Checkout PR head (comment trigger)
+        if: github.event_name == 'issue_comment'
+        # Pass the token to this one fetch only, so it isn't persisted on disk.
+        run: |
+          AUTH="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $AUTH" \
+            fetch origin "pull/$PR/head"
+          git checkout --detach FETCH_HEAD
+
+      # The checked-out tree is untrusted: drop anything Claude Code would load
+      # as config (hooks can run arbitrary commands with the secrets in env).
+      - name: Remove PR-supplied agent config
+        run: rm -rf .claude .mcp.json CLAUDE.md CLAUDE.local.md
 
       - name: Run Claude review
         env:
@@ -128,6 +149,8 @@ jobs:
 
           set +e
           claude -p "$PROMPT" \
+            --setting-sources user \
+            --strict-mcp-config \
             --model claude-sonnet-5 \
             --allowedTools "Read,Grep,Glob" \
             --max-turns 60 \
