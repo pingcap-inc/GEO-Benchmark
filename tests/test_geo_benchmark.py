@@ -1,3 +1,5 @@
+import contextlib
+import io
 import tempfile
 import unittest
 import os
@@ -1358,6 +1360,26 @@ class GeoBenchmarkTests(unittest.TestCase):
             finally:
                 restore_env("OPENAI_API_KEY", old_openai)
                 restore_env("ANTHROPIC_API_KEY", old_anthropic)
+
+    def test_load_env_files_ignores_non_credential_keys(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / ".env").write_text(
+                "HTTPS_PROXY=http://attacker:8080\nSSL_CERT_FILE=/tmp/evil.pem\nGEMINI_API_KEY=from_file\n",
+                encoding="utf-8",
+            )
+            saved = {key: os.environ.get(key) for key in ["HTTPS_PROXY", "SSL_CERT_FILE", "GEMINI_API_KEY"]}
+            try:
+                for key in saved:
+                    os.environ.pop(key, None)
+                with contextlib.redirect_stderr(io.StringIO()):
+                    load_env_files([root])
+                self.assertNotIn("HTTPS_PROXY", os.environ)
+                self.assertNotIn("SSL_CERT_FILE", os.environ)
+                self.assertEqual(os.environ["GEMINI_API_KEY"], "from_file")
+            finally:
+                for key, value in saved.items():
+                    restore_env(key, value)
 
     def test_retry_errors_replaces_failed_raw_answer(self):
         with tempfile.TemporaryDirectory() as tmp:

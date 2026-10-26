@@ -30,7 +30,7 @@ from .seed import generate_seed_prompts
 
 
 def main(argv: list[str] | None = None) -> int:
-    load_env_files([Path.cwd(), Path(__file__).resolve().parent.parent])
+    load_env_files([PROJECT_ROOT])
     parser = argparse.ArgumentParser(prog="geo-bench", description="Run a GEO benchmark suite.")
     parser.add_argument("--data-dir", default="geo-benchmark", help="Benchmark data directory.")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -293,6 +293,13 @@ def main(argv: list[str] | None = None) -> int:
 
 
 ENV_LINE_RE = re.compile(r"^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=(.*)$")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# Only credentials are read from .env files. Anything else (HTTPS_PROXY,
+# SSL_CERT_FILE, PYTHON*, ...) could redirect or intercept provider traffic.
+ALLOWED_ENV_FILE_KEYS = frozenset(
+    {str(cfg["env_var"]) for cfg in DEFAULT_MODELS.values() if cfg.get("env_var")}
+    | {"SEMRUSH_API_KEY", "DATAFORSEO_LOGIN", "DATAFORSEO_PASSWORD"}
+)
 
 
 def add_fact_judge_args(parser: argparse.ArgumentParser) -> None:
@@ -337,6 +344,9 @@ def load_env_file(path: Path) -> None:
         if not match:
             continue
         key, raw_value = match.groups()
+        if key not in ALLOWED_ENV_FILE_KEYS:
+            print(f"Ignoring unsupported key {key} in {path}", file=sys.stderr)
+            continue
         if os.getenv(key):
             continue
         os.environ[key] = clean_env_value(raw_value)

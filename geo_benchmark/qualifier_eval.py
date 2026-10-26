@@ -6,7 +6,7 @@ import json
 import os
 from pathlib import Path
 
-from .cli import load_env_files
+from .cli import PROJECT_ROOT, load_env_files
 from .fact_judge import JudgeSettings, SemanticFactJudge
 from .io_utils import stable_hash
 
@@ -39,7 +39,7 @@ def main(argv=None):
     if not args.live:
         print(json.dumps({"mode": "preview", "api_calls": 0, "cases": CASES}, indent=2))
         return 0
-    load_env_files([Path.cwd(), Path(__file__).resolve().parents[1]])
+    load_env_files([PROJECT_ROOT])
     if not os.getenv("OPENAI_API_KEY"):
         parser.error("Set OPENAI_API_KEY in .env.local before using --live.")
     judge = SemanticFactJudge(Path(args.data_dir), "2026-09", JudgeSettings(mode="live", retries=0))
