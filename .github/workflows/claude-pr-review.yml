@@ -23,6 +23,11 @@ jobs:
     # Run on same-repo PR events, or on a "/review" PR comment from a trusted
     # author. issue_comment runs with repo secrets, so anyone outside the repo
     # (or a fork PR's code) must never reach this job.
+    #
+    # The issue_comment event payload carries no PR head-repo info, so the
+    # same-repo check cannot live in this `if:` for the comment path; the
+    # "Reject fork PRs" step below enforces it at runtime, before any PR code
+    # is fetched.
     if: >
       (github.event_name == 'pull_request' &&
        github.event.pull_request.head.repo.full_name == github.repository) ||
@@ -40,6 +45,25 @@ jobs:
     env:
       PR: ${{ github.event.pull_request.number || github.event.issue.number }}
     steps:
+      # issue_comment events don't expose the PR's head repo, so the job gate
+      # above can't tell a same-repo PR from a fork. This job holds secrets and
+      # later checks out pull/<n>/head, so verify the PR is NOT from a fork
+      # before any PR-authored code is fetched. For pull_request events the
+      # job gate already restricts to same-repo, so this step is a no-op there.
+      - name: Reject fork PRs on comment trigger
+        if: github.event_name == 'issue_comment'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          HEAD_REPO="$(gh pr view "$PR" --repo "$GITHUB_REPOSITORY" \
+            --json headRepositoryOwner,headRepository \
+            --jq '"\(.headRepositoryOwner.login)/\(.headRepository.name)"')"
+          echo "PR #$PR head repo: $HEAD_REPO (base: $GITHUB_REPOSITORY)"
+          if [ "$HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+            echo "::error::/review is disabled for fork PRs ($HEAD_REPO != $GITHUB_REPOSITORY); fork code must not run in this secret-bearing job"
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
