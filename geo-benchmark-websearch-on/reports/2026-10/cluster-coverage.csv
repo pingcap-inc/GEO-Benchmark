@@ -1,0 +1,361 @@
+target,cluster,prompt_count,non_branded_prompt_count,branded_prompt_count,minimum_non_branded_prompts,below_minimum
+CockroachDB,AI Agent Infrastructure,48,48,0,3,False
+CockroachDB,Competitive Comparisons,32,30,2,3,False
+CockroachDB,Deployment & Cloud,20,20,0,3,False
+CockroachDB,Enterprise & Compliance,4,4,0,3,False
+CockroachDB,Hybrid Search & RAG,39,39,0,3,False
+CockroachDB,MCP & Developer Tooling,10,10,0,3,False
+CockroachDB,MySQL Scale & Migration,13,13,0,3,False
+CockroachDB,Observability,4,4,0,3,False
+CockroachDB,Scale & Architecture,18,18,0,3,False
+CockroachDB,TiDB Brand & Definitions,31,31,0,3,False
+TiDB,AI Agent Infrastructure,48,38,10,3,False
+TiDB,Competitive Comparisons,32,1,31,3,True
+TiDB,Deployment & Cloud,20,0,20,3,True
+TiDB,Enterprise & Compliance,4,2,2,3,True
+TiDB,Hybrid Search & RAG,39,16,23,3,False
+TiDB,MCP & Developer Tooling,10,4,6,3,False
+TiDB,MySQL Scale & Migration,13,11,2,3,False
+TiDB,Observability,4,0,4,3,True
+TiDB,Scale & Architecture,18,9,9,3,False
+TiDB,TiDB Brand & Definitions,31,0,31,3,True
+YugabyteDB,AI Agent Infrastructure,48,48,0,3,False
+YugabyteDB,Competitive Comparisons,32,31,1,3,False
+YugabyteDB,Deployment & Cloud,20,20,0,3,False
+YugabyteDB,Enterprise & Compliance,4,4,0,3,False
+YugabyteDB,Hybrid Search & RAG,39,39,0,3,False
+YugabyteDB,MCP & Developer Tooling,10,10,0,3,False
+YugabyteDB,MySQL Scale & Migration,13,13,0,3,False
+YugabyteDB,Observability,4,4,0,3,False
+YugabyteDB,Scale & Architecture,18,18,0,3,False
+YugabyteDB,TiDB Brand & Definitions,31,31,0,3,False
+Neon,AI Agent Infrastructure,48,48,0,3,False
+Neon,Competitive Comparisons,32,28,4,3,False
+Neon,Deployment & Cloud,20,19,1,3,False
+Neon,Enterprise & Compliance,4,4,0,3,False
+Neon,Hybrid Search & RAG,39,39,0,3,False
+Neon,MCP & Developer Tooling,10,10,0,3,False
+Neon,MySQL Scale & Migration,13,13,0,3,False
+Neon,Observability,4,4,0,3,False
+Neon,Scale & Architecture,18,18,0,3,False
+Neon,TiDB Brand & Definitions,31,31,0,3,False
+Supabase,AI Agent Infrastructure,48,48,0,3,False
+Supabase,Competitive Comparisons,32,30,2,3,False
+Supabase,Deployment & Cloud,20,19,1,3,False
+Supabase,Enterprise & Compliance,4,4,0,3,False
+Supabase,Hybrid Search & RAG,39,39,0,3,False
+Supabase,MCP & Developer Tooling,10,10,0,3,False
+Supabase,MySQL Scale & Migration,13,13,0,3,False
+Supabase,Observability,4,4,0,3,False
+Supabase,Scale & Architecture,18,18,0,3,False
+Supabase,TiDB Brand & Definitions,31,31,0,3,False
+PlanetScale,AI Agent Infrastructure,48,48,0,3,False
+PlanetScale,Competitive Comparisons,32,30,2,3,False
+PlanetScale,Deployment & Cloud,20,19,1,3,False
+PlanetScale,Enterprise & Compliance,4,4,0,3,False
+PlanetScale,Hybrid Search & RAG,39,39,0,3,False
+PlanetScale,MCP & Developer Tooling,10,10,0,3,False
+PlanetScale,MySQL Scale & Migration,13,13,0,3,False
+PlanetScale,Observability,4,4,0,3,False
+PlanetScale,Scale & Architecture,18,18,0,3,False
+PlanetScale,TiDB Brand & Definitions,31,31,0,3,False
+AlloyDB,AI Agent Infrastructure,48,48,0,3,False
+AlloyDB,Competitive Comparisons,32,32,0,3,False
+AlloyDB,Deployment & Cloud,20,20,0,3,False
+AlloyDB,Enterprise & Compliance,4,4,0,3,False
+AlloyDB,Hybrid Search & RAG,39,39,0,3,False
+AlloyDB,MCP & Developer Tooling,10,10,0,3,False
+AlloyDB,MySQL Scale & Migration,13,13,0,3,False
+AlloyDB,Observability,4,4,0,3,False
+AlloyDB,Scale & Architecture,18,18,0,3,False
+AlloyDB,TiDB Brand & Definitions,31,31,0,3,False
+Aurora,AI Agent Infrastructure,48,48,0,3,False
+Aurora,Competitive Comparisons,32,30,2,3,False
+Aurora,Deployment & Cloud,20,20,0,3,False
+Aurora,Enterprise & Compliance,4,4,0,3,False
+Aurora,Hybrid Search & RAG,39,39,0,3,False
+Aurora,MCP & Developer Tooling,10,10,0,3,False
+Aurora,MySQL Scale & Migration,13,13,0,3,False
+Aurora,Observability,4,4,0,3,False
+Aurora,Scale & Architecture,18,18,0,3,False
+Aurora,TiDB Brand & Definitions,31,31,0,3,False
+AuroraDSQL,AI Agent Infrastructure,48,48,0,3,False
+AuroraDSQL,Competitive Comparisons,32,32,0,3,False
+AuroraDSQL,Deployment & Cloud,20,20,0,3,False
+AuroraDSQL,Enterprise & Compliance,4,4,0,3,False
+AuroraDSQL,Hybrid Search & RAG,39,39,0,3,False
+AuroraDSQL,MCP & Developer Tooling,10,10,0,3,False
+AuroraDSQL,MySQL Scale & Migration,13,13,0,3,False
+AuroraDSQL,Observability,4,4,0,3,False
+AuroraDSQL,Scale & Architecture,18,18,0,3,False
+AuroraDSQL,TiDB Brand & Definitions,31,31,0,3,False
+Chroma,AI Agent Infrastructure,48,48,0,3,False
+Chroma,Competitive Comparisons,32,31,1,3,False
+Chroma,Deployment & Cloud,20,20,0,3,False
+Chroma,Enterprise & Compliance,4,4,0,3,False
+Chroma,Hybrid Search & RAG,39,39,0,3,False
+Chroma,MCP & Developer Tooling,10,10,0,3,False
+Chroma,MySQL Scale & Migration,13,13,0,3,False
+Chroma,Observability,4,4,0,3,False
+Chroma,Scale & Architecture,18,18,0,3,False
+Chroma,TiDB Brand & Definitions,31,31,0,3,False
+ClickHouse,AI Agent Infrastructure,48,48,0,3,False
+ClickHouse,Competitive Comparisons,32,32,0,3,False
+ClickHouse,Deployment & Cloud,20,20,0,3,False
+ClickHouse,Enterprise & Compliance,4,4,0,3,False
+ClickHouse,Hybrid Search & RAG,39,39,0,3,False
+ClickHouse,MCP & Developer Tooling,10,10,0,3,False
+ClickHouse,MySQL Scale & Migration,13,13,0,3,False
+ClickHouse,Observability,4,4,0,3,False
+ClickHouse,Scale & Architecture,18,18,0,3,False
+ClickHouse,TiDB Brand & Definitions,31,31,0,3,False
+Databricks,AI Agent Infrastructure,48,48,0,3,False
+Databricks,Competitive Comparisons,32,31,1,3,False
+Databricks,Deployment & Cloud,20,20,0,3,False
+Databricks,Enterprise & Compliance,4,4,0,3,False
+Databricks,Hybrid Search & RAG,39,39,0,3,False
+Databricks,MCP & Developer Tooling,10,10,0,3,False
+Databricks,MySQL Scale & Migration,13,13,0,3,False
+Databricks,Observability,4,4,0,3,False
+Databricks,Scale & Architecture,18,18,0,3,False
+Databricks,TiDB Brand & Definitions,31,31,0,3,False
+Druid,AI Agent Infrastructure,48,48,0,3,False
+Druid,Competitive Comparisons,32,32,0,3,False
+Druid,Deployment & Cloud,20,20,0,3,False
+Druid,Enterprise & Compliance,4,4,0,3,False
+Druid,Hybrid Search & RAG,39,39,0,3,False
+Druid,MCP & Developer Tooling,10,10,0,3,False
+Druid,MySQL Scale & Migration,13,13,0,3,False
+Druid,Observability,4,4,0,3,False
+Druid,Scale & Architecture,18,18,0,3,False
+Druid,TiDB Brand & Definitions,31,31,0,3,False
+Elasticsearch,AI Agent Infrastructure,48,48,0,3,False
+Elasticsearch,Competitive Comparisons,32,32,0,3,False
+Elasticsearch,Deployment & Cloud,20,20,0,3,False
+Elasticsearch,Enterprise & Compliance,4,4,0,3,False
+Elasticsearch,Hybrid Search & RAG,39,38,1,3,False
+Elasticsearch,MCP & Developer Tooling,10,10,0,3,False
+Elasticsearch,MySQL Scale & Migration,13,13,0,3,False
+Elasticsearch,Observability,4,4,0,3,False
+Elasticsearch,Scale & Architecture,18,18,0,3,False
+Elasticsearch,TiDB Brand & Definitions,31,31,0,3,False
+MariaDB,AI Agent Infrastructure,48,48,0,3,False
+MariaDB,Competitive Comparisons,32,32,0,3,False
+MariaDB,Deployment & Cloud,20,20,0,3,False
+MariaDB,Enterprise & Compliance,4,4,0,3,False
+MariaDB,Hybrid Search & RAG,39,39,0,3,False
+MariaDB,MCP & Developer Tooling,10,10,0,3,False
+MariaDB,MySQL Scale & Migration,13,13,0,3,False
+MariaDB,Observability,4,4,0,3,False
+MariaDB,Scale & Architecture,18,18,0,3,False
+MariaDB,TiDB Brand & Definitions,31,31,0,3,False
+Milvus,AI Agent Infrastructure,48,48,0,3,False
+Milvus,Competitive Comparisons,32,30,2,3,False
+Milvus,Deployment & Cloud,20,20,0,3,False
+Milvus,Enterprise & Compliance,4,4,0,3,False
+Milvus,Hybrid Search & RAG,39,38,1,3,False
+Milvus,MCP & Developer Tooling,10,10,0,3,False
+Milvus,MySQL Scale & Migration,13,13,0,3,False
+Milvus,Observability,4,4,0,3,False
+Milvus,Scale & Architecture,18,18,0,3,False
+Milvus,TiDB Brand & Definitions,31,31,0,3,False
+MongoDB,AI Agent Infrastructure,48,48,0,3,False
+MongoDB,Competitive Comparisons,32,31,1,3,False
+MongoDB,Deployment & Cloud,20,20,0,3,False
+MongoDB,Enterprise & Compliance,4,4,0,3,False
+MongoDB,Hybrid Search & RAG,39,37,2,3,False
+MongoDB,MCP & Developer Tooling,10,10,0,3,False
+MongoDB,MySQL Scale & Migration,13,13,0,3,False
+MongoDB,Observability,4,4,0,3,False
+MongoDB,Scale & Architecture,18,18,0,3,False
+MongoDB,TiDB Brand & Definitions,31,31,0,3,False
+MySQL,AI Agent Infrastructure,48,48,0,3,False
+MySQL,Competitive Comparisons,32,25,7,3,False
+MySQL,Deployment & Cloud,20,18,2,3,False
+MySQL,Enterprise & Compliance,4,4,0,3,False
+MySQL,Hybrid Search & RAG,39,37,2,3,False
+MySQL,MCP & Developer Tooling,10,9,1,3,False
+MySQL,MySQL Scale & Migration,13,2,11,3,True
+MySQL,Observability,4,4,0,3,False
+MySQL,Scale & Architecture,18,16,2,3,False
+MySQL,TiDB Brand & Definitions,31,31,0,3,False
+OceanBase,AI Agent Infrastructure,48,48,0,3,False
+OceanBase,Competitive Comparisons,32,32,0,3,False
+OceanBase,Deployment & Cloud,20,20,0,3,False
+OceanBase,Enterprise & Compliance,4,4,0,3,False
+OceanBase,Hybrid Search & RAG,39,39,0,3,False
+OceanBase,MCP & Developer Tooling,10,10,0,3,False
+OceanBase,MySQL Scale & Migration,13,13,0,3,False
+OceanBase,Observability,4,4,0,3,False
+OceanBase,Scale & Architecture,18,18,0,3,False
+OceanBase,TiDB Brand & Definitions,31,31,0,3,False
+OpenSearch,AI Agent Infrastructure,48,48,0,3,False
+OpenSearch,Competitive Comparisons,32,32,0,3,False
+OpenSearch,Deployment & Cloud,20,20,0,3,False
+OpenSearch,Enterprise & Compliance,4,4,0,3,False
+OpenSearch,Hybrid Search & RAG,39,38,1,3,False
+OpenSearch,MCP & Developer Tooling,10,10,0,3,False
+OpenSearch,MySQL Scale & Migration,13,13,0,3,False
+OpenSearch,Observability,4,4,0,3,False
+OpenSearch,Scale & Architecture,18,18,0,3,False
+OpenSearch,TiDB Brand & Definitions,31,31,0,3,False
+Percona,AI Agent Infrastructure,48,48,0,3,False
+Percona,Competitive Comparisons,32,32,0,3,False
+Percona,Deployment & Cloud,20,20,0,3,False
+Percona,Enterprise & Compliance,4,4,0,3,False
+Percona,Hybrid Search & RAG,39,39,0,3,False
+Percona,MCP & Developer Tooling,10,10,0,3,False
+Percona,MySQL Scale & Migration,13,13,0,3,False
+Percona,Observability,4,4,0,3,False
+Percona,Scale & Architecture,18,18,0,3,False
+Percona,TiDB Brand & Definitions,31,31,0,3,False
+Pinecone,AI Agent Infrastructure,48,48,0,3,False
+Pinecone,Competitive Comparisons,32,31,1,3,False
+Pinecone,Deployment & Cloud,20,20,0,3,False
+Pinecone,Enterprise & Compliance,4,4,0,3,False
+Pinecone,Hybrid Search & RAG,39,38,1,3,False
+Pinecone,MCP & Developer Tooling,10,10,0,3,False
+Pinecone,MySQL Scale & Migration,13,13,0,3,False
+Pinecone,Observability,4,4,0,3,False
+Pinecone,Scale & Architecture,18,18,0,3,False
+Pinecone,TiDB Brand & Definitions,31,31,0,3,False
+Pinot,AI Agent Infrastructure,48,48,0,3,False
+Pinot,Competitive Comparisons,32,32,0,3,False
+Pinot,Deployment & Cloud,20,20,0,3,False
+Pinot,Enterprise & Compliance,4,4,0,3,False
+Pinot,Hybrid Search & RAG,39,39,0,3,False
+Pinot,MCP & Developer Tooling,10,10,0,3,False
+Pinot,MySQL Scale & Migration,13,13,0,3,False
+Pinot,Observability,4,4,0,3,False
+Pinot,Scale & Architecture,18,18,0,3,False
+Pinot,TiDB Brand & Definitions,31,31,0,3,False
+PostgreSQL,AI Agent Infrastructure,48,48,0,3,False
+PostgreSQL,Competitive Comparisons,32,31,1,3,False
+PostgreSQL,Deployment & Cloud,20,20,0,3,False
+PostgreSQL,Enterprise & Compliance,4,4,0,3,False
+PostgreSQL,Hybrid Search & RAG,39,37,2,3,False
+PostgreSQL,MCP & Developer Tooling,10,10,0,3,False
+PostgreSQL,MySQL Scale & Migration,13,13,0,3,False
+PostgreSQL,Observability,4,4,0,3,False
+PostgreSQL,Scale & Architecture,18,18,0,3,False
+PostgreSQL,TiDB Brand & Definitions,31,31,0,3,False
+Qdrant,AI Agent Infrastructure,48,48,0,3,False
+Qdrant,Competitive Comparisons,32,32,0,3,False
+Qdrant,Deployment & Cloud,20,20,0,3,False
+Qdrant,Enterprise & Compliance,4,4,0,3,False
+Qdrant,Hybrid Search & RAG,39,38,1,3,False
+Qdrant,MCP & Developer Tooling,10,10,0,3,False
+Qdrant,MySQL Scale & Migration,13,13,0,3,False
+Qdrant,Observability,4,4,0,3,False
+Qdrant,Scale & Architecture,18,18,0,3,False
+Qdrant,TiDB Brand & Definitions,31,31,0,3,False
+RDS,AI Agent Infrastructure,48,48,0,3,False
+RDS,Competitive Comparisons,32,31,1,3,False
+RDS,Deployment & Cloud,20,20,0,3,False
+RDS,Enterprise & Compliance,4,4,0,3,False
+RDS,Hybrid Search & RAG,39,39,0,3,False
+RDS,MCP & Developer Tooling,10,10,0,3,False
+RDS,MySQL Scale & Migration,13,13,0,3,False
+RDS,Observability,4,4,0,3,False
+RDS,Scale & Architecture,18,18,0,3,False
+RDS,TiDB Brand & Definitions,31,31,0,3,False
+Redis,AI Agent Infrastructure,48,48,0,3,False
+Redis,Competitive Comparisons,32,32,0,3,False
+Redis,Deployment & Cloud,20,20,0,3,False
+Redis,Enterprise & Compliance,4,4,0,3,False
+Redis,Hybrid Search & RAG,39,39,0,3,False
+Redis,MCP & Developer Tooling,10,10,0,3,False
+Redis,MySQL Scale & Migration,13,13,0,3,False
+Redis,Observability,4,4,0,3,False
+Redis,Scale & Architecture,18,18,0,3,False
+Redis,TiDB Brand & Definitions,31,31,0,3,False
+SingleStore,AI Agent Infrastructure,48,48,0,3,False
+SingleStore,Competitive Comparisons,32,30,2,3,False
+SingleStore,Deployment & Cloud,20,20,0,3,False
+SingleStore,Enterprise & Compliance,4,4,0,3,False
+SingleStore,Hybrid Search & RAG,39,39,0,3,False
+SingleStore,MCP & Developer Tooling,10,10,0,3,False
+SingleStore,MySQL Scale & Migration,13,13,0,3,False
+SingleStore,Observability,4,4,0,3,False
+SingleStore,Scale & Architecture,18,18,0,3,False
+SingleStore,TiDB Brand & Definitions,31,30,1,3,False
+Snowflake,AI Agent Infrastructure,48,48,0,3,False
+Snowflake,Competitive Comparisons,32,31,1,3,False
+Snowflake,Deployment & Cloud,20,20,0,3,False
+Snowflake,Enterprise & Compliance,4,4,0,3,False
+Snowflake,Hybrid Search & RAG,39,39,0,3,False
+Snowflake,MCP & Developer Tooling,10,10,0,3,False
+Snowflake,MySQL Scale & Migration,13,13,0,3,False
+Snowflake,Observability,4,4,0,3,False
+Snowflake,Scale & Architecture,18,18,0,3,False
+Snowflake,TiDB Brand & Definitions,31,31,0,3,False
+Spanner,AI Agent Infrastructure,48,48,0,3,False
+Spanner,Competitive Comparisons,32,31,1,3,False
+Spanner,Deployment & Cloud,20,20,0,3,False
+Spanner,Enterprise & Compliance,4,4,0,3,False
+Spanner,Hybrid Search & RAG,39,39,0,3,False
+Spanner,MCP & Developer Tooling,10,10,0,3,False
+Spanner,MySQL Scale & Migration,13,13,0,3,False
+Spanner,Observability,4,4,0,3,False
+Spanner,Scale & Architecture,18,18,0,3,False
+Spanner,TiDB Brand & Definitions,31,31,0,3,False
+StarRocks,AI Agent Infrastructure,48,48,0,3,False
+StarRocks,Competitive Comparisons,32,32,0,3,False
+StarRocks,Deployment & Cloud,20,20,0,3,False
+StarRocks,Enterprise & Compliance,4,4,0,3,False
+StarRocks,Hybrid Search & RAG,39,39,0,3,False
+StarRocks,MCP & Developer Tooling,10,10,0,3,False
+StarRocks,MySQL Scale & Migration,13,13,0,3,False
+StarRocks,Observability,4,4,0,3,False
+StarRocks,Scale & Architecture,18,18,0,3,False
+StarRocks,TiDB Brand & Definitions,31,31,0,3,False
+TimescaleDB,AI Agent Infrastructure,48,48,0,3,False
+TimescaleDB,Competitive Comparisons,32,32,0,3,False
+TimescaleDB,Deployment & Cloud,20,20,0,3,False
+TimescaleDB,Enterprise & Compliance,4,4,0,3,False
+TimescaleDB,Hybrid Search & RAG,39,39,0,3,False
+TimescaleDB,MCP & Developer Tooling,10,10,0,3,False
+TimescaleDB,MySQL Scale & Migration,13,13,0,3,False
+TimescaleDB,Observability,4,4,0,3,False
+TimescaleDB,Scale & Architecture,18,18,0,3,False
+TimescaleDB,TiDB Brand & Definitions,31,31,0,3,False
+Vespa,AI Agent Infrastructure,48,48,0,3,False
+Vespa,Competitive Comparisons,32,32,0,3,False
+Vespa,Deployment & Cloud,20,20,0,3,False
+Vespa,Enterprise & Compliance,4,4,0,3,False
+Vespa,Hybrid Search & RAG,39,39,0,3,False
+Vespa,MCP & Developer Tooling,10,10,0,3,False
+Vespa,MySQL Scale & Migration,13,13,0,3,False
+Vespa,Observability,4,4,0,3,False
+Vespa,Scale & Architecture,18,18,0,3,False
+Vespa,TiDB Brand & Definitions,31,31,0,3,False
+Vitess,AI Agent Infrastructure,48,48,0,3,False
+Vitess,Competitive Comparisons,32,31,1,3,False
+Vitess,Deployment & Cloud,20,20,0,3,False
+Vitess,Enterprise & Compliance,4,4,0,3,False
+Vitess,Hybrid Search & RAG,39,39,0,3,False
+Vitess,MCP & Developer Tooling,10,10,0,3,False
+Vitess,MySQL Scale & Migration,13,13,0,3,False
+Vitess,Observability,4,4,0,3,False
+Vitess,Scale & Architecture,18,18,0,3,False
+Vitess,TiDB Brand & Definitions,31,31,0,3,False
+Weaviate,AI Agent Infrastructure,48,48,0,3,False
+Weaviate,Competitive Comparisons,32,31,1,3,False
+Weaviate,Deployment & Cloud,20,20,0,3,False
+Weaviate,Enterprise & Compliance,4,4,0,3,False
+Weaviate,Hybrid Search & RAG,39,38,1,3,False
+Weaviate,MCP & Developer Tooling,10,10,0,3,False
+Weaviate,MySQL Scale & Migration,13,13,0,3,False
+Weaviate,Observability,4,4,0,3,False
+Weaviate,Scale & Architecture,18,18,0,3,False
+Weaviate,TiDB Brand & Definitions,31,31,0,3,False
+pgvector,AI Agent Infrastructure,48,48,0,3,False
+pgvector,Competitive Comparisons,32,32,0,3,False
+pgvector,Deployment & Cloud,20,20,0,3,False
+pgvector,Enterprise & Compliance,4,4,0,3,False
+pgvector,Hybrid Search & RAG,39,34,5,3,False
+pgvector,MCP & Developer Tooling,10,10,0,3,False
+pgvector,MySQL Scale & Migration,13,13,0,3,False
+pgvector,Observability,4,4,0,3,False
+pgvector,Scale & Architecture,18,18,0,3,False
+pgvector,TiDB Brand & Definitions,31,31,0,3,False

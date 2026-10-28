@@ -1,0 +1,11 @@
+segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
+agentinfra,48,144,15.28,6.23,6.23,0.63,1.0,144,0.28,0.85,0.0
+branddef,31,93,60.22,35.92,35.92,11.44,1.0,93,0.0,33.33,0.0
+compcomp,25,96,65.33,29.6,29.6,9.33,1.0,75,0.0,37.33,0.0
+deploycloud,18,60,62.96,32.55,32.55,3.92,1.0,54,0.0,26.67,0.0
+entcomp,4,12,0.0,0.0,0.0,0.0,1.0,12,0.0,0.0,0.0
+hybridrag,37,117,16.22,8.5,8.5,0.0,1.0,111,0.0,1.33,0.0
+mcptooling,9,30,33.33,18.1,18.1,9.52,1.0,27,2.29,11.11,0.0
+mysqlscale,2,39,100.0,100.0,100.0,100.0,1.0,6,19.5,100.0,0.0
+observ,4,12,8.33,5.0,5.0,0.0,1.0,12,0.0,,
+scalearch,16,54,41.67,19.15,19.15,3.42,1.0,48,0.0,9.52,0.0

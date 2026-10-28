@@ -1,0 +1,113 @@
+{
+  "mode": "actual_or_usage_estimated",
+  "total_estimated_cost_usd": 26.2203,
+  "pricing_complete": true,
+  "scope": "Usage estimate for successful saved answers in this report's search mode. Not a billing ledger; excludes failed or overwritten attempts and may include answers collected previously.",
+  "providers": [
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5",
+      "requests": 219,
+      "input_tokens": 4706129,
+      "output_tokens": 261438,
+      "web_search_requests": 427,
+      "input_cost_usd": 9.4123,
+      "output_cost_usd": 2.6144,
+      "token_cost_usd": 12.0266,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 4.27,
+      "estimated_cost_usd": 16.2966,
+      "pricing_known": true,
+      "pricing_source": "https://claude.com/pricing"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "requests": 219,
+      "input_tokens": 18968,
+      "output_tokens": 99306,
+      "web_search_requests": 355,
+      "input_cost_usd": 0.0057,
+      "output_cost_usd": 0.2483,
+      "token_cost_usd": 0.254,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 4.97,
+      "estimated_cost_usd": 5.224,
+      "pricing_known": true,
+      "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini-2025-08-07",
+      "requests": 219,
+      "input_tokens": 2062920,
+      "output_tokens": 396966,
+      "web_search_requests": 339,
+      "input_cost_usd": 0.5157,
+      "output_cost_usd": 0.7939,
+      "token_cost_usd": 1.3097,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 3.39,
+      "estimated_cost_usd": 4.6997,
+      "pricing_known": true,
+      "pricing_source": "https://openai.com/index/introducing-gpt-5-for-developers/"
+    }
+  ],
+  "pricing_version": "2026-09-03",
+  "planned": {
+    "mode": "planned",
+    "runs_per_prompt": 1,
+    "prompt_count": 219,
+    "assumed_output_tokens": null,
+    "web_search_mode": "on",
+    "total_estimated_cost_usd": 3.4548,
+    "pricing_complete": true,
+    "scope": "Selected prompts and providers, assuming fresh collection; excludes fact judging, retries and fallback. Not an incremental bill for rerunning cached answers.",
+    "assumptions": "Input tokens are approximated from prompt text. Output tokens and searches per answer use previous saved usage when available, otherwise provider config; explicit output-token overrides take precedence.",
+    "providers": [
+      {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "requests": 219,
+        "input_tokens": 18414,
+        "output_tokens": 153300,
+        "assumed_output_tokens_per_answer": 700.0,
+        "assumed_output_tokens_source": "models config",
+        "input_rate_per_1m": 0.3,
+        "output_rate_per_1m": 2.5,
+        "request_fee": 0.0,
+        "web_search_mode": "on",
+        "web_search_requests": 219.0,
+        "searches_per_answer": 1.0,
+        "searches_per_answer_source": "models config",
+        "web_search_fee": 0.014,
+        "input_cost_usd": 0.0055,
+        "output_cost_usd": 0.3832,
+        "token_cost_usd": 0.3888,
+        "request_cost_usd": 0.0,
+        "web_search_cost_usd": 3.066,
+        "estimated_cost_usd": 3.4548,
+        "pricing_known": true,
+        "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing"
+      }
+    ],
+    "pricing_version": "2026-09-03"
+  },
+  "web_search_mode": "on",
+  "fact_judge": {
+    "mode": "off",
+    "calls": 0,
+    "estimated_cost_usd": 0.0
+  },
+  "combined_total_estimated_cost_usd": 26.2203,
+  "run_metadata": {
+    "prompt_set_hash": "6dde3e4577f292823c5955d18ab10577ce8464ac1a70405348c8edc195852d9d",
+    "source_prompt_set_hash": "f60c9f578eb58f2d783842ba0389387f3fdd5ddaa7c4d5354f2614715e6a6460",
+    "prompt_metadata_overrides_version": "2026-09-18-review-1",
+    "legacy_facts_version": "2026-07-30",
+    "source_authority_version": "2026-09-25-path-aware",
+    "models_config_hash": "ae56ecaf99b8952f55872823f42888b68afb776dbec663b53f7104ce1be9a084",
+    "fact_base_version": null,
+    "fact_judge_mode": "off"
+  }
+}
