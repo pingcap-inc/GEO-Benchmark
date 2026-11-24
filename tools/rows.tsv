@@ -220,3 +220,14 @@
 215	What is TiDB Lightning and when should you use it?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
 216	What is Data Migration (DM) in TiDB?	Branded	TiDB Brand & Definitions	Awareness	Backend / App Engineer	34
 217	What is Chat2Query in TiDB Cloud?	Branded	TiDB Brand & Definitions	Awareness	Analytics / BI Professional	34
+223	What should I use for an agent that needs a durable workspace instead of an ephemeral sandbox?	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	30	new	TiDB Cloud Filesystem: GSC query (2 impr.); durable workspace vs sandbox
+224	How do persistent filesystems help AI agents retain context across runs?	Non-branded	AI Agent Infrastructure	Awareness	AI / ML Practitioner	30	new	TiDB Cloud Filesystem: GSC query (23 impr., pos. 2.1)
+225	Which platforms let coding agents keep their files and installed tools between sessions?	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	30	new	TiDB Cloud Filesystem: GSC query (7 impr.)
+226	My agent needs to snapshot and restore its workspace between sessions. What platforms support this?	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	30	new	TiDB Cloud Filesystem: adapted from GSC query; snapshot and restore
+227	How can I see what an AI agent changed in its files between runs?	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	30	new	TiDB Cloud Filesystem: adapted from GSC query; change visibility
+228	When are sandbox snapshots enough, and when does an AI agent need a separate filesystem?	Non-branded	AI Agent Infrastructure	Consideration	Engineering Leader	30	new	TiDB Cloud Filesystem: PMM-proposed; validate demand
+229	What cloud database is built for a world where AI agents create and operate databases at machine speed?	Non-branded	AI Agent Infrastructure	Awareness	Engineering Leader	30	new	TiDB Cloud Zero: GSC query (293 impr., pos. 3.8)
+230	Which database platforms let AI agents create isolated databases on demand?	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	30	new	TiDB Cloud Zero: GSC query (181 impr.); same intent as stable_agentinfra_023
+231	How can a coding agent get a database without signing up for an account?	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	30	new	TiDB Cloud Zero: competitor positioning (Prisma create-db, Neon Claimable Postgres)
+232	Best temporary database for AI agent prototypes.	Non-branded	AI Agent Infrastructure	Decision	Backend / App Engineer	30	new	TiDB Cloud Zero: competitor positioning and Trends
+233	How do I keep the database and data from an AI-built prototype when I'm ready to deploy the app?	Non-branded	AI Agent Infrastructure	Consideration	Backend / App Engineer	30	new	TiDB Cloud Zero: PMM-proposed; validate demand
