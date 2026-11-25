@@ -42,6 +42,15 @@ PRODUCT_ALIASES = {
     "Supabase": ["supabase"],
     "Neon": ["neon", "neon.tech"],
 
+    # --- Agent storage and sandboxes -------------------------------------
+    # Match full product names: bare "prisma", "vercel" and "turso" also
+    # match the Prisma ORM, Vercel hosting and the Turso database.
+    "Prisma Postgres": ["prisma postgres"],
+    "Vercel Drives": ["vercel drives", "vercel drive"],
+    "Turso AgentFS": ["agentfs", "turso agentfs"],
+    "E2B": ["e2b"],
+    "Daytona": ["daytona"],
+
     # --- Vector and retrieval ------------------------------------------
     "Pinecone": ["pinecone"],
     "Weaviate": ["weaviate"],
@@ -106,6 +115,13 @@ PRODUCT_URL_MARKERS = {
     # --- Serverless / app backend --------------------------------------
     "Supabase": ["supabase.com", "github.com/supabase"],
     "Neon": ["neon.tech", "neon.com"],
+
+    # --- Agent storage and sandboxes -------------------------------------
+    "Prisma Postgres": ["prisma.io/postgres", "prisma.io/docs/postgres"],
+    "Vercel Drives": ["vercel.com/docs/sandbox/concepts/drives", "vercel-drives"],
+    "Turso AgentFS": ["agentfs.ai", "docs.turso.tech/agentfs"],
+    "E2B": ["e2b.dev"],
+    "Daytona": ["daytona.io"],
 
     # --- Vector and retrieval ------------------------------------------
     "Pinecone": ["pinecone.io"],

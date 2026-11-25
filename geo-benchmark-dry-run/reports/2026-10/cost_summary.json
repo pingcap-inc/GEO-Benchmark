@@ -1,0 +1,81 @@
+{
+  "mode": "actual_or_usage_estimated",
+  "total_estimated_cost_usd": 0.0,
+  "pricing_complete": true,
+  "scope": "Usage estimate for successful saved answers in this report's search mode. Not a billing ledger; excludes failed or overwritten attempts and may include answers collected previously.",
+  "providers": [
+    {
+      "provider": "mock",
+      "model": "mock-geo-buyer-v1",
+      "requests": 219,
+      "input_tokens": 23841,
+      "output_tokens": 30169,
+      "web_search_requests": 0,
+      "input_cost_usd": 0.0,
+      "output_cost_usd": 0.0,
+      "token_cost_usd": 0.0,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 0.0,
+      "estimated_cost_usd": 0.0,
+      "pricing_known": true,
+      "pricing_source": "local mock provider"
+    }
+  ],
+  "pricing_version": "2026-09-03",
+  "planned": {
+    "mode": "planned",
+    "runs_per_prompt": 1,
+    "prompt_count": 219,
+    "assumed_output_tokens": null,
+    "web_search_mode": "off",
+    "total_estimated_cost_usd": 0.0,
+    "pricing_complete": true,
+    "scope": "Selected prompts and providers, assuming fresh collection; excludes fact judging, retries and fallback. Not an incremental bill for rerunning cached answers.",
+    "assumptions": "Input tokens are approximated from prompt text. Output tokens and searches per answer use previous saved usage when available, otherwise provider config; explicit output-token overrides take precedence.",
+    "providers": [
+      {
+        "provider": "mock",
+        "model": "mock-geo-buyer-v1",
+        "requests": 219,
+        "input_tokens": 18414,
+        "output_tokens": 153300,
+        "assumed_output_tokens_per_answer": 700.0,
+        "assumed_output_tokens_source": "models config",
+        "input_rate_per_1m": 0.0,
+        "output_rate_per_1m": 0.0,
+        "request_fee": 0.0,
+        "web_search_mode": "off",
+        "web_search_requests": 0.0,
+        "searches_per_answer": 0.0,
+        "searches_per_answer_source": "models config",
+        "web_search_fee": 0.0,
+        "input_cost_usd": 0.0,
+        "output_cost_usd": 0.0,
+        "token_cost_usd": 0.0,
+        "request_cost_usd": 0.0,
+        "web_search_cost_usd": 0.0,
+        "estimated_cost_usd": 0.0,
+        "pricing_known": true,
+        "pricing_source": "local mock provider"
+      }
+    ],
+    "pricing_version": "2026-09-03"
+  },
+  "web_search_mode": "off",
+  "fact_judge": {
+    "mode": "off",
+    "calls": 0,
+    "estimated_cost_usd": 0.0
+  },
+  "combined_total_estimated_cost_usd": 0.0,
+  "run_metadata": {
+    "prompt_set_hash": "6dde3e4577f292823c5955d18ab10577ce8464ac1a70405348c8edc195852d9d",
+    "source_prompt_set_hash": "f60c9f578eb58f2d783842ba0389387f3fdd5ddaa7c4d5354f2614715e6a6460",
+    "prompt_metadata_overrides_version": "2026-09-18-review-1",
+    "legacy_facts_version": "2026-07-30",
+    "source_authority_version": "2026-09-25-path-aware",
+    "models_config_hash": "6da2e62eb56a50bdddda7d0d2aba354e57ab3156fc095fe1ab527bb4c4849a51",
+    "fact_base_version": null,
+    "fact_judge_mode": "off"
+  }
+}

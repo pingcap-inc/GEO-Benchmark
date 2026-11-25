@@ -119,6 +119,16 @@ Databricks,MySQL Scale & Migration,13,13,0,3,False
 Databricks,Observability,4,4,0,3,False
 Databricks,Scale & Architecture,18,18,0,3,False
 Databricks,TiDB Brand & Definitions,31,31,0,3,False
+Daytona,AI Agent Infrastructure,59,59,0,3,False
+Daytona,Competitive Comparisons,32,32,0,3,False
+Daytona,Deployment & Cloud,20,20,0,3,False
+Daytona,Enterprise & Compliance,4,4,0,3,False
+Daytona,Hybrid Search & RAG,39,39,0,3,False
+Daytona,MCP & Developer Tooling,10,10,0,3,False
+Daytona,MySQL Scale & Migration,13,13,0,3,False
+Daytona,Observability,4,4,0,3,False
+Daytona,Scale & Architecture,18,18,0,3,False
+Daytona,TiDB Brand & Definitions,31,31,0,3,False
 Druid,AI Agent Infrastructure,59,59,0,3,False
 Druid,Competitive Comparisons,32,32,0,3,False
 Druid,Deployment & Cloud,20,20,0,3,False
@@ -129,6 +139,16 @@ Druid,MySQL Scale & Migration,13,13,0,3,False
 Druid,Observability,4,4,0,3,False
 Druid,Scale & Architecture,18,18,0,3,False
 Druid,TiDB Brand & Definitions,31,31,0,3,False
+E2B,AI Agent Infrastructure,59,59,0,3,False
+E2B,Competitive Comparisons,32,32,0,3,False
+E2B,Deployment & Cloud,20,20,0,3,False
+E2B,Enterprise & Compliance,4,4,0,3,False
+E2B,Hybrid Search & RAG,39,39,0,3,False
+E2B,MCP & Developer Tooling,10,10,0,3,False
+E2B,MySQL Scale & Migration,13,13,0,3,False
+E2B,Observability,4,4,0,3,False
+E2B,Scale & Architecture,18,18,0,3,False
+E2B,TiDB Brand & Definitions,31,31,0,3,False
 Elasticsearch,AI Agent Infrastructure,59,59,0,3,False
 Elasticsearch,Competitive Comparisons,32,32,0,3,False
 Elasticsearch,Deployment & Cloud,20,20,0,3,False
@@ -239,6 +259,16 @@ PostgreSQL,MySQL Scale & Migration,13,13,0,3,False
 PostgreSQL,Observability,4,4,0,3,False
 PostgreSQL,Scale & Architecture,18,18,0,3,False
 PostgreSQL,TiDB Brand & Definitions,31,31,0,3,False
+Prisma Postgres,AI Agent Infrastructure,59,59,0,3,False
+Prisma Postgres,Competitive Comparisons,32,32,0,3,False
+Prisma Postgres,Deployment & Cloud,20,20,0,3,False
+Prisma Postgres,Enterprise & Compliance,4,4,0,3,False
+Prisma Postgres,Hybrid Search & RAG,39,39,0,3,False
+Prisma Postgres,MCP & Developer Tooling,10,10,0,3,False
+Prisma Postgres,MySQL Scale & Migration,13,13,0,3,False
+Prisma Postgres,Observability,4,4,0,3,False
+Prisma Postgres,Scale & Architecture,18,18,0,3,False
+Prisma Postgres,TiDB Brand & Definitions,31,31,0,3,False
 Qdrant,AI Agent Infrastructure,59,59,0,3,False
 Qdrant,Competitive Comparisons,32,32,0,3,False
 Qdrant,Deployment & Cloud,20,20,0,3,False
@@ -319,6 +349,26 @@ TimescaleDB,MySQL Scale & Migration,13,13,0,3,False
 TimescaleDB,Observability,4,4,0,3,False
 TimescaleDB,Scale & Architecture,18,18,0,3,False
 TimescaleDB,TiDB Brand & Definitions,31,31,0,3,False
+Turso AgentFS,AI Agent Infrastructure,59,59,0,3,False
+Turso AgentFS,Competitive Comparisons,32,32,0,3,False
+Turso AgentFS,Deployment & Cloud,20,20,0,3,False
+Turso AgentFS,Enterprise & Compliance,4,4,0,3,False
+Turso AgentFS,Hybrid Search & RAG,39,39,0,3,False
+Turso AgentFS,MCP & Developer Tooling,10,10,0,3,False
+Turso AgentFS,MySQL Scale & Migration,13,13,0,3,False
+Turso AgentFS,Observability,4,4,0,3,False
+Turso AgentFS,Scale & Architecture,18,18,0,3,False
+Turso AgentFS,TiDB Brand & Definitions,31,31,0,3,False
+Vercel Drives,AI Agent Infrastructure,59,59,0,3,False
+Vercel Drives,Competitive Comparisons,32,32,0,3,False
+Vercel Drives,Deployment & Cloud,20,20,0,3,False
+Vercel Drives,Enterprise & Compliance,4,4,0,3,False
+Vercel Drives,Hybrid Search & RAG,39,39,0,3,False
+Vercel Drives,MCP & Developer Tooling,10,10,0,3,False
+Vercel Drives,MySQL Scale & Migration,13,13,0,3,False
+Vercel Drives,Observability,4,4,0,3,False
+Vercel Drives,Scale & Architecture,18,18,0,3,False
+Vercel Drives,TiDB Brand & Definitions,31,31,0,3,False
 Vespa,AI Agent Infrastructure,59,59,0,3,False
 Vespa,Competitive Comparisons,32,32,0,3,False
 Vespa,Deployment & Cloud,20,20,0,3,False

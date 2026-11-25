@@ -1,5 +1,5 @@
 segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
-AI Agent Infrastructure,59,177,40.11,19.34,19.34,12.72,1.0,177,13.06,21.33,0.0
+AI Agent Infrastructure,59,177,40.11,19.13,19.13,12.72,1.0,177,13.06,21.33,0.0
 Competitive Comparisons,32,96,1.04,0.63,0.63,0.0,1.0,96,0.47,1.04,0.0
 Deployment & Cloud,20,60,0.0,0.0,0.0,0.0,1.0,60,0.0,0.0,0.0
 Enterprise & Compliance,4,12,25.0,6.67,6.67,20.0,1.0,12,7.8,16.67,0.0

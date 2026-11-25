@@ -5,7 +5,7 @@ arxiv.org,Other,99,106,56,TiDB (3); PostgreSQL (1); Redis (1); Weaviate (1); pgv
 medium.com,Other,91,111,65,TiDB (7); Neon (3); MongoDB (1); PostgreSQL (1); pgvector (1),anthropic; gemini,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; Enterprise & Compliance; Hybrid Search & RAG; MCP & Developer Tooling; MySQL Scale & Migration; Scale & Architecture; TiDB Brand & Definitions,stable
 dev.to,Other,81,99,48,TiDB (4); Neon (1); Qdrant (1); Redis (1); pgvector (1),anthropic; gemini,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; Enterprise & Compliance; Hybrid Search & RAG; MCP & Developer Tooling; Scale & Architecture; TiDB Brand & Definitions,stable
 en.wikipedia.org,Other,71,75,56,TiDB (4); Pinecone (1); PostgreSQL (1); Vitess (1),anthropic; gemini; openai,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; Enterprise & Compliance; Hybrid Search & RAG; MCP & Developer Tooling; MySQL Scale & Migration; Observability; Scale & Architecture; TiDB Brand & Definitions,stable
-youtube.com,Other,49,50,33,Neon (2); Qdrant (1),gemini; openai,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MCP & Developer Tooling; MySQL Scale & Migration; Scale & Architecture; TiDB Brand & Definitions,stable
+youtube.com,Other,49,50,33,Neon (2); E2B (1); Qdrant (1),gemini; openai,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MCP & Developer Tooling; MySQL Scale & Migration; Scale & Architecture; TiDB Brand & Definitions,stable
 github.com/pingcap,PingCAP,44,66,44,TiDB (4),anthropic; gemini; openai,branded,accuracy; comparison,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; Enterprise & Compliance; Hybrid Search & RAG; MCP & Developer Tooling; Observability; Scale & Architecture; TiDB Brand & Definitions,stable
 redis.io,Competitor,42,59,8,PostgreSQL (1); Redis (1); pgvector (1),anthropic; gemini; openai,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Enterprise & Compliance; Hybrid Search & RAG; MCP & Developer Tooling; Scale & Architecture,stable
 pingcap.co.jp,PingCAP,37,39,37,TiDB (4),anthropic; gemini,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; Enterprise & Compliance; Hybrid Search & RAG; MCP & Developer Tooling; MySQL Scale & Migration; TiDB Brand & Definitions,stable
@@ -22,7 +22,7 @@ srvrlss.io,Other,23,27,22,TiDB (3); Neon (1),anthropic; gemini,branded; non_bran
 zilliz.com,Competitor,22,28,18,TiDB (3); MongoDB (1); PlanetScale (1); SingleStore (1),anthropic; gemini; openai,branded; non_branded,accuracy; comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; TiDB Brand & Definitions,stable
 firecrawl.dev,Other,19,24,4,MongoDB (1); Qdrant (1); Redis (1); Weaviate (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MCP & Developer Tooling; Scale & Architecture,stable
 whichdevtool.com,Other,19,19,19,Neon (1); TiDB (1),anthropic,branded,accuracy; comparison,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; Observability; TiDB Brand & Definitions,stable
-answers.databricks.com,Competitor,18,21,10,,anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MySQL Scale & Migration,stable
+answers.databricks.com,Competitor,18,21,10,Daytona (1),anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MySQL Scale & Migration,stable
 atlan.com,Other,18,21,5,Pinecone (1); TiDB (1); Weaviate (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG,stable
 blogs.oracle.com,Other,18,19,5,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
 mastra.ai,Other,17,22,8,MongoDB (1); Redis (1),anthropic; gemini,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG; MCP & Developer Tooling; Scale & Architecture,stable
@@ -65,7 +65,7 @@ x.com,Other,10,10,9,,anthropic,branded; non_branded,accuracy; comparison; discov
 vitess.io,Competitor,9,14,9,Vitess (2),gemini; openai,branded; non_branded,comparison; discovery,Competitive Comparisons; MySQL Scale & Migration; Scale & Architecture,stable
 elastic.co,Competitor,9,12,2,Weaviate (1),anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
 supabase.com,Competitor,9,12,3,,anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud,stable
-developersdigest.tech,Other,9,11,4,Neon (2),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; Scale & Architecture,stable
+developersdigest.tech,Other,9,11,4,Neon (2); Daytona (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; Scale & Architecture,stable
 dify.ai,Other,9,11,9,,anthropic; gemini; openai,branded,accuracy; comparison,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; TiDB Brand & Definitions,stable
 docs.yugabyte.com,Competitor,9,11,4,MongoDB (1); MySQL (1),anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MySQL Scale & Migration; Scale & Architecture,stable
 planetscale.com,Competitor,9,11,8,MySQL (1); Neon (1); PlanetScale (1); Vitess (1),anthropic; gemini; openai,branded; non_branded,comparison; discovery,Competitive Comparisons; MCP & Developer Tooling; MySQL Scale & Migration; Scale & Architecture,stable
@@ -97,10 +97,10 @@ docs-download.pingcap.com,PingCAP,7,7,7,TiDB (2),openai,branded; non_branded,acc
 docs.singlestore.com,Competitor,7,7,6,MySQL (1),openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Hybrid Search & RAG; MySQL Scale & Migration; Scale & Architecture; TiDB Brand & Definitions,stable
 glama.ai,Other,7,7,6,,anthropic,branded; non_branded,accuracy; discovery,Deployment & Cloud; MCP & Developer Tooling,stable
 lobehub.com,Other,7,7,6,,anthropic; gemini,branded; non_branded,accuracy; comparison; discovery,Deployment & Cloud; MCP & Developer Tooling,stable
-prisma.io,Other,7,7,4,,anthropic; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; MCP & Developer Tooling; MySQL Scale & Migration,stable
+prisma.io,Competitor,7,7,4,,anthropic; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud; MCP & Developer Tooling; MySQL Scale & Migration,stable
 sanjmo.medium.com,Other,7,7,7,TiDB (1),anthropic,branded; non_branded,accuracy; comparison; discovery,Competitive Comparisons; Hybrid Search & RAG; MySQL Scale & Migration; Scale & Architecture; TiDB Brand & Definitions,stable
 tigerdata.com,Other,6,8,1,pgvector (1),anthropic; gemini,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
-zenml.io,Other,6,7,3,Weaviate (1); pgvector (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
+zenml.io,Other,6,7,3,Daytona (1); Weaviate (1); pgvector (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
 itechguides.com,Other,6,6,2,,anthropic; openai,non_branded,discovery,AI Agent Infrastructure,stable
 kanopylabs.com,Other,6,6,4,TiDB (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Scale & Architecture,stable
 layerbase.com,Other,6,6,2,,anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Deployment & Cloud; Hybrid Search & RAG,stable
@@ -111,7 +111,7 @@ static.pingcap.co.jp,PingCAP,6,6,6,,openai,branded,accuracy; comparison,Deployme
 termo.ai,Other,6,6,6,,anthropic,branded,accuracy; comparison,Deployment & Cloud; TiDB Brand & Definitions,stable
 yugabyte.com,Competitor,6,6,4,Spanner (1); TiDB (1),anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Scale & Architecture,stable
 zenn.dev,Other,6,6,6,TiDB (1),anthropic,branded,accuracy; comparison,Competitive Comparisons; Hybrid Search & RAG,stable
-blaxel.ai,Other,5,8,1,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
+blaxel.ai,Other,5,8,1,Daytona (1); E2B (1),anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
 cianic.com,Other,5,8,5,Vitess (2),anthropic; gemini,branded; non_branded,comparison; discovery,Competitive Comparisons; MySQL Scale & Migration,stable
 sourceforge.net,Other,5,8,5,Neon (1); Spanner (1); TiDB (1),anthropic; gemini,branded,comparison,Competitive Comparisons; Deployment & Cloud,stable
 xata.io,Other,5,7,3,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure; Scale & Architecture,stable
@@ -146,7 +146,7 @@ dolthub.com,Other,4,5,1,,anthropic; openai,non_branded,discovery,AI Agent Infras
 github.com/neondatabase,Competitor,4,5,3,,gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Deployment & Cloud,stable
 hoop.dev,Other,4,5,3,TiDB (1),anthropic; gemini,branded; non_branded,comparison; discovery,Competitive Comparisons; Enterprise & Compliance; MySQL Scale & Migration,stable
 techtarget.com,Other,4,5,3,,anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons; Enterprise & Compliance,stable
-vercel.com,Other,4,5,1,,anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons,stable
+vercel.com,Other,4,5,1,Daytona (1); E2B (1),anthropic; gemini; openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons,stable
 8231564.fs1.hubspotusercontent-na1.net,Other,4,4,1,,openai,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Scale & Architecture,stable
 85ideas.com,Other,4,4,4,Vitess (1),anthropic,branded; non_branded,comparison; discovery,Competitive Comparisons; MySQL Scale & Migration,stable
 actian.com,Other,4,4,1,,anthropic; gemini,branded; non_branded,comparison; discovery,Competitive Comparisons; Enterprise & Compliance; Hybrid Search & RAG,stable
@@ -177,7 +177,7 @@ websiteseostats.com,Other,4,4,4,,anthropic,branded; non_branded,comparison; disc
 back4app.com,Other,3,5,2,CockroachDB (1),anthropic; gemini,non_branded,discovery,Scale & Architecture,stable
 braintrust.dev,Other,3,4,1,Weaviate (1),anthropic; gemini,branded; non_branded,comparison; discovery,Hybrid Search & RAG,stable
 designgurus.io,Other,3,4,3,TiDB (1),anthropic; gemini,branded; non_branded,comparison; discovery,Competitive Comparisons,stable
-developers.openai.com,Other,3,4,0,,anthropic; gemini; openai,non_branded,discovery,AI Agent Infrastructure,stable
+developers.openai.com,Other,3,4,0,Daytona (1),anthropic; gemini; openai,non_branded,discovery,AI Agent Infrastructure,stable
 infoq.com,Other,3,4,3,PlanetScale (1),anthropic; gemini,branded,comparison,Competitive Comparisons,stable
 mafiree.com,Other,3,4,3,,anthropic; gemini,branded,accuracy; comparison,Competitive Comparisons; TiDB Brand & Definitions,stable
 tanhdev.com,Other,3,4,3,,anthropic; gemini,branded; non_branded,comparison; discovery,Competitive Comparisons; MySQL Scale & Migration; Scale & Architecture,stable
@@ -198,7 +198,7 @@ dialoguedb.com,Other,3,3,1,,anthropic,non_branded,discovery,AI Agent Infrastruct
 dlthub.com,Other,3,3,3,,anthropic; gemini,branded,accuracy; comparison,Competitive Comparisons; MCP & Developer Tooling,stable
 docs.cockroachlabs.com,Competitor,3,3,3,,anthropic,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons,stable
 emergen.io,Other,3,3,1,,anthropic,non_branded,discovery,AI Agent Infrastructure; Scale & Architecture,stable
-fly.io,Other,3,3,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+fly.io,Other,3,3,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 forbes.com,Other,3,3,3,TiDB (1),anthropic,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons,stable
 geeksforgeeks.org,Other,3,3,1,Aurora (1); MongoDB (1),anthropic; gemini,non_branded,discovery,Hybrid Search & RAG; MCP & Developer Tooling,stable
 github.com/cockroachdb,Competitor,3,3,1,,anthropic; openai,non_branded,discovery,AI Agent Infrastructure; Competitive Comparisons; Scale & Architecture,stable
@@ -217,7 +217,7 @@ min.io,Other,3,3,0,,anthropic; openai,non_branded,discovery,AI Agent Infrastruct
 modal.com,Other,3,3,0,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure; Enterprise & Compliance,stable
 nerdheadz.com,Other,3,3,0,pgvector (1),anthropic,non_branded,discovery,Enterprise & Compliance; Hybrid Search & RAG,stable
 olostep.com,Other,3,3,0,,gemini,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
-pandastack.ai,Other,3,3,0,Weaviate (1),anthropic,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
+pandastack.ai,Other,3,3,0,Daytona (1); Weaviate (1),anthropic,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
 parse.gl,Other,3,3,1,,anthropic,branded; non_branded,comparison; discovery,Competitive Comparisons; Hybrid Search & RAG,stable
 plataformamedia.com,Other,3,3,3,,anthropic,branded,accuracy,AI Agent Infrastructure; Deployment & Cloud,stable
 powabase.ai,Other,3,3,2,,anthropic; gemini,branded; non_branded,comparison; discovery,AI Agent Infrastructure; Competitive Comparisons,stable
@@ -274,7 +274,7 @@ atlasgo.io,Other,2,2,0,CockroachDB (1),gemini,non_branded,discovery,AI Agent Inf
 barnacle.ai,Other,2,2,1,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
 bigdataboutique.com,Other,2,2,1,,anthropic,branded; non_branded,comparison; discovery,Hybrid Search & RAG,stable
 blog.coolhead.in,Other,2,2,2,,anthropic,branded,accuracy,AI Agent Infrastructure; Hybrid Search & RAG,stable
-blog.logrocket.com,Other,2,2,0,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
+blog.logrocket.com,Other,2,2,0,Daytona (1),anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
 blog.pebblous.ai,Other,2,2,1,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 blog.redlinesoft.net,Other,2,2,1,,anthropic,non_branded,discovery,AI Agent Infrastructure; Hybrid Search & RAG,stable
 blog.supermemory.ai,Other,2,2,0,,anthropic,non_branded,discovery,Hybrid Search & RAG,stable
@@ -365,7 +365,7 @@ slideshare.net,Other,2,2,2,,anthropic; gemini,branded; non_branded,accuracy; dis
 softwr.com,Other,2,2,2,,anthropic; gemini,branded,comparison,Competitive Comparisons; Deployment & Cloud,stable
 sokko.ai,Other,2,2,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 solanica.io,Other,2,2,1,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
-spheron.network,Other,2,2,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+spheron.network,Other,2,2,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 stackoverflow.com,Other,2,2,0,,gemini,non_branded,discovery,Scale & Architecture,stable
 supermemory.ai,Other,2,2,0,,anthropic,non_branded,discovery,Hybrid Search & RAG,stable
 synapcores.com,Other,2,2,1,,anthropic,non_branded,discovery,AI Agent Infrastructure; Scale & Architecture,stable
@@ -389,7 +389,7 @@ yourstory.com,Other,2,2,2,,anthropic,branded,accuracy,Observability; TiDB Brand 
 zenvanriel.com,Other,2,2,1,,anthropic; gemini,branded; non_branded,comparison; discovery,Competitive Comparisons; Hybrid Search & RAG,stable
 zero.tidbapi.com,Other,2,2,2,,anthropic; gemini,branded; non_branded,accuracy; discovery,AI Agent Infrastructure; Deployment & Cloud,stable
 zeybek.dev,Other,2,2,1,pgvector (1),anthropic,branded; non_branded,comparison; discovery,Hybrid Search & RAG,stable
-zylos.ai,Other,2,2,0,,anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
+zylos.ai,Other,2,2,0,Daytona (1),anthropic; gemini,non_branded,discovery,AI Agent Infrastructure,stable
 blckalpaca.at,Other,1,2,0,,anthropic; gemini,non_branded,discovery,Hybrid Search & RAG,stable
 cdn2.hubspot.net,Other,1,2,1,,anthropic; gemini,branded,comparison,Competitive Comparisons,stable
 cursor.com,Other,1,2,1,,gemini; openai,branded,accuracy,MCP & Developer Tooling,stable
@@ -419,7 +419,7 @@ agence-scroll.com,Other,1,1,1,,anthropic,branded,comparison,Deployment & Cloud,s
 agent-sandbox.sigs.k8s.io,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
 agentfactory1.panaversity.org,Other,1,1,1,,anthropic,branded,comparison,Competitive Comparisons,stable
 agentping.io,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
-agentscamp.com,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+agentscamp.com,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 agentskb.com,Other,1,1,0,,anthropic,non_branded,discovery,Scale & Architecture,stable
 agenttoproduct.com,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 ai-agentree.com,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
@@ -482,7 +482,7 @@ baike.baidu.com,Other,1,1,1,,anthropic,branded,accuracy,TiDB Brand & Definitions
 beam.cloud,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 benchant.com,Other,1,1,1,,anthropic,non_branded,discovery,Scale & Architecture,stable
 betterstack.com,Other,1,1,1,,anthropic,non_branded,discovery,MySQL Scale & Migration,stable
-bex.co,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+bex.co,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 beyondjapan.com,Other,1,1,1,,anthropic,non_branded,discovery,MySQL Scale & Migration,stable
 beyondscale.tech,Other,1,1,0,,anthropic,non_branded,discovery,Enterprise & Compliance,stable
 bigyan.dev,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
@@ -629,7 +629,7 @@ dreamfactory.com,Other,1,1,0,,gemini,non_branded,discovery,MCP & Developer Tooli
 dreaming.press,Other,1,1,1,,anthropic,branded,comparison,Deployment & Cloud,stable
 drel.ai,Other,1,1,0,Weaviate (1),anthropic,non_branded,discovery,Hybrid Search & RAG,stable
 dremio.com,Other,1,1,0,,anthropic,non_branded,discovery,MCP & Developer Tooling,stable
-drydock.si,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+drydock.si,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 duckdb.org,Other,1,1,0,,openai,non_branded,discovery,AI Agent Infrastructure,stable
 dvc.org,Other,1,1,0,,openai,non_branded,discovery,AI Agent Infrastructure,stable
 dynomate.io,Other,1,1,0,,gemini,non_branded,discovery,Scale & Architecture,stable
@@ -663,7 +663,7 @@ founderstoolkit.org,Other,1,1,0,,anthropic,non_branded,discovery,Scale & Archite
 fracto.ie,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 freebuff.com,Other,1,1,1,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 frontegg.com,Other,1,1,1,,anthropic,non_branded,discovery,Scale & Architecture,stable
-frontier.replit.com,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
+frontier.replit.com,Other,1,1,0,E2B (1),gemini,non_branded,discovery,AI Agent Infrastructure,stable
 frontiersin.org,Other,1,1,0,,openai,non_branded,discovery,AI Agent Infrastructure,stable
 futuretweets.com,Other,1,1,1,,anthropic,branded,comparison,Competitive Comparisons,stable
 futurumgroup.com,Other,1,1,1,,anthropic,branded,comparison,Competitive Comparisons,stable
@@ -726,7 +726,7 @@ github.com/theaibuilders,Other,1,1,1,,anthropic,branded,accuracy,Deployment & Cl
 github.com/thinklib,Other,1,1,1,,anthropic,branded,accuracy,TiDB Brand & Definitions,stable
 github.com/time-and-fate,Other,1,1,1,,anthropic,branded,accuracy,MySQL Scale & Migration,stable
 github.com/timescale,Competitor,1,1,0,pgvector (1),anthropic,non_branded,discovery,Hybrid Search & RAG,stable
-github.com/tizkovatereza,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+github.com/tizkovatereza,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 github.com/topics,Other,1,1,1,,anthropic,branded,accuracy,Hybrid Search & RAG,stable
 github.com/yahiarabbi,Other,1,1,0,,anthropic,non_branded,discovery,Hybrid Search & RAG,stable
 github.com/ydb-platform,Other,1,1,1,,anthropic,non_branded,discovery,MySQL Scale & Migration,stable
@@ -766,7 +766,7 @@ isaacfei.com,Other,1,1,1,,anthropic,branded,comparison,Hybrid Search & RAG,stabl
 iternal.ai,Other,1,1,0,,gemini,non_branded,discovery,Hybrid Search & RAG,stable
 ivanturkovic.com,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
 jahanzaib.ai,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
-java.agentscope.io,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+java.agentscope.io,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 justinmckelvey.com,Other,1,1,0,,anthropic,non_branded,discovery,Scale & Architecture,stable
 k2view.com,Other,1,1,0,,gemini,non_branded,discovery,MCP & Developer Tooling,stable
 kaelio.com,Other,1,1,0,,anthropic,non_branded,discovery,MCP & Developer Tooling,stable
@@ -798,7 +798,7 @@ localhost,Other,1,1,1,,gemini,branded,accuracy,MCP & Developer Tooling,stable
 locionic.com,Other,1,1,1,,anthropic,non_branded,discovery,Hybrid Search & RAG,stable
 logiclooptech.dev,Other,1,1,1,,anthropic,branded,accuracy,Hybrid Search & RAG,stable
 loginsoft.com,Other,1,1,0,,gemini,non_branded,discovery,Hybrid Search & RAG,stable
-luiscardoso.dev,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+luiscardoso.dev,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 makerstack.co,Other,1,1,0,,anthropic,non_branded,discovery,Scale & Architecture,stable
 makeyouragent.ai,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 manticoresearch.com,Other,1,1,0,,anthropic,non_branded,discovery,Hybrid Search & RAG,stable
@@ -989,8 +989,8 @@ swyftstack.com,Other,1,1,1,,anthropic,branded,comparison,Competitive Comparisons
 symas.com,Other,1,1,0,,openai,non_branded,discovery,AI Agent Infrastructure,stable
 synscribe.com,Other,1,1,1,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 syslabs.in,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
-teachmeidea.com,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
-team400.ai,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+teachmeidea.com,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
+team400.ai,Other,1,1,0,Daytona (1),anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 techcommunity.microsoft.com,Other,1,1,0,,gemini,non_branded,discovery,MCP & Developer Tooling,stable
 techdogs.com,Other,1,1,1,,anthropic,non_branded,discovery,Competitive Comparisons,stable
 technologynewsjournal.com,Other,1,1,1,,anthropic,branded,accuracy,TiDB Brand & Definitions,stable
@@ -1024,7 +1024,7 @@ towardsdatascience.com,Other,1,1,1,,anthropic,branded,comparison,Competitive Com
 towardsdev.com,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
 trakkr.ai,Other,1,1,0,,anthropic,non_branded,discovery,AI Agent Infrastructure,stable
 trendingaitools.com,Other,1,1,1,TiDB (1),anthropic,branded,accuracy,Enterprise & Compliance,stable
-trovefiles.dev,Other,1,1,0,,gemini,non_branded,discovery,AI Agent Infrastructure,stable
+trovefiles.dev,Other,1,1,0,E2B (1),gemini,non_branded,discovery,AI Agent Infrastructure,stable
 truto.one,Other,1,1,1,,anthropic,branded,comparison,Competitive Comparisons,stable
 trybuildpilot.com,Other,1,1,1,,anthropic,branded,comparison,Competitive Comparisons,stable
 trycaliber.ai,Other,1,1,0,,anthropic,non_branded,discovery,Enterprise & Compliance,stable

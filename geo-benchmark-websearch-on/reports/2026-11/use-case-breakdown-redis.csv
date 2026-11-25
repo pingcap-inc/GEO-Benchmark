@@ -1,5 +1,5 @@
 segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
-agentinfra,59,177,40.11,19.34,19.34,12.72,1.0,177,13.06,21.33,0.0
+agentinfra,59,177,40.11,19.13,19.13,12.72,1.0,177,13.06,21.33,0.0
 branddef,31,93,3.23,0.6,0.6,0.0,1.0,93,0.0,0.0,0.0
 compcomp,32,96,1.04,0.63,0.63,0.0,1.0,96,0.47,1.04,0.0
 deploycloud,20,60,0.0,0.0,0.0,0.0,1.0,60,0.0,0.0,0.0

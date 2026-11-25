@@ -63,6 +63,7 @@ DEFAULT_TARGETS = {
         "Elasticsearch", "OpenSearch", "ClickHouse", "Druid", "Pinot",
         "TimescaleDB", "StarRocks", "MongoDB", "Snowflake", "Databricks",
         "MySQL", "PostgreSQL",
+        "Prisma Postgres", "Vercel Drives", "Turso AgentFS", "E2B", "Daytona",
     ],
     "minimum_non_branded_prompts_per_cluster": 3,
 }
