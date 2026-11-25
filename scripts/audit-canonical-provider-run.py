@@ -9,7 +9,12 @@ from collections import Counter
 from pathlib import Path
 
 
-TARGETS = {"CockroachDB", "TiDB", "YugabyteDB", "Neon", "Supabase", "PlanetScale"}
+
+
+def configured_targets(root: Path) -> set[str]:
+    """Read the tracked products from the data dir, so the audit matches the run."""
+    config = json.loads((root / "config" / "targets.json").read_text())
+    return set(config["targets"])
 
 
 def main() -> int:
@@ -32,6 +37,7 @@ def main() -> int:
     expected_answers = args.expected_answers
     if expected_answers is None:
         expected_answers = prompt_set_size(root, args.month)
+    TARGETS = configured_targets(root)
     expected_target_rows = expected_answers * len(TARGETS)
     raw_path = root / "runs" / args.month / "raw_answers.jsonl"
     scored_path = root / "runs" / args.month / "scored_answers.jsonl"

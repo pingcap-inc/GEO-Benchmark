@@ -1,0 +1,2 @@
+segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
+mock,228,230,33.77,20.29,20.29,,0.0,0,24.64,17.73,0.0

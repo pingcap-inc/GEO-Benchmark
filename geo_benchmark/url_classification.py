@@ -12,6 +12,8 @@ COMPETITOR_CODE_ORGS = {
     "chroma-core": "Chroma",
     "clickhouse": "ClickHouse",
     "cockroachdb": "CockroachDB",
+    "daytonaio": "Daytona",
+    "e2b-dev": "E2B",
     "elastic": "Elasticsearch",
     "milvus-io": "Milvus",
     "mongodb": "MongoDB",

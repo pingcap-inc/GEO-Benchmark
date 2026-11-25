@@ -1,4 +1,4 @@
 segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
-anthropic,227,230,57.27,31.41,31.41,7.04,1.0,227,0.0,47.86,0.0
-gemini,227,230,40.09,24.08,24.08,2.89,1.0,227,0.0,45.71,0.0
+anthropic,227,230,57.27,31.05,31.05,7.04,1.0,227,0.0,47.14,0.0
+gemini,227,230,40.09,23.86,23.86,2.89,1.0,227,0.0,45.0,0.0
 openai,227,230,42.29,26.14,26.14,29.24,1.0,227,2.73,50.71,0.0

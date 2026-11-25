@@ -1,0 +1,39 @@
+{
+  "mode": "planned",
+  "runs_per_prompt": 1,
+  "prompt_count": 219,
+  "assumed_output_tokens": null,
+  "web_search_mode": "off",
+  "total_estimated_cost_usd": 0.0,
+  "pricing_complete": true,
+  "scope": "Selected prompts and providers, assuming fresh collection; excludes fact judging, retries and fallback. Not an incremental bill for rerunning cached answers.",
+  "assumptions": "Input tokens are approximated from prompt text. Output tokens and searches per answer use previous saved usage when available, otherwise provider config; explicit output-token overrides take precedence.",
+  "providers": [
+    {
+      "provider": "mock",
+      "model": "mock-geo-buyer-v1",
+      "requests": 219,
+      "input_tokens": 18414,
+      "output_tokens": 153300,
+      "assumed_output_tokens_per_answer": 700.0,
+      "assumed_output_tokens_source": "models config",
+      "input_rate_per_1m": 0.0,
+      "output_rate_per_1m": 0.0,
+      "request_fee": 0.0,
+      "web_search_mode": "off",
+      "web_search_requests": 0.0,
+      "searches_per_answer": 0.0,
+      "searches_per_answer_source": "models config",
+      "web_search_fee": 0.0,
+      "input_cost_usd": 0.0,
+      "output_cost_usd": 0.0,
+      "token_cost_usd": 0.0,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 0.0,
+      "estimated_cost_usd": 0.0,
+      "pricing_known": true,
+      "pricing_source": "local mock provider"
+    }
+  ],
+  "pricing_version": "2026-09-03"
+}
