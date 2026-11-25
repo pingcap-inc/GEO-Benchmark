@@ -1,0 +1,4 @@
+segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
+anthropic,228,230,20.61,6.55,6.55,2.34,1.0,228,0.0,9.22,0.0
+gemini,228,230,10.96,5.22,5.22,0.54,1.0,228,0.57,6.38,0.0
+openai,228,230,22.81,8.56,8.56,19.06,1.0,228,5.45,16.31,0.0

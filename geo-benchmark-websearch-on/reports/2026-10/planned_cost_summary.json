@@ -1,0 +1,39 @@
+{
+  "mode": "planned",
+  "runs_per_prompt": 1,
+  "prompt_count": 219,
+  "assumed_output_tokens": null,
+  "web_search_mode": "on",
+  "total_estimated_cost_usd": 3.4548,
+  "pricing_complete": true,
+  "scope": "Selected prompts and providers, assuming fresh collection; excludes fact judging, retries and fallback. Not an incremental bill for rerunning cached answers.",
+  "assumptions": "Input tokens are approximated from prompt text. Output tokens and searches per answer use previous saved usage when available, otherwise provider config; explicit output-token overrides take precedence.",
+  "providers": [
+    {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "requests": 219,
+      "input_tokens": 18414,
+      "output_tokens": 153300,
+      "assumed_output_tokens_per_answer": 700.0,
+      "assumed_output_tokens_source": "models config",
+      "input_rate_per_1m": 0.3,
+      "output_rate_per_1m": 2.5,
+      "request_fee": 0.0,
+      "web_search_mode": "on",
+      "web_search_requests": 219.0,
+      "searches_per_answer": 1.0,
+      "searches_per_answer_source": "models config",
+      "web_search_fee": 0.014,
+      "input_cost_usd": 0.0055,
+      "output_cost_usd": 0.3832,
+      "token_cost_usd": 0.3888,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 3.066,
+      "estimated_cost_usd": 3.4548,
+      "pricing_known": true,
+      "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing"
+    }
+  ],
+  "pricing_version": "2026-09-03"
+}

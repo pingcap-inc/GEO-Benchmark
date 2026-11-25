@@ -1,0 +1,11 @@
+segment,prompt_count,answer_count,mention_rate,prominence_score,answer_share,consideration_rate,consideration_coverage,consideration_answer_count,citation_authority,qualified_recommendation_rate,negative_recommendation_rate
+AI Agent Infrastructure,48,144,2.78,1.82,1.82,2.2,1.0,144,2.21,0.85,0.0
+Competitive Comparisons,31,96,3.23,2.03,2.03,1.81,1.0,93,2.42,1.08,0.0
+Deployment & Cloud,20,60,0.0,0.0,0.0,0.0,1.0,60,0.0,0.0,0.0
+Enterprise & Compliance,4,12,0.0,0.0,0.0,0.0,1.0,12,0.0,0.0,0.0
+Hybrid Search & RAG,39,117,2.56,1.24,1.24,1.37,1.0,117,1.04,2.47,0.0
+MCP & Developer Tooling,10,30,0.0,0.0,0.0,0.0,1.0,30,0.0,0.0,0.0
+MySQL Scale & Migration,13,39,12.82,3.46,3.46,9.88,1.0,39,7.7,0.0,0.0
+Observability,4,12,0.0,0.0,0.0,0.0,1.0,12,0.0,,
+Scale & Architecture,18,54,12.96,4.34,4.34,8.53,1.0,54,1.74,11.11,0.0
+TiDB Brand & Definitions,31,93,6.45,2.49,2.49,1.0,1.0,93,0.0,0.0,0.0

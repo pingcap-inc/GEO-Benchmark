@@ -1,0 +1,74 @@
+{
+  "mode": "actual_or_usage_estimated",
+  "total_estimated_cost_usd": 28.0617,
+  "pricing_complete": true,
+  "scope": "Usage estimate for successful saved answers in this report's search mode. Not a billing ledger; excludes failed or overwritten attempts and may include answers collected previously.",
+  "providers": [
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5",
+      "requests": 230,
+      "input_tokens": 5291222,
+      "output_tokens": 278909,
+      "web_search_requests": 450,
+      "input_cost_usd": 10.5824,
+      "output_cost_usd": 2.7891,
+      "token_cost_usd": 13.3715,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 4.5,
+      "estimated_cost_usd": 17.8715,
+      "pricing_known": true,
+      "pricing_source": "https://claude.com/pricing"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "requests": 230,
+      "input_tokens": 19950,
+      "output_tokens": 104070,
+      "web_search_requests": 363,
+      "input_cost_usd": 0.006,
+      "output_cost_usd": 0.2602,
+      "token_cost_usd": 0.2662,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 5.082,
+      "estimated_cost_usd": 5.3482,
+      "pricing_known": true,
+      "pricing_source": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5-mini-2025-08-07",
+      "requests": 230,
+      "input_tokens": 2112366,
+      "output_tokens": 411944,
+      "web_search_requests": 349,
+      "input_cost_usd": 0.5281,
+      "output_cost_usd": 0.8239,
+      "token_cost_usd": 1.352,
+      "request_cost_usd": 0.0,
+      "web_search_cost_usd": 3.49,
+      "estimated_cost_usd": 4.842,
+      "pricing_known": true,
+      "pricing_source": "https://openai.com/index/introducing-gpt-5-for-developers/"
+    }
+  ],
+  "pricing_version": "2026-09-03",
+  "web_search_mode": "on",
+  "fact_judge": {
+    "mode": "off",
+    "calls": 0,
+    "estimated_cost_usd": 0.0
+  },
+  "combined_total_estimated_cost_usd": 28.0617,
+  "run_metadata": {
+    "prompt_set_hash": "9d571b44ea7db287bb6405b3213401a32904b62cfa375a9551554017eab85e00",
+    "source_prompt_set_hash": "9d571b44ea7db287bb6405b3213401a32904b62cfa375a9551554017eab85e00",
+    "prompt_metadata_overrides_version": "2026-09-18-review-1",
+    "legacy_facts_version": "2026-07-30",
+    "source_authority_version": "2026-09-25-path-aware",
+    "models_config_hash": "ae56ecaf99b8952f55872823f42888b68afb776dbec663b53f7104ce1be9a084",
+    "fact_base_version": null,
+    "fact_judge_mode": "off"
+  }
+}
